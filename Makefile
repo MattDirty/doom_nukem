@@ -18,6 +18,7 @@ SRC_PATH = srcs
 
 SRC_NAME =	main.c \
 			vector.c \
+			segment.c \
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 

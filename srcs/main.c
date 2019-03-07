@@ -37,14 +37,14 @@ int		main ()
 
 	a = create_vector_at(5, 5, 0, 0);
 	b = create_vector_at(-5, 5, 5, 0);
-	c = create_vector_at(1, 1, 0, 0);
-	d = create_vector_at(1, -1, 10, 10);
-//	print_vector(&a, "Vector a :");
-//	print_vector(&b, "Vector b :");
+	c = create_vector_at(5, 0, 0, 5);
+	d = create_vector_at(0, 4, 2, 0);
 	a_seg = get_segment_from_vector(&a);
 	b_seg = get_segment_from_vector(&b);
 	c_seg = get_segment_from_vector(&c);
 	d_seg = get_segment_from_vector(&d);
+	print_segment(&a_seg, "Segment A : ");
+	print_segment(&b_seg, "Segment B : ");
 	if (get_line_intersection(&a_seg, &b_seg, &inters))
 		printf("A and B segments intersect at : ( %f, %f)\n", inters.x, inters.y);
 	else
@@ -53,5 +53,21 @@ int		main ()
 		printf("C and D segments intersect at : ( %f, %f)\n", inters.x, inters.y);
 	else
 		printf("C and D segments don't intersect.\n");
+	change_segment_length(&a_seg, 1.0);
+	change_segment_length(&b_seg, 1.0);
+	print_segment(&a_seg, "Segment A : ");
+	print_segment(&b_seg, "Segment B : ");
+	if (get_line_intersection(&a_seg, &b_seg, &inters))
+		printf("A and B segments intersect at : ( %f, %f)\n", inters.x, inters.y);
+	else
+		printf("A and B segments don't intersect.\n");
+	change_segment_length(&a_seg, 300.0);
+	change_segment_length(&b_seg, 900.0);
+	print_segment(&a_seg, "Segment A : ");
+	print_segment(&b_seg, "Segment B : ");
+	if (get_line_intersection(&a_seg, &b_seg, &inters))
+		printf("A and B segments intersect at : ( %f, %f)\n", inters.x, inters.y);
+	else
+		printf("A and B segments don't intersect.\n");
 	return (0);
 }

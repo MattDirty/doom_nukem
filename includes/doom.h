@@ -2,6 +2,7 @@
 # define DOOMNUKEM_DOOM_H
 
 # include <stdio.h>
+# include <math.h>
 
 typedef struct	s_coords
 {
@@ -31,5 +32,7 @@ t_vector	create_vector_at(double x, double y, double pos_x, double pos_y);
 void		move_vector_at(t_vector *vector, double x, double y);
 void		print_vector(t_vector *vector, char *str);
 t_segment	get_segment_from_vector(t_vector *vector);
+void		change_segment_length(t_segment *s, double length);
+void		print_segment(t_segment *segment, char *str);
 
 #endif
