@@ -46,3 +46,4 @@ t_segment	create_segment(double x1, double y1, double x2, double y2)
 	a.end.y = y2;
 	return (a);
 }
+}
