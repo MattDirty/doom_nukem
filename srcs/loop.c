@@ -36,6 +36,7 @@ void		loop_doom(t_env *e)
 	state = SDL_GetKeyboardState(NULL);
 	while (42)
 	{
+		debug_draw(e->debug_r, e->walls, e->seg_count, e->p->pos);
 		raycasting(e);
 		print_image(e);
 		loop_events(e, state);
