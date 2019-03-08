@@ -6,7 +6,7 @@
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 01:04:26 by lfatton           #+#    #+#             */
-/*   Updated: 2019/03/08 15:57:58 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/03/08 19:18:16 by lfatton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void		init_doom(t_env *e)
 	if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
 			&e->win, &e->render) < 0)
 		error_doom("error: cannot create window");
-	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
-		error_doom("error: cannot hide mouse cursor");
+//	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
+//		error_doom("error: cannot hide mouse cursor");
 	if (!(e->surf = SDL_CreateRGBSurface(0, WIN_W, WIN_H, 32, 0, 0, 0, 0)))
 		error_doom("error: cannot create surface");
 	init_player(e);
