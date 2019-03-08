@@ -4,9 +4,10 @@ t_segment	get_segment_from_vector(t_vector *vector)
 {
 	t_segment	segment;
 
-	segment.start = vector->pos;
-	segment.end.x = vector->pos.x + vector->direction.x;
-	segment.end.y = vector->pos.y + vector->direction.y;
+	segment.x1 = vector->pos.x;
+	segment.y1 = vector->pos.y;
+	segment.x2 = vector->pos.x + vector->direction.x;
+	segment.y2 = vector->pos.y + vector->direction.y;
 	return (segment);
 }
 

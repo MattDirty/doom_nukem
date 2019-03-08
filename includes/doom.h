@@ -6,6 +6,14 @@
 
 # include <stdio.h>
 # include <math.h>
+# include <stdlib.h>
+# include "SDL.h"
+
+# define	DEBUG_W 800
+# define	DEBUG_H	640
+# define	DEBUG_W_H DEBUG_W / 2
+# define	DEBUG_H_H DEBUG_H / 2
+# define	DEBUG_GRID_STEP 40
 
 # define WIN_W 800
 # define WIN_H 600
@@ -39,8 +47,10 @@ typedef struct	s_coords
 
 typedef struct	s_segment
 {
-	t_coords	start;
-	t_coords	end;
+	double	x1;
+	double	y1;
+	double	x2;
+	double	y2;
 }				t_segment;
 
 typedef struct	s_vector
@@ -55,29 +65,31 @@ enum			e_bool
 	t_true = 1
 };
 
-typedef struct          s_player
+typedef struct			s_player
 {
         t_coords	pos;
         double		vis;
         double		height;
-}                                       t_player;
+}						t_player;
 
-typedef struct          s_ray
+typedef struct			s_ray
 {
         double			ang;
         double			tan;
         t_coords		hit;
         double			dist;
         double			length;
-}                                       t_ray;
+}						t_ray;
 
 typedef struct          s_env
 {
-        SDL_Window              *win;
+		SDL_Window		*win;
         SDL_Renderer    *render;
-        SDL_Texture             *text;
-        SDL_Surface             *surf;
-        int                             col;
+        SDL_Texture		*text;
+        SDL_Surface		*surf;
+        t_segment		*walls;
+        Uint32			seg_count;
+        int				col;
         int                             start;
         int                             end;
         Uint32                  color;
@@ -94,10 +106,11 @@ void		print_vector(t_vector *vector, char *str);
 t_segment	create_segment(double x1, double y1, double x2, double y2);
 t_segment	get_segment_from_vector(t_vector *vector);
 void		change_segment_length(t_segment *s, double length);
+enum e_bool segments_intersect(t_segment *a, t_segment *b,t_coords *inters);
 void		print_segment(t_segment *segment, char *str);
 
 void		error_doom(char *err);
-int		quit_doom(t_env *e);
+int			quit_doom(t_env *e);
 void		init_doom(t_env *e);
 
 void		loop_doom(t_env *e);
@@ -109,5 +122,11 @@ void		put_pixel(SDL_Surface *s, int x, int y, Uint32 color);
 void		print_image(t_env *e);
 
 void		draw(t_env *e);
+void		draw_circle(SDL_Renderer *renderer, t_coords center, int r);
+
+void		debug_init(t_segment *segments, Uint32 s_count);
+void		debug_draw_walls(SDL_Renderer *r, t_segment *s, Uint32 cnt);
+void		debug_draw_grid(SDL_Renderer *renderer);
+void		debug_draw_player(SDL_Renderer *r, t_coords *p);
 
 #endif

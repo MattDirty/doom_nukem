@@ -44,11 +44,11 @@ void		init_doom(t_env *e)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		error_doom("error: cannot run SDL");
-	if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, SDL_WINDOW_FULLSCREEN_DESKTOP,
+	if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
 			&e->win, &e->render) < 0)
 		error_doom("error: cannot create window");
 	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
-                error_doom("error: cannot hide mouse cursor");
+		error_doom("error: cannot hide mouse cursor");
 	if (!(e->surf = SDL_CreateRGBSurface(0, WIN_W, WIN_H, 32, 0, 0, 0, 0)))
 		error_doom("error: cannot create surface");
 	init_player(e);

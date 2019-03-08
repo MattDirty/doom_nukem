@@ -30,16 +30,10 @@ void	get_dist_intersection(t_env *e, t_coords inters)
 
 void	raycasting(t_env *e)
 {
-        t_segment	*walls;
-	t_segment	W1_seg;
-        t_segment	W2_seg;
-        t_segment	W3_seg;
-        t_segment	W4_seg;
-        t_coords        inters;
+	t_coords    inters;
 	t_vector	ray;
-        t_segment	ray_seg;
-	int		i;
-	int		numsg;
+	t_segment	ray_seg;
+	Uint32		i;
 
         //SEGS FROM ORIGIN UPSIDE LEFT CORNER
 	//W1_seg = create_segment(0, 3, 2, 5);
@@ -48,17 +42,7 @@ void	raycasting(t_env *e)
         //W4_seg = create_segment(2, 0, 0, 3);
         
         //SEGS FROM ORIGIN AT PLAYER
-	W1_seg = create_segment(-2, -1, 3, 0);
-        W2_seg = create_segment(3, 0, 2, 2);
-        W3_seg = create_segment(2, 2, 0, 2);
-        W4_seg = create_segment(0, 2, -2, -1);
-	numsg = 4;
-	if (!(walls = (t_segment*)malloc(sizeof(t_segment) * numsg)))
-		error_doom("cannot allocate memory");
-	walls[0] = W1_seg;
-	walls[1] = W2_seg;
-	walls[2] = W3_seg;
-	walls[3] = W4_seg;
+
 
 	e->col = 0;
 	e->r->ang = e->p->vis + ft_degtorad(FOV / 2);
@@ -73,9 +57,9 @@ void	raycasting(t_env *e)
 		change_segment_length(&ray_seg, HORIZON);
 		e->r->dist = HORIZON;
 		i = 0;
-		while (i < numsg)
+		while (i < e->seg_count)
 		{
-			if (get_line_intersection(&ray_seg, &walls[i], &inters))
+			if (segments_intersect(&ray_seg, &e->walls[i], &inters))
 				get_dist_intersection(e, inters);
 			i++;
 		}

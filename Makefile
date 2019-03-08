@@ -24,6 +24,9 @@ SRC_NAME =	main.c \
 			raycasting.c \
 			draw_utils.c \
 			draw.c \
+			debug_init.c \
+			debug_draw_tools.c \
+			draw_tools.c
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 
