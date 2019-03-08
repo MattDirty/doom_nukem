@@ -35,3 +35,14 @@ void		change_segment_length(t_segment *s, double length)
 	s->end.x = s->end.x + (s->end.x - s->start.x) / origin_length * length;
 	s->end.y = s->end.y + (s->end.y - s->start.y) / origin_length * length;
 }
+
+t_segment	create_segment(double x1, double y1, double x2, double y2)
+{
+	t_segment	a;
+
+	a.start.x = x1;
+	a.end.x = x2;
+	a.start.y = y1;
+	a.end.y = y2;
+	return (a);
+}

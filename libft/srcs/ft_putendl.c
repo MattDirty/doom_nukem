@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 11:16:45 by lfatton           #+#    #+#             */
 /*   Updated: 2018/04/25 21:40:10 by lfatton          ###   ########.fr       */

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 21:29:23 by lfatton           #+#    #+#             */
 /*   Updated: 2018/05/30 16:13:13 by lfatton          ###   ########.fr       */

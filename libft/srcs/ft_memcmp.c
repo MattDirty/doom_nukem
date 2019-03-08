@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 20:35:05 by lfatton           #+#    #+#             */
 /*   Updated: 2018/04/26 11:48:00 by lfatton          ###   ########.fr       */

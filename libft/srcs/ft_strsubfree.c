@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsubfree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/01 00:27:22 by lfatton           #+#    #+#             */
 /*   Updated: 2018/06/01 00:43:30 by lfatton          ###   ########.fr       */

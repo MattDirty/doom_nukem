@@ -23,51 +23,19 @@ enum e_bool get_line_intersection(t_segment *a, t_segment *b,t_coords *inters)
 	return (t_false);
 }
 
-int		main ()
+int		main (int ac, char **av)
 {
-	t_vector	a;
-	t_vector	b;
-	t_vector	c;
-	t_vector	d;
-	t_segment	a_seg;
-	t_segment	b_seg;
-	t_segment	c_seg;
-	t_segment	d_seg;
-	t_coords	inters;
+	t_env		*e;
 
-	a = create_vector_at(5, 5, 0, 0);
-	b = create_vector_at(-5, 5, 5, 0);
-	c = create_vector_at(5, 0, 0, 5);
-	d = create_vector_at(0, 4, 2, 0);
-	a_seg = get_segment_from_vector(&a);
-	b_seg = get_segment_from_vector(&b);
-	c_seg = get_segment_from_vector(&c);
-	d_seg = get_segment_from_vector(&d);
-	print_segment(&a_seg, "Segment A : ");
-	print_segment(&b_seg, "Segment B : ");
-	if (get_line_intersection(&a_seg, &b_seg, &inters))
-		printf("A and B segments intersect at : ( %f, %f)\n", inters.x, inters.y);
-	else
-		printf("A and B segments don't intersect.\n");
-	if (get_line_intersection(&c_seg, &d_seg, &inters))
-		printf("C and D segments intersect at : ( %f, %f)\n", inters.x, inters.y);
-	else
-		printf("C and D segments don't intersect.\n");
-	change_segment_length(&a_seg, 1.0);
-	change_segment_length(&b_seg, 1.0);
-	print_segment(&a_seg, "Segment A : ");
-	print_segment(&b_seg, "Segment B : ");
-	if (get_line_intersection(&a_seg, &b_seg, &inters))
-		printf("A and B segments intersect at : ( %f, %f)\n", inters.x, inters.y);
-	else
-		printf("A and B segments don't intersect.\n");
-	change_segment_length(&a_seg, 300.0);
-	change_segment_length(&b_seg, 900.0);
-	print_segment(&a_seg, "Segment A : ");
-	print_segment(&b_seg, "Segment B : ");
-	if (get_line_intersection(&a_seg, &b_seg, &inters))
-		printf("A and B segments intersect at : ( %f, %f)\n", inters.x, inters.y);
-	else
-		printf("A and B segments don't intersect.\n");
-	return (0);
+	(void)ac;
+	(void)av;
+	if (!(e = (t_env*)malloc(sizeof(t_env))))
+		error_doom("error: cannot allocate memory for struct env");
+	if (!(e->p = (t_player*)malloc(sizeof(t_player))))
+		error_doom("error: cannot allocate memory for struct player");
+	if (!(e->r = (t_ray*)malloc(sizeof(t_ray))))
+		error_doom("error: cannot allocate memory for struct ray");
+	init_doom(e);
+	loop_doom(e);
+	return (EXIT_SUCCESS);
 }

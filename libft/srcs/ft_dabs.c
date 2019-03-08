@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_dabs.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/22 23:03:01 by lfatton           #+#    #+#             */
 /*   Updated: 2018/11/23 17:36:06 by lfatton          ###   ########.fr       */

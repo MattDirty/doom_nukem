@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lfatton <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/06/30 00:05:23 by lfatton           #+#    #+#              #
-#    Updated: 2019/01/15 19:34:50 by lfatton          ###   ########.fr        #
+#    Created: 2019/03/07 17:35:48 by lfatton           #+#    #+#              #
+#    Updated: 2019/03/08 15:34:39 by lfatton          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,11 @@ SRC_PATH = srcs
 SRC_NAME =	main.c \
 			vector.c \
 			segment.c \
+			environment.c \
+			loop.c \
+			raycasting.c \
+			draw_utils.c \
+			draw.c \
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 
@@ -82,7 +87,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 	$(CC) $(CFLAGS) $(IFLAGS) $(SDL_CFLAGS) -o $@ -c $<
 
 run: all
-	./$(NAME) assets/bmp/basic.bmp
+	./$(NAME)
 
 norm:
 	norminette $(SRCS) $(INCL)

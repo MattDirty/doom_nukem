@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_degtorad.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/03 16:02:59 by lfatton           #+#    #+#             */
 /*   Updated: 2018/12/03 16:06:31 by lfatton          ###   ########.fr       */
