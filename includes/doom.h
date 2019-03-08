@@ -86,6 +86,7 @@ typedef struct          s_env
 {
 		SDL_Window		*win;
         SDL_Renderer    *render;
+        SDL_Renderer	*debug_r;
         SDL_Texture		*text;
         SDL_Surface		*surf;
         t_segment		*walls;
@@ -125,9 +126,11 @@ void		print_image(t_env *e);
 void		draw(t_env *e);
 void		draw_circle(SDL_Renderer *renderer, t_coords center, int r);
 
-void		debug_init(t_segment *segments, Uint32 s_count);
+SDL_Renderer	*debug_init(t_segment *segments, Uint32 s_count, t_coords *p);
 void		debug_draw_walls(SDL_Renderer *r, t_segment *s, Uint32 cnt);
 void		debug_draw_grid(SDL_Renderer *renderer);
 void		debug_draw_player(SDL_Renderer *r, t_coords *p);
+void		debug_draw(SDL_Renderer *r, t_segment *s, Uint32 s_cnt, t_coords p);
+
 
 #endif
