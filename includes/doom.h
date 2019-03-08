@@ -14,6 +14,7 @@
 # define	DEBUG_W_H DEBUG_W / 2
 # define	DEBUG_H_H DEBUG_H / 2
 # define	DEBUG_GRID_STEP 40
+# define	DEBUG_ZOOM 20
 
 # define WIN_W 800
 # define WIN_H 600

@@ -45,7 +45,10 @@ void		debug_draw_walls(SDL_Renderer *r, t_segment *s, Uint32 cnt)
 	i = 0;
 	while (i < cnt)
 	{
-		SDL_RenderDrawLine(r, s[i].x1 + DEBUG_W_H, DEBUG_H_H - s[i].y1, s[i].x2 + DEBUG_W_H, DEBUG_H_H - s[i].y2);
+		SDL_RenderDrawLine(r, s[i].x1 * DEBUG_ZOOM + DEBUG_W_H,
+						   DEBUG_H_H - s[i].y1 * DEBUG_ZOOM,
+						   s[i].x2 * DEBUG_ZOOM + DEBUG_W_H,
+						   DEBUG_H_H - s[i].y2 * DEBUG_ZOOM);
 		i++;
 	}
 }

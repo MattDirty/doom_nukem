@@ -20,7 +20,4 @@ void		debug_init(t_segment *segments, Uint32 s_count)
 	debug_draw_walls(renderer, segments, s_count);
 	debug_draw_player(renderer, &player_pos);
 	SDL_RenderPresent(renderer);
-	SDL_Delay(5000); //should loop here, stays a delay because Windows.
-	SDL_DestroyWindow(window);
-	SDL_Quit();
 }
