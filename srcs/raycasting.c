@@ -35,19 +35,11 @@ void	raycasting(t_env *e)
 	t_segment	ray_seg;
 	Uint32		i;
 
-        //SEGS FROM ORIGIN UPSIDE LEFT CORNER
-	//W1_seg = create_segment(0, 3, 2, 5);
-        //W2_seg = create_segment(2, 5, 4, 0);
-        //W3_seg = create_segment(4, 0, 2, 0);
-        //W4_seg = create_segment(2, 0, 0, 3);
-        
-        //SEGS FROM ORIGIN AT PLAYER
-
-
 	e->col = 0;
 	e->r->ang = e->p->vis + ft_degtorad(FOV / 2);
 	while (e->col < WIN_W)
 	{
+		//e->r->ang = e->p->vis - (e->col - HALF_W) / RATIO;
 		while (e->r->ang >= CIRCLE)
 			e->r->ang -= CIRCLE;
 		while (e->r->ang < 0)
