@@ -31,6 +31,7 @@ enum			e_bool
 t_vector	create_vector_at(double x, double y, double pos_x, double pos_y);
 void		move_vector_at(t_vector *vector, double x, double y);
 void		print_vector(t_vector *vector, char *str);
+t_segment	create_segment(double x1, double y1, double x2, double y2);
 t_segment	get_segment_from_vector(t_vector *vector);
 void		change_segment_length(t_segment *s, double length);
 void		print_segment(t_segment *segment, char *str);
