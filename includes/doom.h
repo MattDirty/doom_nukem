@@ -21,7 +21,7 @@
 # define HALF_W WIN_W / 2
 # define HALF_H WIN_H / 2
 
-# define FOV 90.0
+# define FOV 60.0
 # define HORIZON 10
 # define DECR_ANG ft_degtorad(FOV / (double)WIN_W)
 # define RATIO HALF_W / tan(ft_degtorad(FOV / 2))
@@ -101,12 +101,14 @@ typedef struct          s_env
 
 enum e_bool	get_line_intersection(t_segment *a, t_segment *b, t_coords *inters);
 
+t_vector	create_vector(double x, double y);
 t_vector	create_vector_at(double x, double y, double pos_x, double pos_y);
 void		move_vector_at(t_vector *vector, double x, double y);
 void		print_vector(t_vector *vector, char *str);
 
 t_segment	create_segment(double x1, double y1, double x2, double y2);
 t_segment	get_segment_from_vector(t_vector *vector);
+void		move_segment_at(t_segment *s, double x, double y);
 void		change_segment_length(t_segment *s, double length);
 enum e_bool segments_intersect(t_segment *a, t_segment *b,t_coords *inters);
 void		print_segment(t_segment *segment, char *str);
@@ -121,16 +123,18 @@ void		raycasting(t_env *e);
 
 Uint32		get_pixel(SDL_Surface *s, int x, int y);
 void		put_pixel(SDL_Surface *s, int x, int y, Uint32 color);
-void		print_image(t_env *e);
+void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
+
 
 void		draw(t_env *e);
 void		draw_circle(SDL_Renderer *renderer, t_coords center, int r);
+void        draw_segment(SDL_Renderer *r, t_segment *s);
 
-SDL_Renderer	*debug_init(t_segment *segments, Uint32 s_count, t_coords *p);
+SDL_Renderer	*debug_init(t_segment *segments, Uint32 s_count, t_player *p);
 void		debug_draw_walls(SDL_Renderer *r, t_segment *s, Uint32 cnt);
 void		debug_draw_grid(SDL_Renderer *renderer);
-void		debug_draw_player(SDL_Renderer *r, t_coords *p);
-void		debug_draw(SDL_Renderer *r, t_segment *s, Uint32 s_cnt, t_coords p);
+void		debug_draw_player(SDL_Renderer *r, t_player *p);
+void		debug_draw(SDL_Renderer *r, t_segment *s, Uint32 s_cnt, t_player *p);
 
 
 #endif

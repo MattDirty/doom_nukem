@@ -1,5 +1,10 @@
 #include "doom.h"
 
+void		draw_segment(SDL_Renderer *r, t_segment *s)
+{
+    SDL_RenderDrawLine(r, s->x1, s->y1, s->x2, s->y2);
+}
+
 void	draw_circle(SDL_Renderer *renderer, t_coords center, int r)
 {
 	int	x;

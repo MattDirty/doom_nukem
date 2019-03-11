@@ -1,16 +1,16 @@
 #include "doom.h"
 
-void		debug_draw(SDL_Renderer *r, t_segment *s, Uint32 s_cnt, t_coords p)
+void		debug_draw(SDL_Renderer *r, t_segment *s, Uint32 s_cnt, t_player *p)
 {
 	SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
 	SDL_RenderClear(r);
 	debug_draw_grid(r);
 	debug_draw_walls(r, s, s_cnt);
-	debug_draw_player(r, &p);
+	debug_draw_player(r, p);
 	SDL_RenderPresent(r);
 }
 
-SDL_Renderer	*debug_init(t_segment *segments, Uint32 s_count, t_coords *p)
+SDL_Renderer	*debug_init(t_segment *segments, Uint32 s_count, t_player *p)
 {
 	SDL_Window *window;
 	SDL_Renderer *renderer;
@@ -21,6 +21,6 @@ SDL_Renderer	*debug_init(t_segment *segments, Uint32 s_count, t_coords *p)
 	if (window == NULL)
 		printf("Could not create window: %s\n", SDL_GetError());
 	renderer = SDL_CreateRenderer(window, -1, 0);
-	debug_draw(renderer, segments, s_count, *p);
+	debug_draw(renderer, segments, s_count, p);
 	return (renderer);
 }

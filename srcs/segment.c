@@ -3,7 +3,18 @@
 void		print_segment(t_segment *s, char *str)
 {
 	printf("%s\nstart (x : %f y : %f) end(x : %f y : %f)\n", str, s->x1, s->y1, s->x2, s->y2);
+}
 
+void		move_segment_at(t_segment *s, double x, double y)
+{
+	t_coords swap;
+
+	swap.x = s->x1;
+	swap.y = s->y1;
+	s->x1 = x;
+	s->y1 = y;
+	s->x2 -= swap.x - x;
+	s->y2 -= swap.y - y;
 }
 
 enum e_bool segments_intersect(t_segment *a, t_segment *b,t_coords *inters)
