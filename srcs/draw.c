@@ -50,17 +50,19 @@ static void	draw_ceil_and_floor(t_env *e)
 	}
 }
 
-void		draw(t_env *e, double distance)
+void		draw(t_env *e, double ray_angle, double distance)
 {
 	int start;
 	int end;
+	double length;
 
-	e->r->dist = distance * cos(e->p->heading - e->r->ang); //fisheye correction
-	e->r->length = RATIO / e->r->dist;
+	distance *= cos(e->p->heading - ray_angle); //fisheye correction
+	length = RATIO / distance;
+
 	draw_ceil_and_floor(e);
 
-	start = e->p->height - e->r->length / 2 + 1;
-	end = e->p->height + e->r->length / 2;
+	start = e->p->height - length / 2 + 1;
+	end = e->p->height + length / 2;
 
 	start = (start < 0 ? 0 : start);
 	end = (end >= WIN_H ? WIN_H - 1 : end);

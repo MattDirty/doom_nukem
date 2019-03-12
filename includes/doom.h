@@ -74,15 +74,6 @@ typedef struct			s_player
         double		height;
 }						t_player;
 
-typedef struct			s_ray
-{
-        double			ang;
-        double			tan;
-        t_coords		hit;
-        double			dist;
-        double			length;
-}						t_ray;
-
 typedef struct          s_env
 {
 		SDL_Window		*win;
@@ -96,7 +87,6 @@ typedef struct          s_env
         int				col;
 		Uint32          color;
         t_player        *p;
-        t_ray           *r;
 }                                       t_env;
 
 enum e_bool	get_line_intersection(t_segment *a, t_segment *b, t_coords *inters);
@@ -130,7 +120,7 @@ void		put_pixel(SDL_Surface *s, int x, int y, Uint32 color);
 void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
 
 
-void		draw(t_env *e, double distance);
+void		draw(t_env *e, double ray_angle, double distance);
 void		draw_circle(SDL_Renderer *renderer, t_coords center, int r);
 void        draw_segment(SDL_Renderer *r, t_segment *s);
 

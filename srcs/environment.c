@@ -26,7 +26,6 @@ int			quit_doom(t_env *e)
 	SDL_DestroyWindow(e->win);
 	SDL_Quit();
 	free(e->p);
-	free(e->r);
 	free(e);
 	exit(EXIT_SUCCESS);
 	return (0);

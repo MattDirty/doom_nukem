@@ -10,8 +10,6 @@ int		main (int ac, char **av)
 		error_doom("error: cannot allocate memory for struct env");
 	if (!(e->p = (t_player*)malloc(sizeof(t_player))))
 		error_doom("error: cannot allocate memory for struct player");
-	if (!(e->r = (t_ray*)malloc(sizeof(t_ray))))
-		error_doom("error: cannot allocate memory for struct ray");
 	init_doom(e);
 	e->seg_count = 4;
 	if (!(e->walls = (t_segment*)malloc(sizeof(t_segment) * e->seg_count)))
