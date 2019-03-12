@@ -4,11 +4,11 @@ t_segment	get_segment_from_vector(t_vector *vector)
 {
 	t_segment	segment;
 
-	segment.x1 = vector->pos.x;
-	segment.y1 = vector->pos.y;
-	segment.x2 = vector->pos.x + vector->direction.x;
-	segment.y2 = vector->pos.y + vector->direction.y;
-	return (segment);
+    segment.x1 = 0;
+    segment.y1 = 0;
+    segment.x2 = 0 + vector->direction.x;
+    segment.y2 = 0 + vector->direction.y;
+    return (segment);
 }
 
 void		print_vector(t_vector *vector, char *str)

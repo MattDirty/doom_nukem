@@ -14,12 +14,18 @@ void		debug_draw_player(SDL_Renderer *r, t_player *p)
 	SDL_SetRenderDrawColor(r, 255, 255, 255, 255);
 	draw_circle(r, copy, 1);
     SDL_SetRenderDrawColor(r, 0, 255, 255, 255);
-    v = create_vector(sin(p->vis - ft_degtorad(FOV/2)), cos(p->vis - ft_degtorad(FOV/2)));
+
+    v = create_vector(
+    		cos(p->heading - ft_degtorad(HALF_FOV)),
+    		sin(p->heading - ft_degtorad(HALF_FOV)));
     s = get_segment_from_vector(&v);
     move_segment_at(&s, copy.x, copy.y);
     change_segment_length(&s, HORIZON * DEBUG_ZOOM);
     draw_segment(r, &s);
-    v = create_vector(sin(p->vis + ft_degtorad(FOV/2)), cos(p->vis + ft_degtorad(FOV/2)));
+
+    v = create_vector(
+    		cos(p->heading + ft_degtorad(HALF_FOV)),
+    		sin(p->heading + ft_degtorad(HALF_FOV)));
     s = get_segment_from_vector(&v);
     move_segment_at(&s, copy.x, copy.y);
     change_segment_length(&s, HORIZON * DEBUG_ZOOM);

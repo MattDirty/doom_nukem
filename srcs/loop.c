@@ -21,11 +21,11 @@ static void	loop_events(t_env *e, const Uint8 *state)
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
 			quit_doom(e);
 		if (ev.type == SDL_MOUSEMOTION)
-			e->p->vis -= ev.motion.xrel * MOUSE_SENSI;
+			e->p->heading -= ev.motion.xrel * MOUSE_SENSI;
 		if (state[SDL_SCANCODE_LEFT])
-			e->p->vis += ROT;
+			e->p->heading += ROT;
 		if (state[SDL_SCANCODE_RIGHT])
-			e->p->vis -= ROT;
+			e->p->heading -= ROT;
 	}
 }
 

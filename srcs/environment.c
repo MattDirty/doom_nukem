@@ -35,7 +35,7 @@ int			quit_doom(t_env *e)
 static void	init_player(t_env *e)
 {
 	e->p->height = HALF_H;
-	e->p->vis = WEST;
+	e->p->heading = WEST;
 	e->p->pos.y = 2;
 	e->p->pos.x = 2;
 }

@@ -22,10 +22,10 @@
 # define HALF_H (double)WIN_H / 2
 
 # define FOV 90.0
+# define HALF_FOV FOV / 2
 # define HORIZON 10
-# define DECR_ANG ft_degtorad(FOV / (double)WIN_W)
-# define TAN_ANG tan(ft_degtorad(FOV / 2))
-# define RATIO HALF_W / TAN_ANG
+# define TAN_HALF_FOV tan(ft_degtorad(HALF_FOV))
+# define RATIO HALF_W / TAN_HALF_FOV
 
 # define SKYBLUE 0xFF0EC0EE
 # define BROWN 0xFF452209
@@ -70,7 +70,7 @@ enum			e_bool
 typedef struct			s_player
 {
         t_coords	pos;
-        double		vis;
+        double		heading;
         double		height;
 }						t_player;
 
@@ -111,7 +111,7 @@ void		print_vector(t_vector *vector, char *str);
 
 t_segment	create_segment(double x1, double y1, double x2, double y2);
 t_segment	get_segment_from_vector(t_vector *vector);
-void		move_segment_at(t_segment *s, double x, double y);
+void		move_segment_at(t_segment *segment, double x, double y);
 void		change_segment_length(t_segment *s, double length);
 enum e_bool segments_intersect(t_segment *a, t_segment *b,t_coords *inters);
 void		print_segment(t_segment *segment, char *str);
