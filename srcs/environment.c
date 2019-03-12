@@ -47,7 +47,7 @@ void		init_doom(t_env *e)
 	if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
 			&e->win, &e->render) < 0)
 		error_doom("error: cannot create window");
-	SDL_SetWindowPosition(e->win, DEBUG_W + 5, SDL_WINDOWPOS_CENTERED)
+	SDL_SetWindowPosition(e->win, DEBUG_W + 5, SDL_WINDOWPOS_CENTERED);
 //	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
 //		error_doom("error: cannot hide mouse cursor");
 	if (!(e->surf = SDL_CreateRGBSurface(0, WIN_W, WIN_H, 32, 0, 0, 0, 0)))
