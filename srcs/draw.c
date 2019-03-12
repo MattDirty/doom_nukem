@@ -43,7 +43,7 @@ static void	draw_ceil_and_floor(t_env *e)
 
 void		draw(t_env *e)
 {
-	e->r->dist *= cos(e->p->vis - e->r->ang);
+	//e->r->dist *= cos(e->p->vis - e->r->ang); fisheye correction
 	e->r->length = RATIO / e->r->dist;
 	draw_ceil_and_floor(e);
 	e->start = e->p->height - e->r->length / 2 + 1;

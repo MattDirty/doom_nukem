@@ -19,11 +19,12 @@ void	get_dist_intersection(t_env *e, t_coords inters)
 	double		tmp;
 	
 	x_diff = ft_dabs(e->p->pos.x - inters.x);
-        y_diff = ft_dabs(e->p->pos.y - inters.y);
-        if (x_diff > y_diff)
+	y_diff = ft_dabs(e->p->pos.y - inters.y);
+	if (x_diff > y_diff)
 		tmp = ft_dabs(x_diff / cos(e->r->ang));
 	else
 		tmp = ft_dabs(y_diff / sin(e->r->ang));
+	//tmp = (sqrt(ft_sq(x_diff) + ft_sq((y_diff)))); //dist mit sqrt instead of sin or cos of the angle
 	if (tmp < e->r->dist)
 		e->r->dist = tmp;
 }
@@ -36,10 +37,9 @@ void	raycasting(t_env *e)
 	Uint32		i;
 
 	e->col = 0;
-	e->r->ang = e->p->vis + ft_degtorad(FOV / 2);
 	while (e->col < WIN_W)
 	{
-		//e->r->ang = e->p->vis - (e->col - HALF_W) / RATIO;
+		e->r->ang =  e->p->vis - (ft_degtorad(FOV / 2) - atan((HALF_W - e->col) / HALF_W));
 		while (e->r->ang >= CIRCLE)
 			e->r->ang -= CIRCLE;
 		while (e->r->ang < 0)
@@ -56,7 +56,6 @@ void	raycasting(t_env *e)
 			i++;
 		}
 		draw(e);
-		e->r->ang -= DECR_ANG;
 		e->col++;
 	}
 }

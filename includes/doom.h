@@ -18,13 +18,14 @@
 
 # define WIN_W 800
 # define WIN_H 600
-# define HALF_W WIN_W / 2
-# define HALF_H WIN_H / 2
+# define HALF_W (double)WIN_W / 2
+# define HALF_H (double)WIN_H / 2
 
 # define FOV 60.0
 # define HORIZON 10
 # define DECR_ANG ft_degtorad(FOV / (double)WIN_W)
-# define RATIO HALF_W / tan(ft_degtorad(FOV / 2))
+# define TAN_ANG tan(ft_degtorad(FOV / 2))
+# define RATIO HALF_W / TAN_ANG
 
 # define SKYBLUE 0xFF0EC0EE
 # define BROWN 0xFF452209
@@ -103,6 +104,7 @@ enum e_bool	get_line_intersection(t_segment *a, t_segment *b, t_coords *inters);
 
 t_vector	create_vector(double x, double y);
 t_vector	create_vector_at(double x, double y, double pos_x, double pos_y);
+t_vector	create_vector(double x, double y);
 void		move_vector_at(t_vector *vector, double x, double y);
 void		print_vector(t_vector *vector, char *str);
 
