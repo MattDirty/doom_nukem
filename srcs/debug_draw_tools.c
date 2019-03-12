@@ -14,14 +14,14 @@ void		debug_draw_player(SDL_Renderer *r, t_player *p)
 	SDL_SetRenderDrawColor(r, 255, 255, 255, 255);
 	draw_circle(r, copy, 1);
     SDL_SetRenderDrawColor(r, 0, 255, 255, 255);
-    v = create_vector(cos(p->vis - ft_degtorad(FOV/2)), sin(p->vis - ft_degtorad(FOV/2)));
+    v = create_vector(sin(p->vis - ft_degtorad(FOV/2)), cos(p->vis - ft_degtorad(FOV/2)));
     s = get_segment_from_vector(&v);
-    move_segment_at(&s, DEBUG_W_H + p->pos.x * DEBUG_ZOOM, DEBUG_H_H - p->pos.y * DEBUG_ZOOM);
+    move_segment_at(&s, copy.x, copy.y);
     change_segment_length(&s, HORIZON * DEBUG_ZOOM);
     draw_segment(r, &s);
-    v = create_vector(cos(p->vis + ft_degtorad(FOV/2)), sin(p->vis + ft_degtorad(FOV/2)));
+    v = create_vector(sin(p->vis + ft_degtorad(FOV/2)), cos(p->vis + ft_degtorad(FOV/2)));
     s = get_segment_from_vector(&v);
-    move_segment_at(&s, DEBUG_W_H + p->pos.x * DEBUG_ZOOM, DEBUG_H_H - p->pos.y * DEBUG_ZOOM);
+    move_segment_at(&s, copy.x, copy.y);
     change_segment_length(&s, HORIZON * DEBUG_ZOOM);
     draw_segment(r, &s);
 }
@@ -59,6 +59,21 @@ void		debug_draw_walls(SDL_Renderer *r, t_segment *s, Uint32 cnt)
 	i = 0;
 	while (i < cnt)
 	{
+		switch (i)
+		{
+			case 0:
+				SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
+				break;
+			case 1:
+				SDL_SetRenderDrawColor(r, 255, 0, 0, 255);
+				break;
+			case 2:
+				SDL_SetRenderDrawColor(r, 255, 255, 0, 255);
+				break;
+			case 3:
+				SDL_SetRenderDrawColor(r, 255, 255, 255, 255);
+				break;
+		}
 		s2.x1 = DEBUG_W_H + s[i].x1 * DEBUG_ZOOM;
 		s2.y1 = DEBUG_H_H - s[i].y1 * DEBUG_ZOOM;
 		s2.x2 = DEBUG_W_H + s[i].x2 * DEBUG_ZOOM;

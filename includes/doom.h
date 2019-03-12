@@ -21,7 +21,7 @@
 # define HALF_W (double)WIN_W / 2
 # define HALF_H (double)WIN_H / 2
 
-# define FOV 60.0
+# define FOV 90.0
 # define HORIZON 10
 # define DECR_ANG ft_degtorad(FOV / (double)WIN_W)
 # define TAN_ANG tan(ft_degtorad(FOV / 2))
@@ -91,6 +91,7 @@ typedef struct          s_env
         SDL_Texture		*text;
         SDL_Surface		*surf;
         t_segment		*walls;
+        int             wall_id; //debug
         Uint32			seg_count;
         int				col;
         int                             start;

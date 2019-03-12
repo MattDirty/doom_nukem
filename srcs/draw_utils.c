@@ -28,13 +28,13 @@ void	put_pixel(SDL_Surface *s, int x, int y, Uint32 color)
 	pix[x + y * s->w] = color;
 }
 
-void	print_surface(SDL_Renderer *r, SDL_Surface *surf)
+void	print_surface(SDL_Renderer *renderer, SDL_Surface *surface)
 {
 	SDL_Texture *texture;
 
-	if (!(texture = SDL_CreateTextureFromSurface(r, surf)))
+	if (!(texture = SDL_CreateTextureFromSurface(renderer, surface)))
 		error_doom("error: cannot create texture");
-	SDL_RenderCopy(r, texture, NULL, NULL);
-	SDL_RenderPresent(r);
+	SDL_RenderCopy(renderer, texture, NULL, NULL);
+	SDL_RenderPresent(renderer);
 	SDL_DestroyTexture(texture);
 }
