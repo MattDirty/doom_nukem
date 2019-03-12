@@ -21,11 +21,11 @@ static void	loop_events(t_env *e, const Uint8 *state)
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
 			quit_doom(e);
 		if (ev.type == SDL_MOUSEMOTION)
-			e->p->heading -= ev.motion.xrel * MOUSE_SENSI;
+			e->p->heading += ev.motion.xrel * MOUSE_SENSI;
 		if (state[SDL_SCANCODE_LEFT])
-			e->p->heading += ROT;
-		if (state[SDL_SCANCODE_RIGHT])
 			e->p->heading -= ROT;
+		if (state[SDL_SCANCODE_RIGHT])
+			e->p->heading += ROT;
 	}
 }
 
@@ -36,9 +36,9 @@ void		loop_doom(t_env *e)
 	state = SDL_GetKeyboardState(NULL);
 	while (42)
 	{
-		debug_draw(e->debug_r, e->walls, e->seg_count, e->p);
-		raycasting(e);
-		print_surface(e->render, e->surf);
-		loop_events(e, state);
-	}
+        debug_draw(e->debug_r, e->walls, e->seg_count, e->p);
+        raycasting(e);
+        print_surface(e->render, e->surf);
+        loop_events(e, state);
+    }
 }

@@ -57,8 +57,8 @@ typedef struct	s_segment
 
 typedef struct	s_vector
 {
-	t_coords	direction;
-	t_coords	pos;
+    double x;
+    double y;
 }				t_vector;
 
 enum			e_bool
@@ -102,10 +102,13 @@ typedef struct          s_env
 enum e_bool	get_line_intersection(t_segment *a, t_segment *b, t_coords *inters);
 
 t_vector	create_vector(double x, double y);
-t_vector	create_vector_at(double x, double y, double pos_x, double pos_y);
 t_vector	create_vector(double x, double y);
-void		move_vector_at(t_vector *vector, double x, double y);
 void		print_vector(t_vector *vector, char *str);
+void        scalar_multiply(t_vector *vector, double scalar);
+t_segment	create_segment_from_position_and_vector(
+		double x,
+		double y,
+		t_vector *v);
 
 t_segment	create_segment(double x1, double y1, double x2, double y2);
 t_segment	get_segment_from_vector(t_vector *vector);
@@ -127,7 +130,7 @@ void		put_pixel(SDL_Surface *s, int x, int y, Uint32 color);
 void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
 
 
-void		draw(t_env *e);
+void		draw(t_env *e, double distance);
 void		draw_circle(SDL_Renderer *renderer, t_coords center, int r);
 void        draw_segment(SDL_Renderer *r, t_segment *s);
 

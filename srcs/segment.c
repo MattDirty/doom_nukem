@@ -44,10 +44,10 @@ t_vector	get_vector_from_segment(t_segment *segment)
 {
 	t_vector	vector;
 
-	vector.pos.x = segment->x1;
-	vector.pos.y = segment->y1;
-	vector.direction.x = segment->x2 - segment->x1;
-	vector.direction.y = segment->y2 - segment->y1;
+	vector.x = segment->x1;
+	vector.y = segment->y1;
+	vector.x = segment->x2 - segment->x1;
+	vector.y = segment->y2 - segment->y1;
 	return (vector);
 }
 

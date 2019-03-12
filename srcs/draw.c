@@ -12,17 +12,21 @@
 
 #include "doom.h"
 
-static void	draw_wall(t_env *e)
+static void	draw_wall(t_env *e, int start, int end)
 {
+    int y;
+
     int color[4]; //debug
     color[0] = 0xFF000000;
     color[1] = 0xFFFF0000;
     color[2] = 0xFFFFFF00;
     color[3] = 0xFFFFFFFF;
-	while (e->start < e->end)
+
+    y = start;
+	while (y < end)
 	{
-		put_pixel(e->surf, e->col, e->start, color[e->wall_id]);
-		e->start++;
+		put_pixel(e->surf, e->col, y, color[e->wall_id]);
+		y++;
 	}
 }
 
@@ -46,14 +50,20 @@ static void	draw_ceil_and_floor(t_env *e)
 	}
 }
 
-void		draw(t_env *e)
+void		draw(t_env *e, double distance)
 {
-	e->r->dist *= cos(e->p->heading - e->r->ang); //fisheye correction
+	int start;
+	int end;
+
+	e->r->dist = distance * cos(e->p->heading - e->r->ang); //fisheye correction
 	e->r->length = RATIO / e->r->dist;
 	draw_ceil_and_floor(e);
-	e->start = e->p->height - e->r->length / 2 + 1;
-	e->end = e->p->height + e->r->length / 2;
-	e->start = (e->start < 0 ? 0 : e->start);
-	e->end = (e->end >= WIN_H ? WIN_H - 1 : e->end);
-	draw_wall(e);
+
+	start = e->p->height - e->r->length / 2 + 1;
+	end = e->p->height + e->r->length / 2;
+
+	start = (start < 0 ? 0 : start);
+	end = (end >= WIN_H ? WIN_H - 1 : end);
+
+	draw_wall(e, start, end);
 }
