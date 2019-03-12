@@ -28,21 +28,21 @@ static void	draw_wall(t_env *e)
 
 static void	draw_ceil_and_floor(t_env *e)
 {
-	e->start = 0;
-	e->end = e->p->height;
-	e->color = SKYBLUE;
-	while (e->start < e->end)
+	int	y;
+	int	end;
+	
+	y = 0;
+	end = e->p->height;
+	while (y < end)
 	{
-		put_pixel(e->surf, e->col, e->start, e->color);
-		e->start++;
+		put_pixel(e->surf, e->col, y, SKYBLUE);
+		y++;
 	}
-	e->start = e->p->height;
-	e->end = WIN_H - 1;
-	e->color = BROWN;
-	while (e->start < e->end)
+	y = e->p->height;
+	while (y < WIN_H - 1)
 	{
-		put_pixel(e->surf, e->col, e->start, e->color);
-		e->start++;
+		put_pixel(e->surf, e->col, y, BROWN);
+		y++;
 	}
 }
 

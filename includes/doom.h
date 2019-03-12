@@ -11,35 +11,35 @@
 
 # define	DEBUG_W 800
 # define	DEBUG_H	640
-# define	DEBUG_W_H DEBUG_W / 2
-# define	DEBUG_H_H DEBUG_H / 2
+# define	DEBUG_W_H (DEBUG_W / 2)
+# define	DEBUG_H_H (DEBUG_H / 2)
 # define	DEBUG_GRID_STEP 40
 # define	DEBUG_ZOOM 20
 
 # define WIN_W 800
 # define WIN_H 600
-# define HALF_W (double)WIN_W / 2
-# define HALF_H (double)WIN_H / 2
+# define HALF_W ((double)WIN_W / 2)
+# define HALF_H ((double)WIN_H / 2)
 
 # define FOV 90.0
-# define HALF_FOV FOV / 2
+# define HALF_FOV (FOV / 2)
 # define HORIZON 10
-# define TAN_HALF_FOV tan(ft_degtorad(HALF_FOV))
-# define RATIO HALF_W / TAN_HALF_FOV
+# define TAN_HALF_FOV (tan(ft_degtorad(HALF_FOV)))
+# define RATIO (HALF_W / TAN_HALF_FOV)
 
 # define SKYBLUE 0xFF0EC0EE
 # define BROWN 0xFF452209
 # define BLACK 0xFF000000
 # define WHITE 0xFFFFFFFF
 
-# define NORTH ft_degtorad(90)
-# define SOUTH ft_degtorad(270)
-# define WEST ft_degtorad(180)
+# define NORTH (ft_degtorad(90))
+# define SOUTH (ft_degtorad(270))
+# define WEST (ft_degtorad(180))
 # define EAST 0
-# define CIRCLE ft_degtorad(360)
+# define CIRCLE (ft_degtorad(360))
 
-# define ROT ft_degtorad(5)
-# define MOUSE_SENSI 0.1
+# define ROT (ft_degtorad(5))
+# define MOUSE_SENSI 0.01
 
 typedef struct	s_coords
 {
@@ -94,11 +94,9 @@ typedef struct          s_env
         int             wall_id; //debug
         Uint32			seg_count;
         int				col;
-        int                             start;
-        int                             end;
-        Uint32                  color;
-        t_player                *p;
-        t_ray                   *r;
+		Uint32          color;
+        t_player        *p;
+        t_ray           *r;
 }                                       t_env;
 
 enum e_bool	get_line_intersection(t_segment *a, t_segment *b, t_coords *inters);
