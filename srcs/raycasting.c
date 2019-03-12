@@ -40,7 +40,7 @@ void	raycasting(t_env *e)
 	e->col = 0;
 	while (e->col < WIN_W)
 	{
-		e->r->ang =  e->p->vis - (ft_degtorad(FOV) - atan((HALF_W - e->col) / HALF_W));
+		e->r->ang =  e->p->vis + atan((HALF_W - e->col) / RATIO);
 		while (e->r->ang >= CIRCLE)
 			e->r->ang -= CIRCLE;
 		while (e->r->ang < 0)
