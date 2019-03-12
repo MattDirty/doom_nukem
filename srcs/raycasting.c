@@ -46,7 +46,7 @@ void	raycasting(t_env *e)
 	e->col = 0;
 	while (e->col < WIN_W)
 	{
-		e->r->ang =  e->p->vis + atan((HALF_W - e->col) / RATIO);
+		e->r->ang =  e->p->heading + atan((HALF_W - e->col) / RATIO);
 		while (e->r->ang >= CIRCLE)
 			e->r->ang -= CIRCLE;
 		while (e->r->ang < 0)

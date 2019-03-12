@@ -16,7 +16,7 @@ SDL_Renderer	*debug_init(t_segment *segments, Uint32 s_count, t_player *p)
 	SDL_Renderer *renderer;
 
 	SDL_Init(SDL_INIT_VIDEO);
-	window = SDL_CreateWindow("debug", SDL_WINDOWPOS_UNDEFINED,
+	window = SDL_CreateWindow("debug", 0,
 							  SDL_WINDOWPOS_UNDEFINED, DEBUG_W, DEBUG_H, SDL_WINDOW_OPENGL);
 	if (window == NULL)
 		printf("Could not create window: %s\n", SDL_GetError());

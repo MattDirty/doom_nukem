@@ -1,4 +1,9 @@
 #include "doom.h"
+//
+//void		draw_segment(SDL_Surface *surface, t_segment *segment, int color)
+//{
+//
+//}
 
 void		draw_segment(SDL_Renderer *r, t_segment *s)
 {
