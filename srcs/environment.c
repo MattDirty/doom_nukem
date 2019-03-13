@@ -26,17 +26,18 @@ int			quit_doom(t_env *e)
 	SDL_DestroyWindow(e->win);
 	SDL_Quit();
 	free(e->p);
+	free(e->sector);
 	free(e);
 	exit(EXIT_SUCCESS);
 	return (0);
 }
 
-static void	init_player(t_env *e)
+static void	init_player(t_player *p)
 {
-	e->p->height = HALF_H;
-	e->p->heading = WEST;
-	e->p->pos.y = 2;
-	e->p->pos.x = 2;
+	p->height = HALF_H;
+	p->heading = WEST;
+	p->pos.y = 2;
+	p->pos.x = 2;
 }
 
 void		init_doom(t_env *e)
@@ -51,5 +52,5 @@ void		init_doom(t_env *e)
 //		error_doom("error: cannot hide mouse cursor");
 	if (!(e->surf = SDL_CreateRGBSurface(0, WIN_W, WIN_H, 32, 0, 0, 0, 0)))
 		error_doom("error: cannot create surface");
-	init_player(e);
+	init_player(e->p);
 }

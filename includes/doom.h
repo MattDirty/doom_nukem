@@ -38,7 +38,7 @@
 # define CIRCLE (ft_degtorad(360))
 
 # define ROT_90 NORTH
-# define WALL_THICKNESS 1
+# define PLAYER_THICKNESS 1
 # define ROT (ft_degtorad(5))
 # define MOUSE_SENSI 0.01
 # define RUN 0.01
@@ -77,6 +77,13 @@ typedef struct			s_player
         double		height;
 }						t_player;
 
+typedef	struct			s_sector
+{
+		t_segment		*walls;
+		int             wall_id; //debug
+		Uint32			seg_count;
+}						t_sector;
+
 typedef struct          s_env
 {
 		SDL_Window		*win;
@@ -84,12 +91,10 @@ typedef struct          s_env
         SDL_Renderer	*debug_r;
         SDL_Texture		*text;
         SDL_Surface		*surf;
-        t_segment		*walls;
-        int             wall_id; //debug
-        Uint32			seg_count;
         int				col;
 		Uint32          color;
         t_player        *p;
+        t_sector		*sector;
 }                                       t_env;
 
 t_vector	create_vector(double x, double y);
@@ -113,10 +118,10 @@ void		init_doom(t_env *e);
 
 void		loop_doom(t_env *e);
 
-double		check_collision(t_env *e, t_vector vector);
+double		check_collision(t_sector *sector, t_player *p, t_vector *vector);
 void		raycasting(t_env *e);
 
-void		move(t_env *e, const Uint8 *state);
+void		move(t_player *p, t_sector *sector, const Uint8 *state);
 
 Uint32		get_pixel(SDL_Surface *s, int x, int y);
 void		put_pixel(SDL_Surface *s, int x, int y, Uint32 color);

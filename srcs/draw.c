@@ -25,7 +25,7 @@ static void	draw_wall(t_env *e, int start, int end)
     y = start;
 	while (y < end)
 	{
-		put_pixel(e->surf, e->col, y, color[e->wall_id]);
+		put_pixel(e->surf, e->col, y, color[e->sector->wall_id]);
 		y++;
 	}
 }
