@@ -46,7 +46,7 @@
 # define PLAYER_THICKNESS 1
 # define ROT (ft_degtorad(5))
 # define MOUSE_SENSI 0.01
-# define RUN 0.01
+# define RUN 0.001
 # define STRAFE (RUN / 2)
 
 typedef struct	s_coords
@@ -125,7 +125,7 @@ typedef struct          s_env
 }                                       t_env;
 
 t_vector	create_vector(double x, double y);
-t_vector	create_vector(double x, double y);
+t_vector	get_vector_from_segment(t_segment *segment);
 void		print_vector(t_vector *vector, char *str);
 void        scalar_multiply(t_vector *vector, double scalar);
 t_segment	create_segment_from_position_and_vector(

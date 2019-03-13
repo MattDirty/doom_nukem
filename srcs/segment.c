@@ -21,8 +21,6 @@ t_vector	get_vector_from_segment(t_segment *segment)
 {
 	t_vector	vector;
 
-	vector.x = segment->x1;
-	vector.y = segment->y1;
 	vector.x = segment->x2 - segment->x1;
 	vector.y = segment->y2 - segment->y1;
 	return (vector);

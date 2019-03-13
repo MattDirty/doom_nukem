@@ -14,11 +14,24 @@
 
 static void move_if_allowed(t_player *p, t_sector *sector, t_vector *direction, double scalar)
 {
-    scalar_multiply(direction, scalar);
-    if (check_collision(sector, p, direction) > PLAYER_THICKNESS)
+    t_vector    wall_parallel;
+    double      distance;
+
+    distance = check_collision(sector, p, direction);
+    if (distance > PLAYER_THICKNESS)
     {
-        p->pos.x = p->pos.x + direction->x;
-        p->pos.y = p->pos.y + direction->y;
+        scalar_multiply(direction, scalar);
+        p->pos.x += direction->x;
+        p->pos.y += direction->y;
+    }
+    else if (distance < PLAYER_THICKNESS && distance >= 0)
+    {
+        wall_parallel = get_vector_from_segment(&sector->walls[sector->wall_id]);
+        print_vector(&wall_parallel, "wall seg");
+        printf("%d \n", sector->wall_id);
+        scalar_multiply(&wall_parallel, scalar);
+        p->pos.x += wall_parallel.x;
+        p->pos.y += wall_parallel.y;
     }
 }
 

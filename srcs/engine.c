@@ -36,19 +36,18 @@ static enum		e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *int
 
 static double	get_dist_intersection(t_player *p, t_coords inters)
 {
-	double		x_diff;
-	double		y_diff;
+	t_coords    delta;
 
-	x_diff = ft_dabs(p->pos.x - inters.x);
-	y_diff = ft_dabs(p->pos.y - inters.y);
+	delta.x = ft_dabs(p->pos.x - inters.x);
+	delta.y = ft_dabs(p->pos.y - inters.y);
 
-	return sqrt(x_diff * x_diff + y_diff * y_diff);
+	return sqrt(delta.x * delta.x + delta.y * delta.y);
 }
 
 
 double			check_collision(t_sector *sector, t_player *p, t_vector *vector)
 {
-	t_coords		inters;
+	t_coords	inters;
 	t_segment	seg_from_vect;
 	Uint32		i;
 	double		distance;
@@ -59,6 +58,7 @@ double			check_collision(t_sector *sector, t_player *p, t_vector *vector)
 	seg_from_vect = create_segment_from_position_and_vector(p->pos.x, p->pos.y, vector);
 	smallest_distance = HORIZON;
 	i = 0;
+
 	while (i < sector->seg_count)
 	{
 		if (segments_intersect(&seg_from_vect, &sector->walls[i], &inters))
@@ -72,6 +72,7 @@ double			check_collision(t_sector *sector, t_player *p, t_vector *vector)
 		}
 		i++;
 	}
+
 	return (smallest_distance);
 }
 
