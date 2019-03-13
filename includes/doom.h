@@ -14,6 +14,11 @@
 # define	DEBUG_H_H (DEBUG_H / 2)
 # define	DEBUG_GRID_STEP 40
 # define	DEBUG_ZOOM 20
+# define 	GRID_COLOR 0xFFB8D34E
+# define	ABS_ORD_COLOR 0xFFE2EA4F
+# define	DEBUG_WALL_COLOR 0xFFFF0000
+# define	DEBUG_PLAYER_COLOR 0XFF4FE4EA
+
 
 # define WIN_W 800
 # define WIN_H 640
@@ -50,6 +55,12 @@ typedef struct	s_coords
 	double	y;
 }				t_coords;
 
+typedef struct  s_i_coords
+{
+    int     x;
+    int     y;
+}               t_i_coords;
+
 typedef struct	s_segment
 {
 	double	x1;
@@ -77,11 +88,19 @@ typedef struct			s_player
         double		height;
 }						t_player;
 
+typedef struct			s_sdl
+{
+	SDL_Window			*window;
+	SDL_Renderer		*renderer;
+	SDL_Texture			*texture;
+	SDL_Surface			*surface;
+}						t_sdl;
+
 typedef struct          s_env
 {
+		t_sdl			debug;
 		SDL_Window		*win;
         SDL_Renderer    *render;
-        SDL_Renderer	*debug_r;
         SDL_Texture		*text;
         SDL_Surface		*surf;
         t_segment		*walls;
@@ -113,24 +132,27 @@ void		init_doom(t_env *e);
 
 void		loop_doom(t_env *e);
 
-double		check_collision(t_env *e, t_vector vector);
+double		check_collision(t_env *e, t_vector *vector);
 void		raycasting(t_env *e);
 
 void		move(t_env *e, const Uint8 *state);
 
 Uint32		get_pixel(SDL_Surface *s, int x, int y);
+
 void		put_pixel(SDL_Surface *s, int x, int y, Uint32 color);
+void		draw_circle(SDL_Surface *surface, t_coords center, int r, Uint32 color);
+void		draw_circle_filled(SDL_Surface *surface, t_coords center, int r, Uint32 color);
+void        draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color);
+
 void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
 
 
 void		draw(t_env *e, double ray_angle, double distance);
-void		draw_circle(SDL_Renderer *renderer, t_coords center, int r);
-void        draw_segment(SDL_Renderer *r, t_segment *s);
 
-SDL_Renderer	*debug_init(t_segment *segments, Uint32 s_count, t_player *p);
-void		debug_draw_walls(SDL_Renderer *r, t_segment *s, Uint32 cnt);
-void		debug_draw_grid(SDL_Renderer *renderer);
-void		debug_draw_player(SDL_Renderer *r, t_player *p);
-void		debug_draw(SDL_Renderer *r, t_segment *s, Uint32 s_cnt, t_player *p);
+t_sdl		debug_init();
+void		debug_draw_walls(SDL_Surface *surface, t_segment *s, Uint32 cnt);
+void		debug_draw_grid(SDL_Surface *surface);
+void		debug_draw_player(SDL_Surface *surface, t_player *p);
+void		debug_draw(t_sdl *debug, t_segment *s, Uint32 s_cnt, t_player *p);
 
 #endif

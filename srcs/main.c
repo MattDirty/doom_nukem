@@ -20,7 +20,7 @@ int		main (int ac, char **av)
 	e->walls[1] = create_segment(5, 1, 4, 3);
 	e->walls[2] = create_segment(4, 3, 2, 3);
 	e->walls[3] = create_segment(2, 3, 0, 0);
-	e->debug_r = debug_init(e->walls, e->seg_count, e->p);
+	e->debug = debug_init(e->walls, e->seg_count, e->p);
 	loop_doom(e);
 	return (EXIT_SUCCESS);
 }

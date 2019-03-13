@@ -45,7 +45,7 @@ static double	get_dist_intersection(t_env *e, t_coords inters)
 	return sqrt(x_diff * x_diff + y_diff * y_diff);
 }
 
-double			check_collision(t_env *e, t_vector vector)
+double			check_collision(t_env *e, t_vector *vector)
 {
 	t_coords		inters;
 	t_segment	seg_from_vect;
@@ -53,8 +53,8 @@ double			check_collision(t_env *e, t_vector vector)
 	double		distance;
 	double		smallest_distance;
 
-	scalar_multiply(&vector, HORIZON);
-	seg_from_vect = create_segment_from_position_and_vector(e->p->pos.x, e->p->pos.y, &vector);
+	scalar_multiply(vector, HORIZON);
+	seg_from_vect = create_segment_from_position_and_vector(e->p->pos.x, e->p->pos.y, vector);
 	smallest_distance = HORIZON;
 	i = 0;
 	while (i < e->seg_count)
@@ -90,7 +90,7 @@ void			raycasting(t_env *e)
 			ray_angle += CIRCLE;
 
 		ray = create_vector(cos(ray_angle), -sin(ray_angle));
-		draw(e, ray_angle, check_collision(e, ray));
+		draw(e, ray_angle, check_collision(e, &ray));
 		e->col++;
 	}
 }

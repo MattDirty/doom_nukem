@@ -25,7 +25,7 @@ void	put_pixel(SDL_Surface *s, int x, int y, Uint32 color)
 	Uint32	*pix;
 
 	pix = (Uint32*)s->pixels;
-	pix[x + y * s->w] = color;
+	pix[(Uint64)(x + y * s->w)] = color;
 }
 
 void	print_surface(SDL_Renderer *renderer, SDL_Surface *surface)

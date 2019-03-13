@@ -15,7 +15,7 @@
 static void move_if_allowed(t_env *e, t_vector direction, double scalar)
 {
     scalar_multiply(&direction, scalar);
-    if (check_collision(e, direction) > WALL_THICKNESS)
+    if (check_collision(e, &direction) > WALL_THICKNESS)
     {
         e->p->pos.x = e->p->pos.x + direction.x;
         e->p->pos.y = e->p->pos.y + direction.y;

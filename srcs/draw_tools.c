@@ -1,16 +1,35 @@
 #include "doom.h"
-//
-//void		draw_segment(SDL_Surface *surface, t_segment *segment, int color)
-//{
-//
-//}
 
-void		draw_segment(SDL_Renderer *r, t_segment *s)
+void		draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color)
 {
-    SDL_RenderDrawLine(r, s->x1, s->y1, s->x2, s->y2);
+	t_i_coords	incr;
+	int			err;
+	int			cpyerr;
+	t_i_coords 	delta;
+
+	delta.x = ft_abs((int)segment.x2 - (int)segment.x1);
+	delta.y = ft_abs((int)segment.y2 - (int)segment.y1);
+	incr.x = (int)segment.x1 < (int)segment.x2 ? 1 : -1;
+	incr.y = (int)segment.y1 < (int)segment.y2 ? 1 : -1;
+	err = (delta.x > delta.y ? delta.x : -delta.y) / 2;
+	while ((int)segment.x1 != (int)segment.x2 || (int)segment.y1 != (int)segment.y2)
+	{
+		put_pixel(surface, (int)segment.x1, (int)segment.y1, color);
+		cpyerr = err;
+		if (cpyerr > -(delta.x))
+		{
+			err -= delta.y;
+			segment.x1 += incr.x;
+		}
+		if (cpyerr < delta.y)
+		{
+			err += delta.x;
+			segment.y1 += incr.y;
+		}
+	}
 }
 
-void	draw_circle(SDL_Renderer *renderer, t_coords center, int r)
+void	draw_circle(SDL_Surface *surface, t_coords center, int r, Uint32 color)
 {
 	int	x;
 	int	y;
@@ -25,14 +44,15 @@ void	draw_circle(SDL_Renderer *renderer, t_coords center, int r)
 	err = tx - (r << 1);
 	while (x >= y)
 	{
-		SDL_RenderDrawPoint(renderer, center.x + x, center.y - y);
-		SDL_RenderDrawPoint(renderer, center.x + x, center.y + y);
-		SDL_RenderDrawPoint(renderer, center.x - x, center.y - y);
-		SDL_RenderDrawPoint(renderer, center.x - x, center.y + y);
-		SDL_RenderDrawPoint(renderer, center.x + y, center.y - x);
-		SDL_RenderDrawPoint(renderer, center.x + y, center.y + x);
-		SDL_RenderDrawPoint(renderer, center.x - y, center.y - x);
-		SDL_RenderDrawPoint(renderer, center.x - y, center.y + x);
+		put_pixel(surface, center.x + x, center.y - y, color);
+		put_pixel(surface, center.x + x, center.y - y, color);
+		put_pixel(surface, center.x + x, center.y + y, color);
+		put_pixel(surface, center.x - x, center.y - y, color);
+		put_pixel(surface, center.x - x, center.y + y, color);
+		put_pixel(surface, center.x + y, center.y - x, color);
+		put_pixel(surface, center.x + y, center.y + x, color);
+		put_pixel(surface, center.x - y, center.y - x, color);
+		put_pixel(surface, center.x - y, center.y + x, color);
 		if (err <= 0)
 		{
 			y++;
@@ -45,5 +65,14 @@ void	draw_circle(SDL_Renderer *renderer, t_coords center, int r)
 			tx += 2;
 			err += tx - (r << 1);
 		}
+	}
+}
+
+void	draw_circle_filled(SDL_Surface *surface, t_coords center, int r, Uint32 color)
+{
+	while (r > 0)
+	{
+		draw_circle(surface, center, r, color);
+		r--;
 	}
 }
