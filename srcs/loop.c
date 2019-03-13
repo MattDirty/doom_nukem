@@ -40,5 +40,6 @@ void		loop_doom(t_env *e)
         raycasting(e);
         print_surface(e->render, e->surf);
         loop_events(e, state);
+        move(e, state);
     }
 }

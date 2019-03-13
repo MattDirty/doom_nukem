@@ -17,29 +17,6 @@ void		move_segment_at(t_segment *segment, double x, double y)
 	segment->y2 -= swap.y - y;
 }
 
-enum e_bool segments_intersect(t_segment *a, t_segment *b,t_coords *inters)
-{
-	t_coords	delta_a;
-	t_coords	delta_b;
-	double 	s;
-	double	t;
-
-	delta_a.x = a->x2 - a->x1;
-	delta_a.y = a->y2 - a->y1;
-	delta_b.x = b->x2 - b->x1;
-	delta_b.y = b->y2 - b->y1;
-	s = (-delta_a.y * (a->x1 - b->x1) + delta_a.x * (a->y1 - b->y1)) / (-delta_b.x * delta_a.y + delta_a.x * delta_b.y);
-	t = ( delta_b.x * (a->y1 - b->y1) - delta_b.y * (a->x1 - b->x1)) / (-delta_b.x * delta_a.y + delta_a.x * delta_b.y);
-	if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
-	{
-		inters->x = a->x1 + (t * delta_a.x);
-		inters->y = a->y1 + (t * delta_a.y);
-		return (t_true);
-	}
-
-	return (t_false);
-}
-
 t_vector	get_vector_from_segment(t_segment *segment)
 {
 	t_vector	vector;

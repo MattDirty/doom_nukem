@@ -20,7 +20,7 @@
 # define HALF_W ((double)WIN_W / 2)
 # define HALF_H ((double)WIN_H / 2)
 
-# define FOV 120.0
+# define FOV 90.0
 # define HALF_FOV (FOV / 2)
 # define HORIZON 10
 # define TAN_HALF_FOV (tan(ft_degtorad(HALF_FOV)))
@@ -37,8 +37,12 @@
 # define EAST 0
 # define CIRCLE (ft_degtorad(360))
 
+# define ROT_90 NORTH
+# define WALL_THICKNESS 1
 # define ROT (ft_degtorad(5))
 # define MOUSE_SENSI 0.01
+# define RUN 0.01
+# define STRAFE (RUN / 2)
 
 typedef struct	s_coords
 {
@@ -88,8 +92,6 @@ typedef struct          s_env
         t_player        *p;
 }                                       t_env;
 
-enum e_bool	get_line_intersection(t_segment *a, t_segment *b, t_coords *inters);
-
 t_vector	create_vector(double x, double y);
 t_vector	create_vector(double x, double y);
 void		print_vector(t_vector *vector, char *str);
@@ -103,7 +105,6 @@ t_segment	create_segment(double x1, double y1, double x2, double y2);
 t_segment	get_segment_from_vector(t_vector *vector);
 void		move_segment_at(t_segment *segment, double x, double y);
 void		change_segment_length(t_segment *s, double length);
-enum e_bool segments_intersect(t_segment *a, t_segment *b,t_coords *inters);
 void		print_segment(t_segment *segment, char *str);
 
 void		error_doom(char *err);
@@ -112,7 +113,10 @@ void		init_doom(t_env *e);
 
 void		loop_doom(t_env *e);
 
+double		check_collision(t_env *e, t_vector vector);
 void		raycasting(t_env *e);
+
+void		move(t_env *e, const Uint8 *state);
 
 Uint32		get_pixel(SDL_Surface *s, int x, int y);
 void		put_pixel(SDL_Surface *s, int x, int y, Uint32 color);

@@ -21,7 +21,8 @@ SRC_NAME =	main.c \
 			segment.c \
 			environment.c \
 			loop.c \
-			raycasting.c \
+			engine.c \
+			motion.c \
 			draw_utils.c \
 			draw.c \
 			debug_init.c \
