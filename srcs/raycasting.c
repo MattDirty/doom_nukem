@@ -37,7 +37,7 @@ void	raycasting(t_env *e)
 	e->col = 0;
 	while (e->col < WIN_W)
 	{
-		iterating_angle = atan((e->col / HALF_W - 1) / tan(HALF_FOV) * tan(45.0));
+		iterating_angle = atan(((e->col / HALF_W - 1) / TAN_HALF_FOV) * TAN_HALF_FOV);
 		ray_angle = e->p->heading + iterating_angle;
 		while (ray_angle >= CIRCLE)
 			ray_angle -= CIRCLE;

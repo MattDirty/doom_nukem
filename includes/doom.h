@@ -1,5 +1,5 @@
-#ifndef DOOMNUKEM_DOOM_H
-# define DOOMNUKEM_DOOM_H
+#ifndef DOOM_H
+# define DOOM_H
 
 # include "SDL.h"
 # include "libft.h"
@@ -7,7 +7,6 @@
 # include <stdio.h>
 # include <math.h>
 # include <stdlib.h>
-# include "SDL.h"
 
 # define	DEBUG_W 800
 # define	DEBUG_H	640
@@ -17,11 +16,11 @@
 # define	DEBUG_ZOOM 20
 
 # define WIN_W 800
-# define WIN_H 600
+# define WIN_H 640
 # define HALF_W ((double)WIN_W / 2)
 # define HALF_H ((double)WIN_H / 2)
 
-# define FOV 90.0
+# define FOV 120.0
 # define HALF_FOV (FOV / 2)
 # define HORIZON 10
 # define TAN_HALF_FOV (tan(ft_degtorad(HALF_FOV)))
@@ -129,6 +128,5 @@ void		debug_draw_walls(SDL_Renderer *r, t_segment *s, Uint32 cnt);
 void		debug_draw_grid(SDL_Renderer *renderer);
 void		debug_draw_player(SDL_Renderer *r, t_player *p);
 void		debug_draw(SDL_Renderer *r, t_segment *s, Uint32 s_cnt, t_player *p);
-
 
 #endif
