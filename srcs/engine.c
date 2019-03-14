@@ -53,7 +53,6 @@ double			check_collision(t_sector *sector, t_segment *seg)
 	double		distance;
 	double		smallest_distance;
 
-
 	smallest_distance = HORIZON;
 	i = 0;
 	start.x = seg->x1;

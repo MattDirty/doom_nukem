@@ -43,10 +43,11 @@
 # define CIRCLE (ft_degtorad(360))
 
 # define ROT_90 NORTH
-# define PLAYER_THICKNESS 1.0
+# define PLAYER_THICKNESS 0.25
 # define ROT (ft_degtorad(5))
-# define MOUSE_SENSI 0.01
-# define RUN 0.01
+
+# define MOUSE_SENSI 0.0001
+# define RUN 0.1
 # define STRAFE (RUN / 2)
 
 typedef struct	s_coords

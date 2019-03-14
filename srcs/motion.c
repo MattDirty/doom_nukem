@@ -17,27 +17,27 @@ static void move_if_allowed(t_player *p, t_sector *sector)
     t_segment   seg;
     t_vector    wall_parallel;
     double      distance;
+    double      distance_verif;
     double      rad;
 
     scalar_multiply(&p->speed, RUN);
     seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
-    distance = check_collision(sector, &seg);
-    if (distance <= PLAYER_THICKNESS)
+    if ((distance = check_collision(sector, &seg)) <= PLAYER_THICKNESS)
     {
-        printf("%f\n", distance);
         wall_parallel = get_vector_from_segment(&sector->walls[sector->wall_id]);
         rad = get_rad_between_vectors(&p->speed, &wall_parallel);
         rotate_vector(&p->speed, rad);
-        if (rad > ft_degtorad(93))
+        if (rad > ft_degtorad(100))
         {
             p->speed.x = -p->speed.x;
             p->speed.y = -p->speed.y;
         }
-        else if (rad >= ft_degtorad(87))
-        {
-            p->speed.x = 0;
-            p->speed.y = 0;
-        }
+        else if (rad >= ft_degtorad(80))
+            return ;
+        seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
+        distance_verif = check_collision(sector, &seg);
+        if (distance != distance_verif && distance_verif <= PLAYER_THICKNESS)
+            return ;
     }
     p->pos.x += p->speed.x;
     p->pos.y += p->speed.y;
