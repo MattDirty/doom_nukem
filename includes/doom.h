@@ -43,7 +43,7 @@
 # define CIRCLE (ft_degtorad(360))
 
 # define ROT_90 NORTH
-# define PLAYER_THICKNESS 1
+# define PLAYER_THICKNESS 1.0
 # define ROT (ft_degtorad(5))
 # define MOUSE_SENSI 0.01
 # define RUN 0.001

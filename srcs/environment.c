@@ -48,8 +48,8 @@ void		init_doom(t_env *e)
 			&e->win, &e->render) < 0)
 		error_doom("error: cannot create window");
 	SDL_SetWindowPosition(e->win, WIN_W + 70, SDL_WINDOWPOS_CENTERED);
-//	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
-//		error_doom("error: cannot hide mouse cursor");
+	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
+		error_doom("error: cannot hide mouse cursor");
 	if (!(e->surf = SDL_CreateRGBSurface(0, WIN_W, WIN_H, 32, 0, 0, 0, 0)))
 		error_doom("error: cannot create surface");
 	init_player(e->p);

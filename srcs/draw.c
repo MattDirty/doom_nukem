@@ -43,7 +43,7 @@ static void	draw_ceil_and_floor(t_env *e)
 		y++;
 	}
 	y = e->p->height;
-	while (y < WIN_H - 1)
+	while (y < WIN_H)
 	{
 		put_pixel(e->surf, e->col, y, BROWN);
 		y++;
@@ -61,11 +61,11 @@ void		draw(t_env *e, double ray_angle, double distance)
 
 	draw_ceil_and_floor(e);
 
-	start = e->p->height - length / 2 + 1;
+	start = e->p->height - length / 2;
 	end = e->p->height + length / 2;
 
 	start = (start < 0 ? 0 : start);
-	end = (end >= WIN_H ? WIN_H - 1 : end);
+	end = (end > WIN_H ? WIN_H : end);
 
 	draw_wall(e, start, end);
 }
