@@ -23,7 +23,8 @@ int		main (int ac, char **av)
 	e->sector->walls[1] = create_segment(5, 1, 4, 3);
 	e->sector->walls[2] = create_segment(4, 3, 2, 3);
 	e->sector->walls[3] = create_segment(2, 3, 0, 0);
-	e->debug = debug_init(e->sector->walls, e->sector->seg_count, e->p);
+
+    e->debug = debug_init(e->sector->walls, e->sector->seg_count, e->p);
 	loop_doom(e);
 	return (EXIT_SUCCESS);
 }

@@ -38,6 +38,8 @@ static void	init_player(t_player *p)
 	p->heading = WEST;
 	p->pos.y = 2;
 	p->pos.x = 2;
+	p->speed.x = 0;
+	p->speed.y = 0;
 }
 
 void		init_doom(t_env *e)

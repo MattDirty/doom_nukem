@@ -14,7 +14,7 @@
 # define	DEBUG_H_H (DEBUG_H / 2)
 # define	DEBUG_GRID_STEP 40
 # define	DEBUG_ZOOM 20
-# define 	GRID_COLOR 0xFFB8D34E
+# define 	GRID_COLOR 0xFF222222
 # define	ABS_ORD_COLOR 0xFFE2EA4F
 # define	DEBUG_WALL_COLOR 0xFFFF0000
 # define	DEBUG_PLAYER_COLOR 0XFF4FE4EA
@@ -94,6 +94,7 @@ typedef struct			s_player
         t_coords	pos;
         double		heading;
         double		height;
+        t_vector    speed;
 }						t_player;
 
 typedef struct			s_sdl
@@ -128,6 +129,11 @@ t_vector	create_vector(double x, double y);
 t_vector	get_vector_from_segment(t_segment *segment);
 void		print_vector(t_vector *vector, char *str);
 void        scalar_multiply(t_vector *vector, double scalar);
+void        add_vector_to_vector(t_vector *vector, t_vector vector2);
+void        rotate_vector(t_vector *vector, double rad);
+double      dot_product(t_vector *vector1, t_vector *vector2);
+double      get_vector_length(t_vector *vector);
+double      get_rad_between_vectors(t_vector *vector1, t_vector *vector2);
 t_segment	create_segment_from_position_and_vector(
 		double x,
 		double y,
