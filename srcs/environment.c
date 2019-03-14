@@ -34,7 +34,7 @@ int			quit_doom(t_env *e)
 
 static void	init_player(t_player *p)
 {
-	p->height = HALF_H;
+	p->vision_height = HALF_H;
 	p->heading = WEST;
 	p->pos.y = 2;
 	p->pos.x = 3;

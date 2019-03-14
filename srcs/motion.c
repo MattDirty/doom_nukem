@@ -45,9 +45,9 @@ static void move_if_allowed(t_player *p, t_sector *sector)
 
 void		move(t_player *p, t_sector *sector, const Uint8 *state)
 {
-    if (state[SDL_SCANCODE_W] || state[SDL_SCANCODE_UP])
+    if (state[SDL_SCANCODE_W])
         add_vector_to_vector(&p->speed, create_vector(cos(p->heading), -sin(p->heading)));
-    if (state[SDL_SCANCODE_S] || state[SDL_SCANCODE_DOWN])
+    if (state[SDL_SCANCODE_S])
         add_vector_to_vector(&p->speed, create_vector(-cos(p->heading), sin(p->heading)));
     if (state[SDL_SCANCODE_A])
         add_vector_to_vector(&p->speed, create_vector(cos(p->heading - ROT_90), -sin(p->heading - ROT_90)));
@@ -56,4 +56,14 @@ void		move(t_player *p, t_sector *sector, const Uint8 *state)
     move_if_allowed(p, sector);
     p->speed.x = 0;
     p->speed.y = 0;
+}
+
+void        look_up_and_down(t_player *p, const Uint8 *state)
+{
+    if (state[SDL_SCANCODE_UP])
+        p->vision_height += ROT_Y;
+    if (state[SDL_SCANCODE_DOWN])
+        p->vision_height -= ROT_Y;
+    p->vision_height > WIN_H ? p->vision_height = WIN_H : 0;
+    p->vision_height < 0 ? p->vision_height = 0 : 0;
 }

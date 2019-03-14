@@ -40,13 +40,13 @@ static void	draw_ceil_and_floor(t_env *e)
 	int	end;
 	
 	y = 0;
-	end = e->p->height;
+	end = e->p->vision_height;
 	while (y < end)
 	{
 		put_pixel(e->surf, e->col, y, SKYBLUE);
 		y++;
 	}
-	y = e->p->height;
+	y = e->p->vision_height;
 	while (y < WIN_H)
 	{
 		put_pixel(e->surf, e->col, y, BROWN);
@@ -61,12 +61,12 @@ void		draw(t_env *e, double ray_angle, double distance)
 	double length;
 
 	distance *= cos(e->p->heading - ray_angle); //fisheye correction
-	length = RATIO / distance;
+	length = RATIO / distance * e->sector->wall_height;
 
 	draw_ceil_and_floor(e);
 
-	start = e->p->height - length / 2;
-	end = e->p->height + length / 2;
+	start = e->p->vision_height - length / 2;
+	end = e->p->vision_height + length / 2;
 
 	start = (start < 0 ? 0 : start);
 	end = (end > WIN_H ? WIN_H : end);

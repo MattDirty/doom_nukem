@@ -23,14 +23,20 @@ static void	loop_events(t_env *e, const Uint8 *state)
 		if (ev.type == SDL_MOUSEMOTION)
 		{
 			e->p->heading += ev.motion.xrel * MOUSE_SENSI;
-			e->p->height -= ev.motion.yrel;
-			e->p->height > WIN_H ? e->p->height = WIN_H : 0;
-			e->p->height < 0 ? e->p->height = 0 : 0;
+			e->p->vision_height -= ev.motion.yrel;
+			e->p->vision_height > WIN_H ? e->p->vision_height = WIN_H : 0;
+			e->p->vision_height < 0 ? e->p->vision_height = 0 : 0;
 		}
 		if (state[SDL_SCANCODE_LEFT])
-			e->p->heading -= ROT;
+			e->p->heading -= ROT_X;
 		if (state[SDL_SCANCODE_RIGHT])
-			e->p->heading += ROT;
+			e->p->heading += ROT_X;
+		if (state[SDL_SCANCODE_O])
+			e->sector->wall_height -= 0.01;
+		if (state[SDL_SCANCODE_P])
+			e->sector->wall_height += 0.01;
+		e->sector->wall_height > HALF_H ? e->sector->wall_height = HALF_H : 0;
+		e->sector->wall_height < 0 ? e->sector->wall_height = 0 : 0;
 	}
 }
 
@@ -46,5 +52,6 @@ void		loop_doom(t_env *e)
         print_surface(e->render, e->surf);
         loop_events(e, state);
         move(e->p, e->sector, state);
+        look_up_and_down(e->p, state);
     }
 }

@@ -27,6 +27,8 @@ int		main (int ac, char **av)
     e->sector->walls[5] = create_segment(9, 15, 3, 15);
     e->sector->walls[6] = create_segment(3, 15, 4, 4);
     e->sector->walls[7] = create_segment(4, 4, 0, 0);
+	e->sector->wall_height = 1;
+
     e->debug = debug_init(e->sector->walls, e->sector->seg_count, e->p);
 	loop_doom(e);
 	return (EXIT_SUCCESS);

@@ -44,11 +44,12 @@
 
 # define ROT_90 NORTH
 # define PLAYER_THICKNESS 0.25
-# define ROT (ft_degtorad(5))
 
-# define MOUSE_SENSI 0.0001
 # define RUN 0.1
-# define STRAFE (RUN / 2)
+# define PLAYER_THICKNESS 1.0
+# define ROT_X (ft_degtorad(5))
+# define ROT_Y 10
+# define MOUSE_SENSI 0.01
 
 typedef struct	s_coords
 {
@@ -94,7 +95,7 @@ typedef struct			s_player
 {
         t_coords	pos;
         double		heading;
-        double		height;
+        double		vision_height;
         t_vector    speed;
 }						t_player;
 
@@ -109,6 +110,7 @@ typedef struct			s_sdl
 typedef	struct			s_sector
 {
 		t_segment		*walls;
+		double			wall_height; //debug
 		int             wall_id; //debug
 		Uint32			seg_count;
 }						t_sector;
@@ -156,6 +158,7 @@ double		check_collision(t_sector *sector, t_segment *seg);
 void		raycasting(t_env *e);
 
 void		move(t_player *p, t_sector *sector, const Uint8 *state);
+void        look_up_and_down(t_player *p, const Uint8 *state);
 
 Uint32		get_pixel(SDL_Surface *s, int x, int y);
 
