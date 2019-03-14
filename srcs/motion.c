@@ -20,8 +20,6 @@ static void move_if_allowed(t_player *p, t_sector *sector)
 
     scalar_multiply(&p->speed, RUN);
     distance = check_collision(sector, p, &p->speed);
-    distance = check_collision(sector, p, &p->speed);
-    distance = check_collision(sector, p, &p->speed);
     if (distance <= PLAYER_THICKNESS)
     {
         printf("%f\n", distance);
