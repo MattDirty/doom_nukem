@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "doom.h"
 
-static void	draw_wall(t_env *e, int start, int end)
+static void	draw_wall(t_env *e, int start, int end, Uint32 renderer_x)
 {
     int y;
 
@@ -29,32 +29,32 @@ static void	draw_wall(t_env *e, int start, int end)
     y = start;
 	while (y < end)
 	{
-		put_pixel(e->surf, e->col, y, color[e->sector->wall_id]);
+		put_pixel(e->doom->surface, renderer_x, y, color[e->sector->wall_id]);
 		y++;
 	}
 }
 
-static void	draw_ceil_and_floor(t_env *e)
+static void	draw_ceil_and_floor(t_sdl *doom, Uint32 renderer_x, double vision_height)
 {
 	int	y;
 	int	end;
 	
 	y = 0;
-	end = e->p->vision_height;
+	end = vision_height;
 	while (y < end)
 	{
-		put_pixel(e->surf, e->col, y, SKYBLUE);
+		put_pixel(doom->surface, renderer_x, y, SKYBLUE);
 		y++;
 	}
-	y = e->p->vision_height;
+	y = vision_height;
 	while (y < WIN_H)
 	{
-		put_pixel(e->surf, e->col, y, BROWN);
+		put_pixel(doom->surface, renderer_x, y, BROWN);
 		y++;
 	}
 }
 
-void		draw(t_env *e, double ray_angle, double distance)
+void		draw(t_env *e, double ray_angle, double distance, Uint32 renderer_x)
 {
 	int start;
 	int end;
@@ -63,7 +63,7 @@ void		draw(t_env *e, double ray_angle, double distance)
 	distance *= cos(e->p->heading - ray_angle); //fisheye correction
 	length = RATIO / distance * e->sector->wall_height;
 
-	draw_ceil_and_floor(e);
+	draw_ceil_and_floor(e->doom, renderer_x, e->p->vision_height);
 
 	start = e->p->vision_height - length / 2;
 	end = e->p->vision_height + length / 2;
@@ -71,5 +71,5 @@ void		draw(t_env *e, double ray_angle, double distance)
 	start = (start < 0 ? 0 : start);
 	end = (end > WIN_H ? WIN_H : end);
 
-	draw_wall(e, start, end);
+	draw_wall(e, start, end, renderer_x);
 }

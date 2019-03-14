@@ -23,8 +23,8 @@ SRC_NAME =	main.c \
 			loop.c \
 			engine.c \
 			motion.c \
-			draw_utils.c \
-			draw.c \
+			render_utils.c \
+			render.c \
 			debug_init.c \
 			debug_draw_tools.c \
 			draw_tools.c

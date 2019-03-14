@@ -49,7 +49,7 @@ void		loop_doom(t_env *e)
 	{
         debug_draw(&e->debug, e->sector->walls, e->sector->seg_count, e->p);
         raycasting(e);
-        print_surface(e->render, e->surf);
+        print_surface(e->doom->renderer, e->doom->surface);
         loop_events(e, state);
         move(e->p, e->sector, state);
         look_up_and_down(e->p, state);

@@ -19,7 +19,6 @@
 # define DEBUG_WALL_COLOR 0xFFFF0000
 # define DEBUG_PLAYER_COLOR 0XFF4FE4EA
 
-
 # define WIN_W 800
 # define WIN_H 640
 # define HALF_W ((double)WIN_W / 2)
@@ -48,10 +47,8 @@
 # define CIRCLE (ft_degtorad(360))
 
 # define ROT_90 NORTH
-# define PLAYER_THICKNESS 0.25
-
 # define RUN 0.1
-# define PLAYER_THICKNESS 1.0
+# define PLAYER_THICKNESS 0.25
 # define ROT_X (ft_degtorad(5))
 # define ROT_Y 10
 # define MOUSE_SENSI 0.01
@@ -123,14 +120,9 @@ typedef	struct			s_sector
 typedef struct          s_env
 {
 		t_sdl			debug;
-		SDL_Window		*win;
-        SDL_Renderer    *render;
-        SDL_Texture		*text;
-        SDL_Surface		*surf;
-        int				col;
-		Uint32          color;
         t_player        *p;
         t_sector		*sector;
+        t_sdl           *doom;
 }                                       t_env;
 
 t_vector	create_vector(double x, double y);
@@ -175,7 +167,7 @@ void        draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color);
 void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
 
 
-void		draw(t_env *e, double ray_angle, double distance);
+void		draw(t_env *e, double ray_angle, double distance, Uint32 renderer_x);
 
 t_sdl		debug_init();
 void		debug_draw_walls(SDL_Surface *surface, t_segment *s, Uint32 cnt);
