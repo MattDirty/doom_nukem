@@ -117,6 +117,8 @@ typedef	struct			s_sector
 		double			wall_height; //debug
 		int             wall_id; //debug
 		Uint32			seg_count;
+		SDL_Surface		*wall_text;
+		t_coords		draw_text;
 }						t_sector;
 
 typedef struct          s_env

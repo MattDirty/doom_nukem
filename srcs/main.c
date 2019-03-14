@@ -32,6 +32,8 @@ int		main (int ac, char **av)
 	e->sector->wall_height = 1;
 
     e->debug = debug_init(e->sector->walls, e->sector->seg_count, e->p);
+    if (!(e->sector->wall_text = SDL_LoadBMP("brickwall.bmp")))
+    	error_doom("there was an error while loading the BMP");
 	loop_doom(e);
 	return (EXIT_SUCCESS);
 }

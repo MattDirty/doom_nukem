@@ -66,6 +66,7 @@ double			check_collision(t_sector *sector, t_segment *seg)
 			{
 				smallest_distance = distance;
 				sector->wall_id = i;
+				sector->draw_text.x = inters.x / 225;
 			}
 		}
 		i++;
@@ -78,15 +79,13 @@ void			raycasting(t_env *e)
 {
 	t_vector	ray_vect;
 	t_segment	ray_seg;
-	double		iterating_angle;
 	double		ray_angle;
     Uint32      renderer_x;
 
 	renderer_x = 0;
 	while (renderer_x < WIN_W)
 	{
-		iterating_angle = atan(((renderer_x / HALF_W - 1) / TAN_HALF_FOV) * TAN_HALF_FOV);
-		ray_angle = e->p->heading + iterating_angle;
+		ray_angle = e->p->heading + atan(((renderer_x / HALF_W - 1) / TAN_HALF_FOV) * TAN_HALF_FOV);
 		while (ray_angle >= CIRCLE)
 			ray_angle -= CIRCLE;
 		while (ray_angle < 0)
