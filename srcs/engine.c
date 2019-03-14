@@ -80,11 +80,12 @@ void			raycasting(t_env *e)
 	t_segment	ray_seg;
 	double		iterating_angle;
 	double		ray_angle;
+    Uint32      renderer_x;
 
-	e->col = 0;
-	while (e->col < WIN_W)
+	renderer_x = 0;
+	while (renderer_x < WIN_W)
 	{
-		iterating_angle = atan(((e->col / HALF_W - 1) / TAN_HALF_FOV) * TAN_HALF_FOV);
+		iterating_angle = atan(((renderer_x / HALF_W - 1) / TAN_HALF_FOV) * TAN_HALF_FOV);
 		ray_angle = e->p->heading + iterating_angle;
 		while (ray_angle >= CIRCLE)
 			ray_angle -= CIRCLE;
@@ -94,7 +95,7 @@ void			raycasting(t_env *e)
 		ray_vect = create_vector(cos(ray_angle), -sin(ray_angle));
 		scalar_multiply(&ray_vect, HORIZON);
 		ray_seg = create_segment_from_position_and_vector(e->p->pos.x, e->p->pos.y, &ray_vect);
-		draw(e, ray_angle, check_collision(e->sector, &ray_seg));
-		e->col++;
+		draw(e, ray_angle, check_collision(e->sector, &ray_seg), renderer_x);
+		renderer_x++;
 	}
 }

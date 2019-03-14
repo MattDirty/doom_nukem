@@ -20,13 +20,14 @@ void		error_doom(char *err)
 
 int			quit_doom(t_env *e)
 {
-	SDL_FreeSurface(e->surf);
-	SDL_DestroyTexture(e->text);
-	SDL_DestroyRenderer(e->render);
-	SDL_DestroyWindow(e->win);
+	SDL_FreeSurface(e->doom->surface);
+	SDL_DestroyTexture(e->doom->texture);
+	SDL_DestroyRenderer(e->doom->renderer);
+	SDL_DestroyWindow(e->doom->window);
 	SDL_Quit();
 	free(e->p);
 	free(e->sector);
+	free(e->doom);
 	free(e);
 	exit(EXIT_SUCCESS);
 	return (0);
@@ -47,9 +48,9 @@ void		init_doom(t_env *e)
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		error_doom("error: cannot run SDL");
 	if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
-			&e->win, &e->render) < 0)
+			&e->doom->window, &e->doom->renderer) < 0)
 		error_doom("error: cannot create window");
-	SDL_SetWindowPosition(e->win, WIN_W + 70, SDL_WINDOWPOS_CENTERED);
+	SDL_SetWindowPosition(e->doom->window, WIN_W + 70, SDL_WINDOWPOS_CENTERED);
 	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
 		error_doom("error: cannot hide mouse cursor");
 	if (!(e->surf = SDL_CreateRGBSurface(0, WIN_W, WIN_H,

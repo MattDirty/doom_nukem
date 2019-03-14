@@ -12,6 +12,8 @@ int		main (int ac, char **av)
 		error_doom("error: cannot allocate memory for struct player");
 	if (!(e->sector = (t_sector*)malloc(sizeof(t_sector))))
 		error_doom("error: cannot allocate memory for struct sector");
+	if (!(e->doom = (t_sdl*)malloc(sizeof(t_sdl))))
+		error_doom("error: cannot allocate memory for struct sdl");
 	init_doom(e);
 	e->sector->seg_count = 8;
 	if (!(e->sector->walls = (t_segment*)malloc(sizeof(t_segment) * e->sector->seg_count)))
