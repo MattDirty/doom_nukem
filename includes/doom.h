@@ -14,10 +14,11 @@
 # define DEBUG_H_H (DEBUG_H / 2)
 # define DEBUG_GRID_STEP 40
 # define DEBUG_ZOOM 20
-# define GRID_COLOR 0xFF222222
-# define ABS_ORD_COLOR 0xFFE2EA4F
+
+# define GRID_COLOR 0xFF111111
+# define ABS_ORD_COLOR 0xFFE2EAFF
 # define DEBUG_WALL_COLOR 0xFFFF0000
-# define DEBUG_PLAYER_COLOR 0XFF4FE4EA
+# define DEBUG_PLAYER_COLOR 0xFF4FE4EA
 
 
 # define WIN_W 800
@@ -31,10 +32,10 @@
 # define TAN_HALF_FOV (tan(ft_degtorad(HALF_FOV)))
 # define RATIO (HALF_W / TAN_HALF_FOV)
 
-# define FLAG_ALPHA 0xFF000000
-# define FLAG_RED 0x00FF0000
-# define FLAG_GREEN 0x0000FF00
-# define FLAG_BLUE 0x000000FF
+# define MASK_ALPHA 0xFF000000
+# define MASK_RED 0x00FF0000
+# define MASK_GREEN 0x0000FF00
+# define MASK_BLUE 0x000000FF
 
 # define SKYBLUE 0xFF0EC0EE
 # define BROWN 0xFF452209
@@ -51,7 +52,6 @@
 # define PLAYER_THICKNESS 0.25
 
 # define RUN 0.1
-# define PLAYER_THICKNESS 1.0
 # define ROT_X (ft_degtorad(5))
 # define ROT_Y 10
 # define MOUSE_SENSI 0.01

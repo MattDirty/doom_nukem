@@ -22,12 +22,30 @@ Uint32	get_pixel(SDL_Surface *s, int x, int y)
 
 void	put_pixel(SDL_Surface *s, int x, int y, Uint32 color)
 {
-	Uint32	*pix;
+	Uint8	*pix;
+	Uint32	i;
+	Uint8	red;
+	Uint8	green;
+	Uint8	blue;
 
 	if (x < 0 || y < 0)
-		return ;
-	pix = (Uint32*)s->pixels;
-	pix[(Uint64)(x + y * s->w)] = color;
+		return;
+	i = (x + y * s->w) * 4;
+	pix = (Uint8 *)s->pixels;
+	red = (color & s->format->Rmask) >> s->format->Rshift << s->format->Rloss;
+	green = (color & s->format->Gmask) >> s->format->Gshift << s->format->Gloss;
+	blue = (color & s->format->Bmask) >> s->format->Bshift << s->format->Bloss;
+	color = (color & s->format->Amask) >> s->format->Ashift << s->format->Aloss;
+	if (color != 255 && pix[i] != 0)
+	{
+		red = (red * (Uint8)color / 255.0) + (pix[i + 1] * (255 - (Uint8)color));
+		green = (green * (Uint8)color / 255.0) + (pix[i + 2] * (255 - (Uint8)color));
+		blue = (blue * (Uint8)color / 255.0) + (pix[i + 3] * (255 - (Uint8)color));
+	}
+	pix[i + s->format->Ashift / 8] = 255;
+	pix[i + s->format->Rshift / 8] = red;
+	pix[i + s->format->Gshift / 8] = green;
+	pix[i + s->format->Bshift / 8] = blue;
 }
 
 void	print_surface(SDL_Renderer *renderer, SDL_Surface *surface)
