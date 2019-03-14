@@ -8,16 +8,16 @@
 # include <math.h>
 # include <stdlib.h>
 
-# define	DEBUG_W 800
-# define	DEBUG_H	640
-# define	DEBUG_W_H (DEBUG_W / 2)
-# define	DEBUG_H_H (DEBUG_H / 2)
-# define	DEBUG_GRID_STEP 40
-# define	DEBUG_ZOOM 20
-# define 	GRID_COLOR 0xFF222222
-# define	ABS_ORD_COLOR 0xFFE2EA4F
-# define	DEBUG_WALL_COLOR 0xFFFF0000
-# define	DEBUG_PLAYER_COLOR 0XFF4FE4EA
+# define DEBUG_W 800
+# define DEBUG_H	640
+# define DEBUG_W_H (DEBUG_W / 2)
+# define DEBUG_H_H (DEBUG_H / 2)
+# define DEBUG_GRID_STEP 40
+# define DEBUG_ZOOM 20
+# define GRID_COLOR 0xFF222222
+# define ABS_ORD_COLOR 0xFFE2EA4F
+# define DEBUG_WALL_COLOR 0xFFFF0000
+# define DEBUG_PLAYER_COLOR 0XFF4FE4EA
 
 
 # define WIN_W 800
