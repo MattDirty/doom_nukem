@@ -14,14 +14,14 @@
 
 static void move_if_allowed(t_player *p, t_sector *sector)
 {
+    t_segment   seg;
     t_vector    wall_parallel;
     double      distance;
     double      rad;
 
     scalar_multiply(&p->speed, RUN);
-    distance = check_collision(sector, p, &p->speed);
-    distance = check_collision(sector, p, &p->speed);
-    distance = check_collision(sector, p, &p->speed);
+    seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
+    distance = check_collision(sector, &seg);
     if (distance <= PLAYER_THICKNESS)
     {
         printf("%f\n", distance);

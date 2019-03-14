@@ -34,36 +34,35 @@ static enum		e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *int
 	return (t_false);
 }
 
-static double	get_dist_intersection(t_player *p, t_coords inters)
+static double	get_dist_intersection(t_coords start, t_coords inters)
 {
 	t_coords    delta;
 
-	delta.x = ft_dabs(p->pos.x - inters.x);
-	delta.y = ft_dabs(p->pos.y - inters.y);
+	delta.x = ft_dabs(start.x - inters.x);
+	delta.y = ft_dabs(start.y - inters.y);
 
 	return sqrt(delta.x * delta.x + delta.y * delta.y);
 }
 
 
-double			check_collision(t_sector *sector, t_player *p, t_vector *vector)
+double			check_collision(t_sector *sector, t_segment *seg)
 {
 	t_coords	inters;
-	t_segment	seg_from_vect;
+	t_coords	start;
 	Uint32		i;
 	double		distance;
 	double		smallest_distance;
 
-	scalar_multiply(vector, HORIZON);
 
-	seg_from_vect = create_segment_from_position_and_vector(p->pos.x, p->pos.y, vector);
 	smallest_distance = HORIZON;
 	i = 0;
-
+	start.x = seg->x1;
+	start.y = seg->y1;
 	while (i < sector->seg_count)
 	{
-		if (segments_intersect(&seg_from_vect, &sector->walls[i], &inters))
+		if (segments_intersect(seg, &sector->walls[i], &inters))
 		{
-			distance = get_dist_intersection(p, inters);
+			distance = get_dist_intersection(start, inters);
 			if (distance < smallest_distance)
 			{
 				smallest_distance = distance;
@@ -78,7 +77,8 @@ double			check_collision(t_sector *sector, t_player *p, t_vector *vector)
 
 void			raycasting(t_env *e)
 {
-	t_vector	ray;
+	t_vector	ray_vect;
+	t_segment	ray_seg;
 	double		iterating_angle;
 	double		ray_angle;
 
@@ -92,8 +92,10 @@ void			raycasting(t_env *e)
 		while (ray_angle < 0)
 			ray_angle += CIRCLE;
 
-		ray = create_vector(cos(ray_angle), -sin(ray_angle));
-		draw(e, ray_angle, check_collision(e->sector, e->p, &ray));
+		ray_vect = create_vector(cos(ray_angle), -sin(ray_angle));
+		scalar_multiply(&ray_vect, HORIZON);
+		ray_seg = create_segment_from_position_and_vector(e->p->pos.x, e->p->pos.y, &ray_vect);
+		draw(e, ray_angle, check_collision(e->sector, &ray_seg));
 		e->col++;
 	}
 }

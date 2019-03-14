@@ -46,7 +46,7 @@
 # define PLAYER_THICKNESS 1.0
 # define ROT (ft_degtorad(5))
 # define MOUSE_SENSI 0.01
-# define RUN 0.001
+# define RUN 0.01
 # define STRAFE (RUN / 2)
 
 typedef struct	s_coords
@@ -151,7 +151,7 @@ void		init_doom(t_env *e);
 
 void		loop_doom(t_env *e);
 
-double		check_collision(t_sector *sector, t_player *p, t_vector *vector);
+double		check_collision(t_sector *sector, t_segment *seg);
 void		raycasting(t_env *e);
 
 void		move(t_player *p, t_sector *sector, const Uint8 *state);
