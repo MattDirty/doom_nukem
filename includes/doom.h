@@ -31,6 +31,11 @@
 # define TAN_HALF_FOV (tan(ft_degtorad(HALF_FOV)))
 # define RATIO (HALF_W / TAN_HALF_FOV)
 
+# define FLAG_ALPHA 0xFF000000
+# define FLAG_RED 0x00FF0000
+# define FLAG_GREEN 0x0000FF00
+# define FLAG_BLUE 0x000000FF
+
 # define SKYBLUE 0xFF0EC0EE
 # define BROWN 0xFF452209
 # define BLACK 0xFF000000
