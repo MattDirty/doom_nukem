@@ -14,6 +14,8 @@ void		draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color)
 	err = (delta.x > delta.y ? delta.x : -delta.y) / 2;
 	while ((int)segment.x1 != (int)segment.x2 || (int)segment.y1 != (int)segment.y2)
 	{
+		if ((int)segment.x1 < 0 || (int)segment.y1 < 0)
+			break;
 		put_pixel(surface, (int)segment.x1, (int)segment.y1, color);
 		cpyerr = err;
 		if (cpyerr > -(delta.x))

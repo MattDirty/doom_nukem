@@ -16,11 +16,15 @@ static void	draw_wall(t_env *e, int start, int end)
 {
     int y;
 
-    int color[4]; //debug
-    color[0] = 0xFF000000;
-    color[1] = 0xFFFF0000;
-    color[2] = 0xFFFFFF00;
-    color[3] = 0xFFFFFFFF;
+    int color[8]; //debug
+	color[0] = 0xFF000000;
+	color[1] = 0xFFFF0000;
+	color[2] = 0xFFFFFF00;
+	color[3] = 0xFFFFFFFF;
+	color[4] = 0xFF000000;
+	color[5] = 0xFFFF0000;
+	color[6] = 0xFFFFFF00;
+	color[7] = 0xFFFFFFFF;
 
     y = start;
 	while (y < end)
