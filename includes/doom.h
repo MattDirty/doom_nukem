@@ -118,7 +118,7 @@ typedef	struct			s_sector
 		int             wall_id; //debug
 		Uint32			seg_count;
 		SDL_Surface		*wall_text;
-		t_coords		draw_text;
+		t_i_coords		draw_text;
 }						t_sector;
 
 typedef struct          s_env
@@ -145,6 +145,7 @@ t_segment	create_segment_from_position_and_vector(
 
 t_segment	create_segment(double x1, double y1, double x2, double y2);
 t_segment	get_segment_from_vector(t_vector *vector);
+double      get_segment_length(t_segment *segment);
 void		move_segment_at(t_segment *segment, double x, double y);
 void		change_segment_length(t_segment *s, double length);
 void		print_segment(t_segment *segment, char *str);

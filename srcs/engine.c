@@ -66,7 +66,9 @@ double			check_collision(t_sector *sector, t_segment *seg)
 			{
 				smallest_distance = distance;
 				sector->wall_id = i;
-				sector->draw_text.x = inters.x / 225;
+				double distanceWall = sqrt(pow(inters.x - sector->walls[i].x1, 2) + pow(inters.y - sector->walls[i].y1, 2));
+				distanceWall = distanceWall * 225;
+				sector->draw_text.x = (int)distanceWall % 225;
 			}
 		}
 		i++;
