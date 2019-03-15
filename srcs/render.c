@@ -27,7 +27,7 @@ static void	draw_wall(t_env *e, double length, Uint32 renderer_x)
 	{
         e->sector->draw_text.y = (y - e->p->vision_height + length / 2) * 225 / length;
         color_text = get_pixel(e->sector->wall_text, e->sector->draw_text.x, e->sector->draw_text.y, t_true);
-		put_pixel(e->doom->surface, renderer_x, y, color_text);
+		put_pixel(e->doom->surface, renderer_x, y, int_to_t_color(color_text));
 		y++;
 	}
 }
@@ -41,13 +41,13 @@ static void	draw_ceil_and_floor(t_sdl *doom, Uint32 renderer_x, double vision_he
 	end = vision_height;
 	while (y < end)
 	{
-		put_pixel(doom->surface, renderer_x, y, SKYBLUE);
+		put_pixel(doom->surface, renderer_x, y, int_to_t_color(SKYBLUE));
 		y++;
 	}
 	y = vision_height;
 	while (y < WIN_H)
 	{
-		put_pixel(doom->surface, renderer_x, y, BROWN);
+		put_pixel(doom->surface, renderer_x, y, int_to_t_color(BROWN));
 		y++;
 	}
 }

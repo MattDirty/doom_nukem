@@ -16,7 +16,7 @@ void		draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color)
 	{
 		if ((int)segment.x1 < 0 || (int)segment.y1 < 0)
 			break;
-		put_pixel(surface, (int)segment.x1, (int)segment.y1, color);
+		put_pixel(surface, (int)segment.x1, (int)segment.y1, int_to_t_color(color));
 		cpyerr = err;
 		if (cpyerr > -(delta.x))
 		{
@@ -46,15 +46,15 @@ void	draw_circle(SDL_Surface *surface, t_coords center, int r, Uint32 color)
 	err = tx - (r << 1);
 	while (x >= y)
 	{
-		put_pixel(surface, center.x + x, center.y - y, color);
-		put_pixel(surface, center.x + x, center.y - y, color);
-		put_pixel(surface, center.x + x, center.y + y, color);
-		put_pixel(surface, center.x - x, center.y - y, color);
-		put_pixel(surface, center.x - x, center.y + y, color);
-		put_pixel(surface, center.x + y, center.y - x, color);
-		put_pixel(surface, center.x + y, center.y + x, color);
-		put_pixel(surface, center.x - y, center.y - x, color);
-		put_pixel(surface, center.x - y, center.y + x, color);
+		put_pixel(surface, center.x + x, center.y - y, int_to_t_color(color));
+		put_pixel(surface, center.x + x, center.y - y, int_to_t_color(color));
+		put_pixel(surface, center.x + x, center.y + y, int_to_t_color(color));
+		put_pixel(surface, center.x - x, center.y - y, int_to_t_color(color));
+		put_pixel(surface, center.x - x, center.y + y, int_to_t_color(color));
+		put_pixel(surface, center.x + y, center.y - x, int_to_t_color(color));
+		put_pixel(surface, center.x + y, center.y + x, int_to_t_color(color));
+		put_pixel(surface, center.x - y, center.y - x, int_to_t_color(color));
+		put_pixel(surface, center.x - y, center.y + x, int_to_t_color(color));
 		if (err <= 0)
 		{
 			y++;

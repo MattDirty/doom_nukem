@@ -20,6 +20,8 @@
 # define DEBUG_WALL_COLOR 0xFFFF0000
 # define DEBUG_PLAYER_COLOR 0xFF4FE4EA
 
+# define CROSSHAIR_COLOR 0xE500FF00
+
 # define WIN_W 800
 # define WIN_H 640
 # define HALF_W ((double)WIN_W / 2)
@@ -60,6 +62,14 @@ typedef struct	s_coords
 	double	x;
 	double	y;
 }				t_coords;
+
+typedef struct  s_color
+{
+    Uint8       alpha;
+    Uint8       red;
+    Uint8       green;
+    Uint8       blue;
+}               t_color;
 
 typedef struct  s_i_coords
 {
@@ -136,6 +146,12 @@ typedef struct          s_env
         t_sdl           *doom;
 }                                       t_env;
 
+void        print_t_color(t_color color);
+t_color 	int_to_t_color(Uint32 color);
+Uint32	    t_color_to_int(t_color color);
+t_color 	create_argb(Uint8 alpha, Uint8 red, Uint8 green, Uint8 blue);
+
+
 t_vector	create_vector(double x, double y);
 t_vector	get_vector_from_segment(t_segment *segment);
 void		print_vector(t_vector *vector, char *str);
@@ -171,7 +187,7 @@ void        look_up_and_down(t_player *p, const Uint8 *state);
 
 Uint32		get_pixel(SDL_Surface *s, int x, int y, enum e_bool force_alpha);
 
-void		put_pixel(SDL_Surface *s, int x, int y, Uint32 color);
+void		put_pixel(SDL_Surface *s, int x, int y, t_color color);
 void		draw_circle(SDL_Surface *surface, t_coords center, int r, Uint32 color);
 void		draw_circle_filled(SDL_Surface *surface, t_coords center, int r, Uint32 color);
 void        draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color);
@@ -180,6 +196,9 @@ void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
 
 
 void		draw(t_env *e, double ray_angle, t_collision collision, Uint32 renderer_x);
+
+void        ui_draw(t_sdl *sdl);
+void        draw_crosshair(SDL_Surface *surface, Uint32 color);
 
 t_sdl		debug_init();
 void		debug_draw_walls(SDL_Surface *surface, t_segment *s, Uint32 cnt);
