@@ -30,8 +30,8 @@ double		get_segment_length(t_segment *s)
 {
 	double	length;
 
-	length = sqrt((s->x1 - s->x2) * (s->x1 - s->x2))
-					+ (s->y1 - s->y2) * (s->y1 - s->y2);
+	length = sqrt((s->x1 - s->x2) * (s->x1 - s->x2)
+			+ (s->y1 - s->y2) * (s->y1 - s->y2));
 	return (length);
 }
 

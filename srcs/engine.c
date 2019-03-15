@@ -47,25 +47,25 @@ static double	get_dist_intersection(double x1, double y1, double x2, double y2)
 
 t_collision			check_collision(t_sector *sector, t_segment *seg)
 {
-	double		temp_distance;
 	t_collision	collision;
+	double		temp_distance;
+	Uint32		i;
 
 	collision.distance = HORIZON;
-	collision.id = 0;
-	while (collision.id < sector->seg_count)
+	i = 0;
+	while (i < sector->seg_count)
 	{
-		if (segments_intersect(seg, &sector->walls[collision.id], &collision.inters))
+		if (segments_intersect(seg, &sector->walls[i], &collision.inters))
 		{
-			temp_distance = get_dist_intersection(seg->x1, seg->y1, collision.inters.x, collision.inters.y);
+			temp_distance = get_dist_intersection(seg->x1, seg->y1,
+					collision.inters.x, collision.inters.y);
 			if (temp_distance < collision.distance)
 			{
 				collision.distance = temp_distance;
-				double distanceWall = sqrt(pow(collision.inters.x - sector->walls[collision.id].x1, 2) + pow(collision.inters.y - sector->walls[collision.id].y1, 2));
-				distanceWall = distanceWall * 225;
-				sector->draw_text.x = (int)distanceWall % 225;
+				collision.id = i;
 			}
 		}
-		collision.id++;
+		i++;
 	}
 	return (collision);
 }

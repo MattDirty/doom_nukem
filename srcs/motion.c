@@ -25,7 +25,7 @@ static void move_if_allowed(t_player *p, t_sector *sector)
     collision = check_collision(sector, &seg);
     if (collision.distance <= PLAYER_THICKNESS)
     {
-        wall_parallel = get_vector_from_segment(&sector->walls[sector->wall_id]);
+        wall_parallel = get_vector_from_segment(&sector->walls[collision.id]);
         rad = get_rad_between_vectors(&p->speed, &wall_parallel);
         rotate_vector(&p->speed, rad);
         if (rad > ft_degtorad(100))

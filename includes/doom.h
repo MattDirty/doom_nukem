@@ -27,6 +27,7 @@
 # define HALF_W ((double)WIN_W / 2)
 # define HALF_H ((double)WIN_H / 2)
 
+# define PIXEL_UNIT 225
 # define FOV 90.0
 # define HALF_FOV (FOV / 2)
 # define HORIZON 10
@@ -132,10 +133,8 @@ typedef	struct			s_sector
 {
 		t_segment		*walls;
 		double			wall_height; //debug
-		int             wall_id; //debug
 		Uint32			seg_count;
 		SDL_Surface		*wall_text;
-		t_i_coords		draw_text;
 }						t_sector;
 
 typedef struct          s_env
