@@ -12,12 +12,23 @@
 
 #include "doom.h"
 
-Uint32	get_pixel(SDL_Surface *s, int x, int y)
+Uint32	get_pixel(SDL_Surface *s, int x, int y, enum e_bool force_alpha)
 {
 	Uint32	*pix;
+	Uint8	channel[4];
+	Uint32	color;
 
 	pix = (Uint32*)s->pixels;
-	return (pix[x + y * s->w]);
+	color = pix[x + y * s->w];
+	if (force_alpha)
+		channel[0] = 255;
+	else
+		channel[0] = (color & s->format->Amask) >> s->format->Ashift << s->format->Aloss;
+	channel[1] = (color & s->format->Rmask) >> s->format->Rshift << s->format->Rloss;
+	channel[2] = (color & s->format->Gmask) >> s->format->Gshift << s->format->Gloss;
+	channel[3] = (color & s->format->Bmask) >> s->format->Bshift << s->format->Bloss;
+	color = (channel[0] << 24) + (channel[1] << 16) + (channel[2] << 8) + (channel[3]);
+	return (color);
 }
 
 void	put_pixel(SDL_Surface *s, int x, int y, Uint32 color)

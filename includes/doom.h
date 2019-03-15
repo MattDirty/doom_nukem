@@ -161,7 +161,7 @@ void		raycasting(t_env *e);
 void		move(t_player *p, t_sector *sector, const Uint8 *state);
 void        look_up_and_down(t_player *p, const Uint8 *state);
 
-Uint32		get_pixel(SDL_Surface *s, int x, int y);
+Uint32		get_pixel(SDL_Surface *s, int x, int y, enum e_bool force_alpha);
 
 void		put_pixel(SDL_Surface *s, int x, int y, Uint32 color);
 void		draw_circle(SDL_Surface *surface, t_coords center, int r, Uint32 color);
