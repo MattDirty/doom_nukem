@@ -52,12 +52,12 @@ static void	draw_ceil_and_floor(t_sdl *doom, Uint32 renderer_x, double vision_he
 	}
 }
 
-void		draw(t_env *e, double ray_angle, double distance, Uint32 renderer_x)
+void		draw(t_env *e, double ray_angle, t_collision collision, Uint32 renderer_x)
 {
 	double length;
 
-	distance *= cos(e->p->heading - ray_angle);
-	length = RATIO / distance * e->sector->wall_height;
+	collision.distance *= cos(e->p->heading - ray_angle);
+	length = RATIO / collision.distance * e->sector->wall_height;
 
 	draw_ceil_and_floor(e->doom, renderer_x, e->p->vision_height);
 	draw_wall(e, length, renderer_x);

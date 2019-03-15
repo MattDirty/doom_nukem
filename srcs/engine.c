@@ -34,47 +34,40 @@ static enum		e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *int
 	return (t_false);
 }
 
-static double	get_dist_intersection(t_coords start, t_coords inters)
+static double	get_dist_intersection(double x1, double y1, double x2, double y2)
 {
 	t_coords    delta;
 
-	delta.x = ft_dabs(start.x - inters.x);
-	delta.y = ft_dabs(start.y - inters.y);
+	delta.x = ft_dabs(x1 - x2);
+	delta.y = ft_dabs(y1 - y2);
 
 	return sqrt(delta.x * delta.x + delta.y * delta.y);
 }
 
 
-double			check_collision(t_sector *sector, t_segment *seg)
+t_collision			check_collision(t_sector *sector, t_segment *seg)
 {
-	t_coords	inters;
-	t_coords	start;
-	Uint32		i;
-	double		distance;
-	double		smallest_distance;
+	double		temp_distance;
+	t_collision	collision;
 
-	smallest_distance = HORIZON;
-	i = 0;
-	start.x = seg->x1;
-	start.y = seg->y1;
-	while (i < sector->seg_count)
+	collision.distance = HORIZON;
+	collision.id = 0;
+	while (collision.id < sector->seg_count)
 	{
-		if (segments_intersect(seg, &sector->walls[i], &inters))
+		if (segments_intersect(seg, &sector->walls[collision.id], &collision.inters))
 		{
-			distance = get_dist_intersection(start, inters);
-			if (distance < smallest_distance)
+			temp_distance = get_dist_intersection(seg->x1, seg->y1, collision.inters.x, collision.inters.y);
+			if (temp_distance < collision.distance)
 			{
-				smallest_distance = distance;
-				sector->wall_id = i;
-				double distanceWall = sqrt(pow(inters.x - sector->walls[i].x1, 2) + pow(inters.y - sector->walls[i].y1, 2));
+				collision.distance = temp_distance;
+				double distanceWall = sqrt(pow(collision.inters.x - sector->walls[collision.id].x1, 2) + pow(collision.inters.y - sector->walls[collision.id].y1, 2));
 				distanceWall = distanceWall * 225;
 				sector->draw_text.x = (int)distanceWall % 225;
 			}
 		}
-		i++;
+		collision.id++;
 	}
-
-	return (smallest_distance);
+	return (collision);
 }
 
 void			raycasting(t_env *e)

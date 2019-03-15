@@ -95,6 +95,13 @@ enum			e_bool
 	t_true = 1
 };
 
+typedef struct          s_collision
+{
+    double              distance;
+    t_coords            inters;
+    Uint32              id;
+}                       t_collision;
+
 typedef struct			s_player
 {
         t_coords	pos;
@@ -156,7 +163,7 @@ void		init_doom(t_env *e);
 
 void		loop_doom(t_env *e);
 
-double		check_collision(t_sector *sector, t_segment *seg);
+t_collision	check_collision(t_sector *sector, t_segment *seg);
 void		raycasting(t_env *e);
 
 void		move(t_player *p, t_sector *sector, const Uint8 *state);
@@ -172,7 +179,7 @@ void        draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color);
 void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
 
 
-void		draw(t_env *e, double ray_angle, double distance, Uint32 renderer_x);
+void		draw(t_env *e, double ray_angle, t_collision collision, Uint32 renderer_x);
 
 t_sdl		debug_init();
 void		debug_draw_walls(SDL_Surface *surface, t_segment *s, Uint32 cnt);
