@@ -31,26 +31,38 @@ Uint32	get_pixel(SDL_Surface *s, int x, int y, enum e_bool force_alpha)
 	return (color);
 }
 
-void	put_pixel(SDL_Surface *s, int x, int y, t_color color)
+
+void	put_pixel(SDL_Surface *s, int x, int y, Uint32 color)
+{
+    Uint32	*pix;
+
+    pix = (Uint32*)s->pixels;
+    pix[(Uint64)(x + y * s->w)] = color;
+}
+
+void	put_pixel_alpha(SDL_Surface *s, int x, int y, Uint32 color)
 {
 	Uint32	*pix;
-	Uint8	red;
-	Uint8	green;
-	Uint8	blue;
+	double	alpha;
+	Uint8	pRed;
+	Uint8	pGreen;
+	Uint8	pBlue;
 
-	if (x < 0 || y < 0 || color.alpha == 0)
+	alpha = ((color & MASK_ALPHA) >> 24) / 255.0;
+	if (x < 0 || y < 0 || alpha == 0)
 		return;
 	if (x >= s->w || y >= s->h)
 		return;
-
 	pix = (Uint32 *)s->pixels + (x + y * s->w);
-	red = (*pix & s->format->Rmask) >> s->format->Rshift << s->format->Rloss;
-	green = (*pix & s->format->Gmask) >> s->format->Gshift << s->format->Gloss;
-	blue = (*pix & s->format->Bmask) >> s->format->Bshift << s->format->Bloss;
-	color.red = (color.red * (color.alpha / 255.0)) + (red * ((255 - color.alpha) / 255));
-	color.green = (color.green * (color.alpha / 255.0)) + (green * ((255 - color.alpha) / 255));
-	color.blue = (color.blue * (color.alpha / 255.0)) + (blue * ((255 - color.alpha) / 255));
-	*pix = t_color_to_int(color);
+	pRed = (*pix & s->format->Rmask) >> s->format->Rshift << s->format->Rloss;
+	pGreen = (*pix & s->format->Gmask) >> s->format->Gshift << s->format->Gloss;
+	pBlue = (*pix & s->format->Bmask) >> s->format->Bshift << s->format->Bloss;
+	*pix = (255 << 24)
+	+ ((int)(((color & MASK_RED) >> 16) * alpha
+	+ (pRed * (1 - alpha))) << 16)
+	+ ((int)(((color & MASK_GREEN) >> 8) * alpha
+	+ (pGreen * (1 - alpha))) << 8)
+	+ (color & MASK_BLUE) * alpha + pBlue * (1 - alpha);
 }
 
 void	print_surface(SDL_Renderer *renderer, SDL_Surface *surface)

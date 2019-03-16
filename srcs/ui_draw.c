@@ -11,7 +11,8 @@ void    draw_weapon(SDL_Surface *surface, SDL_Surface *weapon)
         x = 0;
         while (x < weapon->w)
         {
-            put_pixel(surface, HALF_W - (weapon->w / 2) + x, WIN_H - weapon->h + y, int_to_t_color(get_pixel(weapon, x, y, t_false)));
+            put_pixel_alpha(surface, HALF_W - (weapon->w / 2) + x, WIN_H
+            - weapon->h + y, get_pixel(weapon, x, y, t_false));
             x++;
         }
         y++;
@@ -42,7 +43,7 @@ void    draw_crosshair(SDL_Surface *surface, Uint32 color)
     segment.x2 = HALF_W + 30 + 50;
     segment.y2 = HALF_H;
     draw_segment(surface, segment, color);
-    put_pixel(surface, HALF_W, HALF_H, int_to_t_color(color));
+    put_pixel_alpha(surface, HALF_W, HALF_H, color);
 }
 
 void    ui_draw(t_sdl *sdl, SDL_Surface *weapon)
