@@ -14,11 +14,11 @@
 
 static void move_if_allowed(t_player *p, t_sector *sector)
 {
-    t_segment   seg;
-    t_vector    wall_parallel;
+    t_segment seg;
+    t_vector wall_parallel;
     t_collision collision;
     t_collision collision2;
-    double      rad;
+    double rad;
 
     scalar_multiply(&p->speed, RUN);
     seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
@@ -32,19 +32,18 @@ static void move_if_allowed(t_player *p, t_sector *sector)
         {
             p->speed.x = -p->speed.x;
             p->speed.y = -p->speed.y;
-        }
-        else if (rad >= ft_degtorad(80))
-            return ;
+        } else if (rad >= ft_degtorad(80))
+            return;
         seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
         collision2 = check_collision(sector, &seg);
         if (collision.distance != collision2.distance && collision2.distance <= PLAYER_THICKNESS)
-            return ;
+            return;
     }
     p->pos.x += p->speed.x;
     p->pos.y += p->speed.y;
 }
 
-void		move(t_player *p, t_sector *sector, const Uint8 *state)
+void move(t_player *p, t_sector *sector, const Uint8 *state)
 {
     if (state[SDL_SCANCODE_W])
         add_vector_to_vector(&p->speed, create_vector(cos(p->heading), -sin(p->heading)));
@@ -59,7 +58,7 @@ void		move(t_player *p, t_sector *sector, const Uint8 *state)
     p->speed.y = 0;
 }
 
-void        look_up_and_down(t_player *p, const Uint8 *state)
+void look_up_and_down(t_player *p, const Uint8 *state)
 {
     if (state[SDL_SCANCODE_UP])
         p->vision_height += ROT_Y;

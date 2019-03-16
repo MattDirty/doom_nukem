@@ -1,8 +1,8 @@
 #include "doom.h"
 
-t_segment	get_segment_from_vector(t_vector *vector)
+t_segment get_segment_from_vector(t_vector *vector)
 {
-	t_segment	segment;
+    t_segment segment;
 
     segment.x1 = 0;
     segment.y1 = 0;
@@ -11,26 +11,26 @@ t_segment	get_segment_from_vector(t_vector *vector)
     return (segment);
 }
 
-void        rotate_vector(t_vector *vector, double rad)
+void rotate_vector(t_vector *vector, double rad)
 {
-    double  swap_x;
+    double swap_x;
 
     swap_x = vector->x * cos(rad) - vector->y * sin(rad);
     vector->y = vector->x * sin(rad) + vector->y * cos(rad);
     vector->x = swap_x;
 }
 
-double      dot_product(t_vector *vector1, t_vector *vector2)
+double dot_product(t_vector *vector1, t_vector *vector2)
 {
     return (vector1->x * vector2->x + vector1->y * vector2->y);
 }
 
-double      get_vector_length(t_vector *vector)
+double get_vector_length(t_vector *vector)
 {
     return (sqrt(vector->x * vector->x + vector->y * vector->y));
 }
 
-double      get_rad_between_vectors(t_vector *vector1, t_vector *vector2)
+double get_rad_between_vectors(t_vector *vector1, t_vector *vector2)
 {
     double len1;
     double len2;
@@ -40,19 +40,19 @@ double      get_rad_between_vectors(t_vector *vector1, t_vector *vector2)
     return (acos(dot_product(vector1, vector2) / (len1 * len2)));
 }
 
-void        add_vector_to_vector(t_vector *vector, t_vector vector2)
+void add_vector_to_vector(t_vector *vector, t_vector vector2)
 {
     vector->x += vector2.x;
     vector->y += vector2.y;
 }
 
-void        scalar_multiply(t_vector *vector, double scalar)
+void scalar_multiply(t_vector *vector, double scalar)
 {
-	vector->x *= scalar;
+    vector->x *= scalar;
     vector->y *= scalar;
 }
 
-t_segment	create_segment_from_position_and_vector(
+t_segment create_segment_from_position_and_vector(
         double x,
         double y,
         t_vector *v)
@@ -67,17 +67,17 @@ t_segment	create_segment_from_position_and_vector(
     return (segment);
 }
 
-void		print_vector(t_vector *vector, char *str)
+void print_vector(t_vector *vector, char *str)
 {
-	printf("%s\nx : %f y : %f \n", str, vector->x, vector->y);
+    printf("%s\nx : %f y : %f \n", str, vector->x, vector->y);
 }
 
-t_vector	create_vector(double x, double y)
+t_vector create_vector(double x, double y)
 {
-	t_vector	new_vector;
+    t_vector new_vector;
 
-	new_vector.x = x;
-	new_vector.y = y;
-	return (new_vector);
+    new_vector.x = x;
+    new_vector.y = y;
+    return (new_vector);
 }
 
