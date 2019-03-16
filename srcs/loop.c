@@ -49,7 +49,8 @@ void		loop_doom(t_env *e)
 	while (42)
 	{
 		clock_gettime(CLOCK_MONOTONIC_RAW, &start);
-		debug_draw(&e->debug, e->sector->walls, e->sector->seg_count, e->p);
+		if (e->debug_mode)
+			debug_draw(&e->debug, e->sector->walls, e->sector->seg_count, e->p);
         raycasting(e);
         ui_draw(e->doom, e->p->weapon);
         print_surface(e->doom->renderer, e->doom->surface);

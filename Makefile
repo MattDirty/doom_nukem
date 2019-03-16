@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all, extract, run, norm, git, clean, fclean, re
+.PHONY: all, extract, run, debug, norm, git, clean, fclean, re
 
 NAME = doom-nukem
 
@@ -95,6 +95,9 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 
 run: all
 	./$(NAME)
+
+debug: all
+	./$(NAME) debug
 
 norm:
 	norminette $(SRCS) $(INCL)

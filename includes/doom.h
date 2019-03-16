@@ -142,6 +142,7 @@ typedef	struct			s_sector
 typedef struct          s_env
 {
 		t_sdl			debug;
+		enum e_bool     debug_mode;
         t_player        *p;
         t_sector		*sector;
         t_sdl           *doom;
