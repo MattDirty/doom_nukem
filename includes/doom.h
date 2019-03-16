@@ -20,7 +20,7 @@
 # define DEBUG_WALL_COLOR 0xFFFF0000
 # define DEBUG_PLAYER_COLOR 0xFF4FE4EA
 
-# define CROSSHAIR_COLOR 0xE500FF00
+# define CROSSHAIR_COLOR 0xE400FF00
 
 # define WIN_W 800
 # define WIN_H 640
@@ -119,6 +119,7 @@ typedef struct			s_player
         double		heading;
         double		vision_height;
         t_vector    speed;
+        SDL_Surface *weapon;
 }						t_player;
 
 typedef struct			s_sdl
@@ -196,7 +197,7 @@ void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
 
 void		draw(t_env *e, double ray_angle, t_collision collision, Uint32 renderer_x);
 
-void        ui_draw(t_sdl *sdl);
+void        ui_draw(t_sdl *sdl, SDL_Surface *weapon);
 void        draw_crosshair(SDL_Surface *surface, Uint32 color);
 
 t_sdl		debug_init();

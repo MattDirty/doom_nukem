@@ -28,7 +28,7 @@ SRC_NAME =	main.c \
 			debug_init.c \
 			debug_draw_tools.c \
 			draw_tools.c \
-			ui.c \
+			ui_draw.c \
 			color.c
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))

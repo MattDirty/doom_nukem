@@ -41,6 +41,7 @@ static void	init_player(t_player *p)
 	p->pos.x = 3;
 	p->speed.x = 0;
 	p->speed.y = 0;
+	p->weapon = SDL_LoadBMP("dwa.bmp");
 }
 
 void		init_doom(t_env *e)
