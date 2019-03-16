@@ -40,6 +40,9 @@ void	put_pixel(SDL_Surface *s, int x, int y, t_color color)
 
 	if (x < 0 || y < 0 || color.alpha == 0)
 		return;
+	if (x >= s->w || y >= s->h)
+		return;
+
 	pix = (Uint32 *)s->pixels + (x + y * s->w);
 	red = (*pix & s->format->Rmask) >> s->format->Rshift << s->format->Rloss;
 	green = (*pix & s->format->Gmask) >> s->format->Gshift << s->format->Gloss;
