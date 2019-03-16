@@ -4,6 +4,7 @@
 # include "SDL.h"
 # include "libft.h"
 
+# include <time.h>
 # include <stdio.h>
 # include <math.h>
 # include <stdlib.h>
@@ -30,7 +31,7 @@
 # define PIXEL_UNIT 225
 # define FOV 90.0
 # define HALF_FOV (FOV / 2)
-# define HORIZON 10
+# define HORIZON 25
 # define TAN_HALF_FOV (tan(ft_degtorad(HALF_FOV)))
 # define RATIO (HALF_W / TAN_HALF_FOV)
 
@@ -144,7 +145,7 @@ typedef struct          s_env
         t_player        *p;
         t_sector		*sector;
         t_sdl           *doom;
-}                                       t_env;
+}                       t_env;
 
 void        print_t_color(t_color color);
 t_color 	int_to_t_color(Uint32 color);
@@ -205,5 +206,7 @@ void		debug_draw_walls(SDL_Surface *surface, t_segment *s, Uint32 cnt);
 void		debug_draw_grid(SDL_Surface *surface);
 void		debug_draw_player(SDL_Surface *surface, t_player *p);
 void		debug_draw(t_sdl *debug, t_segment *s, Uint32 s_cnt, t_player *p);
+
+Uint64     ms_since_last_frame(int last_frame);
 
 #endif

@@ -50,17 +50,20 @@ t_collision			check_collision(t_sector *sector, t_segment *seg)
 	t_collision	collision;
 	double		temp_distance;
 	Uint32		i;
+	t_coords	inters;
 
 	collision.distance = HORIZON;
 	i = 0;
 	while (i < sector->seg_count)
 	{
-		if (segments_intersect(seg, &sector->walls[i], &collision.inters))
+		if (segments_intersect(seg, &sector->walls[i], &inters))
 		{
 			temp_distance = get_dist_intersection(seg->x1, seg->y1,
-					collision.inters.x, collision.inters.y);
+					inters.x, inters.y);
 			if (temp_distance < collision.distance)
 			{
+				collision.inters.x = inters.x;
+				collision.inters.y = inters.y;
 				collision.distance = temp_distance;
 				collision.id = i;
 			}
