@@ -45,11 +45,11 @@ void loop_doom(t_env *e)
     const Uint8 *state;
     struct timespec start;
     struct timespec end;
-    double ms_since_update;
+    double ms_since_frame;
     double ms_since_move;
 
     state = SDL_GetKeyboardState(NULL);
-    ms_since_update = 1000;
+    ms_since_frame = 1000;
     ms_since_move = 0;
     while (42)
     {
@@ -57,17 +57,17 @@ void loop_doom(t_env *e)
         loop_events(e, state, ms_since_move);
         move(e->p, e->sector, state, ms_since_move);
         look_up_and_down(e->p, state, ms_since_move);
-        if (ms_since_update >= 1000.0 / FPS_MAX)
+        if (ms_since_frame >= 1000.0 / FPS_MAX)
         {
             if (e->debug_mode)
                 debug_draw(&e->debug, e->sector->walls, e->sector->seg_count, e->p);
             raycasting(e);
             ui_draw(e->doom, e->p->weapon);
             print_surface(e->doom->renderer, e->doom->surface);
-            ms_since_update = 0;
+            ms_since_frame = 0;
         }
         clock_gettime(CLOCK_MONOTONIC_RAW, &end);
         ms_since_move = delta_ms(start, end);
-        ms_since_update += delta_ms(start, end);
+        ms_since_frame += delta_ms(start, end);
     }
 }
