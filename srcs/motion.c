@@ -12,13 +12,16 @@
 
 #include "doom.h"
 
-static void move_if_allowed(t_player *p, t_sector *sector, double time)
+static void move_if_allowed(t_player *p, t_map *map, double time)
 {
     t_segment seg;
     t_vector wall_parallel;
     t_collision collision;
     t_collision collision2;
-    double rad;
+    double      rad;
+    t_sector *sector;
+
+    sector = &map->sectors->items[0];
 
     scalar_multiply(&p->speed, RUN * time);
     seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
@@ -26,7 +29,7 @@ static void move_if_allowed(t_player *p, t_sector *sector, double time)
     collision = check_collision(sector, &seg);
     if (collision.distance <= PLAYER_THICKNESS)
     {
-        wall_parallel = get_vector_from_segment(&sector->walls[collision.id]);
+        wall_parallel = get_vector_from_segment(&collision.wall->segment);
         rad = get_rad_between_vectors(&p->speed, &wall_parallel);
         rotate_vector(&p->speed, rad);
         if (rad > ft_degtorad(100))
@@ -46,7 +49,7 @@ static void move_if_allowed(t_player *p, t_sector *sector, double time)
     p->pos.y += p->speed.y;
 }
 
-void move(t_player *p, t_sector *sector, const Uint8 *state, double time)
+void		move(t_player *p, t_map* map, const Uint8 *state, double time)
 {
     if (state[SDL_SCANCODE_W])
         add_vector_to_vector(&p->speed, create_vector(cos(p->heading), -sin(p->heading)));
@@ -56,7 +59,7 @@ void move(t_player *p, t_sector *sector, const Uint8 *state, double time)
         add_vector_to_vector(&p->speed, create_vector(cos(p->heading - ROT_90), -sin(p->heading - ROT_90)));
     if (state[SDL_SCANCODE_D])
         add_vector_to_vector(&p->speed, create_vector(-cos(p->heading - ROT_90), sin(p->heading - ROT_90)));
-    move_if_allowed(p, sector, time);
+    move_if_allowed(p, map, time);
     p->speed.x = 0;
     p->speed.y = 0;
 }

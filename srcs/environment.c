@@ -20,17 +20,30 @@ void        error_doom(char *err)
 
 int         quit_doom(t_env *e)
 {
-    SDL_FreeSurface(e->doom->surface);
-    SDL_DestroyTexture(e->doom->texture);
-    SDL_DestroyRenderer(e->doom->renderer);
-    SDL_DestroyWindow(e->doom->window);
-    SDL_Quit();
-    free(e->p);
-    free(e->sector);
-    free(e->doom);
-    free(e);
-    exit(EXIT_SUCCESS);
-    return (0);
+	// int i;
+	// t_segment s;
+
+	SDL_FreeSurface(e->doom->surface);
+	SDL_DestroyTexture(e->doom->texture);
+	SDL_DestroyRenderer(e->doom->renderer);
+	SDL_DestroyWindow(e->doom->window);
+	SDL_Quit();
+
+	// i = 0;
+	// while (i < map->sectors.count)
+	// {
+		// s = map->sectors->items[i];
+		// free(s.walls->items);
+		// i++;
+	// }
+	// free(map->sectors->items);
+	// free(map);
+
+	free(e->p);
+	free(e->doom);
+	free(e);
+	exit(EXIT_SUCCESS);
+	return (0);
 }
 
 static void init_player(t_player *p)

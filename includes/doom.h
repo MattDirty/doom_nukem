@@ -109,13 +109,6 @@ enum			e_bool
 	t_true = 1
 };
 
-typedef struct          s_collision
-{
-    double              distance;
-    t_coords            inters;
-    Uint32              id;
-}                       t_collision;
-
 typedef struct			s_player
 {
         t_coords	pos;
@@ -133,20 +126,47 @@ typedef struct			s_sdl
 	SDL_Surface			*surface;
 }						t_sdl;
 
+typedef struct			s_wall
+{
+	t_segment			segment;
+	double				height; //debug
+	SDL_Surface			*texture;
+}						t_wall;
+
+typedef struct          s_collision
+{
+	double              distance;
+	t_coords            inters;
+	t_wall				*wall;
+}                       t_collision;
+
+typedef struct			s_walls
+{
+	int					count;
+	t_wall				 *items;
+}						t_walls;
+
 typedef	struct			s_sector
 {
-		t_segment		*walls;
-		double			wall_height; //debug
-		Uint32			seg_count;
-		SDL_Surface		*wall_text;
+		t_walls			*walls;
 }						t_sector;
+
+typedef struct			s_sectors
+{
+	int					count;
+	t_sector			 *items;
+}						t_sectors;
+
+typedef struct			s_map
+{
+	t_sectors			*sectors;
+}						t_map;
 
 typedef struct          s_env
 {
 		t_sdl			debug;
 		enum e_bool     debug_mode;
         t_player        *p;
-        t_sector		*sector;
         t_sdl           *doom;
 }                       t_env;
 
@@ -181,12 +201,12 @@ void		error_doom(char *err);
 int			quit_doom(t_env *e);
 void		init_doom(t_env *e);
 
-void		loop_doom(t_env *e);
+void		loop_doom(t_env *e, t_map *map);
 
 t_collision	check_collision(t_sector *sector, t_segment *seg);
-void		raycasting(t_env *e);
+void		raycasting(t_env *e, t_map *map);
 
-void		move(t_player *p, t_sector *sector, const Uint8 *state, double time);
+void		move(t_player *p, t_map* map, const Uint8 *state, double time);
 void        look_up_and_down(t_player *p, const Uint8 *state, double time);
 
 Uint32		get_pixel(SDL_Surface *s, int x, int y, enum e_bool force_alpha);
@@ -207,10 +227,10 @@ void        ui_draw(t_sdl *sdl, SDL_Surface *weapon);
 void        draw_crosshair(SDL_Surface *surface, Uint32 color);
 
 t_sdl		debug_init();
-void		debug_draw_walls(SDL_Surface *surface, t_segment *s, Uint32 cnt);
+void		debug_draw_walls(SDL_Surface *surface, t_walls *walls);
 void		debug_draw_grid(SDL_Surface *surface);
 void		debug_draw_player(SDL_Surface *surface, t_player *p);
-void		debug_draw(t_sdl *debug, t_segment *s, Uint32 s_cnt, t_player *p);
+void		debug_draw(t_sdl *debug, t_map *map, t_player *p);
 
 double      delta_ms(struct timespec start, struct timespec end);
 

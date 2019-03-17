@@ -10,9 +10,10 @@
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all, extract, run, debug, norm, git, clean, fclean, re
+.PHONY: all, extract, run, debug, editor, norm, git, clean, fclean, re
 
 NAME = doom-nukem
+EDITOR_NAME = editor
 
 SRC_PATH = srcs
 
@@ -31,14 +32,18 @@ SRC_NAME =	main.c \
 			ui_draw.c \
 			color.c \
 			time.c
+SRC_EDITOR_NAME = editor.c
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
+SRCS_EDITOR = $(addprefix $(SRC_PATH)/,$(SRC_EDITOR_NAME))
 
 OBJ_PATH = objs
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
+EDITOR_NAME_OBJ = $(SRC_EDITOR_NAME:.c=.o)
 
 OBJS = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
+EDITOR_OBJS = $(addprefix $(OBJ_PATH)/,$(EDITOR_NAME_OBJ))
 
 INCL_PATH = includes
 
@@ -83,11 +88,12 @@ endif
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(EDITOR_OBJS)
 	if [ ! -d $(SDL_NAME) ]; then $(EXTRACT); fi
 	if [ ! -d $(SDL_NAME)/build ]; then $(CONFIGURE_SDL); fi
 	$(MAKE) -j -C libft
 	$(CC) $(OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
+	$(CC) $(EDITOR_OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $(EDITOR_NAME)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 	mkdir $(OBJ_PATH) 2> /dev/null || true
@@ -95,6 +101,9 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 
 run: all
 	./$(NAME)
+
+editor: all
+	./$(EDITOR_NAME)
 
 debug: all
 	./$(NAME) debug
@@ -109,10 +118,12 @@ git: fclean
 
 clean:
 	$(RM) $(OBJS)
+	$(RM) $(EDITOR_OBJS)
 	rmdir $(OBJ_PATH) 2> /dev/null || true
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RM) $(EDITOR_NAME)
 	$(MAKE) -C libft fclean
 	$(RM) $(SDL_NAME)
 
