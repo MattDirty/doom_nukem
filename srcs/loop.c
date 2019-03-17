@@ -31,16 +31,16 @@ static void loop_events(t_env *e, const Uint8 *state, double time)
             e->p->heading -= ROT_X * time;
         if (state[SDL_SCANCODE_RIGHT])
             e->p->heading += ROT_X * time;
-        if (state[SDL_SCANCODE_O])
-            e->sector->wall_height -= 0.01;
-        if (state[SDL_SCANCODE_P])
-            e->sector->wall_height += 0.01;
-        e->sector->wall_height > HALF_H ? e->sector->wall_height = HALF_H : 0;
-        e->sector->wall_height < 0 ? e->sector->wall_height = 0 : 0;
+//        if (state[SDL_SCANCODE_O])
+//            e->sector->wall_height -= 0.01;
+//        if (state[SDL_SCANCODE_P])
+//            e->sector->wall_height += 0.01;
+//        e->sector->wall_height > HALF_H ? e->sector->wall_height = HALF_H : 0;
+//        e->sector->wall_height < 0 ? e->sector->wall_height = 0 : 0;
     }
 }
 
-void loop_doom(t_env *e)
+void		loop_doom(t_env *e, t_map *map)
 {
     const Uint8 *state;
     struct timespec start;
@@ -55,13 +55,13 @@ void loop_doom(t_env *e)
     {
         clock_gettime(CLOCK_MONOTONIC_RAW, &start);
         loop_events(e, state, ms_since_move);
-        move(e->p, e->sector, state, ms_since_move);
+        move(e->p, map, state, ms_since_move);
         look_up_and_down(e->p, state, ms_since_move);
         if (ms_since_frame >= 1000.0 / FPS_MAX)
         {
             if (e->debug_mode)
-                debug_draw(&e->debug, e->sector->walls, e->sector->seg_count, e->p);
-            raycasting(e);
+                debug_draw(&e->debug, map, e->p);
+            raycasting(e, map);
             ui_draw(e->doom, e->p->weapon);
             print_surface(e->doom->renderer, e->doom->surface);
             ms_since_frame = 0;

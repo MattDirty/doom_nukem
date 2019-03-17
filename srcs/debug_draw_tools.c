@@ -58,19 +58,21 @@ void debug_draw_grid(SDL_Surface *surface)
                  to_draw, ABS_ORD_COLOR);
 }
 
-void debug_draw_walls(SDL_Surface *surface, t_segment *s, Uint32 cnt)
+void		debug_draw_walls(SDL_Surface *surface, t_walls *walls)
 {
-    Uint32 i;
-    t_segment s2;
+	int	i;
+	t_segment s2;
+	t_segment s;
 
-    i = 0;
-    while (i < cnt)
-    {
-        s2.x1 = DEBUG_W_H + s[i].x1 * DEBUG_ZOOM;
-        s2.y1 = DEBUG_H_H - s[i].y1 * DEBUG_ZOOM;
-        s2.x2 = DEBUG_W_H + s[i].x2 * DEBUG_ZOOM;
-        s2.y2 = DEBUG_H_H - s[i].y2 * DEBUG_ZOOM;
-        draw_segment(surface, s2, DEBUG_WALL_COLOR);
-        i++;
-    }
+	i = 0;
+	while (i < walls->count)
+	{
+		s = walls->items[i].segment;
+		s2.x1 = DEBUG_W_H + s.x1 * DEBUG_ZOOM;
+		s2.y1 = DEBUG_H_H - s.y1 * DEBUG_ZOOM;
+		s2.x2 = DEBUG_W_H + s.x2 * DEBUG_ZOOM;
+		s2.y2 = DEBUG_H_H - s.y2 * DEBUG_ZOOM;
+		draw_segment(surface, s2, DEBUG_WALL_COLOR);
+		i++;
+	}
 }

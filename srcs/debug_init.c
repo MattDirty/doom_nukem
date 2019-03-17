@@ -1,15 +1,23 @@
 #include "doom.h"
 
-void debug_draw(t_sdl *debug, t_segment *s, Uint32 s_cnt, t_player *p)
+void		debug_draw(t_sdl *debug, t_map *map, t_player *p)
 {
-    SDL_SetRenderDrawColor(debug->renderer, 0, 0, 0, 255);
-    SDL_RenderClear(debug->renderer);
-    ft_bzero(debug->surface->pixels, debug->surface->w * debug->surface->h * 4);
-    debug_draw_grid(debug->surface);
-    debug_draw_walls(debug->surface, s, s_cnt);
-    debug_draw_player(debug->surface, p);
-    print_surface(debug->renderer, debug->surface);
-    SDL_RenderPresent(debug->renderer);
+    int i;
+
+	SDL_SetRenderDrawColor(debug->renderer, 0, 0, 0, 255);
+	SDL_RenderClear(debug->renderer);
+	ft_bzero(debug->surface->pixels, debug->surface->w * debug->surface->h * 4);
+	debug_draw_grid(debug->surface);
+
+	i = 0;
+	while (i < map->sectors->count)
+	{
+		debug_draw_walls(debug->surface, map->sectors->items[i].walls);
+		i++;
+	}
+	debug_draw_player(debug->surface, p);
+	print_surface(debug->renderer, debug->surface);
+	SDL_RenderPresent(debug->renderer);
 }
 
 t_sdl debug_init()

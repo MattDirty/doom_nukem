@@ -48,38 +48,41 @@ static double get_dist_intersection(double x1, double y1, double x2, double y2)
 
 t_collision check_collision(t_sector *sector, t_segment *seg)
 {
-    t_collision collision;
-    double temp_distance;
-    Uint32 i;
-    t_coords inters;
+	t_collision	collision;
+	double		temp_distance;
+	int		    i;
+	t_coords	inters;
 
-    collision.distance = HORIZON;
-    i = 0;
-    while (i < sector->seg_count)
-    {
-        if (segments_intersect(seg, &sector->walls[i], &inters))
-        {
-            temp_distance = get_dist_intersection(seg->x1, seg->y1,
-                                                  inters.x, inters.y);
-            if (temp_distance < collision.distance)
-            {
-                collision.inters.x = inters.x;
-                collision.inters.y = inters.y;
-                collision.distance = temp_distance;
-                collision.id = i;
-            }
-        }
-        i++;
-    }
-    return (collision);
+	collision.distance = HORIZON;
+	i = 0;
+	while (i < sector->walls->count)
+	{
+		if (segments_intersect(seg, &sector->walls->items[i].segment, &inters))
+		{
+			temp_distance = get_dist_intersection(seg->x1, seg->y1,
+					inters.x, inters.y);
+			if (temp_distance < collision.distance)
+			{
+				collision.inters.x = inters.x;
+				collision.inters.y = inters.y;
+				collision.distance = temp_distance;
+				collision.wall = &sector->walls->items[i];
+			}
+		}
+		i++;
+	}
+	return (collision);
 }
 
-void raycasting(t_env *e)
+void			raycasting(t_env *e, t_map *map)
 {
-    t_vector ray_vect;
-    t_segment ray_seg;
-    double ray_angle;
-    Uint32 renderer_x;
+	t_vector	ray_vect;
+	t_segment	ray_seg;
+	double		ray_angle;
+    Uint32      renderer_x;
+    t_sector sector;
+
+    sector = map->sectors->items[0];
 
     renderer_x = 0;
     while (renderer_x < WIN_W)
@@ -91,13 +94,13 @@ void raycasting(t_env *e)
         while (ray_angle < 0)
             ray_angle += CIRCLE;
 
-        ray_vect = create_vector(cos(ray_angle), -sin(ray_angle));
-        scalar_multiply(&ray_vect, HORIZON);
-        ray_seg = create_segment_from_position_and_vector(
-                e->p->pos.x,
-                e->p->pos.y,
-                &ray_vect);
-        draw(e, ray_angle, check_collision(e->sector, &ray_seg), renderer_x);
-        renderer_x++;
-    }
+		ray_vect = create_vector(cos(ray_angle), -sin(ray_angle));
+		scalar_multiply(&ray_vect, HORIZON);
+		ray_seg = create_segment_from_position_and_vector(
+				e->p->pos.x,
+				e->p->pos.y,
+				&ray_vect);
+		draw(e, ray_angle, check_collision(&sector, &ray_seg), renderer_x);
+		renderer_x++;
+	}
 }
