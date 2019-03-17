@@ -23,6 +23,8 @@
 
 # define CROSSHAIR_COLOR 0xE400FF00
 
+# define FPS_MAX 60
+
 # define WIN_W 800
 # define WIN_H 640
 # define HALF_W ((double)WIN_W / 2)
@@ -52,12 +54,12 @@
 # define CIRCLE (ft_degtorad(360))
 
 # define ROT_90 NORTH
-# define RUN 0.1
+# define RUN 0.001
 
 # define PLAYER_THICKNESS 0.25
-# define ROT_X (ft_degtorad(5))
-# define ROT_Y 10
-# define MOUSE_SENSI 0.01
+# define ROT_X (ft_degtorad(1))
+# define ROT_Y 1
+# define MOUSE_SENSI 0.000001
 
 typedef struct	s_coords
 {
@@ -184,8 +186,8 @@ void		loop_doom(t_env *e);
 t_collision	check_collision(t_sector *sector, t_segment *seg);
 void		raycasting(t_env *e);
 
-void		move(t_player *p, t_sector *sector, const Uint8 *state);
-void        look_up_and_down(t_player *p, const Uint8 *state);
+void		move(t_player *p, t_sector *sector, const Uint8 *state, double time);
+void        look_up_and_down(t_player *p, const Uint8 *state, double time);
 
 Uint32		get_pixel(SDL_Surface *s, int x, int y, enum e_bool force_alpha);
 
@@ -210,6 +212,6 @@ void		debug_draw_grid(SDL_Surface *surface);
 void		debug_draw_player(SDL_Surface *surface, t_player *p);
 void		debug_draw(t_sdl *debug, t_segment *s, Uint32 s_cnt, t_player *p);
 
-Uint64     ms_since_last_frame(int last_frame);
+double      delta_ms(struct timespec start, struct timespec end);
 
 #endif

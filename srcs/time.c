@@ -1,9 +1,7 @@
 #include "doom.h"
 
-Uint64     ms_since_last_frame(int last_frame)
+double delta_ms(struct timespec start, struct timespec end)
 {
-    struct timespec current_time;
-
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &current_time);
-    return (current_time.tv_nsec / 1000000 - last_frame);
+    return (((end.tv_sec - start.tv_sec) * 1e+9
+           + (end.tv_nsec - start.tv_nsec)) * 1e-6);
 }
