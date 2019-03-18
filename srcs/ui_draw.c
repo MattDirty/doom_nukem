@@ -1,24 +1,5 @@
 #include "doom.h"
 
-void    draw_weapon(SDL_Surface *surface, SDL_Surface *weapon)
-{
-    int x;
-    int y;
-
-    y = 0;
-    while (y < weapon->h)
-    {
-        x = 0;
-        while (x < weapon->w)
-        {
-            put_pixel_alpha(surface, HALF_W - (weapon->w / 2) + x, WIN_H
-            - weapon->h + y, get_pixel(weapon, x, y, t_false));
-            x++;
-        }
-        y++;
-    }
-}
-
 void    draw_crosshair(SDL_Surface *surface, Uint32 color)
 {
     t_segment   segment;
@@ -46,8 +27,7 @@ void    draw_crosshair(SDL_Surface *surface, Uint32 color)
     put_pixel_alpha(surface, HALF_W, HALF_H, color);
 }
 
-void    ui_draw(t_sdl *sdl, SDL_Surface *weapon)
+void    ui_draw(t_sdl *sdl)
 {
     draw_crosshair(sdl->surface, CROSSHAIR_COLOR);
-    draw_weapon(sdl->surface, weapon);
 }

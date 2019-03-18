@@ -62,13 +62,13 @@ void		loop_doom(t_env *e, t_map *map)
             if (e->debug_mode)
                 debug_draw(&e->debug, map, e->p);
             raycasting(e, map);
-            ui_draw(e->doom, e->p->weapons.list[e->p->weapons.current].sprite);
+            draw_weapon(e->doom->surface, e->p->weapons.list[e->p->weapons.current].sprite);
+            ui_draw(e->doom);
             print_surface(e->doom->renderer, e->doom->surface);
             ms_since_frame = 0;
         }
         clock_gettime(CLOCK_MONOTONIC_RAW, &end);
         ms_since_move = delta_ms(start, end);
         ms_since_frame += delta_ms(start, end);
-        printf("%f ms\n", ms_since_frame);
     }
 }

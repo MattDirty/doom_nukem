@@ -144,7 +144,7 @@ void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
 
 void		draw(t_env *e, double ray_angle, t_collision collision, Uint32 renderer_x);
 
-void        ui_draw(t_sdl *sdl, SDL_Surface *weapon);
+void        ui_draw(t_sdl *sdl);
 void        draw_crosshair(SDL_Surface *surface, Uint32 color);
 
 t_sdl		debug_init();

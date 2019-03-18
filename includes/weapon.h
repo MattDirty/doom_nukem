@@ -20,5 +20,6 @@ typedef struct  s_weapons
 }               t_weapons;
 
 t_weapons   allocate_weapons();
+void        draw_weapon(SDL_Surface *Surface, SDL_Surface *weapon);
 
 #endif

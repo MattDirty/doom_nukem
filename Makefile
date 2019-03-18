@@ -32,7 +32,8 @@ SRC_NAME =	main.c \
 			draw_tools.c \
 			ui_draw.c \
 			time.c \
-			weapons.c
+			weapons.c \
+			weapon_draw.c
 
 SRC_EDITOR_NAME = editor.c
 
