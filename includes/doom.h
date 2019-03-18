@@ -4,13 +4,18 @@
 # include "SDL.h"
 # include "libft.h"
 
+# include "e_bool.h"
+# include "utils.h"
+# include "player.h"
+# include "weapon.h"
+
 # include <time.h>
 # include <stdio.h>
 # include <math.h>
 # include <stdlib.h>
 
 # define DEBUG_W 800
-# define DEBUG_H	640
+# define DEBUG_H 640
 # define DEBUG_W_H (DEBUG_W / 2)
 # define DEBUG_H_H (DEBUG_H / 2)
 # define DEBUG_GRID_STEP 40
@@ -25,8 +30,8 @@
 
 # define FPS_MAX 60
 
-# define WIN_W 800
-# define WIN_H 640
+# define WIN_W 1600
+# define WIN_H 1280
 # define HALF_W ((double)WIN_W / 2)
 # define HALF_H ((double)WIN_H / 2)
 
@@ -57,66 +62,9 @@
 # define RUN 0.001
 
 # define PLAYER_THICKNESS 0.25
-# define ROT_X (ft_degtorad(1))
+# define ROT_X 0.0005
 # define ROT_Y 1
 # define MOUSE_SENSI 0.000001
-
-typedef struct	s_coords
-{
-	double	x;
-	double	y;
-}				t_coords;
-
-typedef struct  s_color
-{
-    Uint8       alpha;
-    Uint8       red;
-    Uint8       green;
-    Uint8       blue;
-}               t_color;
-
-typedef struct  s_i_coords
-{
-    int     x;
-    int     y;
-}               t_i_coords;
-
-typedef struct	s_segment
-{
-	double	x1;
-	double	y1;
-	double	x2;
-	double	y2;
-}				t_segment;
-
-typedef struct	s_i_segment
-{
-	int	x1;
-	int	y1;
-	int	x2;
-	int	y2;
-}				t_i_segment;
-
-typedef struct	s_vector
-{
-    double x;
-    double y;
-}				t_vector;
-
-enum			e_bool
-{
-	t_false = 0,
-	t_true = 1
-};
-
-typedef struct			s_player
-{
-        t_coords	pos;
-        double		heading;
-        double		vision_height;
-        t_vector    speed;
-        SDL_Surface *weapon;
-}						t_player;
 
 typedef struct			s_sdl
 {
@@ -169,33 +117,6 @@ typedef struct          s_env
         t_player        *p;
         t_sdl           *doom;
 }                       t_env;
-
-void        print_t_color(t_color color);
-t_color 	int_to_t_color(Uint32 color);
-Uint32	    t_color_to_int(t_color color);
-t_color 	create_argb(Uint8 alpha, Uint8 red, Uint8 green, Uint8 blue);
-
-
-t_vector	create_vector(double x, double y);
-t_vector	get_vector_from_segment(t_segment *segment);
-void		print_vector(t_vector *vector, char *str);
-void        scalar_multiply(t_vector *vector, double scalar);
-void        add_vector_to_vector(t_vector *vector, t_vector vector2);
-void        rotate_vector(t_vector *vector, double rad);
-double      dot_product(t_vector *vector1, t_vector *vector2);
-double      get_vector_length(t_vector *vector);
-double      get_rad_between_vectors(t_vector *vector1, t_vector *vector2);
-t_segment	create_segment_from_position_and_vector(
-		double x,
-		double y,
-		t_vector *v);
-
-t_segment	create_segment(double x1, double y1, double x2, double y2);
-t_segment	get_segment_from_vector(t_vector *vector);
-double      get_segment_length(t_segment *segment);
-void		move_segment_at(t_segment *segment, double x, double y);
-void		change_segment_length(t_segment *s, double length);
-void		print_segment(t_segment *segment, char *str);
 
 void		error_doom(char *err);
 int			quit_doom(t_env *e);

@@ -20,6 +20,7 @@ SRC_PATH = srcs
 SRC_NAME =	main.c \
 			vector.c \
 			segment.c \
+			player.c \
 			environment.c \
 			loop.c \
 			engine.c \
@@ -30,8 +31,9 @@ SRC_NAME =	main.c \
 			debug_draw_tools.c \
 			draw_tools.c \
 			ui_draw.c \
-			color.c \
-			time.c
+			time.c \
+			weapons.c
+
 SRC_EDITOR_NAME = editor.c
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
