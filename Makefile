@@ -31,7 +31,8 @@ SRC_NAME =	main.c \
 			draw_tools.c \
 			ui_draw.c \
 			color.c \
-			time.c
+			time.c \
+			utils.c
 SRC_EDITOR_NAME = editor.c
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))

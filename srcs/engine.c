@@ -35,17 +35,6 @@ static enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inte
     return (t_false);
 }
 
-static double get_dist_intersection(double x1, double y1, double x2, double y2)
-{
-    t_coords delta;
-
-    delta.x = ft_dabs(x1 - x2);
-    delta.y = ft_dabs(y1 - y2);
-
-    return sqrt(delta.x * delta.x + delta.y * delta.y);
-}
-
-
 t_collision check_collision(t_sector *sector, t_segment *seg)
 {
 	t_collision	collision;
@@ -59,7 +48,7 @@ t_collision check_collision(t_sector *sector, t_segment *seg)
 	{
 		if (segments_intersect(seg, &sector->walls->items[i].segment, &inters))
 		{
-			temp_distance = get_dist_intersection(seg->x1, seg->y1,
+			temp_distance = get_distance_between_points(seg->x1, seg->y1,
 					inters.x, inters.y);
 			if (temp_distance < collision.distance)
 			{

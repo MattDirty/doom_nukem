@@ -12,35 +12,28 @@
 
 #include "doom.h"
 
-static void	draw_wall(t_env *e, t_collision collision, Uint32 renderer_x)
+static void	draw_wall(t_sdl *doom, t_collision collision, Uint32 renderer_x, double vision_height)
 {
-    int			y;
-    int			end;
+    int         y;
+    int         end;
     Uint32		color_text;
-    t_segment	trunk_of_wall;
-    double		dist_to_end_of_wall;
     t_coords	draw_text;
-	double length;
-	t_wall *wall;
+	double      length;
 
-	wall = collision.wall;
-
-	length = RATIO / collision.distance * wall->height;
-
-	y = e->p->vision_height - length / 2;
-	end = e->p->vision_height + length / 2;
-	trunk_of_wall = create_segment(collision.inters.x, collision.inters.y,
-			collision.wall->segment.x1, collision.wall->segment.y1);
-
-	dist_to_end_of_wall = get_segment_length(&trunk_of_wall) * PIXEL_UNIT;
-	draw_text.x = (int)dist_to_end_of_wall % wall->texture->w;
-	y = (y < 0 ? 0 : y);
-	end = (end > WIN_H ? WIN_H : end);
+	length = RATIO / collision.distance * collision.wall->height;
+	y = vision_height - length / 2;
+    y = (y < 0 ? 0 : y);
+    end = vision_height + length / 2;
+    end = (end > WIN_H ? WIN_H : end);
+	draw_text.x = (int)(get_distance_between_points(collision.inters.x,
+	        collision.inters.y, collision.wall->segment.x1,
+	        collision.wall->segment.y1) * PIXEL_UNIT) % collision.wall->texture->w;
 	while (y < end)
 	{
-		put_pixel(e->doom->surface, renderer_x, y, color_text);
-        draw_text.y = (y - e->p->vision_height + length / 2) * wall->texture->h / length;
-        color_text = get_pixel(wall->texture, draw_text.x, draw_text.y, t_true);
+        draw_text.y = (y - vision_height + length / 2)
+                * collision.wall->texture->h / length;
+        color_text = get_pixel(collision.wall->texture, draw_text.x, draw_text.y, t_true);
+        put_pixel(doom->surface, renderer_x, y, color_text);
 		y++;
 	}
 }
@@ -74,5 +67,5 @@ void		draw(
 	collision.distance *= cos(e->p->heading - ray_angle);
 
 	draw_ceil_and_floor(e->doom, renderer_x, e->p->vision_height);
-	draw_wall(e, collision, renderer_x);
+	draw_wall(e->doom, collision, renderer_x, e->p->vision_height);
 }

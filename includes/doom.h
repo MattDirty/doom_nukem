@@ -10,7 +10,7 @@
 # include <stdlib.h>
 
 # define DEBUG_W 800
-# define DEBUG_H	640
+# define DEBUG_H 640
 # define DEBUG_W_H (DEBUG_W / 2)
 # define DEBUG_H_H (DEBUG_H / 2)
 # define DEBUG_GRID_STEP 40
@@ -57,9 +57,9 @@
 # define RUN 0.001
 
 # define PLAYER_THICKNESS 0.25
-# define ROT_X (ft_degtorad(1))
+# define ROT_X 0.1
 # define ROT_Y 1
-# define MOUSE_SENSI 0.000001
+# define MOUSE_SENSI 0.005
 
 typedef struct	s_coords
 {
@@ -175,6 +175,7 @@ t_color 	int_to_t_color(Uint32 color);
 Uint32	    t_color_to_int(t_color color);
 t_color 	create_argb(Uint8 alpha, Uint8 red, Uint8 green, Uint8 blue);
 
+double  get_distance_between_points(double x1, double y1, double x2, double y2);
 
 t_vector	create_vector(double x, double y);
 t_vector	get_vector_from_segment(t_segment *segment);

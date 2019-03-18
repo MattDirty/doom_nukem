@@ -61,7 +61,7 @@ void        init_doom(t_env *e)
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
         error_doom("error: cannot run SDL");
-    if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
+    if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, SDL_WINDOW_FULLSCREEN_DESKTOP,
                                     &e->doom->window, &e->doom->renderer) < 0)
         error_doom("error: cannot create window");
     SDL_SetWindowPosition(e->doom->window, WIN_W + 70, SDL_WINDOWPOS_CENTERED);
