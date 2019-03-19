@@ -10,6 +10,9 @@ t_weapon    load_weapon(SDL_Surface *texture)
     weapon.main = NULL;
     weapon.secondary = NULL;
     weapon.usable = t_true;
+    reset_animation(&weapon.animation);
+    weapon.main = melee_primary;
+    weapon.animation.animation_controller = melee_primary_animation;
     return (weapon);
 }
 
