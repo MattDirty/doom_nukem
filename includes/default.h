@@ -12,15 +12,16 @@
 
 # define GRID_COLOR 0xFF111111
 # define ABS_ORD_COLOR 0xFFE2EAFF
-# define DEBUG_WALL_COLOR 0xFFFF0000
+# define DEBUG_WALL_COLOR 0xFFFFFFFF
+# define DEBUG_PORTAL_COLOR 0xFFFF0000
 # define DEBUG_PLAYER_COLOR 0xFF4FE4EA
 
 # define CROSSHAIR_COLOR 0xE400FF00
 
 # define FPS_MAX 60
 
-# define WIN_W 1600
-# define WIN_H 1280
+# define WIN_W 800
+# define WIN_H 640
 # define HALF_W ((double)WIN_W / 2)
 # define HALF_H ((double)WIN_H / 2)
 
