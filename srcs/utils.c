@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "utils.h"
+#include <math.h>
 
 double  get_distance_between_points(double x1, double y1, double x2, double y2)
 {

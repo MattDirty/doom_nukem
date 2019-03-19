@@ -31,7 +31,6 @@ SRC_NAME =	main.c \
 			debug_draw_tools.c \
 			draw_tools.c \
 			ui_draw.c \
-			color.c \
 			time.c \
 			weapons.c \
 			weapon_draw.c \
