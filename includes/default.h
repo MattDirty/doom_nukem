@@ -54,6 +54,6 @@
 # define PLAYER_THICKNESS 0.25
 # define ROT_X 0.0005
 # define ROT_Y 1
-# define MOUSE_SENSI 0.000001
+# define MOUSE_SENSI 0.0001
 
 #endif
