@@ -6,7 +6,7 @@
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 01:04:26 by lfatton           #+#    #+#             */
-/*   Updated: 2019/03/08 19:18:16 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/03/19 16:17:21 by lfatton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,18 @@ void        init_doom(t_env *e)
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
         error_doom("error: cannot run SDL");
-    if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, SDL_WINDOW_FULLSCREEN_DESKTOP,
-                                    &e->doom->window, &e->doom->renderer) < 0)
-        error_doom("error: cannot create window");
+    if (e->debug_mode != t_true)
+    {
+        if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, SDL_WINDOW_FULLSCREEN_DESKTOP,
+                &e->doom->window, &e->doom->renderer) < 0)
+            error_doom("error: cannot create window");
+    }
+    else
+    {
+        if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
+                &e->doom->window, &e->doom->renderer) < 0)
+            error_doom("error: cannot create window");
+    }
     SDL_SetWindowPosition(e->doom->window, WIN_W + 70, SDL_WINDOWPOS_CENTERED);
     if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
         error_doom("error: cannot hide mouse cursor");

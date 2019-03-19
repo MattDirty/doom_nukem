@@ -78,7 +78,7 @@ ifeq ($(shell uname), Darwin)
 	CONFIGURE_SDL = cd $(SDL_NAME) && ./configure \
 	    --prefix="/Users/$(USER)/$(SDL_NAME)" && $(MAKE) -j && $(MAKE) install
 	SDL_LDFLAGS = -L/Users/$(USER)/$(SDL_NAME)/lib -lSDL2
-	SDL_CFLAGS = -I/Users/$(USER)/$(SDL_NAME/include/SDL2 -D_THREAD_SAFE
+	SDL_CFLAGS = -I/Users/$(USER)/$(SDL_NAME)/include/SDL2 -D_THREAD_SAFE
 else
 	CONFIGURE_SDL = cd $(SDL_NAME) && ./configure \
 	    && $(MAKE) -j && sudo $(MAKE) install
