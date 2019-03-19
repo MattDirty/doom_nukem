@@ -11,6 +11,12 @@
 /* ************************************************************************** */
 
 #include "doom.h"
+#include "default.h"
+#include "utils.h"
+#include "debug.h"
+#include "engine.h"
+#include "ui.h"
+#include "surface_manipulation.h"
 
 static void loop_events(t_env *e, const Uint8 *state, double time)
 {
@@ -62,7 +68,8 @@ void		loop_doom(t_env *e, t_map *map)
             if (e->debug_mode)
                 debug_draw(&e->debug, map, e->p);
             raycasting(e, map);
-            ui_draw(e->doom, e->p->weapon);
+            draw_weapon(e->doom->surface, e->p->weapons.list[e->p->weapons.current].sprite);
+            ui_draw(e->doom);
             print_surface(e->doom->renderer, e->doom->surface);
             ms_since_frame = 0;
         }

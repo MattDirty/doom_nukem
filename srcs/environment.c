@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include <stdlib.h>
 #include "doom.h"
+#include "default.h"
 
 void        error_doom(char *err)
 {
@@ -44,17 +47,6 @@ int         quit_doom(t_env *e)
 	free(e);
 	exit(EXIT_SUCCESS);
 	return (0);
-}
-
-static void init_player(t_player *p)
-{
-    p->vision_height = HALF_H;
-    p->heading = WEST;
-    p->pos.y = 2;
-    p->pos.x = 3;
-    p->speed.x = 0;
-    p->speed.y = 0;
-    p->weapon = SDL_LoadBMP("dwa.bmp");
 }
 
 void        init_doom(t_env *e)

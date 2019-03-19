@@ -1,4 +1,6 @@
-#include "doom.h"
+#include "default.h"
+#include "debug.h"
+#include "surface_manipulation.h"
 
 void debug_draw_player(SDL_Surface *surface, t_player *p)
 {

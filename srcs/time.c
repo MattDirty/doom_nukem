@@ -1,4 +1,4 @@
-#include "doom.h"
+#include <time.h>
 
 double delta_ms(struct timespec start, struct timespec end)
 {

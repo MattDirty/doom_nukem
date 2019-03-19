@@ -20,6 +20,7 @@ SRC_PATH = srcs
 SRC_NAME =	main.c \
 			vector.c \
 			segment.c \
+			player.c \
 			environment.c \
 			loop.c \
 			engine.c \
@@ -32,6 +33,8 @@ SRC_NAME =	main.c \
 			ui_draw.c \
 			color.c \
 			time.c \
+			weapons.c \
+			weapon_draw.c \
 			utils.c
 
 SRC_EDITOR_NAME = editor.c

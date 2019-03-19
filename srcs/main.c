@@ -1,4 +1,6 @@
 #include "doom.h"
+#include "map.h"
+#include "debug.h"
 
 t_map *allocate_map()
 {
@@ -89,6 +91,7 @@ int		main (int ac, char **av)
 	init_doom(e);
 
 	map = allocate_map();
+	e->p->weapons = allocate_weapons();
 
     if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
     {
