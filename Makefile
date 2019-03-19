@@ -49,11 +49,7 @@ EDITOR_NAME_OBJ = $(SRC_EDITOR_NAME:.c=.o)
 OBJS = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 EDITOR_OBJS = $(addprefix $(OBJ_PATH)/,$(EDITOR_NAME_OBJ))
 
-INCL_PATH = includes
-
-INCL_NAME = doom.h
-
-INCL = $(addprefix $(INCL_PATH)/,$(INCL_NAME))
+INCL = includes
 
 LIBFT_INCL_PATH = ./libft/includes
 
@@ -67,7 +63,7 @@ EXTRACT = tar -xzf $(SDL_NAME).tar.gz
 
 SDL_INCL_PATH = ./$(SDL_NAME)/include
 
-IFLAGS = -I $(INCL_PATH) -I $(LIBFT_INCL_PATH) -I $(SDL_INCL_PATH)
+IFLAGS = -I $(INCL) -I $(LIBFT_INCL_PATH) -I $(SDL_INCL_PATH)
 
 USER = $(shell whoami)
 
