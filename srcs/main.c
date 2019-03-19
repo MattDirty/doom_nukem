@@ -88,16 +88,13 @@ int		main (int ac, char **av)
 		error_doom("error: cannot allocate memory for struct player");
 	if (!(e->doom = (t_sdl*)malloc(sizeof(t_sdl))))
 		error_doom("error: cannot allocate memory for struct sdl");
+	if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
+		e->debug_mode = t_true;
 	init_doom(e);
-
 	map = allocate_map();
 	e->p->weapons = allocate_weapons();
-
-    if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
-    {
-        e->debug_mode = t_true;
-        e->debug = debug_init();
-    }
+	if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
+		e->debug = debug_init();
 	loop_doom(e, map);
 	return (EXIT_SUCCESS);
 }

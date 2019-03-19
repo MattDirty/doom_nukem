@@ -53,15 +53,16 @@ void        init_doom(t_env *e)
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
         error_doom("error: cannot run SDL");
-    if (e->debug_mode != t_true)
+    if (e->debug_mode == t_true)
     {
-        if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, SDL_WINDOW_FULLSCREEN_DESKTOP,
+        if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
                 &e->doom->window, &e->doom->renderer) < 0)
             error_doom("error: cannot create window");
+        printf("debug");
     }
     else
     {
-        if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
+        if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, SDL_WINDOW_FULLSCREEN_DESKTOP,
                 &e->doom->window, &e->doom->renderer) < 0)
             error_doom("error: cannot create window");
     }
