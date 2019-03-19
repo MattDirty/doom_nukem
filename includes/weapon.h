@@ -2,6 +2,7 @@
 # define DOOMNUKEM_WEAPON_H
 
 # include "e_bool.h"
+# include "SDL.h"
 
 typedef struct  s_weapon
 {

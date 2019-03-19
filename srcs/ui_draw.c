@@ -1,4 +1,7 @@
-#include "doom.h"
+#include "default.h"
+#include "ui.h"
+#include "utils.h"
+#include "surface_manipulation.h"
 
 void    draw_crosshair(SDL_Surface *surface, Uint32 color)
 {

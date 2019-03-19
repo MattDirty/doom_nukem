@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "collision.h"
 #include "doom.h"
+#include "default.h"
+#include "surface_manipulation.h"
 
 static void	draw_wall(t_env *e, t_collision collision, Uint32 renderer_x)
 {

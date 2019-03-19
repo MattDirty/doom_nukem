@@ -1,4 +1,5 @@
-#include "doom.h"
+#include "default.h"
+#include "surface_manipulation.h"
 
 void draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color)
 {

@@ -1,4 +1,6 @@
 #include "doom.h"
+#include "map.h"
+#include "debug.h"
 
 t_map *allocate_map()
 {

@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "collision.h"
+#include "player.h"
+#include "default.h"
 
 static void move_if_allowed(t_player *p, t_map *map, double time)
 {

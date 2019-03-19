@@ -1,4 +1,5 @@
-#include "doom.h"
+#include "default.h"
+#include "surface_manipulation.h"
 
 void    draw_weapon(SDL_Surface *surface, SDL_Surface *weapon)
 {

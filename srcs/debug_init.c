@@ -1,4 +1,7 @@
-#include "doom.h"
+#include "debug.h"
+#include "libft.h"
+#include "surface_manipulation.h"
+#include "default.h"
 
 void		debug_draw(t_sdl *debug, t_map *map, t_player *p)
 {

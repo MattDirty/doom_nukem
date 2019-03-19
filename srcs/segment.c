@@ -1,4 +1,6 @@
-#include "doom.h"
+#include "utils.h"
+#include <math.h>
+#include <stdio.h>
 
 void print_segment(t_segment *s, char *str)
 {

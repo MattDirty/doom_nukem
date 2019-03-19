@@ -11,6 +11,12 @@
 /* ************************************************************************** */
 
 #include "doom.h"
+#include "default.h"
+#include "utils.h"
+#include "debug.h"
+#include "engine.h"
+#include "ui.h"
+#include "surface_manipulation.h"
 
 static void loop_events(t_env *e, const Uint8 *state, double time)
 {

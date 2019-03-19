@@ -1,6 +1,8 @@
 #ifndef DOOMNUKEM_UTILS_H
 # define DOOMNUKEM_UTILS_H
 
+#include <time.h>
+
 typedef struct	s_vector
 {
     double x;
@@ -56,5 +58,6 @@ void		move_segment_at(t_segment *segment, double x, double y);
 void		change_segment_length(t_segment *s, double length);
 void		print_segment(t_segment *segment, char *str);
 
+double      delta_ms(struct timespec start, struct timespec end);
 
 #endif

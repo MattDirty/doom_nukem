@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include <stdlib.h>
 #include "doom.h"
+#include "default.h"
 
 void        error_doom(char *err)
 {

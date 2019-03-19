@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "default.h"
+#include "SDL.h"
+#include "e_bool.h"
 #include "doom.h"
 
 Uint32  get_pixel(SDL_Surface *s, int x, int y, enum e_bool force_alpha)

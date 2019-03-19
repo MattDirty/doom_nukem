@@ -1,3 +1,4 @@
+#include "weapon.h"
 #include "doom.h"
 
 t_weapon    load_weapon(SDL_Surface *texture)

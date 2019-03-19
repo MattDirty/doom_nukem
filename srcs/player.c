@@ -1,4 +1,5 @@
-#include "doom.h"
+#include "player.h"
+#include "default.h"
 
 void init_player(t_player *p)
 {

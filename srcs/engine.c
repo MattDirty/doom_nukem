@@ -10,7 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "utils.h"
+#include "e_bool.h"
+#include "libft.h"
+#include <math.h>
+#include "collision.h"
+#include "default.h"
 #include "doom.h"
+#include "engine.h"
 
 static enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inters)
 {
