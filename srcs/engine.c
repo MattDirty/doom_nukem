@@ -18,7 +18,6 @@
 #include "player.h"
 #include "default.h"
 #include "doom.h"
-#include "player.h"
 #include "engine.h"
 
 static enum e_bool segments_intersect(

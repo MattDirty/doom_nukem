@@ -5,7 +5,7 @@
 t_player init_player(t_config *op, t_sector *starting_sector)
 {
     t_player p;
-    
+
     p.vision_height = op->half_h;
     p.heading = EAST;
     p.current_sector = starting_sector;
