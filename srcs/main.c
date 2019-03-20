@@ -1,6 +1,7 @@
 #include "doom.h"
 #include "map.h"
 #include "debug.h"
+#include "config.h"
 
 t_map *allocate_map()
 {
@@ -9,6 +10,8 @@ t_map *allocate_map()
 	t_walls*	walls;
 	SDL_Surface *texture;
 	t_map		*map;
+
+    load_config();
 
 	if (!(texture = SDL_LoadBMP("brickwall.bmp")))
 		error_doom("there was an error while loading the BMP");

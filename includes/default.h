@@ -3,6 +3,8 @@
 
 #include "libft.h"
 
+# define CONFIG_PATH "config.ini"
+
 # define DEBUG_W 800
 # define DEBUG_H 640
 # define DEBUG_W_H (DEBUG_W / 2)
@@ -24,6 +26,8 @@
 # define WIN_H 640
 # define HALF_W ((double)WIN_W / 2)
 # define HALF_H ((double)WIN_H / 2)
+
+# define FULLSCREEN t_false
 
 # define PIXEL_UNIT 225
 # define FOV 90.0
