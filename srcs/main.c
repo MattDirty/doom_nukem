@@ -95,8 +95,6 @@ int		main (int ac, char **av)
 	t_env		e;
 
 	e.op = load_config();
-	if (!(e.derp = SDL_LoadBMP("wood.bmp")))
-		error_doom("cannot load floor texture");
     if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
 		e.debug_mode = t_true;
 	else
