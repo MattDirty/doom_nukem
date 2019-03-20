@@ -5,15 +5,17 @@
 
 typedef struct  s_config
 {
-    int         win_w;
-    int         win_h;
+    Uint32      win_w;
+    Uint32      win_h;
     double      half_w;
     double      half_h;
+    double      ratio;
 
     enum e_bool fullscreen;
 
     double      fov;
     double      half_fov;
+    double      tan_half_fov;
 
     int         fps_max;
 

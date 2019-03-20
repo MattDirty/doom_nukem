@@ -3,7 +3,7 @@
 #include "surface_manipulation.h"
 #include "default.h"
 
-void		debug_draw(t_sdl *debug, t_map *map, t_player *p)
+void		debug_draw(t_sdl *debug, t_map *map, t_player *p, t_config *op)
 {
     int i;
 
@@ -18,7 +18,7 @@ void		debug_draw(t_sdl *debug, t_map *map, t_player *p)
 		debug_draw_walls(debug->surface, map->sectors->items[i].walls);
 		i++;
 	}
-	debug_draw_player(debug->surface, p);
+	debug_draw_player(debug->surface, p, op);
 	print_surface(debug->renderer, debug->surface);
 	SDL_RenderPresent(debug->renderer);
 }

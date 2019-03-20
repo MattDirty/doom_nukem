@@ -23,54 +23,18 @@ void        error_doom(char *err)
 
 int         quit_doom(t_env *e)
 {
-	// int i;
-	// t_segment s;
-
-	SDL_FreeSurface(e->doom->surface);
-	SDL_DestroyTexture(e->doom->texture);
-	SDL_DestroyRenderer(e->doom->renderer);
-	SDL_DestroyWindow(e->doom->window);
+	SDL_FreeSurface(e->doom.surface);
+	SDL_DestroyTexture(e->doom.texture);
+	SDL_DestroyRenderer(e->doom.renderer);
+	SDL_DestroyWindow(e->doom.window);
 	SDL_Quit();
-
-	// i = 0;
-	// while (i < map->sectors.count)
-	// {
-		// s = map->sectors->items[i];
-		// free(s.walls->items);
-		// i++;
-	// }
-	// free(map->sectors->items);
-	// free(map);
-
-	free(e->p);
-	free(e->doom);
-	free(e);
-	exit(EXIT_SUCCESS);
+    exit(EXIT_SUCCESS);
 	return (0);
 }
 
 void        init_doom(t_env *e)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-        error_doom("error: cannot run SDL");
-    if (e->debug_mode == t_true)
-    {
-        if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
-                &e->doom->window, &e->doom->renderer) < 0)
-            error_doom("error: cannot create window");
-        printf("debug");
-    }
-    else
-    {
-        if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
-                &e->doom->window, &e->doom->renderer) < 0)
-            error_doom("error: cannot create window");
-    }
-    SDL_SetWindowPosition(e->doom->window, 30, 0);
     if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
         error_doom("error: cannot hide mouse cursor");
-    if (!(e->doom->surface = SDL_CreateRGBSurface(0, WIN_W, WIN_H,
-            32, MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
-        error_doom("error: cannot create surface");
-    init_player(e->p);
+    e->p = init_player(&e->op);
 }

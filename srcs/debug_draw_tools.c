@@ -2,7 +2,7 @@
 #include "debug.h"
 #include "surface_manipulation.h"
 
-void debug_draw_player(SDL_Surface *surface, t_player *p)
+void debug_draw_player(SDL_Surface *surface, t_player *p, t_config *op)
 {
     t_coords copy;
     t_vector v;
@@ -13,16 +13,16 @@ void debug_draw_player(SDL_Surface *surface, t_player *p)
     draw_circle_filled(surface, copy, 3, DEBUG_PLAYER_COLOR);
 
     v = create_vector(
-            cos(p->heading - ft_degtorad(HALF_FOV)),
-            sin(p->heading - ft_degtorad(HALF_FOV)));
+            cos(p->heading - ft_degtorad(op->half_fov)),
+            sin(p->heading - ft_degtorad(op->half_fov)));
     s = get_segment_from_vector(&v);
     move_segment_at(&s, copy.x, copy.y);
     change_segment_length(&s, HORIZON * DEBUG_ZOOM);
     draw_segment(surface, s, DEBUG_PLAYER_COLOR);
 
     v = create_vector(
-            cos(p->heading + ft_degtorad(HALF_FOV)),
-            sin(p->heading + ft_degtorad(HALF_FOV)));
+            cos(p->heading + ft_degtorad(op->half_fov)),
+            sin(p->heading + ft_degtorad(op->half_fov)));
     s = get_segment_from_vector(&v);
     move_segment_at(&s, copy.x, copy.y);
     change_segment_length(&s, HORIZON * DEBUG_ZOOM);
