@@ -8,8 +8,8 @@
 
 void		debug_draw_walls(SDL_Surface *surface, t_walls *walls);
 void		debug_draw_grid(SDL_Surface *surface);
-void		debug_draw_player(SDL_Surface *surface, t_player *p);
-void		debug_draw(t_sdl *debug, t_map *map, t_player *p);
+void		debug_draw_player(SDL_Surface *surface, t_player *p, t_config *op);
+void		debug_draw(t_sdl *debug, t_map *map, t_player *p, t_config *op);
 
 t_sdl		debug_init();
 
