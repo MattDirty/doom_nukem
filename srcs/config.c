@@ -27,6 +27,8 @@ t_config    load_ini(int fd)
     config.half_w = config.win_w / 2.0;
     config.half_h = config.win_h / 2.0;
     config.half_fov = config.fov / 2.0;
+    config.tan_half_fov = tan(config.half_fov);
+    config.ratio = (config.half_w / config.tan_half_fov);
     return (config);
 }
 
@@ -53,11 +55,14 @@ t_config    load_default_config()
     config.win_h = WIN_H;
     config.half_w = HALF_W;
     config.half_h = HALF_H;
+    config.ratio = RATIO;
     config.fullscreen = FULLSCREEN;
     config.fov = FOV;
     config.half_fov = HALF_FOV;
     config.fps_max = FPS_MAX;
     config.mouse_sensi = MOUSE_SENSI;
+    config.tan_half_fov = TAN_HALF_FOV;
+    config.ratio = RATIO;
     return (config);
 }
 

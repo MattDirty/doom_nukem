@@ -82,10 +82,10 @@ void			raycasting(t_env *e, t_map *map)
     sector = map->sectors->items[0];
 
     renderer_x = 0;
-    while (renderer_x < WIN_W)
+    while (renderer_x < e->op.win_w)
     {
-        ray_angle = e->p->heading + atan(
-                (renderer_x / HALF_W - 1) * TAN_HALF_FOV);
+        ray_angle = e->p.heading + atan(
+                (renderer_x / e->op.half_w - 1) * e->op.tan_half_fov);
         while (ray_angle >= CIRCLE)
             ray_angle -= CIRCLE;
         while (ray_angle < 0)
@@ -94,8 +94,8 @@ void			raycasting(t_env *e, t_map *map)
 		ray_vect = create_vector(cos(ray_angle), -sin(ray_angle));
 		scalar_multiply(&ray_vect, HORIZON);
 		ray_seg = create_segment_from_position_and_vector(
-				e->p->pos.x,
-				e->p->pos.y,
+				e->p.pos.x,
+				e->p.pos.y,
 				&ray_vect);
 		draw(e, ray_angle, check_collision(&sector, &ray_seg), renderer_x);
 		renderer_x++;

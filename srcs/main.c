@@ -2,6 +2,28 @@
 #include "map.h"
 #include "debug.h"
 #include "config.h"
+#include "default.h"
+
+t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
+{
+	t_sdl   sdl;
+
+	if (fullscreen)
+		fullscreen = SDL_WINDOW_FULLSCREEN_DESKTOP;
+	if (!(sdl.window = SDL_CreateWindow(name, 0, 0,
+										w, h, fullscreen)))
+		error_doom("Could not create window.");
+	if (!(sdl.renderer = SDL_CreateRenderer(sdl.window, -1, 0)))
+		error_doom("Could not create renderer");
+	if (!(sdl.texture = SDL_CreateTexture(sdl.renderer,
+										  SDL_PIXELFORMAT_ARGB32, SDL_TEXTUREACCESS_TARGET,
+										  w, h)))
+		error_doom("Could not create texture.");
+	if (!(sdl.surface = SDL_CreateRGBSurface(0, w, h,
+											 32, MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
+		error_doom("Could not create surface.");
+	return (sdl);
+}
 
 t_map *allocate_map()
 {
@@ -68,24 +90,22 @@ t_map *allocate_map()
 
 int		main (int ac, char **av)
 {
-	t_env		*e;
+	t_env		e;
 	t_map		*map;
 
-	(void)ac;
-	(void)av;
-	if (!(e = (t_env*)malloc(sizeof(t_env))))
-		error_doom("error: cannot allocate memory for struct env");
-	if (!(e->p = (t_player*)malloc(sizeof(t_player))))
-		error_doom("error: cannot allocate memory for struct player");
-	if (!(e->doom = (t_sdl*)malloc(sizeof(t_sdl))))
-		error_doom("error: cannot allocate memory for struct sdl");
+	e.op = load_config();
 	if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
-		e->debug_mode = t_true;
-	init_doom(e);
-	if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
-		e->debug = debug_init();
+		e.debug_mode = t_true;
+	else
+		e.debug_mode = t_false;
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+		error_doom("error: cannot run SDL");
+	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
+	init_doom(&e);
 	map = allocate_map();
-	e->p->weapons = allocate_weapons();
-	loop_doom(e, map);
+	e.p.weapons = allocate_weapons();
+	if (e.debug_mode)
+		e.debug = debug_init();
+	loop_doom(&e, map);
 	return (EXIT_SUCCESS);
 }
