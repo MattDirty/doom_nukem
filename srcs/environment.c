@@ -62,7 +62,7 @@ void        init_doom(t_env *e)
     }
     else
     {
-        if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, SDL_WINDOW_FULLSCREEN,
+        if (SDL_CreateWindowAndRenderer(WIN_W, WIN_H, 0,
                 &e->doom->window, &e->doom->renderer) < 0)
             error_doom("error: cannot create window");
     }
