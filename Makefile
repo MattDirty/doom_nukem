@@ -34,6 +34,7 @@ SRC_NAME =	main.c \
 			time.c \
 			weapons.c \
 			weapon_draw.c \
+			utils.c \
 			animation.c \
 			melee.c \
 			utils.c \
