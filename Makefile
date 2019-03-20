@@ -35,7 +35,8 @@ SRC_NAME =	main.c \
 			weapons.c \
 			weapon_draw.c \
 			utils.c \
-			config.c
+			animation.c \
+			melee.c
 
 SRC_EDITOR_NAME = editor.c
 

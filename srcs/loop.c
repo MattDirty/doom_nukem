@@ -29,14 +29,17 @@ static void loop_events(t_env *e, const Uint8 *state, double time)
         if (ev.type == SDL_MOUSEMOTION)
         {
             e->p->heading += ev.motion.xrel * MOUSE_SENSI * time;
-            e->p->vision_height -= ev.motion.yrel * time;
+            e->p->vision_height -= ev.motion.yrel * 1000 * MOUSE_SENSI * time;
             e->p->vision_height > WIN_H ? e->p->vision_height = WIN_H : 0;
-            e->p->vision_height < 0 ? e->p->vision_height = 0 : 0;
+            e->p->vision_height < 0 ? e->p->vision_height = 0 : e->p->vision_height;
         }
         if (state[SDL_SCANCODE_LEFT])
             e->p->heading -= ROT_X * time;
         if (state[SDL_SCANCODE_RIGHT])
             e->p->heading += ROT_X * time;
+        if (state[SDL_SCANCODE_SPACE])
+            e->p->weapons.list[e->p->weapons.current].main(
+                    &e->p->weapons.list[e->p->weapons.current].animation);
 //        if (state[SDL_SCANCODE_O])
 //            e->sector->wall_height -= 0.01;
 //        if (state[SDL_SCANCODE_P])
@@ -52,29 +55,32 @@ void		loop_doom(t_env *e, t_map *map)
     struct timespec start;
     struct timespec end;
     double ms_since_frame;
-    double ms_since_move;
+    double ms_since_update;
 
     state = SDL_GetKeyboardState(NULL);
     ms_since_frame = 1000;
-    ms_since_move = 0;
+    ms_since_update = 0;
     while (42)
     {
         clock_gettime(CLOCK_MONOTONIC_RAW, &start);
-        loop_events(e, state, ms_since_move);
-        move(e->p, map, state, ms_since_move);
-        look_up_and_down(e->p, state, ms_since_move);
+        loop_events(e, state, ms_since_update);
+        move(e->p, map, state, ms_since_update);
+        look_up_and_down(e->p, state, ms_since_update);
+        animate(&e->p->weapons.list[e->p->weapons.current], ms_since_update);
         if (ms_since_frame >= 1000.0 / FPS_MAX)
         {
             if (e->debug_mode)
                 debug_draw(&e->debug, map, e->p);
             raycasting(e, map);
-            draw_weapon(e->doom->surface, e->p->weapons.list[e->p->weapons.current].sprite);
+            draw_weapon(e->doom->surface,
+                    e->p->weapons.list[e->p->weapons.current].sprite,
+                    &e->p->weapons.list[e->p->weapons.current].animation);
             ui_draw(e->doom);
             print_surface(e->doom->renderer, e->doom->surface);
             ms_since_frame = 0;
         }
         clock_gettime(CLOCK_MONOTONIC_RAW, &end);
-        ms_since_move = delta_ms(start, end);
+        ms_since_update = delta_ms(start, end);
         ms_since_frame += delta_ms(start, end);
     }
 }

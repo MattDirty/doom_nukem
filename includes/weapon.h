@@ -3,11 +3,13 @@
 
 # include "e_bool.h"
 # include "SDL.h"
+# include "animation.h"
 
 typedef struct  s_weapon
 {
     SDL_Surface *sprite;
     Uint32      ammo;
+    t_animation animation;
     void        (*main)();
     void        (*secondary)();
     enum e_bool usable;
@@ -21,6 +23,8 @@ typedef struct  s_weapons
 }               t_weapons;
 
 t_weapons   allocate_weapons();
-void        draw_weapon(SDL_Surface *Surface, SDL_Surface *weapon);
-
+void        draw_weapon(SDL_Surface *Surface, SDL_Surface *weapon, t_animation *animation);
+void        animate(t_weapon *weapon, double ms_since_move);
+void        melee_primary(t_animation *a);
+void        melee_primary_animation(t_animation *a);
 #endif
