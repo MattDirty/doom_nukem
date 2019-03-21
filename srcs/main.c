@@ -42,45 +42,51 @@ t_map *allocate_map()
 	if (!(map->sectors = (t_sectors*)malloc(sizeof(t_sectors))))
 		error_doom("t_sectors");
 
-	map->sectors->count = 1;  // todo: read shit
-	if (!(map->sectors->items =
+	map->sectors->count = 2;  // todo: read shit
+    if (!(map->sectors->items =
 				(t_sector*)malloc(map->sectors->count * sizeof(t_sector))))
 		error_doom("Can't allocate sectors");
 
-	i = 0;
+    i = 0;
 	while (i < map->sectors->count)
 	{
-		if (!(map->sectors->items->walls = (t_walls*)malloc(sizeof(t_walls))))
+        if (!(map->sectors->items[i].walls = (t_walls*)malloc(sizeof(t_walls))))
 			error_doom("t_sectors");
-
 		walls = map->sectors->items[i].walls;
 
-		walls->count = 10;  // todo: read shit
-		if (!(walls->items = (t_wall*)malloc(walls->count * sizeof(t_wall))))
+		walls->count = 4;  // todo: read shit
+
+        if (!(walls->items = (t_wall*)malloc(walls->count * sizeof(t_wall))))
 			error_doom("Can't allocate walls");
 
-		walls->items[0].segment = create_segment(0, 0, 5, 1);
-		walls->items[1].segment = create_segment(5, 1, 4, 3);
-		walls->items[2].segment = create_segment(4, 3, 5, 6);
-		walls->items[3].segment = create_segment(5, 6, 8, 8);
-		walls->items[4].segment = create_segment(8, 8, 9, 15);
-		walls->items[5].segment = create_segment(9, 15, 3, 15);
-		walls->items[6].segment = create_segment(3, 15, 3.8, 6);
-		walls->items[7].segment = create_segment(4, 4, 0, 0);
-		walls->items[8].segment = create_segment(3.8, 6, 5, 6);
-		walls->items[9].segment = create_segment(3.8, 6, 4, 4);
+		walls->items[0].segment = create_segment(0, 0 - i * 4, 0, 4 - i * 4);
+		walls->items[1].segment = create_segment(0, 4 - i * 4, 4, 4 - i * 4);
+		walls->items[2].segment = create_segment(4, 4 - i * 4, 4, 0 - i * 4);
+		walls->items[3].segment = create_segment(4, 0 - i * 4, 0, 0 - i * 4);
 
 		j = 0;
 		while (j < walls->count)
 		{
 		    // todo: read shit
 		    walls->items[j].height = 1.0;
+		    walls->items[j].type = wall;
 		    walls->items[j].pointer.texture = texture;
 			j++;
 		}
+		if (i == 0)
+        {
+		    walls->items[3].type = portal;
+		    walls->items[3].pointer.sector.sector1 = &map->sectors->items[0];
+            walls->items[3].pointer.sector.sector2 = &map->sectors->items[1];
+        }
+		else
+        {
+            walls->items[0].type = portal;
+            walls->items[0].pointer.sector.sector1 = &map->sectors->items[1];
+            walls->items[0].pointer.sector.sector2 = &map->sectors->items[0];
+        }
 		i++;
 	}
-
 	return (map);
 }
 
