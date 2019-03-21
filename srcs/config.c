@@ -45,7 +45,8 @@ t_config    load_ini(int fd)
     config.fov = extract_int_if_line_is_valid(fd);
     config.fps_max = extract_int_if_line_is_valid(fd);
     config.mouse_sensi = extract_int_if_line_is_valid(fd);
-    if (config.win_w && config.win_h && config.fov && config.fps_max && config.mouse_sensi)
+    if (config.win_w && config.win_h
+        && config.fov && config.fps_max && config.mouse_sensi)
     {
         config.half_w = config.win_w / 2.0;
         config.half_h = config.win_h / 2.0;
@@ -56,7 +57,8 @@ t_config    load_ini(int fd)
     else
     {
         config = load_default_config();
-        ft_putendl("There was an issue with config.ini so default config has been loaded.");
+        ft_putendl("There was an issue with config.ini so"
+                   " default config has been loaded.");
     }
     return (config);
 }
