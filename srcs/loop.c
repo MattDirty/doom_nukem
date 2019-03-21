@@ -42,9 +42,9 @@ static void loop_events(
             e->p.vision_height < 0 ? e->p.vision_height = 0 : e->p.vision_height;
         }
         if (state[SDL_SCANCODE_LEFT])
-            e->p.heading -= ROT_X * timer_handler->ms_since_update;
+            e->p.heading -= ROT_X * timer_handler->ms_since_update / 1000;
         if (state[SDL_SCANCODE_RIGHT])
-            e->p.heading += ROT_X * timer_handler->ms_since_update;
+            e->p.heading += ROT_X * timer_handler->ms_since_update / 1000;
         if (state[SDL_SCANCODE_SPACE])
             e->p.weapons.list[e->p.weapons.current].main(
                     &e->p.weapons.list[e->p.weapons.current],
