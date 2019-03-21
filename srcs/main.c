@@ -6,23 +6,31 @@
 
 t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
 {
-	t_sdl   sdl;
+    t_sdl   sdl;
 
-	if (fullscreen)
-		fullscreen = SDL_WINDOW_FULLSCREEN_DESKTOP;
-	if (!(sdl.window = SDL_CreateWindow(name, 0, 0,
-										w, h, fullscreen)))
-		error_doom("Could not create window.");
-	if (!(sdl.renderer = SDL_CreateRenderer(sdl.window, -1, 0)))
-		error_doom("Could not create renderer");
-	if (!(sdl.texture = SDL_CreateTexture(sdl.renderer,
-										  SDL_PIXELFORMAT_ARGB32, SDL_TEXTUREACCESS_TARGET,
-										  w, h)))
-		error_doom("Could not create texture.");
-	if (!(sdl.surface = SDL_CreateRGBSurface(0, w, h,
-											 32, MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
-		error_doom("Could not create surface.");
-	return (sdl);
+    if (fullscreen)
+        fullscreen = SDL_WINDOW_FULLSCREEN_DESKTOP;
+    if (!(sdl.window = SDL_CreateWindow(name, 0, 0,
+            w, h, fullscreen)))
+        error_doom("Could not create window.");
+    if (!(sdl.renderer = SDL_CreateRenderer(sdl.window, -1, 0)))
+        error_doom("Could not create renderer");
+    if (!(sdl.texture = SDL_CreateTexture(sdl.renderer,
+            SDL_PIXELFORMAT_ARGB32, SDL_TEXTUREACCESS_TARGET,
+            w, h)))
+        error_doom("Could not create texture.");
+    if (!(sdl.surface = SDL_CreateRGBSurface(0, w, h,
+            32, MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
+        error_doom("Could not create surface.");
+    return (sdl);
+}
+
+t_sdl debug_init()
+{
+    t_sdl debug;
+
+    debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
+    return (debug);
 }
 
 t_map *allocate_map()
@@ -32,8 +40,6 @@ t_map *allocate_map()
 	t_walls*	walls;
 	SDL_Surface *texture;
 	t_map		*map;
-
-    load_config();
 
 	if (!(texture = SDL_LoadBMP("brickwall.bmp")))
 		error_doom("there was an error while loading the BMP");
@@ -103,8 +109,8 @@ int		main (int ac, char **av)
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	init_doom(&e);
 	map = allocate_map();
-	e.p.weapons = allocate_weapons();
-	if (e.debug_mode)
+    e.p.weapons = allocate_weapons();
+    if (e.debug_mode)
 		e.debug = debug_init();
 	loop_doom(&e, map);
 	return (EXIT_SUCCESS);
