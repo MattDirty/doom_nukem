@@ -54,7 +54,7 @@ t_collision check_collision(t_sector *sector, t_segment *seg)
 	i = 0;
 	while (i < sector->walls->count)
 	{
-	    if (!sector->walls->items[i].portal && segments_intersect(seg,
+	    if (segments_intersect(seg,
 				&sector->walls->items[i].segment, &inters))
 		{
 			temp_distance = get_distance_between_points(seg->x1, seg->y1,

@@ -75,11 +75,9 @@ t_map *allocate_map(void)
 		{
 		    // todo: read shit
 		    walls->items[j].height = 1.0;
-		    walls->items[j].texture = texture;
-		    walls->items[j].portal = t_false;
+		    walls->items[j].pointer.texture = texture;
 			j++;
 		}
-		walls->items[8].portal = t_true;
 		i++;
 	}
 	if (!(map->daysky = SDL_LoadBMP("textures/skybox/day.bmp")))

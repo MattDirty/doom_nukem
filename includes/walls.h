@@ -5,12 +5,30 @@
 # include "utils.h"
 # include "e_bool.h"
 
+typedef struct  s_link
+{
+    void    *sector1;
+    void    *sector2;
+}               t_link;
+
+enum            e_wall_type
+{
+    portal,
+    wall
+};
+
+union   u_pointer
+{
+    SDL_Surface *texture;
+    t_link      sector;
+};
+
 typedef struct			s_wall
 {
     t_segment			segment;
     double				height; //debug
-    SDL_Surface			*texture;
-    enum e_bool         portal;
+    union u_pointer     pointer;
+    enum e_wall_type    type;
 }						t_wall;
 
 typedef struct			s_walls
