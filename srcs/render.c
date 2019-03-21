@@ -30,12 +30,12 @@ static void	draw_wall(t_env *e, t_collision collision, Uint32 renderer_x, double
     end = (end > (int)e->op.win_h ? e->op.win_h : end);
 	draw_text.x = (int)(get_distance_between_points(collision.inters.x,
 	        collision.inters.y, collision.wall->segment.x1,
-	        collision.wall->segment.y1) * PIXEL_UNIT) % collision.wall->texture->w;
+	        collision.wall->segment.y1) * PIXEL_UNIT) % collision.wall->pointer.texture->w;
 	while (y < end)
 	{
         draw_text.y = (y - vision_height + length / 2)
-                * collision.wall->texture->h / length;
-        color_text = get_pixel(collision.wall->texture, draw_text.x, draw_text.y, t_true);
+                * collision.wall->pointer.texture->h / length;
+        color_text = get_pixel(collision.wall->pointer.texture, draw_text.x, draw_text.y, t_true);
         put_pixel(e->doom.surface, renderer_x, y, color_text);
 		y++;
 	}

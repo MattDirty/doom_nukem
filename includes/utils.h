@@ -1,7 +1,7 @@
 #ifndef DOOMNUKEM_UTILS_H
 # define DOOMNUKEM_UTILS_H
 
-#include <time.h>
+# include <time.h>
 
 typedef struct	s_vector
 {
