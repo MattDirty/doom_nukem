@@ -5,10 +5,12 @@
 # include "utils.h"
 # include "e_bool.h"
 
+typedef struct s_sector t_sector;
+
 typedef struct  s_link
 {
-    void    *sector1;
-    void    *sector2;
+    t_sector    *sector1;
+    t_sector    *sector2;
 }               t_link;
 
 enum            e_wall_type
