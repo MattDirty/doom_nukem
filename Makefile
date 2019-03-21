@@ -21,6 +21,7 @@ SRC_PATH = srcs
 SRCS_NAMES = vector.c \
 			segment.c \
 			player.c \
+			serialisation.c \
 			environment.c \
 			loop.c \
 			engine.c \
@@ -39,7 +40,8 @@ SRCS_NAMES = vector.c \
 			animation.c \
 			melee.c \
 			skybox.c \
-			config.c
+			config.c \
+			textures.c
 
 SRC_NAME =	main.c \
 			$(SRCS_NAMES)
