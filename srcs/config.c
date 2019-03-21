@@ -25,9 +25,12 @@ t_config    load_default_config()
     return (config);
 }
 
-static int  extract_int_if_line_is_valid(char *line)
+static int  extract_int_if_line_is_valid(int fd)
 {
-    if ((line = ft_strchr(line, ':')) != NULL)
+    char    *line;
+
+    if (get_next_line_from_char(fd, &line, '\n') > 0
+            && (line = ft_strchr(line, ':')) != NULL)
         return (ft_atoi(line + 1));
     return (0);
 }
@@ -35,21 +38,13 @@ static int  extract_int_if_line_is_valid(char *line)
 t_config    load_ini(int fd)
 {
     t_config    config;
-    char        *buffer;
 
-    get_next_line_from_char(fd, &buffer, '\n');
-    config.win_w = extract_int_if_line_is_valid(buffer);
-    get_next_line_from_char(fd, &buffer, '\n');
-    config.win_h = extract_int_if_line_is_valid(buffer);
-    get_next_line_from_char(fd, &buffer, '\n');
-    config.fullscreen = extract_int_if_line_is_valid(buffer);
-    get_next_line_from_char(fd, &buffer, '\n');
-    config.fov = extract_int_if_line_is_valid(buffer);
-    get_next_line_from_char(fd, &buffer, '\n');
-    config.fps_max = extract_int_if_line_is_valid(buffer);
-    get_next_line_from_char(fd, &buffer, '\n');
-    config.mouse_sensi = extract_int_if_line_is_valid(buffer);
-    close(fd);
+    config.win_w = extract_int_if_line_is_valid(fd);
+    config.win_h = extract_int_if_line_is_valid(fd);
+    config.fullscreen = extract_int_if_line_is_valid(fd);
+    config.fov = extract_int_if_line_is_valid(fd);
+    config.fps_max = extract_int_if_line_is_valid(fd);
+    config.mouse_sensi = extract_int_if_line_is_valid(fd);
     if (config.win_w && config.win_h && config.fov && config.fps_max && config.mouse_sensi)
     {
         config.half_w = config.win_w / 2.0;
@@ -100,5 +95,6 @@ t_config    load_config()
     }
     else
         config = load_ini(fd);
+    close (fd);
     return (config);
 }
