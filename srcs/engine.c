@@ -20,7 +20,8 @@
 #include "doom.h"
 #include "engine.h"
 
-static enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inters)
+static enum e_bool segments_intersect(
+        t_segment *a, t_segment *b, t_coords *inters)
 {
     t_coords delta_a;
     t_coords delta_b;
@@ -31,8 +32,10 @@ static enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inte
     delta_a.y = a->y2 - a->y1;
     delta_b.x = b->x2 - b->x1;
     delta_b.y = b->y2 - b->y1;
-    s = (-delta_a.y * (a->x1 - b->x1) + delta_a.x * (a->y1 - b->y1)) / (-delta_b.x * delta_a.y + delta_a.x * delta_b.y);
-    t = (delta_b.x * (a->y1 - b->y1) - delta_b.y * (a->x1 - b->x1)) / (-delta_b.x * delta_a.y + delta_a.x * delta_b.y);
+    s = (-delta_a.y * (a->x1 - b->x1) + delta_a.x * (a->y1 - b->y1))
+            / (-delta_b.x * delta_a.y + delta_a.x * delta_b.y);
+    t = (delta_b.x * (a->y1 - b->y1) - delta_b.y * (a->x1 - b->x1))
+            / (-delta_b.x * delta_a.y + delta_a.x * delta_b.y);
     if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
     {
         inters->x = a->x1 + (t * delta_a.x);
