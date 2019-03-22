@@ -25,14 +25,6 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
     return (sdl);
 }
 
-t_sdl debug_init()
-{
-    t_sdl debug;
-
-    debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
-    return (debug);
-}
-
 t_map *allocate_map()
 {
 	int			i;
@@ -111,7 +103,7 @@ int		main (int ac, char **av)
 	map = allocate_map();
     e.p.weapons = allocate_weapons();
     if (e.debug_mode)
-		e.debug = debug_init();
+		e.debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
 	loop_doom(&e, map);
 	return (EXIT_SUCCESS);
 }
