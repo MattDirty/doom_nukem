@@ -44,7 +44,7 @@ t_map *allocate_map()
 
 	map->sectors->count = 1;  // todo: read shit
 	if (!(map->sectors->items =
-				(t_sector*)malloc(map->sectors->count * sizeof(t_sector))))
+				  (t_sector*)malloc(map->sectors->count * sizeof(t_sector))))
 		error_doom("Can't allocate sectors");
 
 	i = 0;

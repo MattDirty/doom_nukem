@@ -22,6 +22,7 @@ static void	draw_floor(t_env *e, t_collision collision, t_coords bottom_of_wall,
     t_coords    floor_pos;
     t_coords    draw_text;
     Uint32      color_text;
+
     while (bottom_of_wall.y + 1 < WIN_H)
     {
         pixel_dist = e->op.win_h / (2.0 * bottom_of_wall.y - e->op.win_h);
@@ -88,8 +89,8 @@ void		draw(
 {
     t_coords    bottom_of_wall;
 
-    collision.distance *= cos(e->p.heading - ray_angle);
-	collision.wall_length = RATIO / collision.distance * collision.wall->height;
+	collision.distance *= cos(e->p.heading - ray_angle);
+	collision.wall_length = e->op.ratio / collision.distance * collision.wall->height;
 
     bottom_of_wall.x = renderer_x;
 	bottom_of_wall.y = e->p.vision_height + collision.wall_length / 2;
