@@ -61,7 +61,7 @@ static void	draw_wall(t_env *e, t_collision collision, Uint32 renderer_x, double
 	}
 }
 
-static void draw_ceil_and_floor(t_sdl *doom, t_config *op,Uint32 renderer_x, double vision_height)
+static void draw_ceil_and_floor(t_env *e, t_config *op,Uint32 renderer_x, double vision_height)
 {
     Uint32  y;
     Uint32  end;
@@ -70,13 +70,13 @@ static void draw_ceil_and_floor(t_sdl *doom, t_config *op,Uint32 renderer_x, dou
     end = vision_height;
     while (y < end)
     {
-        put_pixel(doom->surface, renderer_x, y, SKYBLUE);
+        put_pixel(e->doom.surface, renderer_x, y, SKYBLUE);
         y++;
     }
     y = vision_height;
     while (y < op->win_h)
     {
-        put_pixel(doom->surface, renderer_x, y, BROWN);
+        put_pixel(e->doom.surface, renderer_x, y, BROWN);
         y++;
     }
 }
@@ -89,13 +89,14 @@ void		draw(
 {
     t_coords    bottom_of_wall;
 
-	collision.distance *= cos(e->p.heading - ray_angle);
-	collision.wall_length = e->op.ratio / collision.distance * collision.wall->height;
+    collision.distance *= cos(e->p.heading - ray_angle);
+	collision.wall_length = RATIO / collision.distance * collision.wall->height;
 
     bottom_of_wall.x = renderer_x;
 	bottom_of_wall.y = e->p.vision_height + collision.wall_length / 2;
     bottom_of_wall.y = (bottom_of_wall.y > WIN_H ? WIN_H : bottom_of_wall.y);
-    draw_ceil_and_floor(&e->doom, &e->op, renderer_x, e->p.vision_height);
+
+	draw_ceil_and_floor(e, &e->op, renderer_x, e->p.vision_height);
 	draw_wall(e, collision, renderer_x, e->p.vision_height);
-	draw_floor(e, collision, bottom_of_wall, e->p.pos, e->derp);
+    draw_floor(e, collision, bottom_of_wall, e->p.pos, e->derp);
 }
