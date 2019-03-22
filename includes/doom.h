@@ -15,6 +15,7 @@ typedef struct          s_env
         t_player        p;
         t_sdl           doom;
         t_map			*map;
+		SDL_Surface		*derp;
 }                       t_env;
 
 void		error_doom(char *err);
