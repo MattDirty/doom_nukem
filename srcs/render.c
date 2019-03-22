@@ -16,24 +16,23 @@
 #include "skybox.h"
 #include "surface_manipulation.h"
 
-static void	draw_floor(t_sdl *doom, t_collision collision, t_coords bottom_of_wall, t_coords player_pos , SDL_Surface *derp)
+static void	draw_floor(t_env *e, t_collision collision, t_coords bottom_of_wall, t_coords player_pos , SDL_Surface *derp)
 {
     double      pixel_dist;
     double      weight_factor;
     t_coords    floor_pos;
     t_coords    draw_text;
     Uint32      color_text;
-
     while (bottom_of_wall.y + 1 < WIN_H)
     {
-        pixel_dist = WIN_H / (2.0 * bottom_of_wall.y - WIN_H);
+        pixel_dist = e->op.win_h / (2.0 * bottom_of_wall.y - e->op.win_h);
         weight_factor = (pixel_dist / collision.distance);
         floor_pos.x = weight_factor * collision.inters.x + (1.0 - weight_factor) * player_pos.x;
         floor_pos.y = weight_factor * collision.inters.y + (1.0 - weight_factor) * player_pos.y;
         draw_text.x = (int)(floor_pos.x * PIXEL_UNIT) % derp->w;
         draw_text.y = (int)(floor_pos.y * PIXEL_UNIT) % derp->h;
         color_text = get_pixel(derp, draw_text.x, draw_text.y, t_true);
-        put_pixel(doom->surface, bottom_of_wall.x, bottom_of_wall.y, color_text);
+        put_pixel(e->doom.surface, bottom_of_wall.x, bottom_of_wall.y, color_text);
         bottom_of_wall.y++;
     }
 }
@@ -80,6 +79,8 @@ void		draw(
 		t_collision collision,
 		Uint32 renderer_x)
 {
+    t_coords    bottom_of_wall;
+
 	collision.distance *= cos(e->p.heading - ray_angle);
     t_coords    bottom_of_wall;
 
@@ -93,5 +94,5 @@ void		draw(
 	paint_floor(e, &e->op, renderer_x, e->p.vision_height);
 	skybox(e, renderer_x);
 	draw_wall(e, collision, renderer_x, e->p.vision_height);
-    draw_floor(e->doom, collision, bottom_of_wall, e->p->pos, e->derp);
+    draw_floor(e, collision, bottom_of_wall, e->p.pos, e->derp);
 }
