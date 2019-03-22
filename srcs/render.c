@@ -48,7 +48,7 @@ static void	draw_wall(t_env *e, t_collision collision, Uint32 renderer_x, double
 	y = vision_height - collision.wall_length / 2;
     y = (y < 0 ? 0 : y);
     end = vision_height + collision.wall_length / 2;
-	end = (end > (int)e->op.win_h ? e->op.win_h : end);
+    end = (end > (int)e->op.win_h ? e->op.win_h : end);
 	draw_text.x = (int)(get_distance_between_points(collision.inters.x,
 	        collision.inters.y, collision.wall->segment.x1,
 	        collision.wall->segment.y1) * PIXEL_UNIT) % collision.wall->texture->w;
