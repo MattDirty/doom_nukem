@@ -51,7 +51,7 @@ t_config    load_ini(int fd)
         config.half_w = config.win_w / 2.0;
         config.half_h = config.win_h / 2.0;
         config.half_fov = config.fov / 2.0;
-        config.tan_half_fov = tan(config.half_fov);
+        config.tan_half_fov = tan(ft_degtorad(config.half_fov));
         config.ratio = (config.half_w / config.tan_half_fov);
     }
     else
