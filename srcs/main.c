@@ -101,6 +101,8 @@ int		main (int ac, char **av)
 		e.debug_mode = t_false;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		error_doom("error: cannot run SDL");
+    if (!(e.derp = SDL_LoadBMP("wood.bmp")))
+        error_doom("cannot load floor texture");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	init_doom(&e);
 	e.map = allocate_map();

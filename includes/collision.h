@@ -8,6 +8,7 @@
 typedef struct          s_collision
 {
     double              distance;
+    double              wall_length;
     t_coords            inters;
     t_wall				*wall;
 }                       t_collision;
