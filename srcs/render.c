@@ -82,9 +82,6 @@ void		draw(
 {
     t_coords    bottom_of_wall;
 
-	collision.distance *= cos(e->p.heading - ray_angle);
-    t_coords    bottom_of_wall;
-
 	collision.distance *= cos(e->p->heading - ray_angle);
 	collision.wall_length = RATIO / collision.distance * collision.wall->height;
 
