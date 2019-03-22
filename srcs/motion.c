@@ -29,7 +29,7 @@ static void move_if_allowed(t_player *p, t_map *map, double time)
     seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
     change_segment_length(&seg, PLAYER_THICKNESS);
     collision = check_collision(sector, &seg);
-    if (collision.distance <= PLAYER_THICKNESS)
+    if (collision.wall->type == wall && collision.distance <= PLAYER_THICKNESS)
     {
         wall_parallel = get_vector_from_segment(&collision.wall->segment);
         rad = get_rad_between_vectors(&p->speed, &wall_parallel);
@@ -44,7 +44,8 @@ static void move_if_allowed(t_player *p, t_map *map, double time)
         seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
         change_segment_length(&seg, PLAYER_THICKNESS);
         collision2 = check_collision(sector, &seg);
-        if (collision.distance != collision2.distance && collision2.distance <= PLAYER_THICKNESS)
+        if (collision.distance != collision2.distance
+        && collision2.distance <= PLAYER_THICKNESS && collision2.wall->type == wall)
             return;
     }
     p->pos.x += p->speed.x;

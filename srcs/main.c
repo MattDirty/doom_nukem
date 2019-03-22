@@ -30,11 +30,15 @@ t_map *allocate_map(void)
 	int			i;
 	int			j;
 	t_walls*	walls;
-	SDL_Surface *texture;
+    SDL_Surface *texture;
+    SDL_Surface *texture2;
 	t_map		*map;
 
 	if (!(texture = SDL_LoadBMP("textures/walls/brickwall.bmp")))
 		error_doom("there was an error while loading the BMP");
+
+    if (!(texture2 = SDL_LoadBMP("brickwall2.bmp")))
+        error_doom("there was an error while loading the BMP");
 
 	if (!(map = (t_map*)malloc(sizeof(t_map))))
 		error_doom("error: cannot allocate memory for struct map");
@@ -60,10 +64,10 @@ t_map *allocate_map(void)
         if (!(walls->items = (t_wall*)malloc(walls->count * sizeof(t_wall))))
 			error_doom("Can't allocate walls");
 
-		walls->items[0].segment = create_segment(0, 0 - i * 4, 0, 4 - i * 4);
-		walls->items[1].segment = create_segment(0, 4 - i * 4, 4, 4 - i * 4);
-		walls->items[2].segment = create_segment(4, 4 - i * 4, 4, 0 - i * 4);
-		walls->items[3].segment = create_segment(4, 0 - i * 4, 0, 0 - i * 4);
+		walls->items[0].segment = create_segment(0, 0 + i * 4, 0, 4 + i * 4);
+		walls->items[1].segment = create_segment(0, 4 + i * 4, 4, 4 + i * 4);
+		walls->items[2].segment = create_segment(4, 4 + i * 4, 4, 0 + i * 4);
+		walls->items[3].segment = create_segment(4, 0 + i * 4, 0, 0 + i * 4);
 
 		j = 0;
 		while (j < walls->count)
@@ -71,20 +75,24 @@ t_map *allocate_map(void)
 		    // todo: read shit
 		    walls->items[j].height = 1.0;
 		    walls->items[j].type = wall;
-		    walls->items[j].pointer.texture = texture;
+		    if (i == 0)
+    		    walls->items[j].pointer.texture = texture;
+		    else
+		        walls->items[j].pointer.texture = texture2;
 			j++;
 		}
 		if (i == 0)
         {
-		    walls->items[3].type = portal;
-		    walls->items[3].pointer.sector.sector1 = &map->sectors->items[0];
-            walls->items[3].pointer.sector.sector2 = &map->sectors->items[1];
+		    walls->items[1].type = portal;
+		    walls->items[1].pointer.sector.sector1 = &map->sectors->items[0];
+            walls->items[1].pointer.sector.sector2 = &map->sectors->items[1];
         }
 		else
         {
-            walls->items[0].type = portal;
-            walls->items[0].pointer.sector.sector1 = &map->sectors->items[1];
-            walls->items[0].pointer.sector.sector2 = &map->sectors->items[0];
+            walls->items[3].segment = create_segment(8, 8, 10, 10);
+            walls->items[3].type = portal;
+            walls->items[3].pointer.sector.sector1 = &map->sectors->items[1];
+            walls->items[3].pointer.sector.sector2 = &map->sectors->items[0];
         }
 		i++;
 	}
