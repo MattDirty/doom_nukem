@@ -52,7 +52,7 @@ t_map *allocate_map()
 
 	map->sectors->count = 1;  // todo: read shit
 	if (!(map->sectors->items =
-				(t_sector*)malloc(map->sectors->count * sizeof(t_sector))))
+				  (t_sector*)malloc(map->sectors->count * sizeof(t_sector))))
 		error_doom("Can't allocate sectors");
 
 	i = 0;
@@ -63,7 +63,7 @@ t_map *allocate_map()
 
 		walls = map->sectors->items[i].walls;
 
-		walls->count = 10;  // todo: read shit
+		walls->count = 8;  // todo: read shit
 		if (!(walls->items = (t_wall*)malloc(walls->count * sizeof(t_wall))))
 			error_doom("Can't allocate walls");
 
@@ -73,21 +73,33 @@ t_map *allocate_map()
 		walls->items[3].segment = create_segment(5, 6, 8, 8);
 		walls->items[4].segment = create_segment(8, 8, 9, 15);
 		walls->items[5].segment = create_segment(9, 15, 3, 15);
-		walls->items[6].segment = create_segment(3, 15, 3.8, 6);
+		walls->items[6].segment = create_segment(3, 15, 4, 4);
 		walls->items[7].segment = create_segment(4, 4, 0, 0);
-		walls->items[8].segment = create_segment(3.8, 6, 5, 6);
-		walls->items[9].segment = create_segment(3.8, 6, 4, 4);
+
+		walls->items[0].height = 1.0;
+		walls->items[1].height = 1.0;
+		walls->items[2].height = 1.0;
+		walls->items[3].height = 1.0;
+		walls->items[4].height = 1.0;
+		walls->items[5].height = 1.0;
+		walls->items[6].height = 1.0;
+		walls->items[7].height = 1.0;
+
+		walls->items[0].texture = texture;
+		walls->items[1].texture = texture;
+		walls->items[2].texture = texture;
+		walls->items[3].texture = texture;
+		walls->items[4].texture = texture;
+		walls->items[5].texture = texture;
+		walls->items[6].texture = texture;
+		walls->items[7].texture = texture;
 
 		j = 0;
 		while (j < walls->count)
 		{
-		    // todo: read shit
-		    walls->items[j].height = 1.0;
-		    walls->items[j].texture = texture;
-		    walls->items[j].portal = t_false;
+			// todo: read shit
 			j++;
 		}
-		walls->items[8].portal = t_true;
 		i++;
 	}
 
@@ -108,9 +120,11 @@ int		main (int ac, char **av)
 		error_doom("error: cannot run SDL");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	init_doom(&e);
+	if (!(e.derp = SDL_LoadBMP("wood.bmp")))
+		error_doom("Cannot load floor texture");
 	map = allocate_map();
-    e.p.weapons = allocate_weapons();
-    if (e.debug_mode)
+	e.p.weapons = allocate_weapons();
+	if (e.debug_mode)
 		e.debug = debug_init();
 	loop_doom(&e, map);
 	return (EXIT_SUCCESS);
