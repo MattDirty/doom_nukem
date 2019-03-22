@@ -10,10 +10,11 @@
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all, extract, run, debug, editor, norm, git, clean, fclean, re
+.PHONY: all, extract, run, redit, debug, norm, git, clean, fclean, re
 
 NAME = doom-nukem
-EDITOR_NAME = editor
+
+NAME_EDITOR = editor
 
 SRC_PATH = srcs
 
@@ -39,15 +40,18 @@ SRC_NAME =	main.c \
 SRC_EDITOR_NAME = editor.c
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
+
 SRCS_EDITOR = $(addprefix $(SRC_PATH)/,$(SRC_EDITOR_NAME))
 
 OBJ_PATH = objs
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
-EDITOR_NAME_OBJ = $(SRC_EDITOR_NAME:.c=.o)
+
+OBJ_EDITOR_NAME = $(SRC_EDITOR_NAME:.c=.o)
 
 OBJS = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
-EDITOR_OBJS = $(addprefix $(OBJ_PATH)/,$(EDITOR_NAME_OBJ))
+
+OBJS_EDITOR = $(addprefix $(OBJ_PATH)/,$(OBJ_EDITOR_NAME))
 
 INCL = includes
 
@@ -86,24 +90,30 @@ else
 	SDL_CFLAGS = -I/usr/local/include/SDL2 -D_REENTRANT
 endif
 
-all: $(NAME)
+all: $(NAME) $(NAME_EDITOR)
 
-$(NAME): $(OBJS) $(EDITOR_OBJS)
+$(NAME): $(OBJS)
 	if [ ! -d $(SDL_NAME) ]; then $(EXTRACT); fi
 	if [ ! -d $(SDL_NAME)/build ]; then $(CONFIGURE_SDL); fi
 	$(MAKE) -j -C libft
 	$(CC) $(OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
-	$(CC) $(EDITOR_OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $(EDITOR_NAME)
+
+$(NAME_EDITOR): $(OBJS_EDITOR)
+	if [ ! -d $(SDL_NAME) ]; then $(EXTRACT); fi
+	if [ ! -d $(SDL_NAME)/build ]; then $(CONFIGURE_SDL); fi
+	$(MAKE) -j -C libft
+	$(CC) $(OBJS_EDITOR) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
+	./$(NAME_EDITOR)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 	mkdir $(OBJ_PATH) 2> /dev/null || true
 	$(CC) $(CFLAGS) $(IFLAGS) $(SDL_CFLAGS) -o $@ -c $<
 
-run: all
+run: $(NAME)
 	./$(NAME)
 
-editor: all
-	./$(EDITOR_NAME)
+redit: $(NAME_EDITOR)
+	./$(NAME_EDITOR)
 
 debug: all
 	./$(NAME) debug
@@ -118,12 +128,12 @@ git: fclean
 
 clean:
 	$(RM) $(OBJS)
-	$(RM) $(EDITOR_OBJS)
+	$(RM) $(OBJS_EDITOR)
 	rmdir $(OBJ_PATH) 2> /dev/null || true
 
 fclean: clean
 	$(RM) $(NAME)
-	$(RM) $(EDITOR_NAME)
+	$(RM) $(NAME_EDITOR)
 	$(MAKE) -C libft fclean
 	$(RM) $(SDL_NAME)
 

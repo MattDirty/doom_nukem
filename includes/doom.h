@@ -10,6 +10,7 @@ typedef struct          s_env
 {
 		t_sdl			debug;
 		enum e_bool     debug_mode;
+		SDL_Surface		*derp;
         t_player        *p;
         t_sdl           *doom;
 }                       t_env;
