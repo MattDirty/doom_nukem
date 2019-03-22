@@ -25,14 +25,6 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
     return (sdl);
 }
 
-t_sdl debug_init()
-{
-    t_sdl debug;
-
-    debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
-    return (debug);
-}
-
 t_map *allocate_map()
 {
 	int			i;
@@ -103,17 +95,17 @@ int		main (int ac, char **av)
 	if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
 		e.debug_mode = t_true;
 	else
-	    e.debug_mode = t_false;
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-        error_doom("error: cannot run SDL");
-    e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
+		e.debug_mode = t_false;
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+		error_doom("error: cannot run SDL");
+	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	init_doom(&e);
 	if (!(e.derp = SDL_LoadBMP("wood.bmp")))
 		error_doom("cannot load floor texture");
 	map = allocate_map();
-	e.p.weapons = allocate_weapons();
-	if (e.debug_mode)
-		e.debug = debug_init();
-    loop_doom(&e, map);
+    e.p.weapons = allocate_weapons();
+    if (e.debug_mode)
+		e.debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
+	loop_doom(&e, map);
 	return (EXIT_SUCCESS);
 }
