@@ -32,5 +32,6 @@ t_weapons   allocate_weapons();
 void        draw_weapon(SDL_Surface *Surface, SDL_Surface *weapon, t_animation *animation, t_config *op);
 void        animate(t_weapon *weapon, double ms_since_move);
 void        melee_primary(t_weapon *weapon, t_timer_handler *timer_handler);
+void        melee_secondary(t_weapon *weapon, t_timer_handler *timer_handler);
 void        melee_primary_animation(t_animation *a);
 #endif

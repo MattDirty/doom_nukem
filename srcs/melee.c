@@ -2,13 +2,33 @@
 #include "weapon.h"
 #include "timer_handler.h"
 
+void    unlock_secondary(const void *const weapon)
+{
+    ((t_weapon*)weapon)->secondary_ready = t_true;
+}
+
 void    unlock_main(const void *const weapon)
 {
     ((t_weapon*)weapon)->main_ready = t_true;
 }
 
+void    melee_secondary(t_weapon *weapon, t_timer_handler *timer_handler)
+{
+    if (!weapon->secondary_ready)
+        return;
+    printf("j'ai mis mon penis dans la mayo help\n");
+    weapon->secondary_ready = t_false;
+    add_event(
+            timer_handler,
+            weapon->secondary_cooldown,
+            &unlock_secondary,
+            weapon);
+}
+
 void    melee_primary(t_weapon *weapon, t_timer_handler *timer_handler)
 {
+    if (!weapon->main_ready)
+        return;
     start_animation(&weapon->animation, 400);
     weapon->main_ready = t_false;
     add_event(
