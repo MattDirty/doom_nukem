@@ -1,8 +1,21 @@
 #include "animation.h"
-#include <stdio.h>
-void    melee_primary(t_animation *animation)
+#include "weapon.h"
+#include "timer_handler.h"
+
+void    unlock_main(const void *const weapon)
 {
-    start_animation(animation, 400);
+    ((t_weapon*)weapon)->main_ready = t_true;
+}
+
+void    melee_primary(t_weapon *weapon, t_timer_handler *timer_handler)
+{
+    start_animation(&weapon->animation, 400);
+    weapon->main_ready = t_false;
+    add_event(
+            timer_handler,
+            weapon->main_cooldown,
+            &unlock_main,
+            weapon);
 }
 
 void    melee_primary_animation(t_animation *animation)
