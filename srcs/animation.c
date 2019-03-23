@@ -8,24 +8,24 @@ void    reset_animation(t_animation *animation)
     animation->x_resize = 1;
     animation->y_resize = 1;
     animation->state = 0;
-    animation->end = 0;
+    animation->duration = 0;
 }
 
-void    start_animation(t_animation *animation, Uint32 end)
+void    start_animation(t_animation *animation, Uint32 duration)
 {
     animation->state = 0;
-    animation->end = end;
+    animation->duration = duration;
 }
 
 void    animate(t_weapon *weapon, double ms_since_move)
 {
-    if (weapon->animation.end == 0
-    || weapon->animation.state >= weapon->animation.end)
+    if (weapon->animation.duration == 0
+    || weapon->animation.state >= weapon->animation.duration)
         return ;
     weapon->animation.state += ms_since_move;
-    if (weapon->animation.state > weapon->animation.end)
-        weapon->animation.state = weapon->animation.end;
+    if (weapon->animation.state > weapon->animation.duration)
+        weapon->animation.state = weapon->animation.duration;
     weapon->animation.animation_controller(&weapon->animation);
-    if (weapon->animation.state == weapon->animation.end)
+    if (weapon->animation.state == weapon->animation.duration)
         reset_animation(&weapon->animation);
 }
