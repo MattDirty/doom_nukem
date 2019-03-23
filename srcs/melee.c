@@ -3,8 +3,9 @@
 #include "timer_handler.h"
 #include "e_bool.h"
 
-enum e_bool    unlock(const void *const ready)
+enum e_bool    unlock(double ms_since_update, const void *ready)
 {
+    (void)ms_since_update;
     *(enum e_bool*)ready = t_true;
     return t_false;
 }
