@@ -10,7 +10,7 @@ typedef struct  s_animation
     double  x_resize;
     double  y_resize;
     Uint32  duration;
-    Uint32  state;
+    Uint32  time;
     void    (*animation_controller)(struct s_animation *this);
 }               t_animation;
 
