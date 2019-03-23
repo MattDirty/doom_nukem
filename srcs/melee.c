@@ -3,9 +3,10 @@
 #include "timer_handler.h"
 #include "e_bool.h"
 
-void    unlock(const void *const ready)
+enum e_bool    unlock(const void *const ready)
 {
     *(enum e_bool*)ready = t_true;
+    return t_false;
 }
 
 void    melee_secondary(t_weapon *weapon, t_timer_handler *timer_handler)
@@ -16,7 +17,6 @@ void    melee_secondary(t_weapon *weapon, t_timer_handler *timer_handler)
     add_event(
             timer_handler,
             weapon->secondary_cooldown,
-            t_true,
             &unlock,
             &weapon->secondary_ready);
 }
@@ -30,7 +30,6 @@ void    melee_primary(t_weapon *weapon, t_timer_handler *timer_handler)
     add_event(
             timer_handler,
             weapon->main_cooldown,
-            t_true,
             &unlock,
             &weapon->main_ready);
 }
