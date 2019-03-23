@@ -1,6 +1,13 @@
 #include "doom.h"
 #include "timer_handler.h"
 
+void timer_handler_init(t_timer_handler *timer_handler)
+{
+	timer_handler->first = NULL;
+	timer_handler->ms_since_update = 0;
+	clock_gettime(CLOCK_MONOTONIC_RAW, &timer_handler->time);
+}
+
 void add_event_to_list(
         t_timer_handler *timer_handler,
         t_event *event)
@@ -8,7 +15,10 @@ void add_event_to_list(
     t_event *node;
 
     if (!timer_handler->first)
+    {
+        timer_handler->first = event;
         return;
+    }
 
     node = timer_handler->first;
 
@@ -31,7 +41,7 @@ void remove_event_from_list(
     node = timer_handler->first;
     previous = NULL;
 
-    while (*node)
+    while (node)
     {
         if (node == event)
         {
@@ -47,22 +57,24 @@ void remove_event_from_list(
     }
 }
 
-void update_events(t_timer_handler *timer_handler, double ms_since_update)
+void update_events(t_timer_handler *timer_handler)
 {
     t_event *node;
+    struct timespec time;
+
+    clock_gettime(CLOCK_MONOTONIC_RAW, &time);
+	timer_handler->ms_since_update = delta_ms(timer_handler->time, time);
+    timer_handler->time = time;
 
     node = timer_handler->first;
 
-    if (!node)
-        return;
-
     while (node)
     {
-        node->time_left -= ms_since_update;
+		node->time_left -= timer_handler->ms_since_update;
         if (node->time_left <= 0)
         {
             node->function(node->params);
-            remove_event_from_list(node);
+            remove_event_from_list(timer_handler, node);
         }
         node = node->next;
     }

@@ -17,9 +17,13 @@
 #include "engine.h"
 #include "ui.h"
 #include "config.h"
+#include "timer_handler.h"
 #include "surface_manipulation.h"
 
-static void loop_events(t_env *e, const Uint8 *state, double time)
+static void loop_events(
+        t_env *e,
+        const Uint8 *state,
+        t_timer_handler *timer_handler)
 {
     SDL_Event ev;
 
@@ -29,18 +33,25 @@ static void loop_events(t_env *e, const Uint8 *state, double time)
             quit_doom(e);
         if (ev.type == SDL_MOUSEMOTION)
         {
-            e->p.heading += ev.motion.xrel * e->op.mouse_sensi * time;
-            e->p.vision_height -= ev.motion.yrel * 1000 * e->op.mouse_sensi * time;
+            e->p.heading += ev.motion.xrel * e->op.mouse_sensi
+                    * timer_handler->ms_since_update;
+            e->p.vision_height -= ev.motion.yrel * 1000
+                    * e->op.mouse_sensi * timer_handler->ms_since_update;
             e->p.vision_height > e->op.win_h ? e->p.vision_height = e->op.win_h : 0;
             e->p.vision_height < 0 ? e->p.vision_height = 0 : e->p.vision_height;
         }
         if (state[SDL_SCANCODE_LEFT])
-            e->p.heading -= ROT_X * time;
+            e->p.heading -= ROT_X * timer_handler->ms_since_update;
         if (state[SDL_SCANCODE_RIGHT])
-            e->p.heading += ROT_X * time;
+            e->p.heading += ROT_X * timer_handler->ms_since_update;
         if (state[SDL_SCANCODE_SPACE])
             e->p.weapons.list[e->p.weapons.current].main(
-                    &e->p.weapons.list[e->p.weapons.current].animation);
+                    &e->p.weapons.list[e->p.weapons.current],
+                    timer_handler);
+        if (state[SDL_SCANCODE_X])
+            e->p.weapons.list[e->p.weapons.current].secondary(
+                    &e->p.weapons.list[e->p.weapons.current],
+                    timer_handler);
 //        if (state[SDL_SCANCODE_O])
 //            e->sector->wall_height -= 0.01;
 //        if (state[SDL_SCANCODE_P])
@@ -53,22 +64,21 @@ static void loop_events(t_env *e, const Uint8 *state, double time)
 void		loop_doom(t_env *e, t_map *map)
 {
     const Uint8 *state;
-    struct timespec start;
-    struct timespec end;
+    t_timer_handler	timer_handler;
     double ms_since_frame;
-    double ms_since_update;
 
+	timer_handler_init(&timer_handler);
     state = SDL_GetKeyboardState(NULL);
     ms_since_frame = 1000;
-    ms_since_update = 0;
     while (42)
     {
-        clock_gettime(CLOCK_MONOTONIC_RAW, &start);
-        loop_events(e, state, ms_since_update);
-        move(&e->p, map, state, ms_since_update);
-        look_up_and_down(&e->p, &e->op, state, ms_since_update);
-        animate(&e->p.weapons.list[e->p.weapons.current], ms_since_update);
-        if (ms_since_frame >= 1000.0 / e->op.fps_max)
+        loop_events(e, state, &timer_handler);
+        move(&e->p, map, state, timer_handler.ms_since_update);
+        look_up_and_down(&e->p, &e->op, state, timer_handler.ms_since_update);
+        animate(&e->p.weapons.list[e->p.weapons.current],
+        		timer_handler.ms_since_update);
+
+		if (ms_since_frame >= 1000.0 / e->op.fps_max)
         {
             if (e->debug_mode)
                 debug_draw(&e->debug, map, &e->p, &e->op);
@@ -81,8 +91,7 @@ void		loop_doom(t_env *e, t_map *map)
             print_surface(e->doom.renderer, e->doom.surface);
             ms_since_frame = 0;
         }
-        clock_gettime(CLOCK_MONOTONIC_RAW, &end);
-        ms_since_update = delta_ms(start, end);
-        ms_since_frame += delta_ms(start, end);
+		update_events(&timer_handler);
+		ms_since_frame += timer_handler.ms_since_update;
     }
 }
