@@ -76,7 +76,7 @@ void update_events(t_timer_handler *timer_handler)
         if (node->time_left <= 0)
         {
             node->time_left = node->interval;
-            if (!node->function(node->params))
+            if (!node->function(timer_handler->ms_since_update, node->params))
                 remove_event_from_list(timer_handler, node);
         }
         node = next;
