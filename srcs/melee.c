@@ -12,7 +12,6 @@ void    melee_secondary(t_weapon *weapon, t_timer_handler *timer_handler)
 {
     if (!weapon->secondary_ready)
         return;
-    printf("j'ai mis mon penis dans la mayo help\n");
     weapon->secondary_ready = t_false;
     add_event(
             timer_handler,
