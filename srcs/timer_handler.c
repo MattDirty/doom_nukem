@@ -75,9 +75,8 @@ void update_events(t_timer_handler *timer_handler)
 		next = node->next;
         if (node->time_left <= 0)
         {
-            node->function(node->params);
             node->time_left = node->interval;
-            if (node->destroy_after_call)
+            if (!node->function(node->params))
                 remove_event_from_list(timer_handler, node);
         }
         node = next;
@@ -87,7 +86,6 @@ void update_events(t_timer_handler *timer_handler)
 void add_event(
         t_timer_handler *timer_handler,
         double interval,
-        enum e_bool destroy_after_call,
         t_event_func function,
         t_params params)
 {
@@ -98,7 +96,6 @@ void add_event(
 
     new_event->interval = interval;
     new_event->time_left = interval;
-    new_event->destroy_after_call = destroy_after_call;
     new_event->function = function;
     new_event->params = params;
     new_event->next = NULL;

@@ -4,13 +4,19 @@
 # include "e_bool.h"
 
 typedef const void *t_params;
-typedef void (*t_event_func)(t_params);
+/*
+ * t_event_func returns a boolean that tells the
+ * handler if the event must be destroyed or if it
+ * needs to keep calling it.
+ * Return t_false to destroy the event.
+ * Return t_true to recall the event after interval ms.
+ */
+typedef enum e_bool (*t_event_func)(t_params);
 
 typedef struct    s_event
 {
     double interval;
 	double time_left;
-	enum e_bool destroy_after_call;
     t_event_func function;
     t_params params;
     struct s_event *next;
@@ -30,7 +36,6 @@ void update_events(t_timer_handler *timer_handler);
 void add_event(
         t_timer_handler *timer_handler,
         double interval,
-        enum e_bool destroy_after_call,
         t_event_func function,
         t_params params);
 
