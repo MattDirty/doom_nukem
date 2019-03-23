@@ -60,6 +60,7 @@ void remove_event_from_list(
 void update_events(t_timer_handler *timer_handler)
 {
     t_event *node;
+    t_event *next;
     struct timespec time;
 
     clock_gettime(CLOCK_MONOTONIC_RAW, &time);
@@ -71,6 +72,7 @@ void update_events(t_timer_handler *timer_handler)
     while (node)
     {
 		node->time_left -= timer_handler->ms_since_update;
+		next = node->next;
         if (node->time_left <= 0)
         {
             node->function(node->params);
@@ -78,7 +80,7 @@ void update_events(t_timer_handler *timer_handler)
             if (node->destroy_after_call)
                 remove_event_from_list(timer_handler, node);
         }
-        node = node->next;
+        node = next;
     }
 }
 
