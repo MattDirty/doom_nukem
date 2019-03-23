@@ -19,6 +19,7 @@
 #include "config.h"
 #include "timer_handler.h"
 #include "surface_manipulation.h"
+#include "loop.h"
 
 static void loop_events(
         t_env *e,
@@ -61,23 +62,47 @@ static void loop_events(
     }
 }
 
+enum e_bool		update_logic(t_params params)
+{
+	t_logic_params	*ptr;
+
+	ptr = (t_logic_params *)params;
+	loop_events(ptr->e, ptr->state, ptr->timer_handler);
+	move(&ptr->e->p, ptr->map, ptr->state, ptr->timer_handler->ms_since_update);
+	look_up_and_down(&ptr->e->p, &ptr->e->op, ptr->state, ptr->timer_handler->ms_since_update);
+	animate(&ptr->e->p.weapons.list[ptr->e->p.weapons.current],
+			ptr->timer_handler->ms_since_update);
+	//todo : if paused return t_false
+	return (t_true);
+}
+
+void		*logic_params_init(t_env *e, t_map *map, const Uint8 *state, t_timer_handler *timer_handler)
+{
+	t_logic_params	*params;
+
+	if (!(params = (t_logic_params *)malloc(sizeof(t_logic_params))))
+		error_doom("Couldn't malloc t_logic_params struct");
+	params->e = e;
+	params->map = map;
+	params->state = state;
+	params->timer_handler = timer_handler;
+	return ((void *)params);
+}
+
 void		loop_doom(t_env *e, t_map *map)
 {
-    const Uint8 *state;
+    const Uint8 	*state;
     t_timer_handler	timer_handler;
-    double ms_since_frame;
+    double			ms_since_frame;
+    void			*update_logic_params;
 
 	timer_handler_init(&timer_handler);
     state = SDL_GetKeyboardState(NULL);
     ms_since_frame = 1000;
+	update_logic_params = logic_params_init(e, map, state, &timer_handler);
+    add_event(&timer_handler, 0, &update_logic, update_logic_params);
     while (42)
     {
-        loop_events(e, state, &timer_handler);
-        move(&e->p, map, state, timer_handler.ms_since_update);
-        look_up_and_down(&e->p, &e->op, state, timer_handler.ms_since_update);
-        animate(&e->p.weapons.list[e->p.weapons.current],
-        		timer_handler.ms_since_update);
-
 		if (ms_since_frame >= 1000.0 / e->op.fps_max)
         {
             if (e->debug_mode)
