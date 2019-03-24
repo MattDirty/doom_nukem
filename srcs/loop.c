@@ -62,10 +62,11 @@ static void loop_events(
     }
 }
 
-enum e_bool		update_logic(t_params params)
+enum e_bool		update_logic(double ms_since_update, t_params params)
 {
 	t_logic_params	*ptr;
 
+    (void)ms_since_update;
 	ptr = (t_logic_params *)params;
 	loop_events(ptr->e, ptr->state, ptr->timer_handler);
 	move(&ptr->e->p, ptr->map, ptr->state, ptr->timer_handler->ms_since_update);

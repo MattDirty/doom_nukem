@@ -3,7 +3,7 @@
 #include "timer_handler.h"
 #include "e_bool.h"
 
-enum e_bool    unlock(double ms_since_update, const void *ready)
+enum e_bool    unlock(double ms_since_update, t_params ready)
 {
     (void)ms_since_update;
     *(enum e_bool*)ready = t_true;
@@ -12,7 +12,7 @@ enum e_bool    unlock(double ms_since_update, const void *ready)
 
 enum e_bool    melee_primary_animation(
         double ms_since_update,
-        const void *pointer)
+        t_params pointer)
 {
     int step;
     int value;
