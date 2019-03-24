@@ -21,8 +21,8 @@ enum e_bool    melee_primary_animation(
     animation = (t_animation*)pointer;
     animation->time += ms_since_update;
 
-    step = animation->time / (animation->duration / 4);
-    value = animation->time % (animation->duration / 4);
+    step = (int)(animation->time) / (int)(animation->duration / 4);
+    value = (int)(animation->time) % (int)(animation->duration / 4);
     if (step == 0)
         animation->x_offset = -value;
     if (step == 1)
@@ -31,8 +31,10 @@ enum e_bool    melee_primary_animation(
         animation->x_offset = value;
     if (step == 3)
         animation->x_offset = animation->duration / 4 - value;
+    if (step > 3)
+        animation->x_offset = 0;
 
-    return (animation->time < animation->duration);
+    return (animation->time <= animation->duration);
 }
 
 void    melee_secondary(t_weapon *weapon, t_timer_handler *timer_handler)
