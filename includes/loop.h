@@ -14,4 +14,10 @@ typedef struct	s_logic_params
 	t_timer_handler	*timer_handler;
 }				t_logic_params;
 
+typedef struct	s_frame_event_params
+{
+	t_env			*e;
+	t_map			*map;
+}				t_frame_event_params;
+
 #endif
