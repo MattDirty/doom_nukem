@@ -70,8 +70,6 @@ enum e_bool		update_logic(t_params params)
 	loop_events(ptr->e, ptr->state, ptr->timer_handler);
 	move(&ptr->e->p, ptr->map, ptr->state, ptr->timer_handler->ms_since_update);
 	look_up_and_down(&ptr->e->p, &ptr->e->op, ptr->state, ptr->timer_handler->ms_since_update);
-	animate(&ptr->e->p.weapons.list[ptr->e->p.weapons.current],
-			ptr->timer_handler->ms_since_update);
 	//todo : if paused return t_false
 	return (t_true);
 }

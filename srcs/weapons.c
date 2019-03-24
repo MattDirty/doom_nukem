@@ -13,7 +13,6 @@ t_weapon    load_weapon(SDL_Surface *texture)
     reset_animation(&weapon.animation);
     weapon.main = melee_primary;
     weapon.secondary = melee_secondary;
-    weapon.animation.animation_controller = melee_primary_animation;
 	weapon.main_cooldown = 2000;
 	weapon.secondary_cooldown = 5000;
 	weapon.main_ready = t_true;

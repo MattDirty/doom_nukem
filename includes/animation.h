@@ -11,7 +11,6 @@ typedef struct  s_animation
     double  y_resize;
     Uint32  duration;
     Uint32  time;
-    void    (*animation_controller)(struct s_animation *this);
 }               t_animation;
 
 void    reset_animation(t_animation *animation);

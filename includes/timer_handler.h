@@ -11,7 +11,7 @@ typedef const void *t_params;
  * Return t_false to destroy the event.
  * Return t_true to recall the event after interval ms.
  */
-typedef enum e_bool (*t_event_func)(t_params);
+typedef enum e_bool (*t_event_func)(double ms_since_update, t_params);
 
 typedef struct    s_event
 {
