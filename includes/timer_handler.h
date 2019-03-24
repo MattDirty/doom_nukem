@@ -20,6 +20,7 @@ typedef struct    s_event
     t_event_func function;
     t_params params;
     struct s_event *next;
+	struct timespec _last_call;
 } t_event;
 
 typedef struct    s_timer_handler
