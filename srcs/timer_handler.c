@@ -77,6 +77,7 @@ void update_events(t_timer_handler *timer_handler)
         if (node->time_left <= 0)
         {
             node->time_left = node->interval;
+            clock_gettime(CLOCK_MONOTONIC_RAW, &time);
             ms_since_last_call = delta_ms(node->_last_call, time);
             clock_gettime(CLOCK_MONOTONIC_RAW, &node->_last_call);
             if (!node->function(ms_since_last_call, node->params))
