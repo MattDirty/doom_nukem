@@ -62,6 +62,7 @@ void update_events(t_timer_handler *timer_handler)
     t_event *node;
     t_event *next;
     struct timespec time;
+    double ms_since_last_call;
 
     clock_gettime(CLOCK_MONOTONIC_RAW, &time);
 	timer_handler->ms_since_update = delta_ms(timer_handler->time, time);
@@ -75,9 +76,11 @@ void update_events(t_timer_handler *timer_handler)
 		next = node->next;
         if (node->time_left <= 0)
         {
-            node->function(node->params);
             node->time_left = node->interval;
-            if (node->destroy_after_call)
+            clock_gettime(CLOCK_MONOTONIC_RAW, &time);
+            ms_since_last_call = delta_ms(node->_last_call, time);
+            clock_gettime(CLOCK_MONOTONIC_RAW, &node->_last_call);
+            if (!node->function(ms_since_last_call, node->params))
                 remove_event_from_list(timer_handler, node);
         }
         node = next;
@@ -87,7 +90,6 @@ void update_events(t_timer_handler *timer_handler)
 void add_event(
         t_timer_handler *timer_handler,
         double interval,
-        enum e_bool destroy_after_call,
         t_event_func function,
         t_params params)
 {
@@ -98,10 +100,10 @@ void add_event(
 
     new_event->interval = interval;
     new_event->time_left = interval;
-    new_event->destroy_after_call = destroy_after_call;
     new_event->function = function;
     new_event->params = params;
     new_event->next = NULL;
+    clock_gettime(CLOCK_MONOTONIC_RAW, &new_event->_last_call);
 
     add_event_to_list(timer_handler, new_event);
 }

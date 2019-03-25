@@ -9,9 +9,8 @@ typedef struct  s_animation
     int     y_offset;
     double  x_resize;
     double  y_resize;
-    Uint32  duration;
-    Uint32  time;
-    void    (*animation_controller)(struct s_animation *this);
+    double  duration;
+    double  time;
 }               t_animation;
 
 void    reset_animation(t_animation *animation);

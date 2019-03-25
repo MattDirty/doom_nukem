@@ -61,7 +61,8 @@ void		move(t_player *p, t_map* map, const Uint8 *state, double time)
         add_vector_to_vector(&p->speed, create_vector(cos(p->heading - ROT_90), -sin(p->heading - ROT_90)));
     if (state[SDL_SCANCODE_D])
         add_vector_to_vector(&p->speed, create_vector(-cos(p->heading - ROT_90), sin(p->heading - ROT_90)));
-    move_if_allowed(p, map, time);
+    if (p->speed.x || p->speed.y)
+        move_if_allowed(p, map, time);
     p->speed.x = 0;
     p->speed.y = 0;
 }
