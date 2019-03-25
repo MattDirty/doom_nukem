@@ -88,34 +88,60 @@ void		*logic_params_init(t_env *e, t_map *map, const Uint8 *state, t_timer_handl
 	return ((void *)params);
 }
 
+t_frame_event_params	*frame_event_params_init(t_env *e, t_map *map)
+{
+    t_frame_event_params	*params;
+
+    if (!(params = (t_frame_event_params*)malloc(sizeof(t_frame_event_params))))
+        error_doom("Couldn't allocate memory for t_frame_event_params");
+    params->e = e;
+    params->map = map;
+    return (params);
+}
+
+enum e_bool		frame_event(double ms_since_update, t_params params)
+{
+    t_env   				*e;
+    t_map					*map;
+    t_frame_event_params	*frame_event_params;
+
+    (void)ms_since_update;
+    frame_event_params = (t_frame_event_params*)params;
+    e = frame_event_params->e;
+    map = frame_event_params->map;
+    if (e->debug_mode)
+        debug_draw(&e->debug, map, &e->p, &e->op);
+    raycasting(e, map);
+    draw_weapon(
+            e->doom.surface,
+            e->p.weapons.list[e->p.weapons.current].sprite,
+            &e->p.weapons.list[e->p.weapons.current].animation,
+            &e->op);
+    ui_draw(&e->doom, &e->op);
+    print_surface(e->doom.renderer, e->doom.surface);
+    return (t_true);
+}
+
 void		loop_doom(t_env *e, t_map *map)
 {
-    const Uint8 	*state;
-    t_timer_handler	timer_handler;
-    double			ms_since_frame;
-    void			*update_logic_params;
+    const Uint8 			*state;
+    t_timer_handler			timer_handler;
+    void					*update_logic_params;
+    t_frame_event_params	*frame_event_params;
 
 	timer_handler_init(&timer_handler);
     state = SDL_GetKeyboardState(NULL);
-    ms_since_frame = 1000;
+
 	update_logic_params = logic_params_init(e, map, state, &timer_handler);
+    frame_event_params = frame_event_params_init(e, map);
+
     add_event(&timer_handler, 0, &update_logic, update_logic_params);
+    add_event(
+            &timer_handler,
+            1000.0 / e->op.fps_max,
+            &frame_event,
+            frame_event_params);
+
     while (42)
-    {
-		if (ms_since_frame >= 1000.0 / e->op.fps_max)
-        {
-            if (e->debug_mode)
-                debug_draw(&e->debug, map, &e->p, &e->op);
-            raycasting(e, map);
-            draw_weapon(e->doom.surface,
-                    e->p.weapons.list[e->p.weapons.current].sprite,
-                    &e->p.weapons.list[e->p.weapons.current].animation,
-                    &e->op);
-            ui_draw(&e->doom, &e->op);
-            print_surface(e->doom.renderer, e->doom.surface);
-            ms_since_frame = 0;
-        }
 		update_events(&timer_handler);
-		ms_since_frame += timer_handler.ms_since_update;
-    }
 }
