@@ -67,7 +67,7 @@ void        create_config_file(t_config *config)
 {
     int     fd;
 
-    if ((fd = open(CONFIG_PATH, O_WRONLY | O_CREAT)) < 0)
+    if ((fd = open(CONFIG_PATH, O_RDWR | O_CREAT, 0777)) < 0)
         error_doom("couldn't create config file.");
     ft_putendl_fd(
             ft_strjoin("resolution x:", ft_itoa(config->win_w)), fd);
