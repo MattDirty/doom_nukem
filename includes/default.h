@@ -46,13 +46,10 @@
 # define BLACK 0xFF000000
 # define WHITE 0xFFFFFFFF
 
-# define NORTH (ft_degtorad(90))
-# define SOUTH (ft_degtorad(270))
-# define WEST (ft_degtorad(180))
 # define EAST 0
-# define CIRCLE (ft_degtorad(360))
+# define CIRCLE 6.28319
 
-# define ROT_90 NORTH
+# define ROT_90 1.5708
 # define RUN 0.001
 
 # define PLAYER_THICKNESS 0.25
