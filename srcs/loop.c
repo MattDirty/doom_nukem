@@ -31,13 +31,7 @@ static void loop_events(t_env *e, const Uint8 *state, double time)
         {
             e->p.heading += ev.motion.xrel * e->op.mouse_sensi * time;
             e->p.vision_height -= ev.motion.yrel * 1000 * e->op.mouse_sensi * time;
-            e->p.vision_height > e->op.win_h ? e->p.vision_height = e->op.win_h : 0;
-            e->p.vision_height < 0 ? e->p.vision_height = 0 : e->p.vision_height;
         }
-        if (state[SDL_SCANCODE_LEFT])
-            e->p.heading -= ROT_X * time;
-        if (state[SDL_SCANCODE_RIGHT])
-            e->p.heading += ROT_X * time;
         if (state[SDL_SCANCODE_SPACE])
             e->p.weapons.list[e->p.weapons.current].main(
                     &e->p.weapons.list[e->p.weapons.current].animation);
@@ -66,7 +60,7 @@ void		loop_doom(t_env *e, t_map *map)
         clock_gettime(CLOCK_MONOTONIC_RAW, &start);
         loop_events(e, state, ms_since_update);
         move(&e->p, map, state, ms_since_update);
-        look_up_and_down(&e->p, &e->op, state, ms_since_update);
+        look_around(&e->p, state, ms_since_update);
         animate(&e->p.weapons.list[e->p.weapons.current], ms_since_update);
         if (ms_since_frame >= 1000.0 / e->op.fps_max)
         {

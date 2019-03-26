@@ -66,12 +66,14 @@ void		move(t_player *p, t_map* map, const Uint8 *state, double time)
     p->speed.y = 0;
 }
 
-void look_up_and_down(t_player *p, t_config *op, const Uint8 *state, double time)
+void look_around(t_player *p, const Uint8 *state, double time)
 {
     if (state[SDL_SCANCODE_UP])
         p->vision_height += ROT_Y * time;
     if (state[SDL_SCANCODE_DOWN])
         p->vision_height -= ROT_Y * time;
-    p->vision_height > op->win_h ? p->vision_height = op->win_h : 0;
-    p->vision_height < 0 ? p->vision_height = 0 : 0;
+    if (state[SDL_SCANCODE_LEFT])
+        p->heading -= ROT_X * time;
+    if (state[SDL_SCANCODE_RIGHT])
+        p->heading += ROT_X * time;
 }
