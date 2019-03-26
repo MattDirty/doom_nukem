@@ -3,7 +3,7 @@
 
 #include "collision.h"
 
-void		raycasting(t_env *e, t_map *map);
+void		raycasting(t_env *e);
 void		draw(t_env *e, double ray_angle, t_collision collision, Uint32 renderer_x);
 
 #endif

@@ -111,7 +111,7 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     map = frame_event_params->map;
     if (e->debug_mode)
         debug_draw(&e->debug, map, &e->p, &e->op);
-    raycasting(e, map);
+    raycasting(e);
     draw_weapon(
             e->doom.surface,
             e->p.weapons.list[e->p.weapons.current].sprite,
