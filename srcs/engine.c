@@ -83,9 +83,6 @@ void			raycasting(t_env *e)
 	t_segment	ray_seg;
 	double		ray_angle;
     Uint32      renderer_x;
-    t_sector sector;
-
-    sector = e->map->sectors->items[0];
 
     renderer_x = 0;
     while (renderer_x < e->op.win_w)
@@ -99,7 +96,7 @@ void			raycasting(t_env *e)
 				e->p.pos.x,
 				e->p.pos.y,
 				&ray_vect);
-		draw(e, ray_angle, check_collision(&sector, &ray_seg), renderer_x);
+		draw(e, ray_angle, check_collision(e->p.current_sector, &ray_seg), renderer_x);
 		renderer_x++;
 	}
 }
