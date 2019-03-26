@@ -48,6 +48,7 @@ t_config    load_ini(int fd)
     if (config.win_w && config.win_h
         && config.fov && config.fps_max && config.mouse_sensi)
     {
+    	config.mouse_sensi /= 1000000;
         config.half_w = config.win_w / 2.0;
         config.half_h = config.win_h / 2.0;
         config.half_fov = config.fov / 2.0;

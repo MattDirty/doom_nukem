@@ -18,7 +18,6 @@ typedef struct          s_env
 
 void		error_doom(char *err);
 int			quit_doom(t_env *e);
-void		init_doom(t_env *e);
 
 void		loop_doom(t_env *e, t_map *map);
 
