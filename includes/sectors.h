@@ -1,7 +1,8 @@
 #ifndef SECTORS_H
 # define SECTORS_H
 
-# include "walls.h"
+#include "textures.h"
+#include "walls.h"
 
 typedef	struct			s_sector
 {
@@ -16,5 +17,11 @@ typedef struct			s_sectors
     int					count;
     t_sector			 *items;
 }						t_sectors;
+
+int		read_sectors_from_file(
+        int fd,
+        t_textures *textures,
+        t_sectors **sectors);
+int		write_sectors_to_file(int fd, t_sectors *sectors);
 
 #endif

@@ -23,6 +23,7 @@ SRCS_NAMES = vector.c \
 			player.c \
 			serialisation.c \
 			walls.c \
+			sectors.c \
 			environment.c \
 			loop.c \
 			engine.c \
