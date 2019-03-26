@@ -17,6 +17,7 @@
 #include "collision.h"
 #include "default.h"
 #include "doom.h"
+#include "player.h"
 #include "engine.h"
 
 static enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inters)
@@ -83,10 +84,7 @@ void			raycasting(t_env *e, t_map *map)
     renderer_x = 0;
     while (renderer_x < e->op.win_w)
     {
-    	while (e->p.heading >= CIRCLE)
-			e->p.heading -= CIRCLE;
-		while (e->p.heading < 0)
-			e->p.heading += CIRCLE;
+        clamp_player_values(&e->p, e->op);
         ray_angle = e->p.heading + atan(
                 (renderer_x / e->op.half_w - 1) * e->op.tan_half_fov);
 		ray_vect = create_vector(cos(ray_angle), -sin(ray_angle));

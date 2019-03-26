@@ -17,6 +17,7 @@ typedef struct			s_player
 }						t_player;
 
 t_player    init_player(t_config *op);
+void    	clamp_player_values(t_player *p, t_config op);
 void        move(t_player *p, t_map* map, const Uint8 *state, double time);
-void        look_up_and_down(t_player *p, t_config *op, const Uint8 *state, double time);
+void        look_around(t_player *p, const Uint8 *state, double time);
 #endif
