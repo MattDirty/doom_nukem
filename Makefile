@@ -24,6 +24,7 @@ SRCS_NAMES = vector.c \
 			serialisation.c \
 			walls.c \
 			sectors.c \
+			map.c \
 			environment.c \
 			loop.c \
 			engine.c \
