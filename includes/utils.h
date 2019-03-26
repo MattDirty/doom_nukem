@@ -62,7 +62,7 @@ void		print_segment(t_segment *segment, char *str);
 double      delta_ms(struct timespec start, struct timespec end);
 double      get_distance_between_points(double x1, double y1, double x2, double y2);
 
-int			read_segment_from_file(int fd, t_segment **segment);
+int			read_segment_from_file(int fd, t_segment *segment);
 int			write_segment_to_file(int fd, t_segment *segment);
 
 #endif

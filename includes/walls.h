@@ -4,6 +4,7 @@
 # include "SDL.h"
 # include "utils.h"
 # include "e_bool.h"
+# include "textures.h"
 
 typedef struct s_sector t_sector;
 
@@ -38,5 +39,13 @@ typedef struct			s_walls
     int					count;
     t_wall				**items;
 }						t_walls;
+
+int			read_walls_from_file(
+        int fd,
+        t_textures *textures,
+        t_walls **walls);
+int			write_walls_to_file(
+        int fd,
+        t_walls *walls);
 
 #endif
