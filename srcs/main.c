@@ -116,8 +116,10 @@ int		main (int ac, char **av)
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		error_doom("error: cannot run SDL");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
-	init_doom(&e);
+	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
+		error_doom("error: cannot hide mouse cursor");
 	e.map = allocate_map();
+	e.p = init_player(&e.op, &e.map->sectors->items[0]);
     e.p.weapons = allocate_weapons();
     if (e.debug_mode)
 		e.debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
