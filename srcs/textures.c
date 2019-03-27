@@ -69,7 +69,7 @@ int	add_bitmap_file_to_textures(
         return (-1);
 
     if (!(node = (t_texture_node*)malloc(sizeof(t_texture_node))))
-        return (-1);
+        return (-2);
 
     texture->userdata = path;
     node->texture = texture;
@@ -144,7 +144,7 @@ int	write_textures_to_file(int fd, t_textures *textures)
         if (!node)
             break;
 
-        if (write_texture_node_to_file(fd, node))
+        if (write_texture_node_to_file(fd, node) < 0)
             return (-1);
 
         node = node->next;
@@ -200,15 +200,19 @@ int	write_texture_node_to_file(int fd, t_texture_node *texture_node)
     
     texture = texture_node->texture;
 
-    write(fd, &(texture->w), sizeof(texture->w));
-    write(fd, &(texture->h), sizeof(texture->h));
-    write(fd, &(texture->pitch), sizeof(texture->pitch));
-    write(
+    if (write(fd, &(texture->w), sizeof(texture->w)) <= 0)
+        return (-1);
+    if (write(fd, &(texture->h), sizeof(texture->h)) <= 0)
+        return (-2);
+    if (write(fd, &(texture->pitch), sizeof(texture->pitch)) <= 0)
+        return (-3);
+    if (write(
             fd,
             texture->pixels,
-            sizeof(Uint32) * texture->w * texture->h);
-
-    write_str_to_file(fd, texture->userdata);
+            sizeof(Uint32) * texture->w * texture->h) <= 0)
+        return (-4);
+    if (write_str_to_file(fd, texture->userdata) < 0)
+        return (-5);
 
     return (0);
 }
