@@ -163,6 +163,8 @@ int	read_texture_node_from_file(int fd, t_texture_node **texture_node)
 
     if (!(*texture_node = (t_texture_node*)malloc(sizeof(texture_node))))
         return (-1);
+    
+    (*texture_node)->next = NULL;
 
     if (!read(fd, &width, sizeof(width)))
         return (-2);

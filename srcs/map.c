@@ -11,7 +11,8 @@ int		read_map_from_file(int fd, t_textures *textures, t_map **map)
     if (!(*map = (t_map*)malloc(sizeof(t_map))))
         return (-1);
 
-    read_sectors_from_file(fd, textures, &(*map)->sectors);
+    if (read_sectors_from_file(fd, textures, &(*map)->sectors) < 0)
+        return (-2);
 
     if (read_str_from_file(fd, &daysky) < 0)
         return (-3);
@@ -35,7 +36,8 @@ int		read_map_from_file(int fd, t_textures *textures, t_map **map)
 
 int		write_map_to_file(int fd, t_map *map)
 {
-    write_sectors_to_file(fd, map->sectors);
+    if (write_sectors_to_file(fd, map->sectors) < 0)
+        return (-1);
 
     if (write_str_to_file(fd, map->daysky->userdata) < 0)
         return (-2);

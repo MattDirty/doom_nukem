@@ -24,15 +24,13 @@ int			read_walls_from_file(int fd, t_textures *textures, t_walls **walls)
     while (i < count)
     {
         wall = &((*walls)->items[i]);
-        if (!(wall = (t_wall*)malloc(sizeof(t_wall))))
-            return (-3);
         if (read(fd, &(wall->height), sizeof(wall->height)) <= 0)
             return (-3);
         if (read(fd, &(wall->portal), sizeof(wall->portal)) <= 0)
             return (-4);
         if (!read_segment_from_file(fd, &wall->segment))
             return (-5);
-        if (!read_str_from_file(fd, &name))
+        if (read_str_from_file(fd, &name) < 0)
             return (-6);
         find_texture_by_name(textures, name, &(wall->texture));
         free(name);
@@ -56,10 +54,14 @@ int			write_walls_to_file(int fd, t_walls *walls)
     {
         wall = walls->items[i];
 
-        write(fd, &wall.height, sizeof(wall.height));
-        write(fd, &wall.portal, sizeof(wall.portal));
-        write_segment_to_file(fd, &wall.segment);
-        write_str_to_file(fd, wall.texture->userdata);
+        if (write(fd, &wall.height, sizeof(wall.height)) <= 0)
+            return (-2);
+        if (write(fd, &wall.portal, sizeof(wall.portal)) <= 0)
+            return (-3);
+        if (write_segment_to_file(fd, &wall.segment) <= 0)
+            return (-4);
+        if (write_str_to_file(fd, wall.texture->userdata) < 0)
+            return (-5);
 
         i++;
     }

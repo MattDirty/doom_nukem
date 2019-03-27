@@ -24,7 +24,8 @@ int			read_sectors_from_file(
     while (i < count)
     {
         sector = &((*sectors)->items[i]);
-        read_walls_from_file(fd, textures, &sector->walls);
+        if (read_walls_from_file(fd, textures, &sector->walls) < 0)
+            return (-3);
 
         i++;
     }
@@ -44,7 +45,8 @@ int			write_sectors_to_file(int fd, t_sectors *sectors)
     while (i < sectors->count)
     {
         sector = sectors->items[i];
-        write_walls_to_file(fd, sector.walls);
+        if (write_walls_to_file(fd, sector.walls) < 0)
+            return (-2);
 
         i++;
     }
