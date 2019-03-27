@@ -28,10 +28,16 @@ t_config    load_default_config()
 static int  extract_int_if_line_is_valid(int fd)
 {
     char    *line;
+    char    *tmp;
+    int     value;
 
     if (get_next_line_from_char(fd, &line, '\n') > 0
-            && (line = ft_strchr(line, ':')) != NULL)
-        return (ft_atoi(line + 1));
+        && (tmp = ft_strchr(line, ':')) != NULL)
+    {
+        value = ft_atoi(tmp + 1);
+        free(line);
+        return (value);
+    }
     return (0);
 }
 
