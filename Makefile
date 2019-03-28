@@ -109,7 +109,7 @@ run: all
 editor: all
 	./$(EDITOR_NAME)
 
-debug: all
+debug: $(NAME)
 	./$(NAME) debug
 
 norm:

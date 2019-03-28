@@ -25,7 +25,23 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
     return (sdl);
 }
 
-t_map *allocate_map()
+void	init_skybox(t_map *map)
+{
+	if (!(map->skybox[0] = SDL_LoadBMP("textures/skybox/front.bmp")))
+		error_doom("cannot load skybox texture");
+	if (!(map->skybox[1] = SDL_LoadBMP("textures/skybox/right.bmp")))
+		error_doom("cannot load skybox texture");
+	if (!(map->skybox[2] = SDL_LoadBMP("textures/skybox/back.bmp")))
+		error_doom("cannot load skybox texture");
+	if (!(map->skybox[3] = SDL_LoadBMP("textures/skybox/left.bmp")))
+		error_doom("cannot load skybox texture");
+	if (!(map->skybox[4] = SDL_LoadBMP("textures/skybox/up.bmp")))
+		error_doom("cannot load skybox texture");
+	if (!(map->skybox[5] = SDL_LoadBMP("textures/skybox/down.bmp")))
+		error_doom("cannot load skybox texture");
+}
+
+t_map *allocate_map(void)
 {
 	int			i;
 	int			j;
@@ -33,7 +49,7 @@ t_map *allocate_map()
 	SDL_Surface *texture;
 	t_map		*map;
 
-	if (!(texture = SDL_LoadBMP("brickwall.bmp")))
+	if (!(texture = SDL_LoadBMP("textures/walls/brickwall.bmp")))
 		error_doom("there was an error while loading the BMP");
 
 	if (!(map = (t_map*)malloc(sizeof(t_map))))
@@ -82,6 +98,7 @@ t_map *allocate_map()
 		walls->items[8].portal = t_true;
 		i++;
 	}
+	init_skybox(map);
 
 	return (map);
 }
