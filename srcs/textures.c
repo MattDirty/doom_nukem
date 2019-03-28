@@ -156,63 +156,81 @@ int	write_textures_to_file(int fd, t_textures *textures)
 
 int	read_texture_node_from_file(int fd, t_texture_node **texture_node)
 {
-    int				width;
-    int				height;
-    int				pitch;
-    void			*pixels;
+    t_SDL_Surface_info	info;
+    void				*pixels;
 
     if (!(*texture_node = (t_texture_node*)malloc(sizeof(texture_node))))
         return (-1);
-    
     (*texture_node)->next = NULL;
-
-    if (!read(fd, &width, sizeof(width)))
+    if (!read(fd, &info.w, sizeof(info.w)))
         return (-2);
-    if (!read(fd, &height, sizeof(height)))
+    if (!read(fd, &info.h, sizeof(info.h)))
         return (-3);
-    if (!read(fd, &pitch, sizeof(pitch)))
+    if (!read(fd, &info.depth, sizeof(info.depth)))
         return (-4);
-
-    if (!(pixels = malloc(sizeof(Uint32) * width * height)))
+    if (!read(fd, &info.pitch, sizeof(info.pitch)))
         return (-5);
-
-    if (!read(fd, pixels, sizeof(Uint32) * width * height))
+    if (!read(fd, &info.Rmask, sizeof(info.Rmask)))
         return (-6);
-    
+    if (!read(fd, &info.Gmask, sizeof(info.Gmask)))
+        return (-7);
+    if (!read(fd, &info.Bmask, sizeof(info.Bmask)))
+        return (-8);
+    if (!read(fd, &info.Amask, sizeof(info.Amask)))
+        return (-9);
+    if (!(pixels = malloc(info.depth / 8 * info.w * info.h)))
+        return (-10);
+    if (read(fd, pixels, info.depth / 8 * info.w * info.h) <= 0)
+        return (-11);
     (*texture_node)->texture = SDL_CreateRGBSurfaceFrom(
             pixels,
-            width,
-            height,
-            BITMAP_DEPTH,
-            pitch,
-            0xff000000,
-            0x00ff0000,
-            0x0000ff00,
-            0x000000ff);
-    read_str_from_file(fd, (char**)&(*texture_node)->texture->userdata);
-
+            info.w,
+            info.h,
+            info.depth,
+            info.pitch,
+            info.Rmask,
+            info.Gmask,
+            info.Bmask,
+            info.Amask);
+    if (!(*texture_node)->texture)
+        return (-12);
+    if (read_str_from_file(
+            fd,
+            (char**)&(*texture_node)->texture->userdata) < 0)
+        return (-13);
     return (0);
 }
 
 int	write_texture_node_to_file(int fd, t_texture_node *texture_node)
 {
-    SDL_Surface		*texture;
+    SDL_Surface			*texture;
+    SDL_PixelFormat		format;
     
     texture = texture_node->texture;
-
+    format = *(texture->format);
     if (write(fd, &(texture->w), sizeof(texture->w)) <= 0)
         return (-1);
     if (write(fd, &(texture->h), sizeof(texture->h)) <= 0)
         return (-2);
+    if (write(fd, &(format.BitsPerPixel), sizeof(format.BitsPerPixel)) <= 0)
+        return (-4);
     if (write(fd, &(texture->pitch), sizeof(texture->pitch)) <= 0)
-        return (-3);
+        return (-5);
+    if (write(fd, &(format.Rmask), sizeof(format.Rmask)) <= 0)
+        return (-6);
+    if (write(fd, &(format.Gmask), sizeof(format.Gmask)) <= 0)
+        return (-7);
+    if (write(fd, &(format.Bmask), sizeof(format.Bmask)) <= 0)
+        return (-8);
+    if (write(fd, &(format.Amask), sizeof(format.Amask)) <= 0)
+        return (-9);
     if (write(
             fd,
             texture->pixels,
-            sizeof(Uint32) * texture->w * texture->h) <= 0)
-        return (-4);
+            format.BytesPerPixel * texture->w * texture->h) <= 0)
+        return (-10);
     if (write_str_to_file(fd, texture->userdata) < 0)
-        return (-5);
+        return (-11);
 
     return (0);
 }

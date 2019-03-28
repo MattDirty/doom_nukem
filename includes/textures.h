@@ -16,6 +16,22 @@ typedef struct				s_textures
     t_texture_node			*first;
 }							t_textures;
 
+/**
+ ** This type exists only to satisfy the stupid norm, since
+ ** 9 local variables are required to read the parameters of
+ ** SDL_CreateRGBSurfaceFrom.
+ **/
+typedef struct				s_SDL_Surface_info
+{
+    int						w;
+    int						h;
+    Uint8					depth;
+    int						pitch;
+    Uint32					Rmask;
+    Uint32					Gmask;
+    Uint32					Bmask;
+    Uint32					Amask;
+}							t_SDL_Surface_info;
 int	find_texture_by_name(
         t_textures *textures,
         char *name,
