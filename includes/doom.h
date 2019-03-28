@@ -14,6 +14,7 @@ typedef struct          s_env
 		enum e_bool     debug_mode;
         t_player        p;
         t_sdl           doom;
+        t_map			*map;
 }                       t_env;
 
 void		error_doom(char *err);
