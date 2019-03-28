@@ -39,6 +39,10 @@ void    put_pixel(SDL_Surface *s, int x, int y, Uint32 color)
 {
     Uint32 *pix;
 
+    if (x < 0 || y < 0)
+        return;
+    if (x >= s->w || y >= s->h)
+        return;
     pix = (Uint32 *) s->pixels;
     pix[(Uint64)(x + y * s->w)] = color;
 }
