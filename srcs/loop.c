@@ -69,7 +69,7 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
     (void)ms_since_update;
 	ptr = (t_logic_params *)params;
 	loop_events(ptr->e, ptr->state, ptr->timer_handler);
-	move(&ptr->e->p, ptr->map, ptr->state, ptr->timer_handler->ms_since_update);
+	move(&ptr->e->p, ptr->state, ptr->timer_handler->ms_since_update);
 	look_up_and_down(&ptr->e->p, &ptr->e->op, ptr->state, ptr->timer_handler->ms_since_update);
 	//todo : if paused return t_false
 	return (t_true);

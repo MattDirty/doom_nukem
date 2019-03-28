@@ -41,7 +41,6 @@ static enum e_bool segments_intersect(
         inters->y = a->y1 + (t * delta_a.y);
         return (t_true);
     }
-
     return (t_false);
 }
 
@@ -52,29 +51,38 @@ t_collision check_collision(t_sector *sector, t_segment *seg)
 	int		    i;
 	t_coords	inters;
 
-	collision.distance = HORIZON;
-	i = 0;
-	while (i < sector->walls->count)
+
+	collision.wall = NULL;
+	while (collision.wall == NULL || collision.wall->type == portal)
 	{
-		if (segments_intersect(
-				seg, &sector->walls->items[i].segment, &inters))
+		collision.distance = HORIZON;
+		i = 0;
+		while (i < sector->walls->count)
 		{
-			temp_distance = get_distance_between_points(seg->x1, seg->y1,
-					inters.x, inters.y);
-			if (temp_distance < collision.distance)
+			if (segments_intersect(
+					seg, &sector->walls->items[i].segment, &inters))
 			{
-				collision.inters.x = inters.x;
-				collision.inters.y = inters.y;
-				collision.distance = temp_distance;
-				collision.wall = &sector->walls->items[i];
+				temp_distance = get_distance_between_points(seg->x1, seg->y1,
+															inters.x, inters.y);
+
+				if (temp_distance < collision.distance)
+				{
+					collision.inters.x = inters.x;
+					collision.inters.y = inters.y;
+					collision.distance = temp_distance;
+					collision.wall = &sector->walls->items[i];
+				}
 			}
+			i++;
 		}
-		i++;
+		if (collision.wall == NULL)
+			return (collision);
+		else if (collision.wall->type == portal)
+			sector = collision.wall->pointer.sector.sector2;
 	}
-	if (collision.wall->type == portal)
-		collision = check_collision(collision.wall->pointer.sector.sector2, seg);
 	return (collision);
 }
+
 
 void			raycasting(t_env *e)
 {

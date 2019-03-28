@@ -14,22 +14,21 @@
 #include "player.h"
 #include "default.h"
 
-static void move_if_allowed(t_player *p, t_map *map, double time)
+static void move_if_allowed(t_player *p, double time)
 {
     t_segment seg;
     t_vector wall_parallel;
     t_collision collision;
-    t_collision collision2;
+//    t_collision collision2;
+    t_sector	*sector;
     double      rad;
-    t_sector *sector;
 
-    sector = &map->sectors->items[0];
-
+    sector = p->current_sector;
     scalar_multiply(&p->speed, RUN * time);
     seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
     change_segment_length(&seg, PLAYER_THICKNESS);
     collision = check_collision(sector, &seg);
-    if (collision.wall->type == wall && collision.distance <= PLAYER_THICKNESS)
+    if (collision.distance <= PLAYER_THICKNESS)
     {
         wall_parallel = get_vector_from_segment(&collision.wall->segment);
         rad = get_rad_between_vectors(&p->speed, &wall_parallel);
@@ -43,16 +42,16 @@ static void move_if_allowed(t_player *p, t_map *map, double time)
             return;
         seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
         change_segment_length(&seg, PLAYER_THICKNESS);
-        collision2 = check_collision(sector, &seg);
-        if (collision.distance != collision2.distance
-        && collision2.distance <= PLAYER_THICKNESS && collision2.wall->type == wall)
-            return;
+//        collision2 = check_collision(sector, &seg);
+//        if (collision.distance != collision2.distance
+//        && collision2.distance <= PLAYER_THICKNESS)
+//            return;
     }
     p->pos.x += p->speed.x;
     p->pos.y += p->speed.y;
 }
 
-void		move(t_player *p, t_map* map, const Uint8 *state, double time)
+void		move(t_player *p, const Uint8 *state, double time)
 {
     if (state[SDL_SCANCODE_W])
         add_vector_to_vector(&p->speed, create_vector(cos(p->heading), -sin(p->heading)));
@@ -63,7 +62,7 @@ void		move(t_player *p, t_map* map, const Uint8 *state, double time)
     else if (state[SDL_SCANCODE_D])
         add_vector_to_vector(&p->speed, create_vector(-cos(p->heading - ROT_90), sin(p->heading - ROT_90)));
     if (p->speed.x || p->speed.y)
-        move_if_allowed(p, map, time);
+        move_if_allowed(p, time);
     p->speed.x = 0;
     p->speed.y = 0;
 }
