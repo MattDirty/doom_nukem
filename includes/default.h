@@ -48,7 +48,6 @@
 
 # define EAST 0
 # define CIRCLE 6.28319
-
 # define ROT_90 1.5708
 # define RUN 0.001
 

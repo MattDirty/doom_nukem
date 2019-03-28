@@ -15,6 +15,7 @@
 #include "libft.h"
 #include <math.h>
 #include "collision.h"
+#include "player.h"
 #include "default.h"
 #include "doom.h"
 #include "player.h"

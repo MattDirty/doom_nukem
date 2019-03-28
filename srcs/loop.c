@@ -38,13 +38,7 @@ static void loop_events(
                     * timer_handler->ms_since_update;
             e->p.vision_height -= ev.motion.yrel * 1000
                     * e->op.mouse_sensi * timer_handler->ms_since_update;
-            e->p.vision_height > e->op.win_h ? e->p.vision_height = e->op.win_h : 0;
-            e->p.vision_height < 0 ? e->p.vision_height = 0 : e->p.vision_height;
         }
-        if (state[SDL_SCANCODE_LEFT])
-            e->p.heading -= ROT_X * timer_handler->ms_since_update;
-        if (state[SDL_SCANCODE_RIGHT])
-            e->p.heading += ROT_X * timer_handler->ms_since_update;
         if (state[SDL_SCANCODE_SPACE])
             e->p.weapons.list[e->p.weapons.current].main(
                     &e->p.weapons.list[e->p.weapons.current],
@@ -70,7 +64,7 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
 	ptr = (t_logic_params *)params;
 	loop_events(ptr->e, ptr->state, ptr->timer_handler);
 	move(&ptr->e->p, ptr->map, ptr->state, ptr->timer_handler->ms_since_update);
-	look_up_and_down(&ptr->e->p, &ptr->e->op, ptr->state, ptr->timer_handler->ms_since_update);
+	look_around(&ptr->e->p, ptr->state, ptr->timer_handler->ms_since_update);
 	//todo : if paused return t_false
 	return (t_true);
 }
