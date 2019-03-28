@@ -95,6 +95,7 @@ void			raycasting(t_env *e, t_map *map)
 				e->p.pos.y,
 				&ray_vect);
 		draw(e, ray_angle, check_collision(&sector, &ray_seg), renderer_x);
+
 		renderer_x++;
 	}
 }
