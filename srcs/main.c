@@ -106,7 +106,6 @@ t_map *allocate_map(void)
 int		main (int ac, char **av)
 {
 	t_env		e;
-	t_map		*map;
 
 	e.op = load_config();
 	if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
@@ -117,10 +116,10 @@ int		main (int ac, char **av)
 		error_doom("error: cannot run SDL");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	init_doom(&e);
-	map = allocate_map();
+	e.map = allocate_map();
     e.p.weapons = allocate_weapons();
     if (e.debug_mode)
 		e.debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
-	loop_doom(&e, map);
+	loop_doom(&e);
 	return (EXIT_SUCCESS);
 }
