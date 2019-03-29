@@ -38,37 +38,25 @@ void    put_pixel(SDL_Surface *s, int x, int y, Uint32 color)
 {
     Uint32 *pix;
 
-    if (x < 0 || y < 0)
-        return;
-    if (x >= s->w || y >= s->h)
-        return;
-    pix = (Uint32 *) s->pixels;
-    pix[(Uint64)(x + y * s->w)] = color;
+    pix = s->pixels;
+    pix[x + y * s->w] = color;
 }
 
 void    put_pixel_alpha(SDL_Surface *s, int x, int y, Uint32 color)
 {
-    Uint32 *pix;
-    double alpha;
-    Uint8 pRed;
-    Uint8 pGreen;
-    Uint8 pBlue;
+    Uint8 *pix;
+    Uint8 alpha;
+    Uint8 *pColor;
 
-    alpha = ((color & MASK_ALPHA) >> 24) / 255.0;
-    if (x < 0 || y < 0 || alpha == 0)
+    pColor = (Uint8*)(&color);
+    alpha = *(pColor + 3);
+    if (alpha == 0)
         return;
-    if (x >= s->w || y >= s->h)
-        return;
-    pix = (Uint32 *) s->pixels + (x + y * s->w);
-    pRed = (*pix & s->format->Rmask) >> s->format->Rshift << s->format->Rloss;
-    pGreen = (*pix & s->format->Gmask) >> s->format->Gshift << s->format->Gloss;
-    pBlue = (*pix & s->format->Bmask) >> s->format->Bshift << s->format->Bloss;
-    *pix = (255 << 24)
-       + ((int) (((color & MASK_RED) >> 16) * alpha
-       + (pRed * (1 - alpha))) << 16)
-       + ((int) (((color & MASK_GREEN) >> 8) * alpha
-       + (pGreen * (1 - alpha))) << 8)
-       + (color & MASK_BLUE) * alpha + pBlue * (1 - alpha);
+    pix = (Uint8*)s->pixels + (x + y * s->w) * 4;
+    *(pix + 3) = 255;
+    *(pix + 2) = (*(pColor + 2) & alpha) + (*(pix + 2) & (Uint8)~alpha);
+    *(pix + 1) = (*(pColor + 1) & alpha) + (*(pix + 1) & (Uint8)~alpha);
+    *pix = (*pColor & alpha) + (*pix & (Uint8)~alpha);
 }
 
 void        rotate_and_draw(SDL_Surface *surface, SDL_Surface *text, t_i_coords pos, enum e_bool force_alpha)
