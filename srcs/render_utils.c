@@ -17,19 +17,18 @@
 
 Uint32  get_pixel(SDL_Surface *s, int x, int y, enum e_bool force_alpha)
 {
-    Uint32 *pix;
+    Uint8 *pix;
     Uint8 channel[4];
     Uint32 color;
 
-    pix = (Uint32 *) s->pixels;
-    color = pix[x + y * s->w];
+    pix = s->pixels + (x + y * s->w) * s->format->BytesPerPixel;
     if (force_alpha)
         channel[0] = 255;
     else
-        channel[0] = (color & s->format->Amask) >> s->format->Ashift << s->format->Aloss;
-    channel[1] = (color & s->format->Rmask) >> s->format->Rshift << s->format->Rloss;
-    channel[2] = (color & s->format->Gmask) >> s->format->Gshift << s->format->Gloss;
-    channel[3] = (color & s->format->Bmask) >> s->format->Bshift << s->format->Bloss;
+        channel[0] = *pix;
+    channel[1] = *(pix + 3);
+    channel[2] = *(pix + 2);
+    channel[3] = *(pix + 1);
     color = (channel[0] << 24) + (channel[1] << 16) + (channel[2] << 8) + (channel[3]);
     return (color);
 }
