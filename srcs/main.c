@@ -55,7 +55,7 @@ t_map *allocate_map(void)
 
 		walls = map->sectors->items[i].walls;
 
-		walls->count = 10;  // todo: read shit
+		walls->count = 10;  // todo: tread shit
 		if (!(walls->items = (t_wall*)malloc(walls->count * sizeof(t_wall))))
 			error_doom("Can't allocate walls");
 
