@@ -84,6 +84,9 @@ t_map *allocate_map(void)
 	}
 	if (!(map->daysky = SDL_LoadBMP("textures/skybox/day.bmp")))
 		error_doom("error: cannot load day sky texture");
+	if (!(map->nightsky = SDL_LoadBMP("textures/skybox/night.bmp")))
+		error_doom("error: cannot load day sky texture");
+	map->daytime = t_true;
 	return (map);
 }
 

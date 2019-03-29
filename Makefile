@@ -38,6 +38,7 @@ SRC_NAME =	main.c \
 			utils.c \
 			animation.c \
 			melee.c \
+			skybox.c \
 			config.c
 
 SRC_EDITOR_NAME = editor.c

@@ -17,6 +17,7 @@
 #include "engine.h"
 #include "ui.h"
 #include "config.h"
+#include "skybox.h"
 #include "timer_handler.h"
 #include "surface_manipulation.h"
 #include "loop.h"
@@ -135,7 +136,7 @@ void		loop_doom(t_env *e)
             1000.0 / e->op.fps_max,
             &frame_event,
             frame_event_params);
-
+    add_event(&timer_handler, 60000, &day_to_night, &e->map->daytime);
     while (42)
 		update_events(&timer_handler);
 }
