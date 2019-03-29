@@ -36,7 +36,7 @@ typedef struct			s_wall
 typedef struct			s_walls
 {
     int					count;
-    t_wall				 *items;
+    t_wall				**items;
 }						t_walls;
 
 #endif

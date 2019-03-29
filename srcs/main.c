@@ -60,34 +60,40 @@ t_map *allocate_map()
 
 		walls->count = 4;  // todo: read shit
 
-        if (!(walls->items = (t_wall*)malloc(walls->count * sizeof(t_wall))))
+        if (!(walls->items = (t_wall**)malloc(walls->count * sizeof(t_wall*))))
 			error_doom("Can't allocate walls");
 
-		walls->items[0].segment = create_segment(0, 0 + i * 4, 0, 4 + i * 4);
-		walls->items[1].segment = create_segment(0, 4 + i * 4, 4, 4 + i * 4);
-		walls->items[2].segment = create_segment(4, 4 + i * 4, 4, 0 + i * 4);
-		walls->items[3].segment = create_segment(4, 0 + i * 4, 0, 0 + i * 4);
+        j = 0;
+        while (j < walls->count)
+            if (!(walls->items[j++] = (t_wall*)malloc(sizeof(t_wall))))
+                error_doom("Can't allocate wall");
+
+		walls->items[0]->segment = create_segment(0, 0 + i * 4, 0, 4 + i * 4);
+		walls->items[1]->segment = create_segment(0, 4 + i * 4, 4, 4 + i * 4);
+		walls->items[2]->segment = create_segment(4, 4 + i * 4, 4, 0 + i * 4);
+		walls->items[3]->segment = create_segment(4, 0 + i * 4, 0, 0 + i * 4);
 
 		j = 0;
 		while (j < walls->count)
 		{
 		    // todo: read shit
-		    walls->items[j].height = 1.0;
-		    walls->items[j].type = wall;
+		    walls->items[j]->height = 1.0;
+		    walls->items[j]->type = wall;
 		    if (i == 0)
-    		    walls->items[j].pointer.texture = texture;
+                walls->items[j]->pointer.texture = texture;
 		    else
-		        walls->items[j].pointer.texture = texture2;
+		        walls->items[j]->pointer.texture = texture2;
 			j++;
 		}
 		if (i == 0)
         {
-		    walls->items[1].type = portal;
-		    walls->items[1].pointer.sector.sector1 = &map->sectors->items[0];
-            walls->items[1].pointer.sector.sector2 = &map->sectors->items[1];
+		    walls->items[1]->type = portal;
+		    walls->items[1]->pointer.sector.sector1 = &map->sectors->items[0];
+            walls->items[1]->pointer.sector.sector2 = &map->sectors->items[1];
         }
 		else
         {
+            free(walls->items[3]);
             walls->items[3] = map->sectors->items[0].walls->items[1];
         }
 		i++;
