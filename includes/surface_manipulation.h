@@ -1,9 +1,9 @@
-#ifndef DOOMNUKEM_SURFACE_MANIPULATION_H
-# define DOOMNUKEM_SURFACE_MANIPULATION_H
+#ifndef SURFACE_MANIPULATION_H
+# define SURFACE_MANIPULATION_H
 
-#include "SDL.h"
-#include "e_bool.h"
-#include "utils.h"
+# include "SDL.h"
+# include "e_bool.h"
+# include "utils.h"
 
 Uint32		get_pixel(SDL_Surface *s, int x, int y, enum e_bool force_alpha);
 

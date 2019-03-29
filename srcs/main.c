@@ -25,7 +25,7 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
     return (sdl);
 }
 
-t_map *allocate_map()
+t_map *allocate_map(void)
 {
 	int			i;
 	int			j;
@@ -33,7 +33,7 @@ t_map *allocate_map()
 	SDL_Surface *texture;
 	t_map		*map;
 
-	if (!(texture = SDL_LoadBMP("brickwall.bmp")))
+	if (!(texture = SDL_LoadBMP("textures/walls/brickwall.bmp")))
 		error_doom("there was an error while loading the BMP");
 
 	if (!(map = (t_map*)malloc(sizeof(t_map))))
@@ -82,14 +82,17 @@ t_map *allocate_map()
 		walls->items[8].portal = t_true;
 		i++;
 	}
-
+	if (!(map->daysky = SDL_LoadBMP("textures/skybox/day.bmp")))
+		error_doom("error: cannot load day sky texture");
+	if (!(map->nightsky = SDL_LoadBMP("textures/skybox/night.bmp")))
+		error_doom("error: cannot load day sky texture");
+	map->daytime = t_true;
 	return (map);
 }
 
 int		main (int ac, char **av)
 {
 	t_env		e;
-	t_map		*map;
 
 	e.op = load_config();
 	if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
@@ -100,10 +103,10 @@ int		main (int ac, char **av)
 		error_doom("error: cannot run SDL");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	init_doom(&e);
-	map = allocate_map();
+	e.map = allocate_map();
     e.p.weapons = allocate_weapons();
     if (e.debug_mode)
 		e.debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
-	loop_doom(&e, map);
+	loop_doom(&e);
 	return (EXIT_SUCCESS);
 }

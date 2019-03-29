@@ -35,7 +35,7 @@ t_weapons   allocate_weapons()
     i = 0;
     while (i < weapons.size)
     {
-        if (!(textures[i] = SDL_LoadBMP("dwa.bmp"))) //todo : texture loader
+        if (!(textures[i] = SDL_LoadBMP("textures/weapons/dwa.bmp"))) //todo : texture loader
             error_doom("there was an error while loading the BMP (weapon)");
         weapons.list[i] = load_weapon(textures[i]); //todo : weapon mod
         i++;

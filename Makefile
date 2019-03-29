@@ -38,6 +38,7 @@ SRC_NAME =	main.c \
 			utils.c \
 			animation.c \
 			melee.c \
+			skybox.c \
 			config.c
 
 SRC_EDITOR_NAME = editor.c
@@ -109,7 +110,7 @@ run: all
 editor: all
 	./$(EDITOR_NAME)
 
-debug: all
+debug: $(NAME)
 	./$(NAME) debug
 
 norm:

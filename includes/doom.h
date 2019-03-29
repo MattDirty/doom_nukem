@@ -14,12 +14,13 @@ typedef struct          s_env
 		enum e_bool     debug_mode;
         t_player        p;
         t_sdl           doom;
+        t_map			*map;
 }                       t_env;
 
 void		error_doom(char *err);
 int			quit_doom(t_env *e);
 void		init_doom(t_env *e);
 
-void		loop_doom(t_env *e, t_map *map);
+void		loop_doom(t_env *e);
 
 #endif

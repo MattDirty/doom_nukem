@@ -13,6 +13,7 @@
 #include "collision.h"
 #include "doom.h"
 #include "default.h"
+#include "skybox.h"
 #include "surface_manipulation.h"
 
 static void	draw_wall(t_env *e, t_collision collision, Uint32 renderer_x, double vision_height)
@@ -41,22 +42,14 @@ static void	draw_wall(t_env *e, t_collision collision, Uint32 renderer_x, double
 	}
 }
 
-static void draw_ceil_and_floor(t_sdl *doom, t_config *op,Uint32 renderer_x, double vision_height)
+static void paint_floor(t_env *e, t_config *op, Uint32 renderer_x, double vision_height)
 {
     Uint32  y;
-    Uint32  end;
 
-    y = 0;
-    end = vision_height;
-    while (y < end)
-    {
-        put_pixel(doom->surface, renderer_x, y, SKYBLUE);
-        y++;
-    }
     y = vision_height;
     while (y < op->win_h)
     {
-        put_pixel(doom->surface, renderer_x, y, BROWN);
+        put_pixel(e->doom.surface, renderer_x, y, BROWN);
         y++;
     }
 }
@@ -69,6 +62,7 @@ void		draw(
 {
 	collision.distance *= cos(e->p.heading - ray_angle);
 
-	draw_ceil_and_floor(&e->doom, &e->op, renderer_x, e->p.vision_height);
+	paint_floor(e, &e->op, renderer_x, e->p.vision_height);
+	skybox(e, renderer_x);
 	draw_wall(e, collision, renderer_x, e->p.vision_height);
 }

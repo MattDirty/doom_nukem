@@ -1,5 +1,5 @@
-#ifndef DOOM_NUKEM_TIMER_HANDLER_H
-# define DOOM_NUKEM_TIMER_HANDLER_H
+#ifndef TIMER_HANDLER_H
+# define TIMER_HANDLER_H
 
 # include "e_bool.h"
 

@@ -17,6 +17,7 @@
 #include "engine.h"
 #include "ui.h"
 #include "config.h"
+#include "skybox.h"
 #include "timer_handler.h"
 #include "surface_manipulation.h"
 #include "loop.h"
@@ -69,27 +70,27 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
 	return (t_true);
 }
 
-void		*logic_params_init(t_env *e, t_map *map, const Uint8 *state, t_timer_handler *timer_handler)
+void		*logic_params_init(t_env *e, const Uint8 *state, t_timer_handler *timer_handler)
 {
 	t_logic_params	*params;
 
 	if (!(params = (t_logic_params *)malloc(sizeof(t_logic_params))))
 		error_doom("Couldn't malloc t_logic_params struct");
 	params->e = e;
-	params->map = map;
+	params->map = e->map;
 	params->state = state;
 	params->timer_handler = timer_handler;
 	return ((void *)params);
 }
 
-t_frame_event_params	*frame_event_params_init(t_env *e, t_map *map)
+t_frame_event_params	*frame_event_params_init(t_env *e)
 {
     t_frame_event_params	*params;
 
     if (!(params = (t_frame_event_params*)malloc(sizeof(t_frame_event_params))))
         error_doom("Couldn't allocate memory for t_frame_event_params");
     params->e = e;
-    params->map = map;
+    params->map = e->map;
     return (params);
 }
 
@@ -105,7 +106,7 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     map = frame_event_params->map;
     if (e->debug_mode)
         debug_draw(&e->debug, map, &e->p, &e->op);
-    raycasting(e, map);
+    raycasting(e);
     draw_weapon(
             e->doom.surface,
             e->p.weapons.list[e->p.weapons.current].sprite,
@@ -116,7 +117,7 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     return (t_true);
 }
 
-void		loop_doom(t_env *e, t_map *map)
+void		loop_doom(t_env *e)
 {
     const Uint8 			*state;
     t_timer_handler			timer_handler;
@@ -126,8 +127,8 @@ void		loop_doom(t_env *e, t_map *map)
 	timer_handler_init(&timer_handler);
     state = SDL_GetKeyboardState(NULL);
 
-	update_logic_params = logic_params_init(e, map, state, &timer_handler);
-    frame_event_params = frame_event_params_init(e, map);
+	update_logic_params = logic_params_init(e, state, &timer_handler);
+    frame_event_params = frame_event_params_init(e);
 
     add_event(&timer_handler, 0, &update_logic, update_logic_params);
     add_event(
@@ -135,7 +136,7 @@ void		loop_doom(t_env *e, t_map *map)
             1000.0 / e->op.fps_max,
             &frame_event,
             frame_event_params);
-
+    add_event(&timer_handler, 60000, &day_to_night, &e->map->daytime);
     while (42)
 		update_events(&timer_handler);
 }
