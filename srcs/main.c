@@ -25,22 +25,6 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
     return (sdl);
 }
 
-void	init_skybox(t_map *map)
-{
-	if (!(map->skybox[0] = SDL_LoadBMP("textures/skybox/front.bmp")))
-		error_doom("cannot load skybox texture");
-	if (!(map->skybox[1] = SDL_LoadBMP("textures/skybox/right.bmp")))
-		error_doom("cannot load skybox texture");
-	if (!(map->skybox[2] = SDL_LoadBMP("textures/skybox/back.bmp")))
-		error_doom("cannot load skybox texture");
-	if (!(map->skybox[3] = SDL_LoadBMP("textures/skybox/left.bmp")))
-		error_doom("cannot load skybox texture");
-	if (!(map->skybox[4] = SDL_LoadBMP("textures/skybox/up.bmp")))
-		error_doom("cannot load skybox texture");
-	if (!(map->skybox[5] = SDL_LoadBMP("textures/skybox/down.bmp")))
-		error_doom("cannot load skybox texture");
-}
-
 t_map *allocate_map(void)
 {
 	int			i;
@@ -98,8 +82,8 @@ t_map *allocate_map(void)
 		walls->items[8].portal = t_true;
 		i++;
 	}
-	init_skybox(map);
-
+	if (!(map->daysky = SDL_LoadBMP("textures/skybox/day.bmp")))
+		error_doom("error: cannot load day sky texture");
 	return (map);
 }
 

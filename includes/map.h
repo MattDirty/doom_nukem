@@ -6,7 +6,7 @@
 typedef struct			s_map
 {
     t_sectors			*sectors;
-    SDL_Surface         *skybox[6];
+    SDL_Surface         *daysky;
 }						t_map;
 
 #endif
