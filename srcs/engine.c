@@ -48,16 +48,9 @@ static enum e_bool segments_intersect(
 t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall)
 {
 	if (wall->pointer.sector.sector1 == current)
-	{
-		printf("Sector 2\n");
 		return (wall->pointer.sector.sector2);
-	}
 	else if (wall->pointer.sector.sector2 == current)
-	{
-		printf("Sector 1\n");
 		return (wall->pointer.sector.sector1);
-	}
-	printf("returning null\n");
 	return (NULL);
 }
 
@@ -79,10 +72,10 @@ t_collision check_collision(t_sector *sector, t_segment *seg)
 		while (i < sector->walls->count)
 		{
 			//printf("%lu --- %lu\n", (long)&sector->walls->items[i], (long)last_portal);
-			if (&sector->walls->items[i] != last_portal)
+			if (sector->walls->items[i] != last_portal)
 			{
 				if (segments_intersect(
-						seg, &sector->walls->items[i].segment, &inters))
+						seg, &sector->walls->items[i]->segment, &inters))
 				{
 					temp_distance = get_distance_between_points(seg->x1,
 																seg->y1,
@@ -94,7 +87,7 @@ t_collision check_collision(t_sector *sector, t_segment *seg)
 						collision.inters.x = inters.x;
 						collision.inters.y = inters.y;
 						collision.distance = temp_distance;
-						collision.wall = &sector->walls->items[i];
+						collision.wall = sector->walls->items[i];
 					}
 				}
 			}
@@ -106,7 +99,7 @@ t_collision check_collision(t_sector *sector, t_segment *seg)
 		{
 			last_portal = collision.wall;
 			sector = get_next_sector_addr(sector, collision.wall); //commente pour que ca marche
-			//sector = collision.wall->pointer.sector.sector2; decommente pour que ca marche
+			//sector = collision.wall->pointer.sector.sector2; // decommente pour que ca marche
 		}
 	}
 	return (collision);
