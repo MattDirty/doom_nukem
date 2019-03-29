@@ -88,10 +88,7 @@ t_map *allocate_map()
         }
 		else
         {
-            walls->items[3].segment = create_segment(8, 8, 10, 10);
-            walls->items[3].type = portal;
-            walls->items[3].pointer.sector.sector1 = &map->sectors->items[1];
-            walls->items[3].pointer.sector.sector2 = &map->sectors->items[0];
+            walls->items[3] = map->sectors->items[0].walls->items[1];
         }
 		i++;
 	}

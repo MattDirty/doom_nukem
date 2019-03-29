@@ -44,33 +44,57 @@ static enum e_bool segments_intersect(
     return (t_false);
 }
 
+t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall)
+{
+	if (wall->pointer.sector.sector1 == current)
+	{
+		printf("Sector 2\n");
+		return (wall->pointer.sector.sector2);
+	}
+	else if (wall->pointer.sector.sector2 == current)
+	{
+		printf("Sector 1\n");
+		return (wall->pointer.sector.sector1);
+	}
+	printf("returning null\n");
+	return (NULL);
+}
+
 t_collision check_collision(t_sector *sector, t_segment *seg)
 {
 	t_collision	collision;
 	double		temp_distance;
 	int		    i;
 	t_coords	inters;
+	t_wall		*last_portal;
 
 
 	collision.wall = NULL;
+	last_portal = NULL;
 	while (collision.wall == NULL || collision.wall->type == portal)
 	{
 		collision.distance = HORIZON;
 		i = 0;
 		while (i < sector->walls->count)
 		{
-			if (segments_intersect(
-					seg, &sector->walls->items[i].segment, &inters))
+			//printf("%lu --- %lu\n", (long)&sector->walls->items[i], (long)last_portal);
+			if (&sector->walls->items[i] != last_portal)
 			{
-				temp_distance = get_distance_between_points(seg->x1, seg->y1,
-															inters.x, inters.y);
-
-				if (temp_distance < collision.distance)
+				if (segments_intersect(
+						seg, &sector->walls->items[i].segment, &inters))
 				{
-					collision.inters.x = inters.x;
-					collision.inters.y = inters.y;
-					collision.distance = temp_distance;
-					collision.wall = &sector->walls->items[i];
+					temp_distance = get_distance_between_points(seg->x1,
+																seg->y1,
+																inters.x,
+																inters.y);
+
+					if (temp_distance < collision.distance)
+					{
+						collision.inters.x = inters.x;
+						collision.inters.y = inters.y;
+						collision.distance = temp_distance;
+						collision.wall = &sector->walls->items[i];
+					}
 				}
 			}
 			i++;
@@ -78,7 +102,11 @@ t_collision check_collision(t_sector *sector, t_segment *seg)
 		if (collision.wall == NULL)
 			return (collision);
 		else if (collision.wall->type == portal)
-			sector = collision.wall->pointer.sector.sector2;
+		{
+			last_portal = collision.wall;
+			sector = get_next_sector_addr(sector, collision.wall); //commente pour que ca marche
+			//sector = collision.wall->pointer.sector.sector2; decommente pour que ca marche
+		}
 	}
 	return (collision);
 }
