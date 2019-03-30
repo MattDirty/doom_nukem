@@ -26,33 +26,39 @@ static void move_if_allowed(t_player *p, double time)
 	scalar_multiply(&p->speed, RUN * time);
 	seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
 	change_segment_length(&seg, PLAYER_THICKNESS);
-	collision[0] = check_collision(sector, &seg);
-	if (collision[0].wall && collision[0].wall->type == wall
-		&& collision[0].distance <= RUN * time + PLAYER_THICKNESS)
+	if (check_collision(sector, &seg, &collision[0]))
 	{
-		wall_parallel = get_vector_from_segment(&collision[0].wall->segment);
-		rad = get_rad_between_vectors(&p->speed, &wall_parallel);
-		if (rad <= RAD_DEG_100 && rad >= RAD_DEG_80)
-			return;
-		rotate_vector(&p->speed, rad);
-		if (rad < RAD_DEG_80)
+		if (collision[0].wall && collision[0].wall->type == wall
+			&& collision[0].distance <= RUN * time + PLAYER_THICKNESS)
 		{
-			p->speed.x = -p->speed.x;
-			p->speed.y = -p->speed.y;
+			wall_parallel = get_vector_from_segment(
+					&collision[0].wall->segment);
+			rad = get_rad_between_vectors(&p->speed, &wall_parallel);
+			if (rad <= RAD_DEG_100 && rad >= RAD_DEG_80)
+				return;
+			rotate_vector(&p->speed, rad);
+			if (rad < RAD_DEG_80)
+			{
+				p->speed.x = -p->speed.x;
+				p->speed.y = -p->speed.y;
+			}
+			seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y,
+														  &p->speed);
+			change_segment_length(&seg, PLAYER_THICKNESS);
+			if (check_collision(sector, &seg, &collision[1]))
+			{
+				if (collision[1].wall && collision[1].wall->type == wall
+					&& collision[0].distance != collision[1].distance
+					&& collision[1].distance <= RUN * time + PLAYER_THICKNESS)
+					return;
+			}
 		}
-		seg = create_segment_from_position_and_vector(p->pos.x, p->pos.y, &p->speed);
-		change_segment_length(&seg, PLAYER_THICKNESS);
-		collision[1] = check_collision(sector, &seg);
-		if (collision[1].wall && collision[1].wall->type == wall
-			&& collision[0].distance != collision[1].distance
-			&& collision[1].distance <= RUN * time + PLAYER_THICKNESS)
-			return;
-	}
-	if ((collision[0].wall && collision[0].wall->type == portal))
-	{
-		p->current_sector = collision[0].wall->pointer.sector.sector2;
-		collision[0].wall->pointer.sector.sector2 = collision[0].wall->pointer.sector.sector1;
-		collision[0].wall->pointer.sector.sector1 = p->current_sector;
+		if ((collision[0].wall && collision[0].wall->type == portal))
+		{
+			p->current_sector = collision[0].wall->pointer.sector.sector2;
+			collision[0].wall->pointer.sector.sector2 = collision[0].wall->pointer.sector.sector1;
+			collision[0].wall->pointer.sector.sector1 = p->current_sector;
+		}
 	}
 	p->pos.x += p->speed.x;
 	p->pos.y += p->speed.y;

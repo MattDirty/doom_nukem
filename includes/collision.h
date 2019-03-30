@@ -24,6 +24,6 @@ typedef struct          s_collision
     t_wall				*wall;
 }                       t_collision;
 
-t_collision	check_collision(t_sector *sector, t_segment *seg);
+enum e_bool	check_collision(t_sector *sector, t_segment *seg, t_collision *collision);
 
 #endif
