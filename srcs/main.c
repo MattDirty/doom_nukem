@@ -46,7 +46,7 @@ t_map *allocate_map()
 	if (!(map->sectors = (t_sectors*)malloc(sizeof(t_sectors))))
 		error_doom("t_sectors");
 
-	map->sectors->count = 2;  // todo: read shit
+	map->sectors->count = 3;  // todo: read shit
     if (!(map->sectors->items =
 				(t_sector*)malloc(map->sectors->count * sizeof(t_sector))))
 		error_doom("Can't allocate sectors");
@@ -79,7 +79,7 @@ t_map *allocate_map()
 		    // todo: read shit
 		    walls->items[j]->height = 1.0;
 		    walls->items[j]->type = wall;
-		    if (i == 0)
+		    if (i == 1)
                 walls->items[j]->pointer.texture = texture;
 		    else
 		        walls->items[j]->pointer.texture = texture2;
@@ -91,11 +91,19 @@ t_map *allocate_map()
 		    walls->items[1]->pointer.sector.sector1 = &map->sectors->items[0];
             walls->items[1]->pointer.sector.sector2 = &map->sectors->items[1];
         }
-		else
+		else if (i == 1)
         {
+			walls->items[1]->type = portal;
+			walls->items[1]->pointer.sector.sector1 = &map->sectors->items[1];
+			walls->items[1]->pointer.sector.sector2 = &map->sectors->items[2];
             free(walls->items[3]);
             walls->items[3] = map->sectors->items[0].walls->items[1];
         }
+		else
+		{
+			free(walls->items[3]);
+			walls->items[3] = map->sectors->items[1].walls->items[1];
+		}
 		i++;
 	}
 	return (map);
