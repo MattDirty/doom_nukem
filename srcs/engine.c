@@ -54,57 +54,56 @@ t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall)
 	return (NULL);
 }
 
-t_collision check_collision(t_sector *sector, t_segment *seg)
+void 		update_collision(t_collision *collision, double distance, t_coords inters, t_wall *wall)
 {
-	t_collision	collision;
-	double		temp_distance;
-	int		    i;
-	t_coords	inters;
-	t_wall		*last_portal;
-
-
-	collision.wall = NULL;
-	last_portal = NULL;
-	while (collision.wall == NULL || collision.wall->type == portal)
-	{
-		collision.distance = HORIZON;
-		i = 0;
-		while (i < sector->walls->count)
-		{
-			//printf("%lu --- %lu\n", (long)&sector->walls->items[i], (long)last_portal);
-			if (sector->walls->items[i] != last_portal)
-			{
-				if (segments_intersect(
-						seg, &sector->walls->items[i]->segment, &inters))
-				{
-					temp_distance = get_distance_between_points(seg->x1,
-																seg->y1,
-																inters.x,
-																inters.y);
-
-					if (temp_distance < collision.distance)
-					{
-						collision.inters.x = inters.x;
-						collision.inters.y = inters.y;
-						collision.distance = temp_distance;
-						collision.wall = sector->walls->items[i];
-					}
-				}
-			}
-			i++;
-		}
-		if (collision.wall == NULL)
-			return (collision);
-		else if (collision.wall->type == portal)
-		{
-			last_portal = collision.wall;
-			sector = get_next_sector_addr(sector, collision.wall); //commente pour que ca marche
-			//sector = collision.wall->pointer.sector.sector2; // decommente pour que ca marche
-		}
-	}
-	return (collision);
+	collision->distance = distance;
+	collision->inters = inters;
+	collision->wall = wall;
 }
 
+enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t_collision *collision, t_wall *last_portal)
+{
+	int 		i;
+	t_coords	inters;
+	double		distance;
+
+	i = 0;
+	collision->distance = HORIZON;
+	while (i < sector->walls->count)
+	{
+		if (segments_intersect(seg, &sector->walls->items[i]->segment, &inters)
+		&& last_portal != sector->walls->items[i])
+		{
+			if ((distance = get_distance_between_points(seg->x1, seg->y1, inters.x, inters.y)) < collision->distance)
+				update_collision(collision, distance, inters, sector->walls->items[i]);
+		}
+		i++;
+	}
+	if (collision->distance == HORIZON)
+		return (t_false);
+	return (t_true);
+}
+
+enum e_bool	check_collision(t_sector *sector, t_segment *seg, t_collision *collision)
+{
+	t_wall	*last_portal;
+
+	last_portal = NULL;
+	check_collision_in_sector(sector, seg, collision, last_portal);
+	while (collision->wall->type == portal)
+	{
+		last_portal = collision->wall;
+		sector = get_next_sector_addr(sector, collision->wall);
+		if (check_collision_in_sector(sector, seg, collision, last_portal))
+		{
+			if (collision->wall->type == wall)
+				return (t_true);
+		}
+		else
+			return (t_false);
+	}
+	return (t_true);
+}
 
 void			raycasting(t_env *e)
 {
@@ -112,6 +111,7 @@ void			raycasting(t_env *e)
 	t_segment	ray_seg;
 	double		ray_angle;
     Uint32      renderer_x;
+    t_collision	collision;
 
     renderer_x = 0;
     while (renderer_x < e->op.win_w)
@@ -125,7 +125,8 @@ void			raycasting(t_env *e)
 				e->p.pos.x,
 				e->p.pos.y,
 				&ray_vect);
-		draw(e, ray_angle, check_collision(e->p.current_sector, &ray_seg), renderer_x);
+		if (check_collision(e->p.current_sector, &ray_seg, &collision))
+			draw(e, ray_angle, collision, renderer_x);
 		renderer_x++;
 	}
 }
