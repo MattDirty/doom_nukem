@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "config.h"
 #include "default.h"
+#include "serialisation.h"
 
 t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
 {
@@ -25,105 +26,10 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
     return (sdl);
 }
 
-t_map *allocate_map(void)
-{
-	int			i;
-	int			j;
-	t_walls*	walls;
-    SDL_Surface *texture;
-    SDL_Surface *texture2;
-	t_map		*map;
-
-	if (!(texture = SDL_LoadBMP("textures/walls/stones.bmp")))
-		error_doom("there was an error while loading the BMP");
-
-    if (!(texture2 = SDL_LoadBMP("textures/walls/brickwall2.bmp")))
-        error_doom("there was an error while loading the BMP");
-
-	if (!(map = (t_map*)malloc(sizeof(t_map))))
-		error_doom("error: cannot allocate memory for struct map");
-
-	if (!(map->sectors = (t_sectors*)malloc(sizeof(t_sectors))))
-		error_doom("t_sectors");
-
-	map->sectors->count = 3;  // todo: read shit
-    if (!(map->sectors->items =
-				(t_sector*)malloc(map->sectors->count * sizeof(t_sector))))
-		error_doom("Can't allocate sectors");
-
-    i = 0;
-	while (i < map->sectors->count)
-	{
-        if (!(map->sectors->items[i].walls = (t_walls*)malloc(sizeof(t_walls))))
-			error_doom("t_sectors");
-
-		if (!(map->sectors->items[i].floor = SDL_LoadBMP("textures/flats/grass.bmp")))
-			error_doom("error: cannot open floor texture");
-		if (!(map->sectors->items[i].ceil = SDL_LoadBMP("textures/flats/dirt.bmp")))
-			error_doom("error: cannot open ceil texture");
-		map->sectors->items[i].open_sky = t_false;
-		map->sectors->items[2].open_sky = t_true;
-		walls = map->sectors->items[i].walls;
-
-		walls->count = 4;  // todo: read shit
-
-        if (!(walls->items = (t_wall**)malloc(walls->count * sizeof(t_wall*))))
-			error_doom("Can't allocate walls");
-
-        j = 0;
-        while (j < walls->count)
-            if (!(walls->items[j++] = (t_wall*)malloc(sizeof(t_wall))))
-                error_doom("Can't allocate wall");
-
-		walls->items[0]->segment = create_segment(0, 0 + i * 4, 0, 4 + i * 4);
-		walls->items[1]->segment = create_segment(0, 4 + i * 4, 4, 4 + i * 4);
-		walls->items[2]->segment = create_segment(4, 4 + i * 4, 4, 0 + i * 4);
-		walls->items[3]->segment = create_segment(4, 0 + i * 4, 0, 0 + i * 4);
-
-		j = 0;
-		while (j < walls->count)
-		{
-		    // todo: read shit
-		    walls->items[j]->height = 1.0;
-		    walls->items[j]->type = wall;
-		    if (i == 1)
-                walls->items[j]->pointer.texture = texture;
-		    else
-		        walls->items[j]->pointer.texture = texture2;
-			j++;
-		}
-		if (i == 0)
-        {
-		    walls->items[1]->type = portal;
-		    walls->items[1]->pointer.sector.sector1 = &map->sectors->items[0];
-            walls->items[1]->pointer.sector.sector2 = &map->sectors->items[1];
-        }
-		else if (i == 1)
-        {
-			walls->items[1]->type = portal;
-			walls->items[1]->pointer.sector.sector1 = &map->sectors->items[1];
-			walls->items[1]->pointer.sector.sector2 = &map->sectors->items[2];
-            free(walls->items[3]);
-            walls->items[3] = map->sectors->items[0].walls->items[1];
-        }
-		else
-		{
-			free(walls->items[3]);
-			walls->items[3] = map->sectors->items[1].walls->items[1];
-		}
-		i++;
-	}
-	if (!(map->daysky = SDL_LoadBMP("textures/skybox/day.bmp")))
-		error_doom("error: cannot load day sky texture");
-	if (!(map->nightsky = SDL_LoadBMP("textures/skybox/night.bmp")))
-		error_doom("error: cannot load day sky texture");
-	map->daytime = t_true;
-	return (map);
-}
-
 int		main (int ac, char **av)
 {
 	t_env		e;
+    t_textures	*textures;
 
 	e.op = load_config();
     if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
@@ -135,11 +41,13 @@ int		main (int ac, char **av)
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
 		error_doom("error: cannot hide mouse cursor");
-	e.map = allocate_map();
+    if (read_file("mabite.roflolilolmao", &textures, &e.map) < 0)
+        error_doom("Could not load game file");
 	e.p = init_player(&e.op, &e.map->sectors->items[0]);
     e.p.weapons = allocate_weapons();
     if (e.debug_mode)
 		e.debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
 	loop_doom(&e);
+    free(textures);
 	return (EXIT_SUCCESS);
 }
