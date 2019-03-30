@@ -53,14 +53,14 @@ t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall)
 	return (NULL);
 }
 
-void 		update_collision(t_collision *collision, double distance, t_coords inters, t_wall *wall)
+static void		update_collision(t_collision *collision, double distance, t_coords inters, t_wall *wall)
 {
 	collision->distance = distance;
 	collision->inters = inters;
 	collision->wall = wall;
 }
 
-enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t_collision *collision, t_wall *last_portal)
+static enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t_collision *collision, t_wall *last_portal)
 {
 	int 		i;
 	t_coords	inters;
