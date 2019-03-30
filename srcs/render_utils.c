@@ -18,21 +18,14 @@
 Uint32  get_pixel(SDL_Surface *s, int x, int y, enum e_bool force_alpha)
 {
     Uint8 *pix;
-    Uint8 channel[4];
     Uint32 color;
 
-    pix = s->pixels + (x + y * s->w) * s->format->BytesPerPixel;
+    pix = s->pixels + (x + y * s->w) * 4;
+    color =  *pix << 24 | *(pix + 3) << 16 | *(pix + 2) << 8 | *(pix + 1);
     if (force_alpha)
-        channel[0] = 255;
-    else
-        channel[0] = *pix;
-    channel[1] = *(pix + 3);
-    channel[2] = *(pix + 2);
-    channel[3] = *(pix + 1);
-    color = (channel[0] << 24) + (channel[1] << 16) + (channel[2] << 8) + (channel[3]);
+        color |= 0xff000000;
     return (color);
 }
-
 
 void    put_pixel(SDL_Surface *s, int x, int y, Uint32 color)
 {
