@@ -1,9 +1,21 @@
-#ifndef DOOMNUKEM_COLLISION_H
-#define DOOMNUKEM_COLLISION_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   collision.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtorsell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/30 01:25:21 by mtorsell          #+#    #+#             */
+/*   Updated: 2019/03/30 01:25:26 by mtorsell         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "utils.h"
-#include "walls.h"
-#include "sectors.h"
+#ifndef COLLISION_H
+# define COLLISION_H
+
+# include "utils.h"
+# include "walls.h"
+# include "sectors.h"
 
 typedef struct          s_collision
 {
