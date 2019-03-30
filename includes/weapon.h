@@ -1,5 +1,5 @@
-#ifndef DOOMNUKEM_WEAPON_H
-# define DOOMNUKEM_WEAPON_H
+#ifndef WEAPON_H
+# define WEAPON_H
 
 # include "e_bool.h"
 # include "SDL.h"

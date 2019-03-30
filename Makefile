@@ -108,7 +108,6 @@ $(NAME_EDITOR): $(OBJS_EDITOR)
 	if [ ! -d $(SDL_NAME)/build ]; then $(CONFIGURE_SDL); fi
 	$(MAKE) -j -C libft
 	$(CC) $(OBJS_EDITOR) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
-	./$(NAME_EDITOR)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 	mkdir $(OBJ_PATH) 2> /dev/null || true

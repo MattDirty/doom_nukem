@@ -34,7 +34,7 @@ t_map *allocate_map(void)
     SDL_Surface *texture2;
 	t_map		*map;
 
-	if (!(texture = SDL_LoadBMP("textures/walls/brickwall.bmp")))
+	if (!(texture = SDL_LoadBMP("textures/walls/stones.bmp")))
 		error_doom("there was an error while loading the BMP");
 
     if (!(texture2 = SDL_LoadBMP("brickwall2.bmp")))
@@ -57,6 +57,11 @@ t_map *allocate_map(void)
         if (!(map->sectors->items[i].walls = (t_walls*)malloc(sizeof(t_walls))))
 			error_doom("t_sectors");
 
+		if (!(map->sectors->items[i].floor = SDL_LoadBMP("textures/flats/grass.bmp")))
+			error_doom("error: cannot open floor texture");
+		if (!(map->sectors->items[i].ceil = SDL_LoadBMP("textures/flats/dirt.bmp")))
+			error_doom("error: cannot open ceil texture");
+		map->sectors->items[i].open_sky = t_false;
 		walls = map->sectors->items[i].walls;
 
 		walls->count = 4;  // todo: read shit
@@ -126,8 +131,6 @@ int		main (int ac, char **av)
 		e.debug_mode = t_false;
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		error_doom("error: cannot run SDL");
-    if (!(e.derp = SDL_LoadBMP("wood.bmp")))
-        error_doom("cannot load floor texture");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
 		error_doom("error: cannot hide mouse cursor");

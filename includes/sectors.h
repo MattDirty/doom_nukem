@@ -1,12 +1,14 @@
-#ifndef DOOMNUKEM_SECTORS_H
-# define DOOMNUKEM_SECTORS_H
+#ifndef SECTORS_H
+# define SECTORS_H
 
 # include "walls.h"
-# include "utils.h"
 
 typedef	struct			s_sector
 {
-    t_walls			*walls;
+    t_walls			    *walls;
+    SDL_Surface         *floor;
+    SDL_Surface         *ceil;
+    enum e_bool         open_sky;
 }						t_sector;
 
 typedef struct			s_sectors
