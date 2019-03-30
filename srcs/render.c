@@ -15,25 +15,40 @@
 #include "default.h"
 #include "surface_manipulation.h"
 
+double      find_pixel_dist(t_coords inters, t_player p, int i)
+{
+    return(sqrt(ft_sq(inters.x - p.pos.x) + ft_sq(inters.y - p.pos.y) + ft_sq(i - p.vision_height)));
+}
+
 static void	draw_floor(t_env *e, t_collision collision, t_coords bottom_of_wall, t_coords player_pos , SDL_Surface *derp)
 {
     double      pixel_dist;
-    double      weight_factor;
+    int i;
+    //double      weight_factor;
     t_coords    floor_pos;
     t_coords    draw_text;
     Uint32      color_text;
 
+    (void) player_pos;
+    (void)derp;
+    i = 0;
     while (bottom_of_wall.y + 1 < WIN_H)
     {
-        pixel_dist = e->op.win_h / (2.0 * bottom_of_wall.y - e->op.win_h);
-        weight_factor = (pixel_dist / collision.distance);
-        floor_pos.x = weight_factor * collision.inters.x + (1.0 - weight_factor) * player_pos.x;
-        floor_pos.y = weight_factor * collision.inters.y + (1.0 - weight_factor) * player_pos.y;
-        draw_text.x = (int)(floor_pos.x * PIXEL_UNIT) % derp->w;
-        draw_text.y = (int)(floor_pos.y * PIXEL_UNIT) % derp->h;
+        pixel_dist = find_pixel_dist(collision.inters, e->p, i);
+        floor_pos.x = cos(e->p.heading) * pixel_dist ;
+        floor_pos.y = -sin(e->p.heading) * pixel_dist;
+
+            //printf("%f\n", pixel_dist);
+//        pixel_dist = e->op.win_h / (2.0 * bottom_of_wall.y - e->op.win_h);
+//        weight_factor = (pixel_dist / collision.distance);
+//        floor_pos.x = weight_factor * collision.inters.x + (1.0 - weight_factor);// * player_pos.x;
+//        floor_pos.y = weight_factor * collision.inters.y + (1.0 - weight_factor);// * player_pos.y;
+        draw_text.x = (int)(floor_pos.x ) % derp->w;
+        draw_text.y = (int)(floor_pos.y ) % derp->h;
         color_text = get_pixel(derp, draw_text.x, draw_text.y, t_true);
         put_pixel(e->doom.surface, bottom_of_wall.x, bottom_of_wall.y, color_text);
-        bottom_of_wall.y++;
+            bottom_of_wall.y++;
+            i++;
     }
 }
 
