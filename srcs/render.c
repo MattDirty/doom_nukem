@@ -58,7 +58,7 @@ static t_i_segment  draw_wall(t_render render, t_collision collision)
     int         y;
     SDL_Surface *wall_text;
 
-	wall_text = collision.wall->texture;
+	wall_text = collision.wall->pointer.texture;
     wall.y1 = render.vision_height - render.wall_length / 2;
 	wall.y1 = (wall.y1 < 0 ? 0 : wall.y1);
     y = wall.y1;
@@ -95,7 +95,7 @@ void		draw(
     render.heading = e->p.heading;
     render.p_pos = e->p.pos;
     render.win_h = e->op.win_h;
-    render.current_sector = e->map->sectors->items[0];
+    render.current_sector = *e->p.current_sector;
     render.map = *e->map;
 
     skybox(render);

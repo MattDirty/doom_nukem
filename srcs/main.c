@@ -37,7 +37,7 @@ t_map *allocate_map(void)
 	if (!(texture = SDL_LoadBMP("textures/walls/stones.bmp")))
 		error_doom("there was an error while loading the BMP");
 
-    if (!(texture2 = SDL_LoadBMP("brickwall2.bmp")))
+    if (!(texture2 = SDL_LoadBMP("textures/walls/brickwall2.bmp")))
         error_doom("there was an error while loading the BMP");
 
 	if (!(map = (t_map*)malloc(sizeof(t_map))))
@@ -62,6 +62,7 @@ t_map *allocate_map(void)
 		if (!(map->sectors->items[i].ceil = SDL_LoadBMP("textures/flats/dirt.bmp")))
 			error_doom("error: cannot open ceil texture");
 		map->sectors->items[i].open_sky = t_false;
+		map->sectors->items[2].open_sky = t_true;
 		walls = map->sectors->items[i].walls;
 
 		walls->count = 4;  // todo: read shit

@@ -13,7 +13,6 @@
 #include "collision.h"
 #include "player.h"
 #include "default.h"
-#include "engine.h"
 
 static enum e_bool segments_intersect(
 		t_segment *a, t_segment *b, t_coords *inters)
