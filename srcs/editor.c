@@ -9,7 +9,6 @@ t_map		*create_map(t_textures *textures)
 	int			i;
 	int			j;
 	t_walls*	walls;
-	SDL_Surface *texture;
 	t_map		*map;
 
 	if (!(map = (t_map*)malloc(sizeof(t_map))))
@@ -18,7 +17,7 @@ t_map		*create_map(t_textures *textures)
 	if (!(map->sectors = (t_sectors*)malloc(sizeof(t_sectors))))
 		error_doom("t_sectors");
 
-	map->sectors->count = 1;
+	map->sectors->count = 3;
 	if (!(map->sectors->items =
 				(t_sector*)malloc(map->sectors->count * sizeof(t_sector))))
 		error_doom("Can't allocate sectors");
@@ -29,42 +28,73 @@ t_map		*create_map(t_textures *textures)
 		if (!(map->sectors->items->walls = (t_walls*)malloc(sizeof(t_walls))))
 			error_doom("t_sectors");
 
+        find_texture_by_name(
+                textures,
+                "textures/flats/grass.bmp",
+                &map->sectors->items[i].floor);
+        find_texture_by_name(
+                textures,
+                "textures/flats/dirt.bmp",
+                &map->sectors->items[i].ceil);
+        map->sectors->items[i].open_sky = t_false;
+        map->sectors->items[2].open_sky = t_true;
 		walls = map->sectors->items[i].walls;
 
-		walls->count = 10;
-		if (!(walls->items = (t_wall*)malloc(walls->count * sizeof(t_wall))))
+		walls->count = 4;
+
+		if (!(walls->items = (t_wall**)malloc(walls->count * sizeof(t_wall*))))
 			error_doom("Can't allocate walls");
 
-		walls->items[0].segment = create_segment(0, 0, 5, 1);
-		walls->items[1].segment = create_segment(5, 1, 4, 3);
-		walls->items[2].segment = create_segment(4, 3, 5, 6);
-		walls->items[3].segment = create_segment(5, 6, 8, 8);
-		walls->items[4].segment = create_segment(8, 8, 9, 15);
-		walls->items[5].segment = create_segment(9, 15, 3, 15);
-		walls->items[6].segment = create_segment(3, 15, 3.8, 6);
-		walls->items[7].segment = create_segment(4, 4, 0, 0);
-		walls->items[8].segment = create_segment(3.8, 6, 5, 6);
-		walls->items[9].segment = create_segment(3.8, 6, 4, 4);
-		walls->items[0].segment = create_segment(0, 0, 5, 1);
+        j = 0;
+        while (j < walls->count)
+            if (!(walls->items[j++] = (t_wall*)malloc(sizeof(t_wall))))
+                error_doom("Can't allocate wall");
 
-        find_texture_by_name(textures, "textures/walls/brickwall.bmp", &texture);
+		walls->items[0]->segment = create_segment(0, 0 + i * 4, 0, 4 + i * 4);
+		walls->items[1]->segment = create_segment(0, 4 + i * 4, 4, 4 + i * 4);
+		walls->items[2]->segment = create_segment(4, 4 + i * 4, 4, 0 + i * 4);
+		walls->items[3]->segment = create_segment(4, 0 + i * 4, 0, 0 + i * 4);
 
 		j = 0;
 		while (j < walls->count)
 		{
-		    walls->items[j].height = 1.0;
-		    walls->items[j].texture = texture;
-		    walls->items[j].portal = t_false;
+		    walls->items[j]->height = 1.0;
+		    walls->items[j]->type = wall;
+		    if (i == 1)
+                find_texture_by_name(
+                        textures,
+                        "textures/walls/stones.bmp",
+                        &walls->items[j]->pointer.texture);
+		    else
+                find_texture_by_name(
+                        textures,
+                        "textures/walls/brickwall2.bmp",
+                        &walls->items[j]->pointer.texture);
 			j++;
 		}
-		walls->items[8].portal = t_true;
-
+		if (i == 0)
+        {
+		    walls->items[1]->type = portal;
+		    walls->items[1]->pointer.sector.sector1 = &map->sectors->items[0];
+            walls->items[1]->pointer.sector.sector2 = &map->sectors->items[1];
+        }
+		else if (i == 1)
+        {
+			walls->items[1]->type = portal;
+			walls->items[1]->pointer.sector.sector1 = &map->sectors->items[1];
+			walls->items[1]->pointer.sector.sector2 = &map->sectors->items[2];
+            free(walls->items[3]);
+            walls->items[3] = map->sectors->items[0].walls->items[1];
+        }
+		else
+		{
+			free(walls->items[3]);
+			walls->items[3] = map->sectors->items[1].walls->items[1];
+		}
 		i++;
 	}
-    find_texture_by_name(textures, "textures/skybox/day.bmp", &texture);
-    map->daysky = texture;
-    find_texture_by_name(textures, "textures/skybox/night.bmp", &texture);
-    map->nightsky = texture;
+    find_texture_by_name(textures, "textures/skybox/day.bmp", &map->daysky);
+    find_texture_by_name(textures, "textures/skybox/night.bmp", &map->nightsky);
     map->daytime = t_true;
 	return (map);
 }
@@ -75,7 +105,10 @@ t_textures	*load_textures(void)
 
     textures = (t_textures*)malloc(sizeof(textures));
     add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp");
-    add_bitmap_file_to_textures(textures, "textures/walls/brickwall.bmp");
+    add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp");
+    add_bitmap_file_to_textures(textures, "textures/walls/brickwall2.bmp");
+    add_bitmap_file_to_textures(textures, "textures/flats/grass.bmp");
+    add_bitmap_file_to_textures(textures, "textures/flats/dirt.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp");
     add_bitmap_file_to_textures(textures, "textures/skybox/day.bmp");
     add_bitmap_file_to_textures(textures, "textures/skybox/night.bmp");
