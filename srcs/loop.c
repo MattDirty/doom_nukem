@@ -14,10 +14,10 @@
 #include "default.h"
 #include "utils.h"
 #include "debug.h"
-#include "engine.h"
+#include "collision.h"
 #include "ui.h"
 #include "config.h"
-#include "skybox.h"
+#include "render.h"
 #include "timer_handler.h"
 #include "surface_manipulation.h"
 #include "loop.h"
@@ -48,6 +48,13 @@ static void loop_events(
             e->p.weapons.list[e->p.weapons.current].secondary(
                     &e->p.weapons.list[e->p.weapons.current],
                     timer_handler);
+
+        //DEBUG
+        if (state[SDL_SCANCODE_L])
+            e->map->sectors->items[0].open_sky = t_true;
+        else if (state[SDL_SCANCODE_K])
+            e->map->sectors->items[0].open_sky = t_false;
+
 //        if (state[SDL_SCANCODE_O])
 //            e->sector->wall_height -= 0.01;
 //        if (state[SDL_SCANCODE_P])

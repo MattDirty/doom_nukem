@@ -14,6 +14,7 @@
 #include "timer_handler.h"
 #include "SDL.h"
 #include "default.h"
+#include "render.h"
 #include "surface_manipulation.h"
 
 enum e_bool    day_to_night(double ms_since_update, t_params daytime)
@@ -26,7 +27,7 @@ enum e_bool    day_to_night(double ms_since_update, t_params daytime)
     return (t_true);
 }
 
-void            skybox(t_env *e, Uint32 renderer_x)
+void            skybox(t_render render)
 {
     Uint32 y;
     Uint32 end;
@@ -34,18 +35,18 @@ void            skybox(t_env *e, Uint32 renderer_x)
     t_coords draw_text;
     SDL_Surface *sky;
 
-    if (e->map->daytime)
-        sky = e->map->daysky;
+    if (render.map.daytime)
+        sky = render.map.daysky;
     else
-        sky = e->map->nightsky;
+        sky = render.map.nightsky;
     y = 0;
-    end = e->p.vision_height;
-    draw_text.x = sky->w / CIRCLE * e->p.heading + renderer_x;
+    end = render.vision_height;
+    draw_text.x = sky->w / CIRCLE * render.heading + render.x;
     while (y < end) {
-        draw_text.y = (e->op.win_h - fabs(e->p.vision_height - y)) * sky->h
-                      / e->op.win_h;
+        draw_text.y = (render.win_h - fabs(render.vision_height - y)) * sky->h
+                      / render.win_h;
         color_text = get_pixel(sky, draw_text.x, draw_text.y, t_true);
-        put_pixel(e->doom.surface, renderer_x, y, color_text);
+        put_pixel(render.surface, render.x, y, color_text);
         y++;
     }
 }

@@ -19,7 +19,7 @@
 #include "default.h"
 #include "doom.h"
 #include "player.h"
-#include "engine.h"
+#include "render.h"
 
 static enum e_bool segments_intersect(
         t_segment *a, t_segment *b, t_coords *inters)

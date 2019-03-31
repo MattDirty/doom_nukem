@@ -29,7 +29,6 @@
 
 # define FULLSCREEN t_false
 
-# define PIXEL_UNIT 225
 # define FOV 90.0
 # define HALF_FOV (FOV / 2)
 # define HORIZON 25
