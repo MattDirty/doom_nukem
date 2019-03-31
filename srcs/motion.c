@@ -14,31 +14,6 @@
 #include "player.h"
 #include "default.h"
 
-static enum e_bool segments_intersect(
-		t_segment *a, t_segment *b, t_coords *inters)
-{
-	t_coords delta_a;
-	t_coords delta_b;
-	double s;
-	double t;
-
-	delta_a.x = a->x2 - a->x1;
-	delta_a.y = a->y2 - a->y1;
-	delta_b.x = b->x2 - b->x1;
-	delta_b.y = b->y2 - b->y1;
-	s = (-delta_a.y * (a->x1 - b->x1) + delta_a.x * (a->y1 - b->y1))
-		/ (-delta_b.x * delta_a.y + delta_a.x * delta_b.y);
-	t = (delta_b.x * (a->y1 - b->y1) - delta_b.y * (a->x1 - b->x1))
-		/ (-delta_b.x * delta_a.y + delta_a.x * delta_b.y);
-	if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
-	{
-		inters->x = a->x1 + (t * delta_a.x);
-		inters->y = a->y1 + (t * delta_a.y);
-		return (t_true);
-	}
-	return (t_false);
-}
-
 t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coords pos)
 {
 	t_vector new_vector;

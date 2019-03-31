@@ -21,8 +21,7 @@
 #include "player.h"
 #include "render.h"
 
-static enum e_bool segments_intersect(
-        t_segment *a, t_segment *b, t_coords *inters)
+enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inters)
 {
     t_coords delta_a;
     t_coords delta_b;
@@ -79,7 +78,7 @@ static void		update_collision(t_collision *collision, double distance, t_coords 
 	collision->wall = wall;
 }
 
-static enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t_collision *collision, t_wall *last_portal)
+static enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t_collision *collision)
 {
 	int 		i;
 	t_coords	inters;
@@ -90,7 +89,7 @@ static enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t
 	while (i < sector->walls->count)
 	{
 		if (segments_intersect(seg, &sector->walls->items[i]->segment, &inters)
-		&& last_portal != sector->walls->items[i])
+		&& collision->last_portal != sector->walls->items[i])
 		{
 			if ((distance = get_distance_between_points(seg->x1, seg->y1, inters.x, inters.y)) < collision->distance)
 				update_collision(collision, distance, inters, sector->walls->items[i]);
@@ -111,7 +110,7 @@ Uint32  check_collision(t_sector *sector, t_segment *seg, t_collision **collisio
 	i = 0;
     if (!(*collision = (t_collision *)malloc(sizeof(t_collision))))
         error_doom("Can't malloc collision");
-	while (check_collision_in_sector(sector, seg, &collision[0][i], last_portal))
+	while (check_collision_in_sector(sector, seg, &collision[0][i]))
     {
         i++;
 	    update_collisions_list(collision, i);
@@ -128,9 +127,7 @@ Uint32  check_collision(t_sector *sector, t_segment *seg, t_collision **collisio
 
 void			raycasting(t_env *e)
 {
-	t_vector	ray_vect;
-	t_segment	ray_seg;
-	double		ray_angle;
+	t_ray		ray;
     Uint32      renderer_x;
     t_collision	*collision;
     Uint32      collisions_number;
@@ -140,17 +137,19 @@ void			raycasting(t_env *e)
     while (renderer_x < e->op.win_w)
     {
         clamp_player_values(&e->p, e->op);
-        ray_angle = e->p.heading + atan(
+        ray.angle = e->p.heading + atan(
                 (renderer_x / e->op.half_w - 1) * e->op.tan_half_fov);
-		ray_vect = create_vector(cos(ray_angle), -sin(ray_angle));
-		change_vector_magnitude(&ray_vect, HORIZON);
-		ray_seg = create_segment_from_position_and_vector(
+		ray.vect = create_vector(cos(ray.angle), -sin(ray.angle));
+		change_vector_magnitude(&ray.vect, HORIZON);
+		ray.seg = create_segment_from_position_and_vector(
 				e->p.pos.x,
 				e->p.pos.y,
-				&ray_vect);
-		if ((collisions_number = check_collision(e->p.current_sector, &ray_seg, &collision)))
-            draw(e, ray_angle, collision[collisions_number - 1], renderer_x);
-		free(collision);
+				&ray.vect);
+		if ((collisions_number = check_collision(e->p.current_sector, &ray.seg, &collision)))
+		{
+			collision[collisions_number - 1].distance *= cos(e->p.heading - ray.angle);
+			draw(e, collision[collisions_number - 1], renderer_x, ray);
+		}
 		renderer_x++;
 	}
 }

@@ -18,13 +18,23 @@
 # include "sectors.h"
 # include "doom.h"
 
+typedef struct          s_ray
+{
+    t_vector	vect;
+    t_segment	seg;
+    double		angle;
+}                       t_ray;
+
 typedef struct          s_collision
 {
     double              distance;
     t_coords            inters;
     t_wall				*wall;
+    t_wall              *first_portal;
+    t_wall              *last_portal;
 }                       t_collision;
 
+enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inters);
 Uint32  	check_collision(t_sector *sector, t_segment *seg, t_collision **collision);
 t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall);
 void		raycasting(t_env *e);
