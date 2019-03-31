@@ -51,9 +51,9 @@ static void loop_events(
 
         //DEBUG
         if (state[SDL_SCANCODE_L])
-            e->map->sectors->items[0].open_sky = t_true;
+            e->p.current_sector->open_sky = t_true;
         else if (state[SDL_SCANCODE_K])
-            e->map->sectors->items[0].open_sky = t_false;
+            e->p.current_sector->open_sky = t_false;
 
 //        if (state[SDL_SCANCODE_O])
 //            e->sector->wall_height -= 0.01;
