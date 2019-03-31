@@ -78,7 +78,7 @@ static enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t
 		}
 		i++;
 	}
-	if (collision->distance == HORIZON)
+	if (collision->distance >= HORIZON)
 		return (t_false);
 	return (t_true);
 }
@@ -88,7 +88,11 @@ enum e_bool	check_collision(t_sector *sector, t_segment *seg, t_collision *colli
 	t_wall	*last_portal;
 
 	last_portal = NULL;
-	check_collision_in_sector(sector, seg, collision, last_portal);
+	if (!check_collision_in_sector(sector, seg, collision, last_portal))
+	{
+		if (collision->distance >= HORIZON)
+			return (t_false);
+	}
 	while (collision->wall->type == portal)
 	{
 		last_portal = collision->wall;
@@ -98,7 +102,7 @@ enum e_bool	check_collision(t_sector *sector, t_segment *seg, t_collision *colli
 			if (collision->wall->type == wall)
 				return (t_true);
 		}
-		else
+		if (collision->distance >= HORIZON)
 			return (t_false);
 	}
 	return (t_true);

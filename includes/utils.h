@@ -43,6 +43,7 @@ void		print_vector(t_vector *vector, char *str);
 void        scalar_multiply(t_vector *vector, double scalar);
 void        add_vector_to_vector(t_vector *vector, t_vector vector2);
 void        rotate_vector(t_vector *vector, double rad);
+void		change_vector_magnitude(t_vector *vector, double new_magnitude);
 double      dot_product(t_vector *vector1, t_vector *vector2);
 double      get_vector_length(t_vector *vector);
 double      get_rad_between_vectors(t_vector *vector1, t_vector *vector2);

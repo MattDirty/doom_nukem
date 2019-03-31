@@ -53,7 +53,7 @@
 # define CIRCLE (ft_degtorad(360))
 
 # define ROT_90 NORTH
-# define RUN 0.01
+# define RUN 0.001
 # define RAD_DEG_100 1.74533
 # define RAD_DEG_80 1.39626
 
