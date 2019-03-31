@@ -1,5 +1,5 @@
 #ifndef DOOMNUKEM_DEFAULT_H
-#define DOOMNUKEM_DEFAULT_H
+# define DOOMNUKEM_DEFAULT_H
 
 #include "libft.h"
 
@@ -49,7 +49,10 @@
 # define EAST 0
 # define CIRCLE 6.28319
 # define ROT_90 1.5708
+
 # define RUN 0.001
+# define RAD_DEG_100 1.74533
+# define RAD_DEG_80 1.39626
 
 # define PLAYER_THICKNESS 0.25
 # define ROT_X 0.001

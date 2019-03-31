@@ -69,15 +69,12 @@ void		debug_draw_walls(SDL_Surface *surface, t_walls *walls)
 	i = 0;
 	while (i < walls->count)
 	{
-		s = walls->items[i].segment;
+		s = walls->items[i]->segment;
 		s2.x1 = DEBUG_W_H + s.x1 * DEBUG_ZOOM;
 		s2.y1 = DEBUG_H_H - s.y1 * DEBUG_ZOOM;
 		s2.x2 = DEBUG_W_H + s.x2 * DEBUG_ZOOM;
 		s2.y2 = DEBUG_H_H - s.y2 * DEBUG_ZOOM;
-		if (!walls->items[i].portal)
-		    draw_segment(surface, s2, DEBUG_WALL_COLOR);
-		else
-            draw_segment(surface, s2, DEBUG_PORTAL_COLOR);
+	    draw_segment(surface, s2, DEBUG_WALL_COLOR);
 		i++;
 	}
 }

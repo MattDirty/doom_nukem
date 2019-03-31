@@ -31,10 +31,3 @@ int         quit_doom(t_env *e)
     exit(EXIT_SUCCESS);
 	return (0);
 }
-
-void        init_doom(t_env *e)
-{
-    if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
-        error_doom("error: cannot hide mouse cursor");
-    e->p = init_player(&e->op);
-}
