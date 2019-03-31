@@ -13,6 +13,7 @@ t_player init_player(t_config *op, t_sector *starting_sector)
     p.pos.x = 3;
     p.speed.x = 0;
     p.speed.y = 0;
+    p.speed_factor = 1;
     return (p);
 }
 

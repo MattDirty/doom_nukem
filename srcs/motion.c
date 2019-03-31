@@ -21,23 +21,24 @@ static t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coord
 
 	new_vector.x = speed->x;
 	new_vector.y = speed->y;
-	change_vector_magnitude(speed, RUN * time);
-	change_vector_magnitude(&new_vector, RUN * time + PLAYER_THICKNESS);
+	change_vector_magnitude(speed, speed_factor * RUN * time);
+	change_vector_magnitude(&new_vector, speed_factor * RUN * time + PLAYER_THICKNESS);
 	return (create_segment_from_position_and_vector(pos.x, pos.y, &new_vector));
 }
 
-void	move_if_allowed(t_player *p, double time)
+static void	move_if_allowed(t_player *p, double time)
 {
 	t_segment		seg;
 	t_collisions	*collisions;
 	t_collisions	*ptr;
 
-	seg = get_segment_and_mod_speed(&p->speed, time, p->pos);
+    seg = get_segment_and_mod_speed(&p->speed, p->speed_factor, time, p->pos);
 	check_collision(p->current_sector, &seg, &collisions);
 	ptr = collisions;
 	while (ptr->next)
 		ptr = ptr->next;
 	if (ptr->item.wall && ptr->item.wall->type == e_wall)
+	if (check_collision(p->current_sector, &seg, &collision))
 	{
 		if (ptr->item.distance <= PLAYER_THICKNESS)
 		{
@@ -65,6 +66,10 @@ void	move_if_allowed(t_player *p, double time)
 
 void		move(t_player *p, const Uint8 *state, double time)
 {
+	if (state[SDL_SCANCODE_LSHIFT])
+		p->speed_factor = 3;
+	else
+		p->speed_factor = 1;
 	if (state[SDL_SCANCODE_W])
 		add_vector_to_vector(&p->speed, create_vector(cos(p->heading), -sin(p->heading)));
 	else if (state[SDL_SCANCODE_S])
