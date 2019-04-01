@@ -16,8 +16,8 @@ typedef struct  s_link
 
 enum            e_wall_type
 {
-    portal,
-    wall
+    wtPortal,
+    wtWall
 };
 
 union   u_pointer
