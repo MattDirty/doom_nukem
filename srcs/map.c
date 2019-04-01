@@ -22,12 +22,12 @@ int		read_map_from_file(int fd, t_textures *textures, t_map **map)
 
     if (find_texture_by_name(
             textures,
-            "textures/skybox/day.bmp",
+            daysky,
             &(*map)->daysky) < 0)
         return (-5);
     if (find_texture_by_name(
             textures,
-            "textures/skybox/night.bmp",
+            nightsky,
             &(*map)->nightsky) < 0)
         return (-6);
 

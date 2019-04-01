@@ -7,6 +7,7 @@
 # include "textures.h"
 
 typedef struct s_sector t_sector;
+typedef struct s_sectors t_sectors;
 
 typedef struct  s_link
 {
@@ -42,10 +43,19 @@ typedef struct			s_walls
 
 int			read_walls_from_file(
         int fd,
+        t_sectors *sectors,
         t_textures *textures,
         t_walls **walls);
-int			write_walls_to_file(
+int			write_walls_to_file(int fd, t_sectors *sectors, t_walls *walls);
+
+int			read_wall_from_file(
         int fd,
-        t_walls *walls);
+        t_sectors *sectors,
+        t_textures *textures,
+        t_wall **wall);
+int			write_wall_to_file(
+        int fd,
+        t_sectors *sectors,
+        t_wall *wall);
 
 #endif

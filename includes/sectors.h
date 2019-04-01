@@ -24,4 +24,6 @@ int		read_sectors_from_file(
         t_sectors **sectors);
 int		write_sectors_to_file(int fd, t_sectors *sectors);
 
+int		sector_index(t_sectors *sectors, t_sector *sector);
+
 #endif

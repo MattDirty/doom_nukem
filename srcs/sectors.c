@@ -24,7 +24,7 @@ int			read_sectors_from_file(
     while (i < count)
     {
         sector = &((*sectors)->items[i]);
-        if (read_walls_from_file(fd, textures, &sector->walls) < 0)
+        if (read_walls_from_file(fd, *sectors, textures, &sector->walls) < 0)
             return (-3);
 
         i++;
@@ -45,11 +45,25 @@ int			write_sectors_to_file(int fd, t_sectors *sectors)
     while (i < sectors->count)
     {
         sector = sectors->items[i];
-        if (write_walls_to_file(fd, sector.walls) < 0)
+        if (write_walls_to_file(fd, sectors, sector.walls) < 0)
             return (-2);
 
         i++;
     }
 
     return (0);
+}
+
+int     sector_index(t_sectors *sectors, t_sector *sector)
+{
+    int		i;
+
+    i = 0;
+    while(i < sectors->count)
+    {
+        if (sector == sectors->items + i)
+            return (i);
+        i++;
+    }
+    return (-1);
 }
