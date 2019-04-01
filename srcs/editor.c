@@ -25,17 +25,19 @@ t_map		*create_map(t_textures *textures)
 	i = 0;
 	while (i < map->sectors->count)
 	{
-		if (!(map->sectors->items->walls = (t_walls*)malloc(sizeof(t_walls))))
+		if (!(map->sectors->items[i].walls = (t_walls*)malloc(sizeof(t_walls))))
 			error_doom("t_sectors");
 
-        find_texture_by_name(
+        if (find_texture_by_name(
                 textures,
                 "textures/flats/grass.bmp",
-                &map->sectors->items[i].floor);
-        find_texture_by_name(
+                &map->sectors->items[i].floor) < 0)
+            error_doom("could not find grass");
+        if (find_texture_by_name(
                 textures,
                 "textures/flats/dirt.bmp",
-                &map->sectors->items[i].ceil);
+                &map->sectors->items[i].ceil) < 0)
+            error_doom("could not find dirt");
         map->sectors->items[i].open_sky = t_false;
         map->sectors->items[2].open_sky = t_true;
 		walls = map->sectors->items[i].walls;
@@ -59,28 +61,34 @@ t_map		*create_map(t_textures *textures)
 		while (j < walls->count)
 		{
 		    walls->items[j]->height = 1.0;
-		    walls->items[j]->type = wall;
+		    walls->items[j]->type = wtWall;
 		    if (i == 1)
-                find_texture_by_name(
+            {
+                if (find_texture_by_name(
                         textures,
                         "textures/walls/stones.bmp",
-                        &walls->items[j]->pointer.texture);
+                        &walls->items[j]->pointer.texture) < 0)
+                    error_doom("could not find stones");
+            }
 		    else
-                find_texture_by_name(
+            {
+                if (find_texture_by_name(
                         textures,
                         "textures/walls/brickwall2.bmp",
-                        &walls->items[j]->pointer.texture);
+                        &walls->items[j]->pointer.texture) < 0)
+                            error_doom("could not find brickwall2");
+            }
 			j++;
 		}
 		if (i == 0)
         {
-		    walls->items[1]->type = portal;
+		    walls->items[1]->type = wtPortal;
 		    walls->items[1]->pointer.sector.sector1 = &map->sectors->items[0];
             walls->items[1]->pointer.sector.sector2 = &map->sectors->items[1];
         }
 		else if (i == 1)
         {
-			walls->items[1]->type = portal;
+			walls->items[1]->type = wtPortal;
 			walls->items[1]->pointer.sector.sector1 = &map->sectors->items[1];
 			walls->items[1]->pointer.sector.sector2 = &map->sectors->items[2];
             free(walls->items[3]);
@@ -93,8 +101,10 @@ t_map		*create_map(t_textures *textures)
 		}
 		i++;
 	}
-    find_texture_by_name(textures, "textures/skybox/day.bmp", &map->daysky);
-    find_texture_by_name(textures, "textures/skybox/night.bmp", &map->nightsky);
+    if (find_texture_by_name(textures, "textures/skybox/day.bmp", &map->daysky) < 0)
+        error_doom("could not find day");
+    if (find_texture_by_name(textures, "textures/skybox/night.bmp", &map->nightsky) < 0)
+        error_doom("could not find day");
     map->daytime = t_true;
 	return (map);
 }
@@ -103,15 +113,24 @@ t_textures	*load_textures(void)
 {
     t_textures	*textures;
 
-    textures = (t_textures*)malloc(sizeof(textures));
-    add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp");
-    add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp");
-    add_bitmap_file_to_textures(textures, "textures/walls/brickwall2.bmp");
-    add_bitmap_file_to_textures(textures, "textures/flats/grass.bmp");
-    add_bitmap_file_to_textures(textures, "textures/flats/dirt.bmp");
-    add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp");
-    add_bitmap_file_to_textures(textures, "textures/skybox/day.bmp");
-    add_bitmap_file_to_textures(textures, "textures/skybox/night.bmp");
+    if (!(textures = (t_textures*)malloc(sizeof(textures))))
+        error_doom("could not allocate textures");
+    if (add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp") < 0)
+        error_doom("could not load dwa");
+    if (add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp") < 0)
+        error_doom("could not load stones");
+    if (add_bitmap_file_to_textures(textures, "textures/walls/brickwall2.bmp") < 0)
+        error_doom("could not load brickwall2");
+    if (add_bitmap_file_to_textures(textures, "textures/flats/grass.bmp") < 0)
+        error_doom("could not load grass");
+    if (add_bitmap_file_to_textures(textures, "textures/flats/dirt.bmp") < 0)
+        error_doom("could not load dirt");
+    if (add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp") < 0)
+        error_doom("could not load voilaunefleur");
+    if (add_bitmap_file_to_textures(textures, "textures/skybox/day.bmp") < 0)
+        error_doom("could not load day");
+    if (add_bitmap_file_to_textures(textures, "textures/skybox/night.bmp") < 0)
+        error_doom("could not load night");
     return (textures);
 }
 
@@ -124,7 +143,7 @@ int		main()
     map = create_map(textures);
     if (write_file("mabite.roflolilolmao", textures, map) < 0)
     {
-        printf("Failure when writing file\n");
+        error_doom("Failure when writing file\n");
         return (-1);
     }
 
