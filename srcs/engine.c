@@ -46,17 +46,17 @@ static enum e_bool segments_intersect(
     return (t_false);
 }
 
-static void update_collisions_list(t_collision ***collision, Uint32 i)
+static void update_collisions_list(t_collision **collision, Uint32 i)
 {
     Uint32      j;
-    t_collision **updated;
+    t_collision *updated;
 
     j = 0;
-    if (!(updated = (t_collision **)malloc(sizeof(t_collision *) * (i + 1))))
+    if (!(updated = (t_collision *)malloc(sizeof(t_collision) * (i + 1))))
         error_doom("There was an issue while mallocing collisions");
     while (j < i)
     {
-        updated[j] = ft_memcpy(updated[j], *collision[j], sizeof(t_collision));
+        updated[j] = collision[0][j];
         j++;
     }
     free(*collision);
@@ -109,31 +109,21 @@ Uint32  check_collision(t_sector *sector, t_segment *seg, t_collision **collisio
 
 	last_portal = NULL;
 	i = 0;
-    if (!(collision = (t_collision **)malloc(sizeof(t_collision *) * (i + 1))))
-        error_doom("Can't malloc collisions");
-	while (check_collision_in_sector(sector, seg, collision[i], last_portal))
+    if (!(*collision = (t_collision *)malloc(sizeof(t_collision))))
+        error_doom("Can't malloc collision");
+	while (check_collision_in_sector(sector, seg, &collision[0][i], last_portal))
     {
-	    i++;
-	    update_collisions_list(&collision, i);
-	    if (collision->wall->type == portal)
+        i++;
+	    update_collisions_list(collision, i);
+	    if (collision[0][i - 1].wall->type != wall)
         {
-	        last_portal = collision->wall;
-	        sector = get_next_sector_addr(sector, collision->wall);
+	        last_portal = collision[0][i - 1].wall;
+	        sector = get_next_sector_addr(sector, collision[0][i - 1].wall);
         }
+	    else
+	        break;
     }
-//	while (collision->wall->type == portal)
-//	{
-//		last_portal = collision->wall;
-//		sector = get_next_sector_addr(sector, collision->wall);
-//		if (check_collision_in_sector(sector, seg, collision, last_portal))
-//		{
-//			if (collision->wall->type == wall)
-//				return (t_true);
-//		}
-//		if (collision->distance >= HORIZON)
-//			return (t_false);
-//	}
-//	return (t_true);
+	return (i);
 }
 
 void			raycasting(t_env *e)
@@ -142,9 +132,11 @@ void			raycasting(t_env *e)
 	t_segment	ray_seg;
 	double		ray_angle;
     Uint32      renderer_x;
-    t_collision	collision;
+    t_collision	*collision;
+    Uint32      collisions_number;
 
     renderer_x = 0;
+    collision = NULL;
     while (renderer_x < e->op.win_w)
     {
         clamp_player_values(&e->p, e->op);
@@ -156,8 +148,8 @@ void			raycasting(t_env *e)
 				e->p.pos.x,
 				e->p.pos.y,
 				&ray_vect);
-		if (check_collision(e->p.current_sector, &ray_seg, &collision))
-			draw(e, ray_angle, collision, renderer_x);
+		if ((collisions_number = check_collision(e->p.current_sector, &ray_seg, &collision)))
+            draw(e, ray_angle, collision[collisions_number - 1], renderer_x);
 		renderer_x++;
 	}
 }

@@ -25,7 +25,7 @@ typedef struct          s_collision
     t_wall				*wall;
 }                       t_collision;
 
-enum e_bool	check_collision(t_sector *sector, t_segment *seg, t_collision *collision);
+Uint32  	check_collision(t_sector *sector, t_segment *seg, t_collision **collision);
 t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall);
 void		raycasting(t_env *e);
 
