@@ -115,7 +115,7 @@ Uint32  check_collision(t_sector *sector, t_segment *seg, t_collision **collisio
     {
         i++;
 	    update_collisions_list(collision, i);
-	    if (collision[0][i - 1].wall->type != wall)
+	    if (collision[0][i - 1].wall->type != wtWall)
         {
 	        last_portal = collision[0][i - 1].wall;
 	        sector = get_next_sector_addr(sector, collision[0][i - 1].wall);

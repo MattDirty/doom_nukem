@@ -18,10 +18,13 @@ NAME_EDITOR = editor
 
 SRC_PATH = srcs
 
-SRC_NAME =	main.c \
-			vector.c \
+SRCS_NAMES = vector.c \
 			segment.c \
 			player.c \
+			serialisation.c \
+			walls.c \
+			sectors.c \
+			map.c \
 			environment.c \
 			loop.c \
 			engine.c \
@@ -40,9 +43,14 @@ SRC_NAME =	main.c \
 			animation.c \
 			melee.c \
 			skybox.c \
-			config.c
+			config.c \
+			textures.c
 
-SRC_EDITOR_NAME = editor.c
+SRC_NAME =	main.c \
+			$(SRCS_NAMES)
+
+SRC_EDITOR_NAME = editor.c \
+				  $(SRCS_NAMES)
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 
