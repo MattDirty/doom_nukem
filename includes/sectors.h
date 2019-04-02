@@ -1,8 +1,8 @@
 #ifndef SECTORS_H
 # define SECTORS_H
 
-#include "textures.h"
-#include "walls.h"
+# include "textures.h"
+# include "walls.h"
 
 typedef	struct			s_sector
 {

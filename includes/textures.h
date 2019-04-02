@@ -1,9 +1,9 @@
 #ifndef DOOMNUKEM_TEXTURES_H
-#define DOOMNUKEM_TEXTURES_H
+# define DOOMNUKEM_TEXTURES_H
 
-#include "SDL.h"
+# include "SDL.h"
 
-#define BITMAP_DEPTH 32
+# define BITMAP_DEPTH 32
 
 typedef struct				s_texture_node
 {
