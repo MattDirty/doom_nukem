@@ -79,6 +79,7 @@ void	move_if_allowed(t_player *p, double time)
                                                          collision[0].wall);
         }
 	}
+	free(collision);
 	p->pos.x += p->speed.x;
 	p->pos.y += p->speed.y;
 }

@@ -150,6 +150,7 @@ void			raycasting(t_env *e)
 				&ray_vect);
 		if ((collisions_number = check_collision(e->p.current_sector, &ray_seg, &collision)))
             draw(e, ray_angle, collision[collisions_number - 1], renderer_x);
+		free(collision);
 		renderer_x++;
 	}
 }
