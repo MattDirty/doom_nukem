@@ -4,73 +4,73 @@
 #include "textures.h"
 #include "serialisation.h"
 
-int			wall_index(t_walls_serialiser *walls_serialiser, t_wall *wall)
+int			wall_index(t_linked_walls *linked_walls, t_wall *wall)
 {
     int		i;
 
     i = 0;
-    while (walls_serialiser)
+    while (linked_walls)
     {
-        if (wall == walls_serialiser->wall)
+        if (wall == linked_walls->wall)
             return (i);
-        walls_serialiser = walls_serialiser->next;
+        linked_walls = linked_walls->next;
         i++;
     }
     return (-1);
 }
 
-t_wall		*wall_at_index(t_walls_serialiser *walls_serialiser, int index)
+t_wall		*wall_at_index(t_linked_walls *linked_walls, int index)
 {
     int		i;
 
     i = 0;
-    while (walls_serialiser->next)
+    while (linked_walls->next)
     {
         if (index == i)
-            return (walls_serialiser->wall);
-        walls_serialiser = walls_serialiser->next;
+            return (linked_walls->wall);
+        linked_walls = linked_walls->next;
         i++;
     }
     return (NULL);
 }
 
 int			add_wall_to_serialiser(
-        t_walls_serialiser *walls_serialiser,
+        t_linked_walls *linked_walls,
         t_wall *wall)
 {
     int		i;
 
     i = 0;
-    while (walls_serialiser->wall)
+    while (linked_walls->wall)
     {
-        if (walls_serialiser->wall == wall)
+        if (linked_walls->wall == wall)
             return (i);
-        walls_serialiser = walls_serialiser->next;
+        linked_walls = linked_walls->next;
         i++;
     }
-    walls_serialiser->wall = wall;
-    walls_serialiser->next =
-            (t_walls_serialiser*)malloc(sizeof(t_walls_serialiser));
-    walls_serialiser->next->next = NULL;
-    walls_serialiser->next->wall = NULL;
+    linked_walls->wall = wall;
+    linked_walls->next =
+            (t_linked_walls*)malloc(sizeof(t_linked_walls));
+    linked_walls->next->next = NULL;
+    linked_walls->next->wall = NULL;
     return (i);
 }
 
-int			read_walls_serialiser_from_file(
+int			read_linked_walls_from_file(
         int fd,
         t_sectors *sectors,
         t_textures *textures,
-        t_walls_serialiser **walls_serialiser)
+        t_linked_walls **linked_walls)
 {
     int		i;
     int		count;
     t_wall	*wall;
 
-    if (!(*walls_serialiser =
-            (t_walls_serialiser*)malloc(sizeof(t_walls_serialiser))))
+    if (!(*linked_walls =
+            (t_linked_walls*)malloc(sizeof(t_linked_walls))))
         return (-1);
-    (*walls_serialiser)->next = NULL;
-    (*walls_serialiser)->wall = NULL;
+    (*linked_walls)->next = NULL;
+    (*linked_walls)->wall = NULL;
     if (read(fd, &count, sizeof(count)) <= 0)
         return (-2);
     i = 0;
@@ -78,30 +78,30 @@ int			read_walls_serialiser_from_file(
     {
         if (read_wall_from_file(fd, sectors, textures, &wall) < 0)
             return (-3);
-        add_wall_to_serialiser(*walls_serialiser, wall);
+        add_wall_to_serialiser(*linked_walls, wall);
         i++;
     }
 
     return (0);
 }
 
-int			write_walls_serialiser_to_file(
+int			write_linked_walls_to_file(
         int fd,
         t_sectors *sectors,
-        t_walls_serialiser **p_walls_serialiser)
+        t_linked_walls **p_linked_walls)
 {
     int		i;
     int		j;
     int		index;
     int		count;
-    t_walls_serialiser *walls_serialiser;
+    t_linked_walls *linked_walls;
 
-    if (!(walls_serialiser =
-            (t_walls_serialiser*)malloc(sizeof(t_walls_serialiser))))
+    if (!(linked_walls =
+            (t_linked_walls*)malloc(sizeof(t_linked_walls))))
         return (-1);
-    walls_serialiser->next = NULL;
-    walls_serialiser->wall = NULL;
-    *p_walls_serialiser = walls_serialiser;
+    linked_walls->next = NULL;
+    linked_walls->wall = NULL;
+    *p_linked_walls = linked_walls;
     count = 0;
     i = 0;
     while (i < sectors->count)
@@ -110,7 +110,7 @@ int			write_walls_serialiser_to_file(
         while (j < sectors->items[i].walls->count)
         {
             index = add_wall_to_serialiser(
-                    walls_serialiser,
+                    linked_walls,
                     sectors->items[i].walls->items[j]);
             if (index >= count)
                 count = index + 1;
@@ -120,18 +120,18 @@ int			write_walls_serialiser_to_file(
     }
     if (write(fd, &count, sizeof(count)) <= 0)
         return (-2);
-    while (walls_serialiser->wall)
+    while (linked_walls->wall)
     {
-        if (write_wall_to_file(fd, sectors, walls_serialiser->wall) < 0)
+        if (write_wall_to_file(fd, sectors, linked_walls->wall) < 0)
             return (-3);
-        walls_serialiser = walls_serialiser->next;
+        linked_walls = linked_walls->next;
     }
     return (0);
 }
 
 int			read_walls_from_file(
         int fd,
-        t_walls_serialiser *walls_serialiser,
+        t_linked_walls *linked_walls,
         t_walls **walls)
 {
     int		count;
@@ -152,7 +152,7 @@ int			read_walls_from_file(
     {
         if (read(fd, &index, sizeof(index)) <= 0)
             return (-3);
-        *((*walls)->items + i) = wall_at_index(walls_serialiser, index);
+        *((*walls)->items + i) = wall_at_index(linked_walls, index);
 
         i++;
     }
@@ -162,7 +162,7 @@ int			read_walls_from_file(
 
 int			write_walls_to_file(
         int fd,
-        t_walls_serialiser *walls_serialiser,
+        t_linked_walls *linked_walls,
         t_walls *walls)
 {
     int		i;
@@ -174,7 +174,7 @@ int			write_walls_to_file(
     i = 0;
     while (i < walls->count)
     {
-        index = wall_index(walls_serialiser, walls->items[i]);
+        index = wall_index(linked_walls, walls->items[i]);
         if (write(fd, &index, sizeof(index)) <= 0)
             return (-2);
 
@@ -191,7 +191,6 @@ int			read_wall_from_file(
         t_wall **wall)
 {
     int		index;
-    char	*name;
 
     if (!(*wall = (t_wall*)malloc(sizeof(t_wall))))
         return (-1);
@@ -203,11 +202,8 @@ int			read_wall_from_file(
         return (-3);
     if ((*wall)->type == wtWall)
     {
-        if (read_str_from_file(fd, &name) < 0)
-            return (-4);
-        if (find_texture_by_name(textures, name, &((*wall)->pointer.texture)) < 0)
+        if (find_texture_from_file(fd, textures, &((*wall)->pointer.texture)) < 0)
             return (-5);
-        free(name);
     }
     else if ((*wall)->type == wtPortal)
     {

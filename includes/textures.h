@@ -46,4 +46,6 @@ int	write_textures_to_file(int fd, t_textures *textures);
 int	read_texture_node_from_file(int fd, t_texture_node **texture_node);
 int	write_texture_node_to_file(int fd, t_texture_node *texture_node);
 
+int	find_texture_from_file(int fd, t_textures *textures, SDL_Surface **surface);
+
 #endif

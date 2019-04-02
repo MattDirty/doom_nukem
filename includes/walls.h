@@ -41,29 +41,29 @@ typedef struct			s_walls
     t_wall				**items;
 }						t_walls;
 
-typedef struct			s_walls_serialiser
+typedef struct			s_linked_walls
 {
     t_wall				*wall;
-    struct s_walls_serialiser	*next;  // I'm not "fixing" the whole file, fuck the norm
-}						t_walls_serialiser;
+    struct s_linked_walls	*next;  // I'm not "fixing" the whole file, fuck the norm
+}						t_linked_walls;
 
-int			read_walls_serialiser_from_file(
+int			read_linked_walls_from_file(
         int fd,
         t_sectors *sectors,
         t_textures *textures,
-        t_walls_serialiser **walls_serialiser);
-int			write_walls_serialiser_to_file(
+        t_linked_walls **linked_walls);
+int			write_linked_walls_to_file(
         int fd,
         t_sectors *sectors,
-        t_walls_serialiser **p_walls_serialiser);
+        t_linked_walls **p_linked_walls);
 
 int			read_walls_from_file(
         int fd,
-        t_walls_serialiser *walls_serialiser,
+        t_linked_walls *linked_walls,
         t_walls **walls);
 int			write_walls_to_file(
         int fd,
-        t_walls_serialiser *walls_serialiser,
+        t_linked_walls *linked_walls,
         t_walls *walls);
 
 int			read_wall_from_file(
