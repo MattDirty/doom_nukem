@@ -53,30 +53,31 @@ t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coords pos)
 void	move_if_allowed(t_player *p, double time)
 {
 	t_segment	seg;
-	t_collision	**collision;
+	t_collision	*collision;
 	Uint32      collision_ret;
 
 	seg = get_segment_and_mod_speed(&p->speed, time, p->pos);
 	collision = NULL;
-	if ((collision_ret = check_collision(p->current_sector, &seg, collision)))
+    collision_ret = check_collision(p->current_sector, &seg, &collision);
+	if (collision_ret > 0)
 	{
-		if (collision[collision_ret]->wall->type == wall)
+		if (collision[0].wall->type == wall)
 		{
-			if (collision[collision_ret]->distance <= PLAYER_THICKNESS)
+			if (collision[0].distance <= PLAYER_THICKNESS)
 				scalar_multiply(&p->speed, 0);
 			else
 				change_vector_magnitude(&p->speed,
-						fabs(collision[collision_ret]->distance - PLAYER_THICKNESS));
+						fabs(collision[0].distance - PLAYER_THICKNESS));
 		}
-	}
-	else if (collision[collision_ret]->wall && collision[collision_ret]->wall->type == portal)
-	{
-		seg = create_segment_from_position_and_vector(
-				p->pos.x, p->pos.y, &p->speed);
-		if (segments_intersect(
-				&seg, &collision[collision_ret]->wall->segment, &collision[collision_ret]->inters))
-			p->current_sector = get_next_sector_addr(p->current_sector,
-                                                     collision[collision_ret]->wall);
+        if (collision[0].wall && collision[0].wall->type == portal)
+        {
+            seg = create_segment_from_position_and_vector(
+                    p->pos.x, p->pos.y, &p->speed);
+            if (segments_intersect(
+                    &seg, &collision[0].wall->segment, &collision[0].inters))
+                p->current_sector = get_next_sector_addr(p->current_sector,
+                                                         collision[0].wall);
+        }
 	}
 	p->pos.x += p->speed.x;
 	p->pos.y += p->speed.y;
@@ -93,8 +94,7 @@ void		move(t_player *p, const Uint8 *state, double time)
 	else if (state[SDL_SCANCODE_D])
 		add_vector_to_vector(&p->speed, create_vector(-cos(p->heading - ROT_90), sin(p->heading - ROT_90)));
 	if (p->speed.x != 0 || p->speed.y != 0)
-        (void)time;
-		//move_if_allowed(p, time);
+		move_if_allowed(p, time);
 	p->speed.x = 0;
 	p->speed.y = 0;
 }
