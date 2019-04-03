@@ -44,6 +44,8 @@ int			read_sectors_from_file(
             return (-5);
         if (read_walls_from_file(fd, linked_walls, &sector->walls) < 0)
             return (-6);
+        if (read(fd, &sector->open_sky, sizeof(sector->open_sky)) <= 0)
+            return (-7);
         i++;
     }
     free(linked_walls);
@@ -73,6 +75,8 @@ int			write_sectors_to_file(int fd, t_sectors *sectors)
             return (-4);
         if (write_walls_to_file(fd, linked_walls, sector.walls) < 0)
             return (-5);
+        if (write(fd, &sector.open_sky, sizeof(sector.open_sky)) <= 0)
+            return (-7);
         i++;
     }
     free(linked_walls);
