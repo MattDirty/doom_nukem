@@ -56,13 +56,12 @@ t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall)
 
 void			raycasting(t_env *e)
 {
-	t_ray		ray;
-    Uint32      renderer_x;
-    t_collision	*collision;
-    Uint32      collisions_number;
+	t_ray			ray;
+    Uint32			renderer_x;
+    t_collisions	collisions;
 
     renderer_x = 0;
-    collision = NULL;
+    collisions.list = NULL;
     while (renderer_x < e->op.win_w)
     {
         clamp_player_values(&e->p, e->op);
@@ -74,10 +73,10 @@ void			raycasting(t_env *e)
 				e->p.pos.x,
 				e->p.pos.y,
 				&ray.vect);
-		if ((collisions_number = check_collision(e->p.current_sector, &ray.seg, &collision)))
+		if ((collisions.count = check_collision(e->p.current_sector, &ray.seg, &collisions.list)))
 		{
-			collision[collisions_number - 1].distance *= cos(e->p.heading - ray.angle);
-			draw(e, collision[collisions_number - 1], renderer_x, ray);
+			collisions.list[collisions.count - 1].distance *= cos(e->p.heading - ray.angle);
+			draw(e, collisions.list[collisions.count - 1], renderer_x, ray);
 		}
 		renderer_x++;
 	}
