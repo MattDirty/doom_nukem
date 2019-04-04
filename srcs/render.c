@@ -102,9 +102,9 @@ void		draw(t_env *e, t_collision collision, Uint32 renderer_x, t_ray ray)
 {
 	t_i_segment wall;
     t_render    render;
-    t_coords    portal_inters;
-    double      distance;
-    double      wall_length;
+//    t_coords    portal_inters;
+//    double      distance;
+//    double      wall_length;
 
     render.surface = e->doom.surface;
     render.x = renderer_x;
@@ -115,19 +115,20 @@ void		draw(t_env *e, t_collision collision, Uint32 renderer_x, t_ray ray)
     render.win_h = e->op.win_h;
     render.current_sector = e->p.current_sector;
     render.map = *e->map;
+	(void)ray;
 
     wall = get_wall_vertical_length(render.wall_length, render.vision_height, render.win_h);
     skybox(render);
     draw_wall(render, collision, wall);
-    if (collision.first_portal)
-    {
-        render.next_sector = get_next_sector_addr(render.current_sector, collision.first_portal);
-        draw_ceil_and_floor(render, collision, wall, t_true);
-        segments_intersect(&ray.seg, &collision.first_portal->segment, &portal_inters);
-        distance = get_distance_between_points(ray.seg.x1, ray.seg.y1, portal_inters.x, portal_inters.y);
-        distance *= cos(e->p.heading - ray.angle);
-        wall_length = e->op.ratio / distance * collision.wall->height;
-        wall = get_wall_vertical_length(wall_length, render.vision_height, render.win_h);
-    }
-    draw_ceil_and_floor(render, collision, wall, t_false);
+//    if (collision.first_portal)
+//    {
+//        render.next_sector = get_next_sector_addr(render.current_sector, collision.first_portal);
+//        draw_ceil_and_floor(render, collision, wall, t_true);
+//        segments_intersect(&ray.seg, &collision.first_portal->segment, &portal_inters);
+//        distance = get_distance_between_points(ray.seg.x1, ray.seg.y1, portal_inters.x, portal_inters.y);
+//        distance *= cos(e->p.heading - ray.angle);
+//        wall_length = e->op.ratio / distance * collision.wall->height;
+//        wall = get_wall_vertical_length(wall_length, render.vision_height, render.win_h);
+//    }
+		draw_ceil_and_floor(render, collision, wall, t_false);
 }

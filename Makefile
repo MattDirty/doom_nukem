@@ -19,6 +19,7 @@ NAME_EDITOR = editor
 SRC_PATH = srcs
 
 SRCS_NAMES = vector.c \
+			collision.c \
 			segment.c \
 			player.c \
 			serialisation.c \
