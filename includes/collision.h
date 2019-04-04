@@ -34,6 +34,12 @@ typedef struct          s_collision
     t_wall              *last_portal;
 }                       t_collision;
 
+typedef struct			s_collisions
+{
+	t_collision	*list;
+	Uint32		count;
+}						t_collisions;
+
 enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inters);
 Uint32  	check_collision(t_sector *sector, t_segment *seg, t_collision **collision);
 t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall);

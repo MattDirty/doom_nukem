@@ -54,7 +54,6 @@ t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall)
 	return (NULL);
 }
 
-
 void			raycasting(t_env *e)
 {
 	t_ray		ray;
