@@ -14,7 +14,7 @@
 #include "player.h"
 #include "default.h"
 
-t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coords pos)
+static t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coords pos)
 {
 	t_vector new_vector;
 
@@ -25,39 +25,42 @@ t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coords pos)
 	return (create_segment_from_position_and_vector(pos.x, pos.y, &new_vector));
 }
 
-//void	move_if_allowed(t_player *p, double time)
-//{
-//	t_segment	seg;
-//	t_collision	*collision;
-//	Uint32      collision_ret;
-//
-//	seg = get_segment_and_mod_speed(&p->speed, time, p->pos);
-//	collision = NULL;
-//    collision_ret = check_collision(p->current_sector, &seg, &collision);
-//	if (collision_ret > 0)
-//	{
-//		if (collision[0].wall->type == e_wall)
-//		{
-//			if (collision[0].distance <= PLAYER_THICKNESS)
-//				scalar_multiply(&p->speed, 0);
-//			else
-//				change_vector_magnitude(&p->speed,
-//						fabs(collision[0].distance - PLAYER_THICKNESS));
-//		}
-//        if (collision[0].wall && collision[0].wall->type == e_portal)
-//        {
-//            seg = create_segment_from_position_and_vector(
-//                    p->pos.x, p->pos.y, &p->speed);
-//            if (segments_intersect(
-//                    &seg, &collision[0].wall->segment, &collision[0].inters))
-//                p->current_sector = get_next_sector_addr(p->current_sector,
-//                                                         collision[0].wall);
-//        }
-//	}
-//	free(collision);
-//	p->pos.x += p->speed.x;
-//	p->pos.y += p->speed.y;
-//}
+void	move_if_allowed(t_player *p, double time)
+{
+	t_segment		seg;
+	t_collisions	*collisions;
+	t_collisions	*ptr;
+
+	seg = get_segment_and_mod_speed(&p->speed, time, p->pos);
+	check_collision(p->current_sector, &seg, &collisions);
+	ptr = collisions;
+	while (ptr->next)
+		ptr = ptr->next;
+	if (ptr->item.wall && ptr->item.wall->type == e_wall)
+	{
+		if (ptr->item.distance <= PLAYER_THICKNESS)
+		{
+			free_collisions(collisions);
+			return ;
+		}
+		if (ptr->item.distance <= RUN * time + PLAYER_THICKNESS)
+			change_vector_magnitude(&p->speed,
+					fabs(ptr->item.distance) - PLAYER_THICKNESS);
+	}
+	ptr = collisions;
+	while (ptr)
+	{
+		if (ptr->item.wall
+		&& ptr->item.wall->type == e_portal
+		&& ptr->item.distance < get_vector_length(&p->speed))
+			p->current_sector = get_next_sector_addr(p->current_sector,
+													 ptr->item.wall);
+		ptr = ptr->next;
+	}
+	free_collisions(collisions);
+	p->pos.x += p->speed.x;
+	p->pos.y += p->speed.y;
+}
 
 void		move(t_player *p, const Uint8 *state, double time)
 {
@@ -70,8 +73,7 @@ void		move(t_player *p, const Uint8 *state, double time)
 	else if (state[SDL_SCANCODE_D])
 		add_vector_to_vector(&p->speed, create_vector(-cos(p->heading - ROT_90), sin(p->heading - ROT_90)));
 	if (p->speed.x != 0 || p->speed.y != 0)
-		(void)time;
-		//move_if_allowed(p, time);
+		move_if_allowed(p, time);
 	p->speed.x = 0;
 	p->speed.y = 0;
 }

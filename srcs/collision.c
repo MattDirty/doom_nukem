@@ -52,7 +52,9 @@ void		check_collision(t_sector *sector, t_segment *seg, t_collisions **first)
 	if (!(*first = (t_collisions *)malloc(sizeof(t_collisions))))
 		error_doom("Allocation of t_collisions failed");
 	collisions = *first;
+	collisions->item.wall = NULL;
 	collisions->item.last_portal = NULL;
+	collisions->next = NULL;
 	while (check_collision_in_sector(sector, seg, &collisions->item)
 			&& collisions->item.wall->type != e_wall)
 	{
@@ -62,6 +64,7 @@ void		check_collision(t_sector *sector, t_segment *seg, t_collisions **first)
 			error_doom("Allocation of t_collisions failed");
 		collisions = collisions->next;
 		collisions->item.last_portal = last_portal;
+		collisions->item.wall = NULL;
+		collisions->next = NULL;
 	}
-	collisions->next = NULL;
 }

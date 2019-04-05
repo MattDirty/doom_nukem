@@ -37,8 +37,8 @@ void        change_vector_magnitude(t_vector *vector, double new_magnitude)
     double  old_magnitude;
 
     old_magnitude = get_vector_length(vector);
-    vector->x = vector->x * new_magnitude / old_magnitude;
-    vector->y = vector->y * new_magnitude / old_magnitude;
+    vector->x = vector->x * fabs(new_magnitude / old_magnitude);
+    vector->y = vector->y * fabs(new_magnitude / old_magnitude);
 }
 
 double get_rad_between_vectors(t_vector *vector1, t_vector *vector2)
