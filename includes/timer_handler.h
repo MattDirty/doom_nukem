@@ -28,7 +28,6 @@ typedef struct    s_timer_handler
 	t_event	*first;
 	double	ms_since_update;
 	struct timespec time;
-
 } t_timer_handler;
 
 void timer_handler_init(t_timer_handler *timer_handler);

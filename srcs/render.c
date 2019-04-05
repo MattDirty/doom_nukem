@@ -98,14 +98,14 @@ static void         draw_wall(t_render render, t_collision collision, t_i_segmen
 	}
 }
 
-void		draw(t_env *e, t_collisions collisions, Uint32 renderer_x, t_ray ray)
+void		draw(t_env *e, t_collisions *collisions, Uint32 renderer_x, t_ray ray)
 {
-	Uint32		i;
-	t_i_segment wall;
-    t_render    render;
+	t_i_segment		wall;
+	t_render		render;
+	t_collisions	*ptr;
 
-	i = 0;
 	(void)ray;
+	ptr = collisions;
 	render.surface = e->doom.surface;
 	render.current_sector = e->p.current_sector;
 	render.x = renderer_x;
@@ -115,21 +115,21 @@ void		draw(t_env *e, t_collisions collisions, Uint32 renderer_x, t_ray ray)
 	render.win_h = e->op.win_h;
 	render.map = *e->map;
 	skybox(render);
-	while (i < collisions.count)
+	while (ptr)
 	{
-		render.wall_length = e->op.ratio / collisions.list[i].distance * collisions.list[i].wall->height;
+		render.wall_length = e->op.ratio / ptr->item.distance * ptr->item.wall->height;
 		wall = get_wall_vertical_length(render.wall_length, render.vision_height, render.win_h);
-		if (collisions.list[i].wall->type == e_wall)
+		if (ptr->item.wall->type == e_wall)
 		{
-			draw_wall(render, collisions.list[i], wall);
-			draw_ceil_and_floor(render, collisions.list[i], wall, t_false);
+			draw_wall(render, ptr->item, wall);
+			draw_ceil_and_floor(render, ptr->item, wall, t_false);
 		}
-		else if (collisions.list[i].wall->type == e_portal)
+		else if (ptr->item.wall->type == e_portal)
 		{
-			render.next_sector = get_next_sector_addr(render.current_sector, collisions.list[i].wall);
-			draw_ceil_and_floor(render, collisions.list[i], wall, t_true);
+			render.next_sector = get_next_sector_addr(render.current_sector, ptr->item.wall);
+			draw_ceil_and_floor(render, ptr->item, wall, t_true);
 			render.current_sector = render.next_sector;
 		}
-		i++;
+		ptr = ptr->next;
 	}
 }

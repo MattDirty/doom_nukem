@@ -1,21 +1,16 @@
 #include "collision.h"
 #include "default.h"
 
-static void update_collisions_list(t_collision **collision, Uint32 i)
+void			free_collisions(t_collisions *collisions)
 {
-	Uint32      j;
-	t_collision *updated;
+	t_collisions	*buffer;
 
-	j = 0;
-	if (!(updated = (t_collision *)malloc(sizeof(t_collision) * (i + 1))))
-		error_doom("There was an issue while mallocing collisions");
-	while (j < i)
+	while (collisions)
 	{
-		updated[j] = collision[0][j];
-		j++;
+		buffer = collisions->next;
+		free(collisions);
+		collisions = buffer;
 	}
-	free(*collision);
-	*collision = updated;
 }
 
 static void		update_collision(t_collision *collision, double distance, t_coords inters, t_wall *wall)
@@ -48,26 +43,25 @@ static enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t
 	return (t_true);
 }
 
-Uint32  check_collision(t_sector *sector, t_segment *seg, t_collision **collision)
+void		check_collision(t_sector *sector, t_segment *seg, t_collisions **first)
 {
-	t_wall	*last_portal;
-	Uint32  i;
+	t_wall			*last_portal;
+	t_collisions	*collisions;
 
 	last_portal = NULL;
-	i = 0;
-	if (!(*collision = (t_collision *)malloc(sizeof(t_collision))))
-		error_doom("Can't malloc collision");
-	while (check_collision_in_sector(sector, seg, &collision[0][i]))
+	if (!(*first = (t_collisions *)malloc(sizeof(t_collisions))))
+		error_doom("Allocation of t_collisions failed");
+	collisions = *first;
+	collisions->item.last_portal = NULL;
+	while (check_collision_in_sector(sector, seg, &collisions->item)
+			&& collisions->item.wall->type != e_wall)
 	{
-		i++;
-		update_collisions_list(collision, i);
-		if (collision[0][i - 1].wall->type != e_wall)
-		{
-			last_portal = collision[0][i - 1].wall;
-			sector = get_next_sector_addr(sector, collision[0][i - 1].wall);
-		}
-		else
-			break;
+		last_portal = collisions->item.wall;
+		sector = get_next_sector_addr(sector, collisions->item.wall);
+		if (!(collisions->next = (t_collisions *)malloc(sizeof(t_collisions))))
+			error_doom("Allocation of t_collisions failed");
+		collisions = collisions->next;
+		collisions->item.last_portal = last_portal;
 	}
-	return (i);
+	collisions->next = NULL;
 }

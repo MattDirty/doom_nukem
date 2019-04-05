@@ -58,8 +58,8 @@ void			raycasting(t_env *e)
 {
 	t_ray			ray;
     Uint32			renderer_x;
-    t_collisions	collisions;
-	Uint32			i;
+    t_collisions	*collisions;
+    t_collisions	*ptr;
 
     renderer_x = 0;
     while (renderer_x < e->op.win_w)
@@ -73,16 +73,15 @@ void			raycasting(t_env *e)
 				e->p.pos.x,
 				e->p.pos.y,
 				&ray.vect);
-		if ((collisions.count = check_collision(e->p.current_sector, &ray.seg, &collisions.list)))
+		check_collision(e->p.current_sector, &ray.seg, &collisions);
+		ptr = collisions;
+		while (ptr)
 		{
-			i = 0;
-			while (i < collisions.count)
-			{
-				collisions.list[i].distance *= cos(e->p.heading - ray.angle);
-				i++;
-			}
-			draw(e, collisions, renderer_x, ray);
+			ptr->item.distance *= cos(e->p.heading - ray.angle);
+			ptr = ptr->next;
 		}
+		draw(e, collisions, renderer_x, ray);
 		renderer_x++;
+		free_collisions(collisions);
 	}
 }

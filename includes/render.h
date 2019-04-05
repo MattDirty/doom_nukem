@@ -34,7 +34,7 @@ typedef struct  s_render
     t_map       map;
 }               t_render;
 
-void        draw(t_env *e, t_collisions collisions, Uint32 rdr_x, t_ray ray);
+void        draw(t_env *e, t_collisions *collisions, Uint32 rdr_x, t_ray ray);
 enum e_bool day_to_night(double ms_since_update, t_params daytime);
 void        skybox(t_render render);
 
