@@ -39,7 +39,24 @@ t_map		*create_map(t_textures *textures)
                 &map->sectors->items[i].ceil) < 0)
             error_doom("could not find dirt");
         map->sectors->items[i].open_sky = t_false;
-        map->sectors->items[1].open_sky = t_true;
+        map->sectors->items[2].open_sky = t_true;
+        map->sectors->items[i].objects =
+                (t_objects*)malloc(sizeof(t_objects));
+        map->sectors->items[i].objects->count = 0;
+        map->sectors->items[i].objects->items = NULL;
+        if (i == 1)
+        {
+            map->sectors->items[i].objects->count = 1;
+            map->sectors->items[i].objects->items = (t_object*)malloc(
+                    sizeof(t_object) * map->sectors->items[i].objects->count);
+            map->sectors->items[i].objects->items[0].x = 7;
+            map->sectors->items[i].objects->items[0].y = 5;
+            if (find_texture_by_name(
+                    textures,
+                    "textures/sprites/voilaunefleur.bmp",
+                    &map->sectors->items[i].objects->items[0].sprite) < 0)
+                error_doom("could not find voilaunefleur.bmp");
+        }
 		walls = map->sectors->items[i].walls;
 		find_texture_by_name(
 				textures,
