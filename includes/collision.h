@@ -17,6 +17,7 @@
 # include "walls.h"
 # include "sectors.h"
 # include "doom.h"
+# include "objects.h"
 
 typedef struct          s_ray
 {
@@ -29,7 +30,16 @@ typedef struct			s_collision
 {
 	double				distance;
 	t_coords			inters;
-	t_wall				*wall;
+	enum e_collision_type
+	{
+	    ct_wall,
+	    ct_object
+	} type;
+	union u_type_data
+	{
+        t_wall			*wall;
+        t_object		*object;
+	} d;
 	t_wall				*last_portal;
 }						t_collision;
 

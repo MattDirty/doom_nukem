@@ -37,7 +37,9 @@ static void	move_if_allowed(t_player *p, double time)
 	ptr = collisions;
 	while (ptr->next)
 		ptr = ptr->next;
-	if (ptr->item.wall && ptr->item.wall->type == e_wall)
+	if (ptr->item.type == ct_wall
+        && ptr->item.d.wall
+        && ptr->item.d.wall->type == e_wall)
 	{
 		if (ptr->item.distance <= PLAYER_THICKNESS)
 		{
@@ -51,11 +53,12 @@ static void	move_if_allowed(t_player *p, double time)
 	ptr = collisions;
 	while (ptr)
 	{
-		if (ptr->item.wall
-		&& ptr->item.wall->type == e_portal
+		if (ptr->item.type == ct_wall
+        && ptr->item.d.wall
+		&& ptr->item.d.wall->type == e_portal
 		&& ptr->item.distance < get_vector_length(&p->speed))
 			p->current_sector = get_next_sector_addr(p->current_sector,
-													 ptr->item.wall);
+													 ptr->item.d.wall);
 		ptr = ptr->next;
 	}
 	free_collisions(collisions);

@@ -88,12 +88,12 @@ static void         draw_wall(
     Uint32		i;
     SDL_Surface *wall_text;
 
-	if (collision->wall->type != e_wall)
+	if (collision->d.wall->type != e_wall)
 		return;
-	wall_text = collision->wall->pointer.texture;
+	wall_text = collision->d.wall->pointer.texture;
 	x = (Uint32)(get_distance_between_points(collision->inters.x,
-	        collision->inters.y, collision->wall->segment.x1,
-	        collision->wall->segment.y1) * wall_text->w) % wall_text->w;
+	        collision->inters.y, collision->d.wall->segment.x1,
+	        collision->d.wall->segment.y1) * wall_text->w) % wall_text->w;
 	i = range.start;
 	while (i < range.end)
 	{
@@ -143,7 +143,7 @@ void		draw(t_env *e, t_collisions *node, Uint32 renderer_x)
 	while (node)
 	{
 		r.light_value = current_sector->light;
-		r.wall_height = e->op.ratio / node->item.distance * node->item.wall->height;
+		r.wall_height = e->op.ratio / node->item.distance * node->item.d.wall->height;
 		range = wall_range(r.wall_height, r.vision_height, r.win_h);
 		draw_wall(&r, &node->item, range);
 		ceil_or_floor_range.start = range.end;
@@ -152,7 +152,7 @@ void		draw(t_env *e, t_collisions *node, Uint32 renderer_x)
 		ceil_or_floor_range.start = prev_range.start;
 		ceil_or_floor_range.end = range.start;
 		draw_ceil(&r, &node->item, ceil_or_floor_range, current_sector);
-		current_sector = get_next_sector_addr(current_sector, node->item.wall);
+		current_sector = get_next_sector_addr(current_sector, node->item.d.wall);
 		node = node->next;
 		prev_range = range;
 	}
