@@ -14,6 +14,11 @@ t_player init_player(t_config *op, t_sector *starting_sector)
     p.speed.x = 0;
     p.speed.y = 0;
     p.speed_factor = 1;
+    p.jump.ready = t_true;
+    p.jump.height = 0;
+    p.jump.gravity = 0.93;
+    p.jump.duration = 400;
+    p.jump.time = 0;
     return (p);
 }
 

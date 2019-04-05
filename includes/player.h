@@ -7,6 +7,15 @@
 # include "SDL.h"
 # include "config.h"
 
+typedef struct          s_jump
+{
+    double              height;
+    double              gravity;
+    enum e_bool         ready;
+    double              duration;
+    double              time;
+}                       t_jump;
+
 typedef struct			s_player
 {
 	t_sector	*current_sector;
@@ -16,6 +25,7 @@ typedef struct			s_player
     double		speed_factor;
     t_vector    speed;
     t_weapons   weapons;
+    t_jump      jump;
 }						t_player;
 
 t_player    init_player(t_config *op, t_sector *starting_sector);

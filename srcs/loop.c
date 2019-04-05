@@ -23,6 +23,26 @@
 #include "surface_manipulation.h"
 #include "loop.h"
 
+enum e_bool    jumping(double ms_since_update, t_params pointer)
+{
+    int step;
+    int value;
+    t_jump *jump;
+    t_player *p;
+
+    p = (t_player*)pointer;
+    jump = &p->jump;
+    jump->time += ms_since_update;
+    step = (int)(jump->time) / (int)(jump->duration / 2);
+    value = (int)(jump->time) % (int)(jump->duration / 2);
+    if (step == 0)
+        jump->height = value * JUMP_MAX / (jump->duration / 2);
+    else if (step == 1)
+        jump->height = JUMP_MAX;
+
+    return (jump->time <= jump->duration);
+}
+
 static void loop_events(
         t_env *e,
         const Uint8 *state,
@@ -45,6 +65,12 @@ static void loop_events(
 	x = 0;
 	y = 0;
 	while (SDL_PollEvent(&ev))
+    if (state[SDL_SCANCODE_SPACE] && !e->p.jump.height) // replace jump.height with floor
+    {
+        e->p.jump.time = 0;
+        add_event(timer_handler, 5, &jumping, &(e->p));
+    }
+    while (SDL_PollEvent(&ev))
 	{
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
 			quit_doom(e);
@@ -109,6 +135,11 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     if (e->debug_mode)
         debug_draw(&e->debug, map, &e->p, &e->op);
     raycasting(e);
+    if (e->p.jump.height > 0)
+    {
+        e->p.jump.height *= e->p.jump.gravity;
+        e->p.jump.height = (e->p.jump.height < 1) ? 0 : e->p.jump.height;
+    }
     draw_weapon(
             e->doom.surface,
             e->p.weapons.list[e->p.weapons.current].sprite,
