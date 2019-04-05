@@ -24,7 +24,7 @@ int	write_file(char *filename, t_textures *textures, t_map *map)
 {
     int fd;
 
-    fd = open(filename, O_WRONLY | O_CREAT, 777);
+    fd = open(filename, O_WRONLY | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
     if (fd <= 0)
         return (-1);
     if (write_textures_to_file(fd, textures) < 0)
