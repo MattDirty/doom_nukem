@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   motion.c                                           :+:      :+:    :+:   */
+/*   horizontal_motion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -82,16 +82,4 @@ void		move(t_player *p, const Uint8 *state, double time)
 		move_if_allowed(p, time);
 	p->speed.x = 0;
 	p->speed.y = 0;
-}
-
-void look_around(t_player *p, const Uint8 *state, double time)
-{
-    if (state[SDL_SCANCODE_UP])
-        p->vision_height += ROT_Y * time;
-    if (state[SDL_SCANCODE_DOWN])
-        p->vision_height -= ROT_Y * time;
-    if (state[SDL_SCANCODE_LEFT])
-        p->heading -= ROT_X * time;
-    if (state[SDL_SCANCODE_RIGHT])
-        p->heading += ROT_X * time;
 }

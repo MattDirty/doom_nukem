@@ -29,7 +29,8 @@ SRCS_NAMES = vector.c \
 			environment.c \
 			loop.c \
 			engine.c \
-			motion.c \
+			vertical_motion.c \
+			horizontal_motion.c \
 			render_utils.c \
 			render.c \
 			debug_init.c \

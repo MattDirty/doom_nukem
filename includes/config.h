@@ -1,7 +1,8 @@
-#ifndef DOOMNUKEM_CONFIG_H
-# define DOOMNUKEM_CONFIG_H
+#ifndef CONFIG_H
+# define CONFIG_H
 
 # include "e_bool.h"
+# include "SDL.h"
 
 typedef struct  s_config
 {
