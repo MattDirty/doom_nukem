@@ -36,7 +36,7 @@ void	move_if_allowed(t_player *p, double time)
     collision_ret = check_collision(p->current_sector, &seg, &collision);
 	if (collision_ret > 0)
 	{
-		if (collision[0].wall->type == wtWall)
+		if (collision[0].wall->type == e_wall)
 		{
 			if (collision[0].distance <= PLAYER_THICKNESS)
 				scalar_multiply(&p->speed, 0);
@@ -44,7 +44,7 @@ void	move_if_allowed(t_player *p, double time)
 				change_vector_magnitude(&p->speed,
 						fabs(collision[0].distance - PLAYER_THICKNESS));
 		}
-        if (collision[0].wall && collision[0].wall->type == wtPortal)
+        if (collision[0].wall && collision[0].wall->type == e_portal)
         {
             seg = create_segment_from_position_and_vector(
                     p->pos.x, p->pos.y, &p->speed);

@@ -200,12 +200,12 @@ int			read_wall_from_file(
         return (-2);
     if (read(fd, &(*wall)->type, sizeof((*wall)->type)) <= 0)
         return (-3);
-    if ((*wall)->type == wtWall)
+    if ((*wall)->type == e_wall)
     {
         if (find_texture_from_file(fd, textures, &((*wall)->pointer.texture)) < 0)
             return (-5);
     }
-    else if ((*wall)->type == wtPortal)
+    else if ((*wall)->type == e_portal)
     {
         if (read(fd, &index, sizeof(index)) <= 0)
             return (-5);
@@ -230,12 +230,12 @@ int			write_wall_to_file(
         return (-2);
     if (write(fd, &wall->type, sizeof(wall->type)) <= 0)
         return (-3);
-    if (wall->type == wtWall)
+    if (wall->type == e_wall)
     {
         if (write_str_to_file(fd, wall->pointer.texture->userdata) < 0)
             return (-4);
     }
-    else if (wall->type == wtPortal)
+    else if (wall->type == e_portal)
     {
         index = sector_index(sectors, wall->pointer.sector.sector1);
         if (index < 0)
