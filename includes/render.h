@@ -32,6 +32,7 @@ typedef struct  s_render
     SDL_Surface *sky;
     enum e_bool	lights;
     double		light_value;
+    double      jump;
 }               t_render;
 
 void        draw(t_env *e, t_collisions *collisions, Uint32 rdr_x);
