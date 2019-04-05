@@ -61,7 +61,7 @@ t_map		*create_map(t_textures *textures)
 		while (j < walls->count)
 		{
 		    walls->items[j]->height = 1.0;
-		    walls->items[j]->type = wtWall;
+		    walls->items[j]->type = e_wall;
 		    if (i == 1)
             {
                 if (find_texture_by_name(
@@ -82,13 +82,13 @@ t_map		*create_map(t_textures *textures)
 		}
 		if (i == 0)
         {
-		    walls->items[1]->type = wtPortal;
+		    walls->items[1]->type = e_portal;
 		    walls->items[1]->pointer.sector.sector1 = &map->sectors->items[0];
             walls->items[1]->pointer.sector.sector2 = &map->sectors->items[1];
         }
 		else if (i == 1)
         {
-			walls->items[1]->type = wtPortal;
+			walls->items[1]->type = e_portal;
 			walls->items[1]->pointer.sector.sector1 = &map->sectors->items[1];
 			walls->items[1]->pointer.sector.sector2 = &map->sectors->items[2];
             free(walls->items[3]);

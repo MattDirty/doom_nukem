@@ -137,7 +137,7 @@ void		loop_doom(t_env *e)
 	update_logic_params = logic_params_init(e, state, &timer_handler);
     frame_event_params = frame_event_params_init(e);
 
-    add_event(&timer_handler, 0, &update_logic, update_logic_params);
+    add_event(&timer_handler, 1, &update_logic, update_logic_params);
     add_event(
             &timer_handler,
             1000.0 / e->op.fps_max,

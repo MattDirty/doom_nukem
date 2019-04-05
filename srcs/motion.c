@@ -14,32 +14,7 @@
 #include "player.h"
 #include "default.h"
 
-static enum e_bool segments_intersect(
-		t_segment *a, t_segment *b, t_coords *inters)
-{
-	t_coords delta_a;
-	t_coords delta_b;
-	double s;
-	double t;
-
-	delta_a.x = a->x2 - a->x1;
-	delta_a.y = a->y2 - a->y1;
-	delta_b.x = b->x2 - b->x1;
-	delta_b.y = b->y2 - b->y1;
-	s = (-delta_a.y * (a->x1 - b->x1) + delta_a.x * (a->y1 - b->y1))
-		/ (-delta_b.x * delta_a.y + delta_a.x * delta_b.y);
-	t = (delta_b.x * (a->y1 - b->y1) - delta_b.y * (a->x1 - b->x1))
-		/ (-delta_b.x * delta_a.y + delta_a.x * delta_b.y);
-	if (s >= 0 && s <= 1 && t >= 0 && t <= 1)
-	{
-		inters->x = a->x1 + (t * delta_a.x);
-		inters->y = a->y1 + (t * delta_a.y);
-		return (t_true);
-	}
-	return (t_false);
-}
-
-t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coords pos)
+static t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coords pos)
 {
 	t_vector new_vector;
 
@@ -52,34 +27,37 @@ t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coords pos)
 
 void	move_if_allowed(t_player *p, double time)
 {
-	t_segment	seg;
-	t_collision	*collision;
-	Uint32      collision_ret;
+	t_segment		seg;
+	t_collisions	*collisions;
+	t_collisions	*ptr;
 
 	seg = get_segment_and_mod_speed(&p->speed, time, p->pos);
-	collision = NULL;
-    collision_ret = check_collision(p->current_sector, &seg, &collision);
-	if (collision_ret > 0)
+	check_collision(p->current_sector, &seg, &collisions);
+	ptr = collisions;
+	while (ptr->next)
+		ptr = ptr->next;
+	if (ptr->item.wall && ptr->item.wall->type == e_wall)
 	{
-		if (collision[0].wall->type == wtWall)
+		if (ptr->item.distance <= PLAYER_THICKNESS)
 		{
-			if (collision[0].distance <= PLAYER_THICKNESS)
-				scalar_multiply(&p->speed, 0);
-			else
-				change_vector_magnitude(&p->speed,
-						fabs(collision[0].distance - PLAYER_THICKNESS));
+			free_collisions(collisions);
+			return ;
 		}
-        if (collision[0].wall && collision[0].wall->type == wtPortal)
-        {
-            seg = create_segment_from_position_and_vector(
-                    p->pos.x, p->pos.y, &p->speed);
-            if (segments_intersect(
-                    &seg, &collision[0].wall->segment, &collision[0].inters))
-                p->current_sector = get_next_sector_addr(p->current_sector,
-                                                         collision[0].wall);
-        }
+		if (ptr->item.distance <= RUN * time + PLAYER_THICKNESS)
+			change_vector_magnitude(&p->speed,
+					fabs(ptr->item.distance) - PLAYER_THICKNESS);
 	}
-	free(collision);
+	ptr = collisions;
+	while (ptr)
+	{
+		if (ptr->item.wall
+		&& ptr->item.wall->type == e_portal
+		&& ptr->item.distance < get_vector_length(&p->speed))
+			p->current_sector = get_next_sector_addr(p->current_sector,
+													 ptr->item.wall);
+		ptr = ptr->next;
+	}
+	free_collisions(collisions);
 	p->pos.x += p->speed.x;
 	p->pos.y += p->speed.y;
 }
