@@ -39,8 +39,12 @@ t_map		*create_map(t_textures *textures)
                 &map->sectors->items[i].ceil) < 0)
             error_doom("could not find dirt");
         map->sectors->items[i].open_sky = t_false;
-        map->sectors->items[2].open_sky = t_true;
+        map->sectors->items[1].open_sky = t_true;
 		walls = map->sectors->items[i].walls;
+		find_texture_by_name(
+				textures,
+				"textures/walls/stones.bmp",
+				&map->sectors->items[1].floor);
 		find_texture_by_name(
 				textures,
 				"textures/flats/dirt.bmp",

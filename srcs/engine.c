@@ -80,7 +80,7 @@ void			raycasting(t_env *e)
 			ptr->item.distance *= cos(e->p.heading - ray.angle);
 			ptr = ptr->next;
 		}
-		draw(e, collisions, renderer_x, ray);
+		draw(e, collisions, renderer_x);
 		renderer_x++;
 		free_collisions(collisions);
 	}

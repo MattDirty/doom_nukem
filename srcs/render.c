@@ -29,118 +29,121 @@ static t_u_range wall_range(double wall_height, double vision_height, Uint32 win
     return (wall);
 }
 
-static void draw_flat(t_render render, t_collision collision, int y, SDL_Surface *flat)
+static void draw_flat(
+		t_render *render, 
+		t_collision *collision, 
+		t_u_range range,
+		SDL_Surface *texture)
 {
     double      pixel_dist;
     double      weight;
     t_coords    draw_text;
     Uint32      color_text;
+    Uint32      y;
 
-    pixel_dist = render.win_h / fabs(render.vision_height - y);
-    weight = (pixel_dist / collision.distance);
-    draw_text.x = (Uint32)((weight * collision.inters.x + (BLACK_MAGIC - weight)
-            * render.p_pos.x) * flat->w) % flat->w;
-    draw_text.y = (Uint32)((weight * collision.inters.y + (BLACK_MAGIC - weight)
-            * render.p_pos.y) * flat->h) % flat->h;
-    color_text = get_pixel(flat, draw_text.x, draw_text.y, t_true);
-    put_pixel(render.surface, render.x, y, color_text);
+    y = range.start;
+    while (y < range.end)
+	{
+		pixel_dist = render->win_h / fabs(render->vision_height - y);
+		weight = pixel_dist / collision->distance;
+		draw_text.x = (Uint32)((
+				weight * collision->inters.x + (BLACK_MAGIC - weight)
+				* render->p_pos.x) * texture->w) % texture->w;
+		draw_text.y = (Uint32)((
+				weight * collision->inters.y + (BLACK_MAGIC - weight)
+				* render->p_pos.y) * texture->h) % texture->h;
+		color_text = get_pixel(texture, draw_text.x, draw_text.y, t_true);
+		put_pixel(render->surface, render->x, y, color_text);
+		y++;
+	}
 }
 
-static void draw_ceil_and_floor(t_render render, t_collision collision, t_u_range range,
-                                enum e_bool portal)
+static void draw_ceil(
+		t_render *render,
+		t_collision *collision,
+		t_u_range range,
+		t_sector *current_sector)
 {
-    SDL_Surface *ceil;
-    SDL_Surface *floor;
-    enum e_bool open_sky;
-
-    if (!portal)
-    {
-        ceil = render.current_sector->ceil;
-        floor = render.current_sector->floor;
-        open_sky = render.current_sector->open_sky;
-    }
-    else
-    {
-        ceil = render.next_sector->ceil;
-        floor = render.next_sector->floor;
-        open_sky = render.next_sector->open_sky;
-    }
-    if (!open_sky)
-    {
-        while (range.start != 0)
-        {
-            draw_flat(render, collision, range.start, ceil);
-			range.start--;
-        }
-    }
-    while (range.end < render.win_h)
-    {
-        draw_flat(render, collision, range.end, floor);
-		range.end++;
-    }
+	if (current_sector->open_sky)
+	{
+		skybox(render, range);
+		return;
+	}
+	draw_flat(render, collision, range, current_sector->ceil);
 }
 
-static void         draw_wall(const t_render render, const t_collision collision, const t_u_range range)
+static void         draw_wall(
+		const t_render *render,
+		const t_collision *collision, 
+		const t_u_range range)
 {
     Uint32		x;
     Uint32		y;
     Uint32		i;
     SDL_Surface *wall_text;
 
-	wall_text = collision.wall->pointer.texture;
-	x = (Uint32)(get_distance_between_points(collision.inters.x,
-	        collision.inters.y, collision.wall->segment.x1,
-	        collision.wall->segment.y1) * wall_text->w) % wall_text->w;
+	if (collision->wall->type != e_wall)
+		return;
+	wall_text = collision->wall->pointer.texture;
+	x = (Uint32)(get_distance_between_points(collision->inters.x,
+	        collision->inters.y, collision->wall->segment.x1,
+	        collision->wall->segment.y1) * wall_text->w) % wall_text->w;
 	i = range.start;
 	while (i < range.end)
 	{
-        y = ((i - render.vision_height + render.wall_height / 2)
-        		* wall_text->h / render.wall_height);
-        put_pixel(render.surface, render.x, i, get_pixel(wall_text, x, y, t_true));
+        y = ((i - render->vision_height + render->wall_height / 2)
+        		* wall_text->h / render->wall_height);
+        put_pixel(
+        		render->surface, 
+        		render->x, 
+        		i, 
+        		get_pixel(wall_text, x, y, t_true));
 		i++;
 	}
 }
 
-t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
+static t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
 {
 	t_render render;
 
 	render.surface = e->doom.surface;
-	render.current_sector = e->p.current_sector;
 	render.x = renderer_x;
 	render.vision_height = e->p.vision_height;
 	render.heading = e->p.heading;
 	render.p_pos = e->p.pos;
 	render.win_h = e->op.win_h;
-	render.map = *e->map;
+	if (e->map->daytime)
+		render.sky = e->map->daysky;
+	else
+		render.sky = e->map->nightsky;
 	return (render);
 }
 
-void		draw(t_env *e, t_collisions *collisions, Uint32 renderer_x, t_ray ray)
+void		draw(t_env *e, t_collisions *node, Uint32 renderer_x)
 {
 	t_u_range		range;
-	t_render		render;
-	t_collisions	*ptr;
+	t_u_range		prev_range;
+	t_u_range		ceil_or_floor_range;
+	t_render		r;
+	t_sector		*current_sector;
 
-	(void)ray;
-	ptr = collisions;
-	render = fill_render_struct(e, renderer_x);
-	skybox(render);
-	while (ptr)
+	current_sector = e->p.current_sector;
+	prev_range.start = 0;
+	prev_range.end = e->op.win_h;
+	r = fill_render_struct(e, renderer_x);
+	while (node)
 	{
-		render.wall_height = e->op.ratio / ptr->item.distance * ptr->item.wall->height;
-		range = wall_range(render.wall_height, render.vision_height, render.win_h);
-		if (ptr->item.wall->type == e_wall)
-		{
-			draw_wall(render, ptr->item, range);
-			draw_ceil_and_floor(render, ptr->item, range, t_false);
-		}
-		else if (ptr->item.wall->type == e_portal)
-		{
-			render.next_sector = get_next_sector_addr(render.current_sector, ptr->item.wall);
-			draw_ceil_and_floor(render, ptr->item, range, t_true);
-			render.current_sector = render.next_sector;
-		}
-		ptr = ptr->next;
+		r.wall_height = e->op.ratio / node->item.distance * node->item.wall->height;
+		range = wall_range(r.wall_height, r.vision_height, r.win_h);
+		draw_wall(&r, &node->item, range);
+		ceil_or_floor_range.start = range.end;
+		ceil_or_floor_range.end = prev_range.end;
+		draw_flat(&r, &node->item, ceil_or_floor_range, current_sector->floor);
+		ceil_or_floor_range.start = prev_range.start;
+		ceil_or_floor_range.end = range.start;
+		draw_ceil(&r, &node->item, ceil_or_floor_range, current_sector);
+		current_sector = get_next_sector_addr(current_sector, node->item.wall);
+		node = node->next;
+		prev_range = range;
 	}
 }
