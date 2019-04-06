@@ -2,6 +2,7 @@
 # define DOOMNUKEM_UTILS_H
 
 # include <time.h>
+# include "SDL.h"
 
 typedef struct	s_vector
 {
@@ -21,11 +22,11 @@ typedef struct  s_i_coords
     int     y;
 }               t_i_coords;
 
-typedef struct	s_range
+typedef struct	s_u_range
 {
-	int		start;
-	int		end;
-}				t_range;
+	Uint32		start;
+	Uint32		end;
+}				t_u_range;
 
 typedef struct	s_segment
 {

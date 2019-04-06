@@ -28,7 +28,7 @@ typedef struct  s_render
     double      vision_height;
     double      heading;
     t_coords    p_pos;
-    int         win_h;
+    Uint32      win_h;
     t_sector    *current_sector;
     t_sector    *next_sector;
     t_map       map;

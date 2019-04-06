@@ -62,9 +62,9 @@ void			raycasting(t_env *e)
     t_collisions	*ptr;
 
     renderer_x = 0;
-    while (renderer_x < e->op.win_w)
+	clamp_player_values(&e->p, e->op);
+	while (renderer_x < e->op.win_w)
     {
-        clamp_player_values(&e->p, e->op);
         ray.angle = e->p.heading + atan(
                 (renderer_x / e->op.half_w - 1) * e->op.tan_half_fov);
 		ray.vect = create_vector(cos(ray.angle), -sin(ray.angle));

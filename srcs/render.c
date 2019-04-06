@@ -16,12 +16,14 @@
 #include "render.h"
 #include "surface_manipulation.h"
 
-static t_range wall_range(double wall_height, double vision_height, int win_h)
+static t_u_range wall_range(double wall_height, double vision_height, Uint32 win_h)
 {
-    t_range wall;
+    t_u_range wall;
 
-    wall.start = vision_height - wall_height / 2;
-    wall.start = (wall.start < 0 ? 0 : wall.start);
+    if (vision_height < wall_height / 2)
+    	wall.start = 0;
+    else
+    	wall.start = vision_height - wall_height / 2;
     wall.end = vision_height + wall_height / 2;
     wall.end = (wall.end > win_h ? win_h : wall.end);
     return (wall);
@@ -44,7 +46,7 @@ static void draw_flat(t_render render, t_collision collision, int y, SDL_Surface
     put_pixel(render.surface, render.x, y, color_text);
 }
 
-static void draw_ceil_and_floor(t_render render, t_collision collision, t_range range,
+static void draw_ceil_and_floor(t_render render, t_collision collision, t_u_range range,
                                 enum e_bool portal)
 {
     SDL_Surface *ceil;
@@ -65,7 +67,7 @@ static void draw_ceil_and_floor(t_render render, t_collision collision, t_range 
     }
     if (!open_sky)
     {
-        while (range.start >= 0)
+        while (range.start != 0)
         {
             draw_flat(render, collision, range.start, ceil);
 			range.start--;
@@ -78,23 +80,24 @@ static void draw_ceil_and_floor(t_render render, t_collision collision, t_range 
     }
 }
 
-static void         draw_wall(t_render render, t_collision collision, t_range range)
+static void         draw_wall(const t_render render, const t_collision collision, const t_u_range range)
 {
-    Uint32      color_text;
-    t_coords    draw_text;
+    Uint32		x;
+    Uint32		y;
+    Uint32		i;
     SDL_Surface *wall_text;
 
 	wall_text = collision.wall->pointer.texture;
-	draw_text.x = (Uint32)(get_distance_between_points(collision.inters.x,
+	x = (Uint32)(get_distance_between_points(collision.inters.x,
 	        collision.inters.y, collision.wall->segment.x1,
 	        collision.wall->segment.y1) * wall_text->w) % wall_text->w;
-	while (range.start < range.end)
+	i = range.start;
+	while (i < range.end)
 	{
-        draw_text.y = (Uint32)((range.start - render.vision_height
-                + render.wall_height / 2) * wall_text->h / render.wall_height);
-        color_text = get_pixel(wall_text, draw_text.x, draw_text.y, t_true);
-        put_pixel(render.surface, render.x, range.start, color_text);
-		range.start++;
+        y = ((i - render.vision_height + render.wall_height / 2)
+        		* wall_text->h / render.wall_height);
+        put_pixel(render.surface, render.x, i, get_pixel(wall_text, x, y, t_true));
+		i++;
 	}
 }
 
@@ -115,7 +118,7 @@ t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
 
 void		draw(t_env *e, t_collisions *collisions, Uint32 renderer_x, t_ray ray)
 {
-	t_range			range;
+	t_u_range		range;
 	t_render		render;
 	t_collisions	*ptr;
 
