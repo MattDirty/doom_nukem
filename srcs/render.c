@@ -37,24 +37,27 @@ static void draw_flat(
 {
     double      pixel_dist;
     double      weight;
-    t_coords    draw_text;
+	Uint32 x;
+	Uint32 y;
     Uint32      color_text;
-    Uint32      y;
+    Uint32      renderer_y;
 
-    y = range.start;
-    while (y < range.end)
+	renderer_y = range.start;
+    while (renderer_y < range.end)
 	{
-		pixel_dist = render->win_h / fabs(render->vision_height - y);
+		pixel_dist = render->win_h / fabs(render->vision_height - renderer_y);
 		weight = pixel_dist / collision->distance;
-		draw_text.x = (Uint32)((
-				weight * collision->inters.x + (BLACK_MAGIC - weight)
-				* render->p_pos.x) * texture->w) % texture->w;
-		draw_text.y = (Uint32)((
-				weight * collision->inters.y + (BLACK_MAGIC - weight)
-				* render->p_pos.y) * texture->h) % texture->h;
-		color_text = get_pixel(texture, draw_text.x, draw_text.y, t_true);
-		put_pixel(render->surface, render->x, y, color_text);
-		y++;
+		x = (Uint32)(
+				(weight * collision->inters.x
+				+ (BLACK_MAGIC - weight) * render->p_pos.x)
+				* texture->w) % texture->w;
+		y = (Uint32)(
+				(weight * collision->inters.y
+				+ (BLACK_MAGIC - weight) * render->p_pos.y)
+				* texture->h) % texture->h;
+		color_text = get_pixel(texture, x, y, t_true);
+		put_pixel(render->surface, render->x, renderer_y, color_text);
+		renderer_y++;
 	}
 }
 
