@@ -24,18 +24,16 @@ typedef struct  s_render
 {
     SDL_Surface *surface;
     Uint32      x;
-    double      wall_length;
+    double      wall_height;
     double      vision_height;
     double      heading;
     t_coords    p_pos;
-    int         win_h;
-    t_sector    *current_sector;
-    t_sector    *next_sector;
-    t_map       map;
+    Uint32      win_h;
+    SDL_Surface *sky;
 }               t_render;
 
-void        draw(t_env *e, t_collisions *collisions, Uint32 rdr_x, t_ray ray);
+void        draw(t_env *e, t_collisions *collisions, Uint32 rdr_x);
 enum e_bool day_to_night(double ms_since_update, t_params daytime);
-void        skybox(t_render render);
+void        skybox(t_render *render, t_u_range range);
 
 #endif
