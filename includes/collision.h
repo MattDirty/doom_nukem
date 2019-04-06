@@ -40,7 +40,6 @@ typedef struct			s_collision
         t_wall			*wall;
         t_object		*object;
 	} d;
-	t_wall				*last_portal;
 }						t_collision;
 
 typedef struct			s_collisions

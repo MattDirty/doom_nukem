@@ -21,7 +21,11 @@ static void		update_collision(t_collision *collision, double distance, t_coords 
     collision->d.wall = wall;
 }
 
-static enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t_collision *collision)
+static enum e_bool	check_collision_in_sector(
+        t_sector *sector,
+        t_segment *seg,
+        t_collision *collision,
+        t_wall *last_portal)
 {
 	int 		i;
 	t_coords	inters;
@@ -32,7 +36,7 @@ static enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t
 	while (i < sector->walls->count)
 	{
 		if (segments_intersect(seg, &sector->walls->items[i]->segment, &inters)
-			&& collision->last_portal != sector->walls->items[i])
+			&& last_portal != sector->walls->items[i])
 		{
 			if ((distance = get_distance_between_points(seg->x1, seg->y1, inters.x, inters.y)) < collision->distance)
 				update_collision(collision, distance, inters, sector->walls->items[i]);
@@ -55,9 +59,8 @@ void		check_collision(t_sector *sector, t_segment *seg, t_collisions **first)
 	collisions = *first;
     collisions->item.type = ct_wall;
 	collisions->item.d.wall = NULL;
-	collisions->item.last_portal = NULL;
 	collisions->next = NULL;
-	while (check_collision_in_sector(sector, seg, &collisions->item)
+	while (check_collision_in_sector(sector, seg, &collisions->item, last_portal)
 			&& collisions->item.d.wall->type != e_wall)
 	{
 		last_portal = collisions->item.d.wall;
@@ -65,7 +68,6 @@ void		check_collision(t_sector *sector, t_segment *seg, t_collisions **first)
 		if (!(collisions->next = (t_collisions *)malloc(sizeof(t_collisions))))
 			error_doom("Allocation of t_collisions failed");
 		collisions = collisions->next;
-		collisions->item.last_portal = last_portal;
         collisions->item.type = ct_wall;
 		collisions->item.d.wall = NULL;
 		collisions->next = NULL;
