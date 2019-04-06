@@ -15,6 +15,7 @@
 #include "default.h"
 #include "render.h"
 #include "surface_manipulation.h"
+#include <math.h>
 
 static t_u_range wall_range(double wall_height, double vision_height, Uint32 win_h)
 {

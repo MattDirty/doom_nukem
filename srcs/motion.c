@@ -13,6 +13,7 @@
 #include "collision.h"
 #include "player.h"
 #include "default.h"
+#include <math.h>
 
 static t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coords pos)
 {

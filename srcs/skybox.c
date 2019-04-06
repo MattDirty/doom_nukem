@@ -16,6 +16,7 @@
 #include "default.h"
 #include "render.h"
 #include "surface_manipulation.h"
+#include <math.h>
 
 enum e_bool    day_to_night(double ms_since_update, t_params daytime)
 {
