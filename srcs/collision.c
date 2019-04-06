@@ -13,7 +13,11 @@ void			free_collisions(t_collisions *collisions)
 	}
 }
 
-static void		update_collision(t_collision *collision, double distance, t_coords inters, t_wall *wall)
+static void		update_collision(
+        t_collision *collision,
+        double distance,
+        t_coords inters,
+        t_wall *wall)
 {
 	collision->distance = distance;
 	collision->inters = inters;
@@ -21,7 +25,7 @@ static void		update_collision(t_collision *collision, double distance, t_coords 
     collision->d.wall = wall;
 }
 
-static enum e_bool	check_collision_in_sector(
+static enum e_bool	find_collisions_in_sector(
         t_sector *sector,
         t_segment *seg,
         t_collision *collision,
@@ -38,17 +42,26 @@ static enum e_bool	check_collision_in_sector(
 		if (segments_intersect(seg, &sector->walls->items[i]->segment, &inters)
 			&& last_portal != sector->walls->items[i])
 		{
-			if ((distance = get_distance_between_points(seg->x1, seg->y1, inters.x, inters.y)) < collision->distance)
-				update_collision(collision, distance, inters, sector->walls->items[i]);
+			if ((distance = get_distance_between_points(
+                    seg->x1,
+                    seg->y1,
+                    inters.x,
+                    inters.y)) < collision->distance)
+                update_collision(
+                        collision,
+                        distance,
+                        inters,
+                        sector->walls->items[i]);
 		}
 		i++;
 	}
-	if (collision->distance >= HORIZON)
-		return (t_false);
-	return (t_true);
+    return (collision->distance < HORIZON);
 }
 
-void		check_collision(t_sector *sector, t_segment *seg, t_collisions **first)
+void		check_collision(
+        t_sector *sector,
+        t_segment *seg,
+        t_collisions **first)
 {
 	t_wall			*last_portal;
 	t_collisions	*collisions;
@@ -60,7 +73,11 @@ void		check_collision(t_sector *sector, t_segment *seg, t_collisions **first)
     collisions->item.type = ct_wall;
 	collisions->item.d.wall = NULL;
 	collisions->next = NULL;
-	while (check_collision_in_sector(sector, seg, &collisions->item, last_portal)
+	while (find_collisions_in_sector(
+                sector,
+                seg,
+                &collisions->item,
+                last_portal)
 			&& collisions->item.d.wall->type != e_wall)
 	{
 		last_portal = collisions->item.d.wall;
