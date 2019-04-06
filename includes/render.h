@@ -24,7 +24,7 @@ typedef struct  s_render
 {
     SDL_Surface *surface;
     Uint32      x;
-    double      wall_length;
+    double      wall_height;
     double      vision_height;
     double      heading;
     t_coords    p_pos;

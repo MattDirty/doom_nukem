@@ -16,14 +16,14 @@
 #include "render.h"
 #include "surface_manipulation.h"
 
-static t_i_segment  get_wall_vertical_length(double wall_length, double vision_height, int win_h)
+static t_range wall_range(double wall_height, double vision_height, int win_h)
 {
-    t_i_segment wall;
+    t_range wall;
 
-    wall.y1 = vision_height - wall_length / 2;
-    wall.y1 = (wall.y1 < 0 ? 0 : wall.y1);
-    wall.y2 = vision_height + wall_length / 2;
-    wall.y2 = (wall.y2 > win_h ? win_h : wall.y2);
+    wall.start = vision_height - wall_height / 2;
+    wall.start = (wall.start < 0 ? 0 : wall.start);
+    wall.end = vision_height + wall_height / 2;
+    wall.end = (wall.end > win_h ? win_h : wall.end);
     return (wall);
 }
 
@@ -44,7 +44,7 @@ static void draw_flat(t_render render, t_collision collision, int y, SDL_Surface
     put_pixel(render.surface, render.x, y, color_text);
 }
 
-static void draw_ceil_and_floor(t_render render, t_collision collision, t_i_segment wall,
+static void draw_ceil_and_floor(t_render render, t_collision collision, t_range range,
                                 enum e_bool portal)
 {
     SDL_Surface *ceil;
@@ -65,20 +65,20 @@ static void draw_ceil_and_floor(t_render render, t_collision collision, t_i_segm
     }
     if (!open_sky)
     {
-        while (wall.y1 >= 0)
+        while (range.start >= 0)
         {
-            draw_flat(render, collision, wall.y1, ceil);
-            wall.y1--;
+            draw_flat(render, collision, range.start, ceil);
+			range.start--;
         }
     }
-    while (wall.y2 < render.win_h)
+    while (range.end < render.win_h)
     {
-        draw_flat(render, collision, wall.y2, floor);
-        wall.y2++;
+        draw_flat(render, collision, range.end, floor);
+		range.end++;
     }
 }
 
-static void         draw_wall(t_render render, t_collision collision, t_i_segment wall)
+static void         draw_wall(t_render render, t_collision collision, t_range range)
 {
     Uint32      color_text;
     t_coords    draw_text;
@@ -88,24 +88,20 @@ static void         draw_wall(t_render render, t_collision collision, t_i_segmen
 	draw_text.x = (Uint32)(get_distance_between_points(collision.inters.x,
 	        collision.inters.y, collision.wall->segment.x1,
 	        collision.wall->segment.y1) * wall_text->w) % wall_text->w;
-	while (wall.y1 < wall.y2)
+	while (range.start < range.end)
 	{
-        draw_text.y = (Uint32)((wall.y1 - render.vision_height
-                + render.wall_length / 2) * wall_text->h / render.wall_length);
+        draw_text.y = (Uint32)((range.start - render.vision_height
+                + render.wall_height / 2) * wall_text->h / render.wall_height);
         color_text = get_pixel(wall_text, draw_text.x, draw_text.y, t_true);
-        put_pixel(render.surface, render.x, wall.y1, color_text);
-		wall.y1++;
+        put_pixel(render.surface, render.x, range.start, color_text);
+		range.start++;
 	}
 }
 
-void		draw(t_env *e, t_collisions *collisions, Uint32 renderer_x, t_ray ray)
+t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
 {
-	t_i_segment		wall;
-	t_render		render;
-	t_collisions	*ptr;
+	t_render render;
 
-	(void)ray;
-	ptr = collisions;
 	render.surface = e->doom.surface;
 	render.current_sector = e->p.current_sector;
 	render.x = renderer_x;
@@ -114,20 +110,32 @@ void		draw(t_env *e, t_collisions *collisions, Uint32 renderer_x, t_ray ray)
 	render.p_pos = e->p.pos;
 	render.win_h = e->op.win_h;
 	render.map = *e->map;
+	return (render);
+}
+
+void		draw(t_env *e, t_collisions *collisions, Uint32 renderer_x, t_ray ray)
+{
+	t_range			range;
+	t_render		render;
+	t_collisions	*ptr;
+
+	(void)ray;
+	ptr = collisions;
+	render = fill_render_struct(e, renderer_x);
 	skybox(render);
 	while (ptr)
 	{
-		render.wall_length = e->op.ratio / ptr->item.distance * ptr->item.wall->height;
-		wall = get_wall_vertical_length(render.wall_length, render.vision_height, render.win_h);
+		render.wall_height = e->op.ratio / ptr->item.distance * ptr->item.wall->height;
+		range = wall_range(render.wall_height, render.vision_height, render.win_h);
 		if (ptr->item.wall->type == e_wall)
 		{
-			draw_wall(render, ptr->item, wall);
-			draw_ceil_and_floor(render, ptr->item, wall, t_false);
+			draw_wall(render, ptr->item, range);
+			draw_ceil_and_floor(render, ptr->item, range, t_false);
 		}
 		else if (ptr->item.wall->type == e_portal)
 		{
 			render.next_sector = get_next_sector_addr(render.current_sector, ptr->item.wall);
-			draw_ceil_and_floor(render, ptr->item, wall, t_true);
+			draw_ceil_and_floor(render, ptr->item, range, t_true);
 			render.current_sector = render.next_sector;
 		}
 		ptr = ptr->next;

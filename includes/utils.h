@@ -21,6 +21,12 @@ typedef struct  s_i_coords
     int     y;
 }               t_i_coords;
 
+typedef struct	s_range
+{
+	int		start;
+	int		end;
+}				t_range;
+
 typedef struct	s_segment
 {
     double	x1;

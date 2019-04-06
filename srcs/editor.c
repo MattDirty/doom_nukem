@@ -41,7 +41,10 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].open_sky = t_false;
         map->sectors->items[2].open_sky = t_true;
 		walls = map->sectors->items[i].walls;
-
+		find_texture_by_name(
+				textures,
+				"textures/flats/dirt.bmp",
+				&map->sectors->items[2].floor);
 		walls->count = 4;
 
 		if (!(walls->items = (t_wall**)malloc(walls->count * sizeof(t_wall*))))
