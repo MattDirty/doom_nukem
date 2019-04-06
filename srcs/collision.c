@@ -27,7 +27,7 @@ static void		update_collision(
 
 static enum e_bool	find_collisions_in_sector(
         t_sector *sector,
-        t_segment *seg,
+        t_segment *ray,
         t_collision *collision,
         t_wall *last_portal)
 {
@@ -39,12 +39,12 @@ static enum e_bool	find_collisions_in_sector(
 	collision->distance = HORIZON;
 	while (i < sector->walls->count)
 	{
-		if (segments_intersect(seg, &sector->walls->items[i]->segment, &inters)
+		if (segments_intersect(ray, &sector->walls->items[i]->segment, &inters)
 			&& last_portal != sector->walls->items[i])
 		{
 			if ((distance = get_distance_between_points(
-                    seg->x1,
-                    seg->y1,
+                    ray->x1,
+                    ray->y1,
                     inters.x,
                     inters.y)) < collision->distance)
                 update_collision(
@@ -58,35 +58,35 @@ static enum e_bool	find_collisions_in_sector(
     return (collision->distance < HORIZON);
 }
 
-void		check_collision(
+void		find_ray_collisions(
         t_sector *sector,
-        t_segment *seg,
-        t_collisions **first)
+        t_segment *ray,
+        t_collisions **collisions)
 {
 	t_wall			*last_portal;
-	t_collisions	*collisions;
+	t_collisions	*node;
 
 	last_portal = NULL;
-	if (!(*first = (t_collisions *)malloc(sizeof(t_collisions))))
+	if (!(*collisions = (t_collisions *)malloc(sizeof(t_collisions))))
 		error_doom("Allocation of t_collisions failed");
-	collisions = *first;
-    collisions->item.type = ct_wall;
-	collisions->item.d.wall = NULL;
-	collisions->next = NULL;
+	node = *collisions;
+    node->item.type = ct_wall;
+	node->item.d.wall = NULL;
+	node->next = NULL;
 	while (find_collisions_in_sector(
                 sector,
-                seg,
-                &collisions->item,
+                ray,
+                &node->item,
                 last_portal)
-			&& collisions->item.d.wall->type != e_wall)
+			&& node->item.d.wall->type != e_wall)
 	{
-		last_portal = collisions->item.d.wall;
-		sector = get_next_sector_addr(sector, collisions->item.d.wall);
-		if (!(collisions->next = (t_collisions *)malloc(sizeof(t_collisions))))
+		last_portal = node->item.d.wall;
+		sector = get_next_sector_addr(sector, node->item.d.wall);
+		if (!(node->next = (t_collisions *)malloc(sizeof(t_collisions))))
 			error_doom("Allocation of t_collisions failed");
-		collisions = collisions->next;
-        collisions->item.type = ct_wall;
-		collisions->item.d.wall = NULL;
-		collisions->next = NULL;
+		node = node->next;
+        node->item.type = ct_wall;
+		node->item.d.wall = NULL;
+		node->next = NULL;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 10:43:10 by lfatton           #+#    #+#             */
-/*   Updated: 2019/03/13 10:43:25 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/04/09 19:17:27 by mtorsell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	move_if_allowed(t_player *p, double time)
 	t_collisions	*ptr;
 
     seg = get_segment_and_mod_speed(&p->speed, p->speed_factor, time, p->pos);
-	check_collision(p->current_sector, &seg, &collisions);
+	find_ray_collisions(p->current_sector, &seg, &collisions);
 	ptr = collisions;
 	while (ptr->next)
 		ptr = ptr->next;
