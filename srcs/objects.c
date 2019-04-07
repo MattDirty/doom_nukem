@@ -5,6 +5,27 @@
 #include "textures.h"
 #include "serialisation.h"
 
+t_segment perpendicular_segment_from_point(
+        t_object *object,
+        double point_of_view_x,
+        double point_of_view_y)
+{
+    t_vector	view;
+    t_vector	perpendicular_view;
+    t_segment	segment;
+
+    view.x = object->x - point_of_view_x;
+    view.y = object->y - point_of_view_y;
+    normalize_vector(&view);
+    perpendicular_view.x = view.y;
+    perpendicular_view.y = view.x;
+    segment.x1 = object->x - perpendicular_view.x;
+    segment.y1 = object->y - perpendicular_view.y;
+    segment.x2 = object->x + perpendicular_view.x;
+    segment.y2 = object->y + perpendicular_view.y;
+    return (segment);
+}
+
 int read_objects_from_file(int fd, t_textures *textures, t_objects **objects)
 {
     int count;
