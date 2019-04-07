@@ -20,6 +20,8 @@ typedef struct  s_config
     int         fps_max;
 
     double      mouse_sensi;
+
+    enum e_bool	lights;
 }               t_config;
 
 t_config    load_config();

@@ -22,6 +22,7 @@ t_config    load_default_config()
     config.mouse_sensi = MOUSE_SENSI;
     config.tan_half_fov = TAN_HALF_FOV;
     config.ratio = RATIO;
+    config.lights = ACTIVATE_LIGHTING;
     return (config);
 }
 
@@ -51,6 +52,7 @@ t_config    load_ini(int fd)
     config.fov = extract_int_if_line_is_valid(fd);
     config.fps_max = extract_int_if_line_is_valid(fd);
     config.mouse_sensi = extract_int_if_line_is_valid(fd);
+    config.lights = extract_int_if_line_is_valid(fd);
     if (config.win_w && config.win_h
         && config.fov && config.fps_max && config.mouse_sensi)
     {
@@ -89,6 +91,8 @@ void        create_config_file(t_config *config)
     ft_putendl_fd(
             ft_strjoin("mouse sensitivity:",
                     ft_itoa((int)round(config->mouse_sensi * 1000000))), fd);
+	ft_putendl_fd(
+			ft_strjoin("lighting :",ft_itoa(config->lights)), fd);
     close(fd);
 }
 

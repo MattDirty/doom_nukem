@@ -92,7 +92,7 @@ t_map		*create_map(t_textures *textures)
 			walls->items[1]->type = e_portal;
 			walls->items[1]->pointer.sector.sector1 = &map->sectors->items[0];
 			walls->items[1]->pointer.sector.sector2 = &map->sectors->items[1];
-			map->sectors->items[i].light = 0x00FFFFFF;
+			map->sectors->items[i].light = 0x32000000;
 		}
 		else if (i == 1)
         {
@@ -101,13 +101,13 @@ t_map		*create_map(t_textures *textures)
 			walls->items[1]->pointer.sector.sector2 = &map->sectors->items[2];
 			free(walls->items[3]);
 			walls->items[3] = map->sectors->items[0].walls->items[1];
-			map->sectors->items[i].light = 0x50FFFFFF;
+			map->sectors->items[i].light = 0x64000000;
 		}
 		else
 		{
 			free(walls->items[3]);
 			walls->items[3] = map->sectors->items[1].walls->items[1];
-			map->sectors->items[i].light = 0x00FFFFFF;
+			map->sectors->items[i].light = 0x96000000;
 		}
 		i++;
 	}

@@ -30,6 +30,8 @@ typedef struct  s_render
     t_coords    p_pos;
     Uint32      win_h;
     SDL_Surface *sky;
+    enum e_bool	lights;
+    double		light_value;
 }               t_render;
 
 void        draw(t_env *e, t_collisions *collisions, Uint32 rdr_x);
