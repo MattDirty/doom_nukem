@@ -10,6 +10,7 @@ typedef	struct			s_sector
     SDL_Surface         *floor;
     SDL_Surface         *ceil;
     enum e_bool         open_sky;
+    Uint32				light;
 }						t_sector;
 
 typedef struct			s_sectors
