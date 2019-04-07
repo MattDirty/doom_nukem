@@ -75,11 +75,19 @@ LDLIBFT = -L ./libft -lft
 
 LIBS = -lm
 
-SDL_NAME = SDL2-2.0.9
+SDL_PATH = sdl2
 
-EXTRACT = tar -xzf $(SDL_NAME).tar.gz
+SDL2 = SDL2-2.0.9
 
-SDL_INCL_PATH = ./$(SDL_NAME)/include
+SDL2_MIXER = SDL2_mixer-2.0.4
+
+SDL2_TTF = SDL2_ttf-2.0.15
+
+EXTRACT = tar -xzf $(SDL_PATH)/$(SDL2).tar.gz -C $(SDL_PATH) && tar -xzf \
+            $(SDL_PATH)/$(SDL2_MIXER).tar.gz -C $(SDL_PATH) && tar -xzf \
+                $(SDL_PATH)/$(SDL2_TTF).tar.gz -C $(SDL_PATH)
+
+SDL_INCL_PATH = ./$(SDL_PATH)/$(SDL2)/include
 
 IFLAGS = -I $(INCL) -I $(LIBFT_INCL_PATH) -I $(SDL_INCL_PATH)
 
@@ -92,12 +100,20 @@ CFLAGS = -Wall -Werror -Wextra -Ofast
 RM = rm -rf
 
 ifeq ($(shell uname), Darwin)
-	CONFIGURE_SDL = cd $(SDL_NAME) && ./configure \
-		--prefix="/Users/$(USER)/$(SDL_NAME)" && $(MAKE) -j && $(MAKE) install
-	SDL_LDFLAGS = -L/Users/$(USER)/$(SDL_NAME)/lib -lSDL2
-	SDL_CFLAGS = -I/Users/$(USER)/$(SDL_NAME)/include/SDL2 -D_THREAD_SAFE
+	CONFIGURE_SDL2 = cd $(SDL_PATH)/$(SDL2) && ./configure \
+		--prefix="/Users/$(USER)/$(SDL2)" && $(MAKE) -j && $(MAKE) install
+	CONFIGURE_SDL2_MIXER = cd ../$(SDL2_MIXER) && ./configure \
+		--prefix="/Users/$(USER)/$(SDL2_MIXER)" && $(MAKE) -j && $(MAKE) install
+	CONFIGURE_SDL2_TTF = cd ../$(SDL2_MIXER) && ./configure \
+		--prefix="/Users/$(USER)/$(SDL2_TTF)" && $(MAKE) -j && $(MAKE) install
+	SDL_LDFLAGS = -L/Users/$(USER)/$(SDL2)/lib -lSDL2
+	SDL_CFLAGS = -I/Users/$(USER)/$(SDL2)/include/SDL2 -D_THREAD_SAFE
 else
-	CONFIGURE_SDL = cd $(SDL_NAME) && ./configure \
+	CONFIGURE_SDL2 = cd $(SDL_PATH)/$(SDL2) && ./configure \
+	    && $(MAKE) -j && sudo $(MAKE) install
+	CONFIGURE_SDL2_MIXER = cd ../$(SDL2_MIXER) && ./configure \
+	    && $(MAKE) -j && sudo $(MAKE) install
+	CONFIGURE_SDL2_TTF = cd ../$(SDL2_TTF) && ./configure \
 	    && $(MAKE) -j && sudo $(MAKE) install
 	SDL_LDFLAGS = -L/usr/local/lib -Wl,-rpath,/usr/local/lib \
 	    -Wl,--enable-new-dtags -lSDL2
@@ -107,14 +123,22 @@ endif
 all: $(NAME) $(NAME_EDITOR)
 
 $(NAME): $(OBJS)
-	if [ ! -d $(SDL_NAME) ]; then $(EXTRACT); fi
-	if [ ! -d $(SDL_NAME)/build ]; then $(CONFIGURE_SDL); fi
+	if [ ! -d $(SDL2) ] || [ ! -d $(SDL2_MIXER) ] || [ ! -d $(SDL2_TTF) ]; \
+	    then $(EXTRACT); fi
+	if [ ! -d $(SDL2)/build ] || [ ! -d $(SDL2_MIXER)/build ] \
+	    || [ ! -d $(SDL2_TTF)/build ]; then $(CONFIGURE_SDL2) && \
+	        $(CONFIGURE_SDL2_MIXER) && $(CONFIGURE_SDL2_TTF); fi
 	$(MAKE) -j -C libft
 	$(CC) $(OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
 
 $(NAME_EDITOR): $(OBJS_EDITOR)
-	if [ ! -d $(SDL_NAME) ]; then $(EXTRACT); fi
-	if [ ! -d $(SDL_NAME)/build ]; then $(CONFIGURE_SDL); fi
+	if [ ! -d $(SDL_PATH)/$(SDL2) ] || [ ! -d $(SDL_PATH)/$(SDL2_MIXER) ] \
+	    || [ ! -d $(SDL_PATH)/$(SDL2_TTF) ]; \
+	    then $(EXTRACT); fi
+	if [ ! -d $(SDL_PATH)/$(SDL2)/build ] \
+	    || [ ! -d $(SDL_PATH)/$(SDL2_MIXER)/build ] \
+	        || [ ! -d $(SDL_PATH)/$(SDL2_TTF)/build ]; then $(CONFIGURE_SDL2) \
+	        && $(CONFIGURE_SDL2_MIXER) && $(CONFIGURE_SDL2_TTF); fi
 	$(MAKE) -j -C libft
 	$(CC) $(OBJS_EDITOR) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
 
@@ -148,6 +172,8 @@ fclean: clean
 	$(RM) $(NAME)
 	$(RM) $(NAME_EDITOR)
 	$(MAKE) -C libft fclean
-	$(RM) $(SDL_NAME)
+	$(RM) $(SDL_PATH)/$(SDL2)
+	$(RM) $(SDL_PATH)/$(SDL2_MIXER)
+	$(RM) $(SDL_PATH)/$(SDL2_TTF)
 
 re: fclean all
