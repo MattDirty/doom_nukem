@@ -15,7 +15,7 @@
 #include "default.h"
 #include <math.h>
 
-static t_segment	get_segment_and_mod_speed(t_vector *speed, double time, t_coords pos)
+static t_segment	get_segment_and_mod_speed(t_vector *speed, double speed_factor, double time, t_coords pos)
 {
 	t_vector new_vector;
 
@@ -38,7 +38,6 @@ static void	move_if_allowed(t_player *p, double time)
 	while (ptr->next)
 		ptr = ptr->next;
 	if (ptr->item.wall && ptr->item.wall->type == e_wall)
-	if (check_collision(p->current_sector, &seg, &collision))
 	{
 		if (ptr->item.distance <= PLAYER_THICKNESS)
 		{

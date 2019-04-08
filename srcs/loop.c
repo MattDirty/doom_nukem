@@ -34,10 +34,6 @@ static void loop_events(
 
 	if (state[SDL_SCANCODE_U])
 		e->op.lights = invert_bool(e->op.lights);
-	if (state[SDL_SCANCODE_SPACE])
-		e->p.weapons.list[e->p.weapons.current].main(
-				&e->p.weapons.list[e->p.weapons.current],
-				timer_handler);
 	if (state[SDL_SCANCODE_X])
 		e->p.weapons.list[e->p.weapons.current].secondary(
 				&e->p.weapons.list[e->p.weapons.current],
@@ -54,7 +50,12 @@ static void loop_events(
 	{
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
 			quit_doom(e);
-		if (ev.type == SDL_MOUSEMOTION)
+        if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button
+                                              == SDL_BUTTON_LEFT)
+            e->p.weapons.list[e->p.weapons.current].main(
+                    &e->p.weapons.list[e->p.weapons.current],
+                    timer_handler);
+        if (ev.type == SDL_MOUSEMOTION)
 		{
 			x += ev.motion.xrel;
 			y += ev.motion.yrel;

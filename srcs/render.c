@@ -46,7 +46,7 @@ static void draw_flat(
 	renderer_y = range.start;
     while (renderer_y < range.end)
 	{
-		pixel_dist = render->win_h / fabs(render->vision_height + render.jump - renderer_y);
+		pixel_dist = render->win_h / fabs(render->vision_height - renderer_y);
 		weight = pixel_dist / collision->distance;
 		x = (Uint32)(
 				(weight * collision->inters.x
@@ -97,7 +97,7 @@ static void         draw_wall(
 	i = range.start;
 	while (i < range.end)
 	{
-        y = fabs(((i - (render->vision_height + render.jump) + render->wall_height / 2)
+        y = fabs(((i - (render->vision_height) + render->wall_height / 2)
         		* wall_text->h / render->wall_height));
         put_pixel(
         		render->surface,
@@ -116,12 +116,11 @@ static t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
 
 	render.surface = e->doom.surface;
 	render.x = renderer_x;
-	render.vision_height = e->p.vision_height;
+	render.vision_height = e->p.vision_height + e->p.jump.height;
 	render.heading = e->p.heading;
 	render.p_pos = e->p.pos;
 	render.win_h = e->op.win_h;
 	render.lights = e->op.lights;
-	render.jump = e->p.jump.height
 	if (e->map->daytime)
 		render.sky = e->map->daysky;
 	else
@@ -145,7 +144,7 @@ void		draw(t_env *e, t_collisions *node, Uint32 renderer_x)
 	{
 		r.light_value = current_sector->light;
 		r.wall_height = e->op.ratio / node->item.distance * node->item.wall->height;
-		range = wall_range(r.wall_height, r.vision_height + r.jump, r.win_h);
+		range = wall_range(r.wall_height, r.vision_height, r.win_h);
 		draw_wall(&r, &node->item, range);
 		ceil_or_floor_range.start = range.end;
 		ceil_or_floor_range.end = prev_range.end;
