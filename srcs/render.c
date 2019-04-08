@@ -97,8 +97,8 @@ static void         draw_wall(
 	i = range.start;
 	while (i < range.end)
 	{
-        y = ((i - render->vision_height + render->wall_height / 2)
-        		* wall_text->h / render->wall_height);
+        y = fabs(((i - render->vision_height + render->wall_height / 2)
+        		* wall_text->h / render->wall_height));
         put_pixel(
         		render->surface, 
         		render->x, 
