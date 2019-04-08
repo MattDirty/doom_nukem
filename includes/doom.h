@@ -1,6 +1,7 @@
 #ifndef DOOM_H
 # define DOOM_H
 
+# include <SDL_mixer.h>
 # include "libft.h"
 # include "struct_sdl.h"
 # include "e_bool.h"
@@ -12,10 +13,10 @@ typedef struct          s_env
         t_config        op; // tions
 		t_sdl			debug;
 		enum e_bool     debug_mode;
-		SDL_Surface		*derp;
-        t_player        p;
+        t_player        p; // layer
         t_sdl           doom;
         t_map			*map;
+        Mix_Music 		*music;
 }                       t_env;
 
 void		error_doom(char *err);

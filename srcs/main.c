@@ -27,6 +27,7 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
         error_doom("Could not create surface.");
     if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
     	error_doom("Could not initialize sound mixer.");
+
 	return (sdl);
 }
 
@@ -43,6 +44,8 @@ int		main (int ac, char **av)
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 		error_doom("error: cannot run SDL");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
+	if (!(e.music = Mix_LoadMUS("sounds/lamerde.wav")))
+		error_doom("Couldn't open lamerde.wav");
 	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
 		error_doom("error: cannot hide mouse cursor");
     if (read_file("mabite.roflolilolmao", &textures, &e.map) < 0)
