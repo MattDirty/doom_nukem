@@ -58,4 +58,6 @@
 # define ROT_Y 1
 # define MOUSE_SENSI 0.0001
 
+# define ACTIVATE_LIGHTING 1
+
 #endif

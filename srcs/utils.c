@@ -13,8 +13,15 @@
 #include <math.h>
 #include <unistd.h>
 #include <stdlib.h>
-
+#include "e_bool.h"
 #include "utils.h"
+
+enum e_bool	invert_bool(enum e_bool bool)
+{
+	if (bool)
+		return (t_false);
+	return (t_true);
+}
 
 double  get_distance_between_points(double x1, double y1, double x2, double y2)
 {

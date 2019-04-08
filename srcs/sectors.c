@@ -46,6 +46,8 @@ int			read_sectors_from_file(
             return (-6);
         if (read(fd, &sector->open_sky, sizeof(sector->open_sky)) <= 0)
             return (-7);
+        if (read(fd, &sector->light, sizeof(sector->light)) <= 0)
+        	return (-8);
         i++;
     }
     free(linked_walls);
@@ -77,6 +79,8 @@ int			write_sectors_to_file(int fd, t_sectors *sectors)
             return (-5);
         if (write(fd, &sector.open_sky, sizeof(sector.open_sky)) <= 0)
             return (-7);
+        if (write(fd, &sector.light, sizeof(sector.light)) <= 0)
+        	return (-8);
         i++;
     }
     free(linked_walls);

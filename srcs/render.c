@@ -38,8 +38,8 @@ static void draw_flat(
 {
     double      pixel_dist;
     double      weight;
-	Uint32 x;
-	Uint32 y;
+	Uint32 		x;
+	Uint32 		y;
     Uint32      color_text;
     Uint32      renderer_y;
 
@@ -58,6 +58,8 @@ static void draw_flat(
 				* texture->h) % texture->h;
 		color_text = get_pixel(texture, x, y, t_true);
 		put_pixel(render->surface, render->x, renderer_y, color_text);
+		if (render->lights)
+			put_pixel_alpha(render->surface, render->x, renderer_y, render->light_value);
 		renderer_y++;
 	}
 }
@@ -102,6 +104,8 @@ static void         draw_wall(
         		render->x, 
         		i, 
         		get_pixel(wall_text, x, y, t_true));
+        if (render->lights)
+        	put_pixel_alpha(render->surface,render->x, i, render->light_value);
 		i++;
 	}
 }
@@ -116,6 +120,7 @@ static t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
 	render.heading = e->p.heading;
 	render.p_pos = e->p.pos;
 	render.win_h = e->op.win_h;
+	render.lights = e->op.lights;
 	if (e->map->daytime)
 		render.sky = e->map->daysky;
 	else
@@ -137,6 +142,7 @@ void		draw(t_env *e, t_collisions *node, Uint32 renderer_x)
 	r = fill_render_struct(e, renderer_x);
 	while (node)
 	{
+		r.light_value = current_sector->light;
 		r.wall_height = e->op.ratio / node->item.distance * node->item.wall->height;
 		range = wall_range(r.wall_height, r.vision_height, r.win_h);
 		draw_wall(&r, &node->item, range);
