@@ -61,7 +61,7 @@ void    melee_primary(t_weapon *weapon, t_timer_handler *timer_handler)
             5,
             &melee_primary_animation,
             &weapon->animation);
-
+    Mix_PlayChannel(-1, weapon->main_sound, 0);
     weapon->main_ready = t_false;
     add_event(
             timer_handler,
