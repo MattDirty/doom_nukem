@@ -26,7 +26,7 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
             32, MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
         error_doom("Could not create surface.");
     if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
-    	error_doom("Could not initialize sound mixer.");
+    	error_doom((char *)Mix_GetError());
 
 	return (sdl);
 }

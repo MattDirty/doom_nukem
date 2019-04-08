@@ -1,5 +1,6 @@
 #include "weapon.h"
 #include "doom.h"
+#include <SDL_mixer.h>
 
 t_weapon    load_weapon(SDL_Surface *texture)
 {
@@ -17,6 +18,9 @@ t_weapon    load_weapon(SDL_Surface *texture)
 	weapon.secondary_cooldown = 5000;
 	weapon.main_ready = t_true;
 	weapon.secondary_ready = t_true;
+	if (!(weapon.main_sound = Mix_LoadWAV("sounds/fu_bitch.wav")))
+	    error_doom("Can't load weapon sound ...");
+	weapon.secondary_sound = NULL;
     return (weapon);
 }
 
