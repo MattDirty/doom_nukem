@@ -28,7 +28,9 @@ static void loop_events(
         const Uint8 *state,
         t_timer_handler *timer_handler)
 {
-    SDL_Event ev;
+    SDL_Event 	ev;
+    double		x;
+    double		y;
 
 	if (state[SDL_SCANCODE_U])
 		e->op.lights = invert_bool(e->op.lights);
@@ -40,29 +42,21 @@ static void loop_events(
 		e->p.weapons.list[e->p.weapons.current].secondary(
 				&e->p.weapons.list[e->p.weapons.current],
 				timer_handler);
-	//DEBUG
-	if (state[SDL_SCANCODE_L])
-		e->p.current_sector->open_sky = t_true;
-	else if (state[SDL_SCANCODE_K])
-		e->p.current_sector->open_sky = t_false;
-    while (SDL_PollEvent(&ev))
+	x = 0;
+	y = 0;
+	while (SDL_PollEvent(&ev))
 	{
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
 			quit_doom(e);
 		if (ev.type == SDL_MOUSEMOTION)
 		{
-			e->p.heading += ev.motion.xrel * e->op.mouse_sensi
-							* timer_handler->ms_since_update;
-			e->p.vision_height -= ev.motion.yrel * 1000
-								  * e->op.mouse_sensi * timer_handler->ms_since_update;
+			x += ev.motion.xrel;
+			y += ev.motion.yrel;
 		}
-//        if (state[SDL_SCANCODE_O])
-//            e->sector->wall_height -= 0.01;
-//        if (state[SDL_SCANCODE_P])
-//            e->sector->wall_height += 0.01;
-//        e->sector->wall_height > HALF_H ? e->sector->wall_height = HALF_H : 0;
-//        e->sector->wall_height < 0 ? e->sector->wall_height = 0 : 0;
 	}
+	e->p.heading += x * e->op.mouse_sensi * timer_handler->ms_since_update;
+	e->p.vision_height -= y * 1000 * e->op.mouse_sensi
+			* timer_handler->ms_since_update;
 }
 
 enum e_bool		update_logic(double ms_since_update, t_params params)
