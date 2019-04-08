@@ -1,3 +1,5 @@
+#include <SDL.h>
+#include <SDL_mixer.h>
 #include "doom.h"
 #include "map.h"
 #include "debug.h"
@@ -23,7 +25,9 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
     if (!(sdl.surface = SDL_CreateRGBSurface(0, w, h,
             32, MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
         error_doom("Could not create surface.");
-    return (sdl);
+    if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+    	error_doom("Could not initialize sound mixer.");
+	return (sdl);
 }
 
 int		main (int ac, char **av)
@@ -36,7 +40,7 @@ int		main (int ac, char **av)
 		e.debug_mode = t_true;
 	else
 		e.debug_mode = t_false;
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 		error_doom("error: cannot run SDL");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
