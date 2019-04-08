@@ -38,14 +38,13 @@ static void loop_events(
 		e->p.weapons.list[e->p.weapons.current].secondary(
 				&e->p.weapons.list[e->p.weapons.current],
 				timer_handler);
-	x = 0;
-	y = 0;
-	while (SDL_PollEvent(&ev))
     if (state[SDL_SCANCODE_SPACE] && !e->p.jump.height) // replace jump.height with floor
     {
         e->p.jump.time = 0;
         add_event(timer_handler, 5, &jumping, &(e->p));
     }
+    x = 0;
+    y = 0;
     while (SDL_PollEvent(&ev))
 	{
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
