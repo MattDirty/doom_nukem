@@ -87,9 +87,14 @@ EXTRACT = tar -xzf $(SDL_PATH)/$(SDL2).tar.gz -C $(SDL_PATH) && tar -xzf \
             $(SDL_PATH)/$(SDL2_MIXER).tar.gz -C $(SDL_PATH) && tar -xzf \
                 $(SDL_PATH)/$(SDL2_TTF).tar.gz -C $(SDL_PATH)
 
-SDL_INCL_PATH = ./$(SDL_PATH)/$(SDL2)/include
+SDL2_INCL_PATH = ./$(SDL_PATH)/$(SDL2)/include
 
-IFLAGS = -I $(INCL) -I $(LIBFT_INCL_PATH) -I $(SDL_INCL_PATH)
+SDL2_MIXER_INCL_PATH = ./$(SDL_PATH)/$(SDL2_MIXER)
+
+SDL2_TTF_INCL_PATH = ./$(SDL_PATH)/$(SDL2_TTF)
+
+IFLAGS = -I $(INCL) -I $(LIBFT_INCL_PATH) -I $(SDL2_INCL_PATH) \
+            -I $(SDL2_MIXER_INCL_PATH) -I $(SDL2_TTF_INCL_PATH)
 
 USER = $(shell whoami)
 
@@ -106,8 +111,8 @@ ifeq ($(shell uname), Darwin)
 		--prefix="/Users/$(USER)/$(SDL2_MIXER)" && $(MAKE) -j && $(MAKE) install
 	CONFIGURE_SDL2_TTF = cd $(SDL_PATH)/$(SDL2_MIXER) && ./configure \
 		--prefix="/Users/$(USER)/$(SDL2_TTF)" && $(MAKE) -j && $(MAKE) install
-	SDL_LDFLAGS = -L/Users/$(USER)/$(SDL2)/lib -lSDL2
-	SDL_CFLAGS = -I/Users/$(USER)/$(SDL2)/include/SDL2 -D_THREAD_SAFE
+	SDL_LDFLAGS = $(sdl-config --libs) -lSDL2 -lSDL2_mixer -lSDL2_ttf
+	SDL_CFLAGS = $(shell sdl-config --cflags)
 else
 	CONFIGURE_SDL2 = cd $(SDL_PATH)/$(SDL2) && ./configure \
 	    && $(MAKE) -j && sudo $(MAKE) install
@@ -115,9 +120,8 @@ else
 	    && $(MAKE) -j && sudo $(MAKE) install
 	CONFIGURE_SDL2_TTF = cd $(SDL_PATH)/$(SDL2_TTF) && ./configure \
 	    && $(MAKE) -j && sudo $(MAKE) install
-	SDL_LDFLAGS = -L/usr/local/lib -Wl,-rpath,/usr/local/lib \
-	    -Wl,--enable-new-dtags -lSDL2
-	SDL_CFLAGS = -I/usr/local/include/SDL2 -D_REENTRANT
+	SDL_LDFLAGS = $(sdl-config --libs) -lSDL2 -lSDL2_mixer -lSDL2_ttf
+	SDL_CFLAGS = $(shell sdl-config --cflags)
 endif
 
 all: $(NAME) $(NAME_EDITOR)
