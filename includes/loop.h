@@ -20,4 +20,6 @@ typedef struct	s_frame_event_params
 	t_map			*map;
 }				t_frame_event_params;
 
+void    key_handler(const Uint8 *state, t_player *p, t_timer_handler *timer_handler);
+
 #endif

@@ -32,28 +32,14 @@ static void loop_events(
     double		x;
     double		y;
 
-	if (state[SDL_SCANCODE_U])
-		e->op.lights = invert_bool(e->op.lights);
-	if (state[SDL_SCANCODE_X])
-		e->p.weapons.list[e->p.weapons.current].secondary(
-				&e->p.weapons.list[e->p.weapons.current],
-				timer_handler);
-    if (state[SDL_SCANCODE_SPACE] && !e->p.jump.height) // replace jump.height with floor
-    {
-        e->p.jump.time = 0;
-        add_event(timer_handler, 5, &jumping, &(e->p));
-    }
     x = 0;
     y = 0;
     while (SDL_PollEvent(&ev))
 	{
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
 			quit_doom(e);
-        if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button
-                                              == SDL_BUTTON_LEFT)
-            e->p.weapons.list[e->p.weapons.current].main(
-                    &e->p.weapons.list[e->p.weapons.current],
-                    timer_handler);
+        if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
+            e->p.weapons.list[e->p.weapons.current].main(&e->p.weapons.list[e->p.weapons.current], timer_handler);
         if (ev.type == SDL_MOUSEMOTION)
 		{
 			x += ev.motion.xrel;
@@ -69,11 +55,14 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
 {
 	t_logic_params	*ptr;
 
-    (void)ms_since_update;
 	ptr = (t_logic_params *)params;
 	loop_events(ptr->e, ptr->state, ptr->timer_handler);
-	move(&ptr->e->p, ptr->state, ptr->timer_handler->ms_since_update);
-	look_around(&ptr->e->p, ptr->state, ptr->timer_handler->ms_since_update);
+	key_handler(ptr->state, &ptr->e->p, ptr->timer_handler);
+    if (ptr->e->p.jump.height > 0)
+    {
+        ptr->e->p.jump.height -= ptr->e->p.jump.gravity * ms_since_update;
+        ptr->e->p.jump.height = (ptr->e->p.jump.height < 1) ? 0 : ptr->e->p.jump.height;
+    }
 	//todo : if paused return t_false
 	return (t_true);
 }
@@ -115,11 +104,6 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     if (e->debug_mode)
         debug_draw(&e->debug, map, &e->p, &e->op);
     raycasting(e);
-    if (e->p.jump.height > 0)
-    {
-        e->p.jump.height *= e->p.jump.gravity;
-        e->p.jump.height = (e->p.jump.height < 1) ? 0 : e->p.jump.height;
-    }
     draw_weapon(
             e->doom.surface,
             e->p.weapons.list[e->p.weapons.current].sprite,
