@@ -15,8 +15,9 @@
 #include "surface_manipulation.h"
 #include "config.h"
 #include "ui.h"
+#include "utils.h"
 
-void        draw_text(SDL_Surface *surface, SDL_Surface *text, t_config *op)
+void        draw_text(SDL_Surface *surface, SDL_Surface *text, t_coords location)
 {
     int x;
     int y;
@@ -27,10 +28,8 @@ void        draw_text(SDL_Surface *surface, SDL_Surface *text, t_config *op)
         x = 0;
         while (x < text->w)
         {
-            put_pixel_alpha(surface,
-                            (op->half_w - text->w / 2 + x),
-                            (op->half_h - text->h / 2 + y),
-                            get_pixel(text, x, y, t_false));
+            put_pixel_alpha(surface, location.x + x, location.y + y,
+                    get_pixel(text, x, y, t_false));
             x++;
         }
         y++;

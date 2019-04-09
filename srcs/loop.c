@@ -90,6 +90,7 @@ t_frame_event_params	*frame_event_params_init(t_env *e)
 
     if (!(params = (t_frame_event_params*)malloc(sizeof(t_frame_event_params))))
         error_doom("Couldn't allocate memory for t_frame_event_params");
+    e->fps = 0;
     params->e = e;
     params->map = e->map;
     return (params);
@@ -101,9 +102,9 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     t_map					*map;
     t_frame_event_params	*frame_event_params;
 
-    (void)ms_since_update;
     frame_event_params = (t_frame_event_params*)params;
     e = frame_event_params->e;
+    e->fps = floor(1 / ms_since_update * 1000);
     map = frame_event_params->map;
     if (e->debug_mode)
         debug_draw(&e->debug, map, &e->p, &e->op);
@@ -116,6 +117,7 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     ui_draw(&e->doom, &e->op);
     if (e->p.dead)
         game_over(e->doom.surface, &e->op);
+    draw_fps(e->doom.surface, e->fps, &e->op);
     print_surface(e->doom.renderer, e->doom.surface);
     return (t_true);
 }
@@ -142,5 +144,5 @@ void		loop_doom(t_env *e)
     add_event(&timer_handler, 30000, &day_to_night, &e->map->daytime);
     Mix_PlayMusic(e->music, -1);
     while (42)
-		update_events(&timer_handler);
+        update_events(&timer_handler);
 }

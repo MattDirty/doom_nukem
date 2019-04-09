@@ -37,8 +37,11 @@ void	clamp_player_values(t_player *p, t_config op)
 void    game_over(SDL_Surface *surface, t_config *op)
 {
     SDL_Surface *game_over;
+    t_coords    location;
 
     game_over = write_text("fonts/horrendo.ttf", 120, "GAME OVER!", (SDL_Colour){255,0,0,255});
-    draw_text(surface, game_over, op);
+    location.x = op->half_w - game_over->w / 2;
+    location.y = op->half_h - game_over->h / 2;
+    draw_text(surface, game_over, location);
     free(game_over);
 }
