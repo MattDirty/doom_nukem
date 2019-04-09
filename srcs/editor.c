@@ -152,12 +152,7 @@ int		main()
 
     textures = load_textures();
     map = create_map(textures);
-    if (write_file("mabite.roflolilolmao", textures, map) < 0)
-    {
-        error_doom("Failure when writing file\n");
-        return (-1);
-    }
-
-    printf("ta mere est une pute\n");
+	write_file("mabite.roflolilolmao", textures, map);
+	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
     return (0);
 }

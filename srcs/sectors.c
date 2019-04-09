@@ -50,7 +50,7 @@ int			read_sectors_from_file(
         	return (-8);
         i++;
     }
-    free(linked_walls);
+    free_walls(linked_walls);
     return (0);
 }
 
@@ -83,7 +83,7 @@ int			write_sectors_to_file(int fd, t_sectors *sectors)
         	return (-8);
         i++;
     }
-    free(linked_walls);
+    free_walls(linked_walls);
     return (0);
 }
 
