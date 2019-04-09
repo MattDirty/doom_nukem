@@ -7,7 +7,6 @@
 #include "config.h"
 #include "default.h"
 #include "serialisation.h"
-#include "ui.h"
 
 t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
 {
@@ -52,7 +51,6 @@ int		main (int ac, char **av)
 		error_doom("error: cannot hide mouse cursor");
     if (read_file("mabite.roflolilolmao", &textures, &e.map) < 0)
         error_doom("Could not load game file");
-    e.font = load_fonts();
 	e.p = init_player(&e.op, &e.map->sectors->items[0]);
     e.p.weapons = allocate_weapons();
     if (e.debug_mode)

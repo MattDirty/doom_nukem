@@ -110,6 +110,7 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
             &e->p.weapons.list[e->p.weapons.current].animation,
             &e->op);
     ui_draw(&e->doom, &e->op);
+    test_writing(e->doom.surface, &e->op);
     print_surface(e->doom.renderer, e->doom.surface);
     return (t_true);
 }

@@ -29,8 +29,6 @@ int         quit_doom(t_env *e)
 	SDL_DestroyTexture(e->doom.texture);
 	SDL_DestroyRenderer(e->doom.renderer);
 	SDL_DestroyWindow(e->doom.window);
-	TTF_CloseFont(e->font.game_over);
-    TTF_CloseFont(e->font.nightnday);
 	TTF_Quit();
 	SDL_Quit();
     exit(EXIT_SUCCESS);

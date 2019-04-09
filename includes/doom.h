@@ -7,7 +7,6 @@
 # include "e_bool.h"
 # include "player.h"
 # include "config.h"
-# include "ui.h"
 
 typedef struct          s_env
 {
@@ -16,7 +15,6 @@ typedef struct          s_env
 		enum e_bool     debug_mode;
         t_player        p; // layer
         t_sdl           doom;
-        t_font          font;
         t_map			*map;
         Mix_Music 		*music;
 }                       t_env;

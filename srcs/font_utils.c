@@ -12,14 +12,48 @@
 
 #include "SDL_ttf.h"
 #include "doom.h"
+#include "surface_manipulation.h"
+#include "config.h"
+#include "ui.h"
 
-t_font        load_fonts(void)
+void    test_writing(SDL_Surface *surface, t_config *op)
 {
-    t_font  font;
+    SDL_Surface *text;
 
-    if (!(font.game_over = TTF_OpenFont("fonts/horrendo.ttf", 40)))
-        error_doom("error: couldn't load font: game_over");
-    if (!(font.nightnday = TTF_OpenFont("fonts/sixty.ttf", 20)))
-        error_doom("error: couldn't load font: nightnday");
-    return (font);
-};
+    text = write_text("fonts/horrendo.ttf", 120, "GAME OVER!", (SDL_Colour){255,0,0,255});
+    draw_text(surface, text, op);
+}
+
+void        draw_text(SDL_Surface *surface, SDL_Surface *text, t_config *op)
+{
+    int x;
+    int y;
+
+    y = 0;
+    while (y < text->h)
+    {
+        x = 0;
+        while (x < text->w)
+        {
+            put_pixel_alpha(surface,
+                            (op->half_w - text->w / 2 + x),
+                            (op->half_h - text->h / 2 + y),
+                            get_pixel(text, x, y, t_false));
+            x++;
+        }
+        y++;
+    }
+}
+
+SDL_Surface *write_text(char *font_path, int font_size, char *str, SDL_Colour color)
+{
+    SDL_Surface *text;
+    TTF_Font    *font;
+
+    if (!(font = TTF_OpenFont(font_path, font_size)))
+        error_doom("error: couldn't load font");
+    if (!(text = TTF_RenderText_Blended(font, str, color)))
+        error_doom("error: cannot write on screen");
+    TTF_CloseFont(font);
+    return (text);
+}
