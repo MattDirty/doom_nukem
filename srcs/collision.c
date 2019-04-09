@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "collision.h"
 #include "default.h"
 
@@ -24,6 +25,8 @@ static t_collisions		*add_collision(
     if (!(new = (t_collisions*)malloc(sizeof(t_collisions))))
         error_doom("Allocation of t_collisions failed");
     new->next = NULL;
+    new->item.distance = distance;
+    new->item.inters = inters;
     if (!*collisions)
     {
         *collisions = new;
@@ -35,12 +38,10 @@ static t_collisions		*add_collision(
             node = node->next;
         node->next = new;
     }
-    new->item.distance = distance;
-    new->item.inters = inters;
     return (new);
 }
 
-static void		find_objects_collisions_in_sector(
+void		find_objects_collisions_in_sector(
         t_sector *sector,
         t_segment *ray,
         t_collisions **collisions)
@@ -89,8 +90,12 @@ static enum e_bool	find_wall_collisions_in_sector(
 	best_collision.distance = HORIZON;
 	while (i < sector->walls->count)
 	{
-		if (segments_intersect(ray, &sector->walls->items[i]->segment, &inters)
-			&& last_portal != sector->walls->items[i])
+		if (last_portal == sector->walls->items[i])
+		{
+			i++;
+			continue;
+		}
+		if (segments_intersect(ray, &sector->walls->items[i]->segment, &inters))
 		{
 			distance = get_distance_between_points(
                     ray->x1, ray->y1, inters.x, inters.y);
@@ -120,18 +125,18 @@ void		find_ray_collisions(
 	t_collisions	**node;
 
 	last_portal = NULL;
+	*collisions = NULL;
 	node = collisions;
 	while (1)
 	{
-        find_objects_collisions_in_sector(sector, ray, node);
-        if (!find_wall_collisions_in_sector(sector, ray, node, last_portal)
-                || (*node)->item.d.wall->type == e_wall)
+        //find_objects_collisions_in_sector(sector, ray, node);
+        if (!find_wall_collisions_in_sector(sector, ray, node, last_portal))
+            break;
+        while ((*node)->next)
+            node = &(*node)->next;
+        if ((*node)->item.d.wall->type == e_wall)
             break;
 		last_portal = (*node)->item.d.wall;
 		sector = get_next_sector_addr(sector, (*node)->item.d.wall);
-        while ((*node)->next)
-            *node = (*node)->next;
 	}
-    if (!*collisions)
-        error_doom("find_ray_collisions found nothing");
 }

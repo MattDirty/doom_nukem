@@ -26,14 +26,15 @@ static t_segment	get_segment_and_mod_speed(t_vector *speed, double speed_factor,
 	return (create_segment_from_position_and_vector(pos.x, pos.y, &new_vector));
 }
 
-static void	move_if_allowed(t_player *p, double time)
+static void	handle_collision_for_speed(
+        t_player *p,
+        t_collisions *collisions,
+        double time)
 {
-	t_segment		seg;
-	t_collisions	*collisions;
 	t_collisions	*ptr;
 
-    seg = get_segment_and_mod_speed(&p->speed, p->speed_factor, time, p->pos);
-	find_ray_collisions(p->current_sector, &seg, &collisions);
+    if (!collisions)
+        return;
 	ptr = collisions;
 	while (ptr->next)
 		ptr = ptr->next;
@@ -42,10 +43,7 @@ static void	move_if_allowed(t_player *p, double time)
         && ptr->item.d.wall->type == e_wall)
 	{
 		if (ptr->item.distance <= PLAYER_THICKNESS)
-		{
-			free_collisions(collisions);
-			return ;
-		}
+			return;
 		if (ptr->item.distance <= RUN * time + PLAYER_THICKNESS)
 			change_vector_magnitude(&p->speed,
 					fabs(ptr->item.distance) - PLAYER_THICKNESS);
@@ -61,9 +59,19 @@ static void	move_if_allowed(t_player *p, double time)
 													 ptr->item.d.wall);
 		ptr = ptr->next;
 	}
-	free_collisions(collisions);
+}
+
+static void	move_if_allowed(t_player *p, double time)
+{
+	t_collisions	*collisions;
+	t_segment		seg;
+
+	seg = get_segment_and_mod_speed(&p->speed, p->speed_factor, time, p->pos);
+	find_ray_collisions(p->current_sector, &seg, &collisions);
+    handle_collision_for_speed(p, collisions, time);
 	p->pos.x += p->speed.x;
 	p->pos.y += p->speed.y;
+    free_collisions(collisions);
 }
 
 void		move(t_player *p, const Uint8 *state, double time)

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "utils.h"
 #include "e_bool.h"
 #include "libft.h"
@@ -74,6 +75,8 @@ void			raycasting(t_env *e)
 				e->p.pos.y,
 				&ray.vect);
 		find_ray_collisions(e->p.current_sector, &ray.seg, &collisions);
+        if (!collisions)
+            continue;
 		ptr = collisions;
 		while (ptr)
 		{

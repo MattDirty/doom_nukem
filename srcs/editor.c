@@ -44,7 +44,7 @@ t_map		*create_map(t_textures *textures)
                 (t_objects*)malloc(sizeof(t_objects));
         map->sectors->items[i].objects->count = 0;
         map->sectors->items[i].objects->items = NULL;
-        if (i == 1)
+        if (i == 1000)
         {
             map->sectors->items[i].objects->count = 1;
             map->sectors->items[i].objects->items = (t_object*)malloc(
