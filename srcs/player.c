@@ -7,6 +7,7 @@ t_player init_player(t_config *op, t_sector *starting_sector)
 {
     t_player p;
 
+    p.health = 100;
     p.vision_height = op->half_h;
     p.heading = EAST;
     p.current_sector = starting_sector;
@@ -21,6 +22,8 @@ t_player init_player(t_config *op, t_sector *starting_sector)
     p.jump.duration = 400;
     p.jump.time = 0;
     p.dead = t_false;
+
+    printf("Current HP : %d", p.health);
     return (p);
 }
 

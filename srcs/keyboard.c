@@ -25,6 +25,20 @@ void    key_handler(const Uint8 *state, t_player *p, t_timer_handler *timer_hand
     }
     if (state[SDL_SCANCODE_E])
         p->dead = t_true;
+    if (state[SDL_SCANCODE_J])
+    {
+        p->health -= 10;
+        if (p->health <= 0)
+            p->dead = t_true;
+        printf("Current HP : %d\n", p->health);
+    }
+    if (state[SDL_SCANCODE_K])
+    {
+        p->health += 10;
+        if (p->health >= 100)
+            p->health = 100;
+        printf("Current HP : %d\n", p->health);
+    }
     move(p, state, timer_handler->ms_since_update);
     look_around(p, state, timer_handler->ms_since_update);
 }

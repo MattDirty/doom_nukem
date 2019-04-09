@@ -59,4 +59,6 @@
 
 # define ACTIVATE_LIGHTING 1
 
+# define MAX_INVTRY 10
+
 #endif
