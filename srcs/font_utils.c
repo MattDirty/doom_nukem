@@ -16,14 +16,6 @@
 #include "config.h"
 #include "ui.h"
 
-void    test_writing(SDL_Surface *surface, t_config *op)
-{
-    SDL_Surface *text;
-
-    text = write_text("fonts/horrendo.ttf", 120, "GAME OVER!", (SDL_Colour){255,0,0,255});
-    draw_text(surface, text, op);
-}
-
 void        draw_text(SDL_Surface *surface, SDL_Surface *text, t_config *op)
 {
     int x;

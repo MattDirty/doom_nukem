@@ -9,6 +9,5 @@ void        ui_draw(t_sdl *sdl, t_config *op);
 
 SDL_Surface *write_text(char *font_path, int font_size, char *str, SDL_Colour color);
 void        draw_text(SDL_Surface *surface, SDL_Surface *font, t_config *op);
-void        test_writing(SDL_Surface *surface, t_config *op);
 
 #endif

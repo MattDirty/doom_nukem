@@ -23,6 +23,8 @@ void    key_handler(const Uint8 *state, t_player *p, t_timer_handler *timer_hand
         p->jump.time = 0;
         add_event(timer_handler, 5, &jumping, p);
     }
+    if (state[SDL_SCANCODE_E])
+        p->dead = t_true;
     move(p, state, timer_handler->ms_since_update);
     look_around(p, state, timer_handler->ms_since_update);
 }
