@@ -13,13 +13,13 @@
 #include "SDL_ttf.h"
 #include "doom.h"
 
-void        load_fonts(void)
+t_font        load_fonts(void)
 {
-    TTF_Font    *game_over;
-    TTF_Font    *nightnday;
+    t_font  font;
 
-    if (!(game_over = TTF_OpenFont("fonts/horrendo.ttf", 40)))
+    if (!(font.game_over = TTF_OpenFont("fonts/horrendo.ttf", 40)))
         error_doom("error: couldn't load font: game_over");
-    if (!(nightnday = TTF_OpenFont("fonts/sixty.ttf", 20)))
+    if (!(font.nightnday = TTF_OpenFont("fonts/sixty.ttf", 20)))
         error_doom("error: couldn't load font: nightnday");
+    return (font);
 };
