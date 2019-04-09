@@ -1,11 +1,13 @@
 #include "SDL.h"
 #include "SDL_mixer.h"
+#include "SDL_ttf.h"
 #include "doom.h"
 #include "map.h"
 #include "debug.h"
 #include "config.h"
 #include "default.h"
 #include "serialisation.h"
+#include "ui.h"
 
 t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
 {
@@ -41,7 +43,7 @@ int		main (int ac, char **av)
 		e.debug_mode = t_true;
 	else
 		e.debug_mode = t_false;
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 || TTF_Init() < 0)
 		error_doom("error: cannot run SDL");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	if (!(e.music = Mix_LoadMUS("sounds/lamerde.wav")))
@@ -50,6 +52,7 @@ int		main (int ac, char **av)
 		error_doom("error: cannot hide mouse cursor");
     if (read_file("mabite.roflolilolmao", &textures, &e.map) < 0)
         error_doom("Could not load game file");
+    load_fonts();
 	e.p = init_player(&e.op, &e.map->sectors->items[0]);
     e.p.weapons = allocate_weapons();
     if (e.debug_mode)
