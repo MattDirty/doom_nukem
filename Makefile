@@ -110,11 +110,11 @@ ifeq ($(shell uname), Darwin)
 	CONFIGURE_SDL2 = cd $(SDL_PATH)/$(SDL2) && ./configure \
 		--prefix="/Users/$(USER)/$(SDL2)" && $(MAKE) -j && $(MAKE) install
 	CONFIGURE_SDL2_MIXER = cd $(SDL_PATH)/$(SDL2_MIXER) && ./configure \
-		--prefix="/Users/$(USER)/$(SDL2_MIXER)" && $(MAKE) -j && $(MAKE) install
-	CONFIGURE_SDL2_TTF = cd $(SDL_PATH)/$(SDL2_MIXER) && ./configure \
-		--prefix="/Users/$(USER)/$(SDL2_TTF)" && $(MAKE) -j && $(MAKE) install
-	SDL_LDFLAGS = $(shell sdl-config --libs) -lSDL2 -lSDL2_mixer -lSDL2_ttf
-	SDL_CFLAGS = $(shell sdl-config --cflags)
+		--prefix="/Users/$(USER)/$(SDL2)" && $(MAKE) -j && $(MAKE) install
+	CONFIGURE_SDL2_TTF = cd $(SDL_PATH)/$(SDL2_TTF) && ./configure \
+		--prefix="/Users/$(USER)/$(SDL2)" && $(MAKE) -j && $(MAKE) install
+	SDL_LDFLAGS = -L/Users/$(USER)/$(SDL2)/lib -lSDL2 -lSDL2_mixer -lSDL2_ttf
+    SDL_CFLAGS = -I/Users/$(USER)/$(SDL2)/include/SDL2 -D_THREAD_SAFE
 else
 	CONFIGURE_SDL2 = cd $(SDL_PATH)/$(SDL2) && ./configure \
 	    && $(MAKE) -j && sudo $(MAKE) install
@@ -152,14 +152,6 @@ $(NAME_EDITOR): $(OBJS_EDITOR)
 	$(CC) $(OBJS_EDITOR) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
-	@if [ ! -d $(SDL_PATH)/$(SDL2) ] || [ ! -d $(SDL_PATH)/$(SDL2_MIXER) ] \
-		|| [ ! -d $(SDL_PATH)/$(SDL2_TTF) ];\
-		then $(EXTRACT); fi
-	@if [ ! -d $(SDL_PATH)/$(SDL2)/build ]; then $(CONFIGURE_SDL2); fi
-	@if [ ! -d $(SDL_PATH)/$(SDL2_MIXER)/build ]; \
-		then $(CONFIGURE_SDL2_MIXER); fi
-	@if [ ! -e $(SDL_PATH)/$(SDL2_TTF)/config.status ]; \
-		then $(CONFIGURE_SDL2_TTF); fi
 	mkdir $(OBJ_PATH) 2> /dev/null || true
 	$(CC) $(CFLAGS) $(IFLAGS) $(SDL_CFLAGS) -o $@ -c $<
 

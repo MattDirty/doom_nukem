@@ -10,6 +10,7 @@ t_map		*create_map(t_textures *textures)
 	int			j;
 	t_walls*	walls;
 	t_map		*map;
+	printf("blop\n");
 
 	if (!(map = (t_map*)malloc(sizeof(t_map))))
 		error_doom("error: cannot allocate memory for struct map");
