@@ -78,6 +78,43 @@ static void draw_ceil(
 	draw_flat(render, collision, range, current_sector->ceil);
 }
 
+static void         draw_object(
+		const t_render *render,
+		const t_collision *collision)
+{
+    Uint32		x;
+    Uint32		y;
+    Uint32		i;
+    SDL_Surface *wall_text;
+    t_u_range		range;
+
+	if (collision->type != ct_object)
+		return;
+	wall_text = collision->d.object->sprite;
+    double r=get_distance_between_points(
+            collision->inters.x,
+            collision->inters.y,
+            collision->d.object->x,
+            collision->d.object->y
+            ) * wall_text->w;
+    x = (Uint32)(r) % wall_text->w;
+    range = wall_range(1, render->vision_height, render->win_h);
+	i = range.start;
+	while (i < range.end)
+	{
+        y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)
+        		* wall_text->h / 1))) % wall_text->h;  // 1 = object size
+        put_pixel_alpha(
+        		render->surface,
+        		render->x,
+        		i,
+        		get_pixel(wall_text, x, y, t_false));
+        if (render->lights)
+        	put_pixel_alpha(render->surface,render->x, i, render->light_value);
+		i++;
+	}
+}
+
 static void         draw_wall(
 		const t_render *render,
 		const t_collision *collision,
@@ -97,8 +134,8 @@ static void         draw_wall(
 	i = range.start;
 	while (i < range.end)
 	{
-        y = fabs(((i - (render->vision_height) + render->wall_height / 2)
-        		* wall_text->h / render->wall_height));
+        y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)
+        		* wall_text->h / render->wall_height))) % wall_text->h;
         put_pixel(
         		render->surface,
         		render->x,
@@ -144,16 +181,21 @@ void		draw(t_env *e, t_collisions *node, Uint32 renderer_x)
 	{
 		r.light_value = current_sector->light;
 		r.wall_height = e->op.ratio / node->item.distance * node->item.d.wall->height;
-		range = wall_range(r.wall_height, r.vision_height, r.win_h);
-		draw_wall(&r, &node->item, range);
-		ceil_or_floor_range.start = range.end;
-		ceil_or_floor_range.end = prev_range.end;
-		draw_flat(&r, &node->item, ceil_or_floor_range, current_sector->floor);
-		ceil_or_floor_range.start = prev_range.start;
-		ceil_or_floor_range.end = range.start;
-		draw_ceil(&r, &node->item, ceil_or_floor_range, current_sector);
-		current_sector = get_next_sector_addr(current_sector, node->item.d.wall);
+        if (node->item.type == ct_wall)
+        {
+            range = wall_range(r.wall_height, r.vision_height, r.win_h);
+            draw_wall(&r, &node->item, range);
+            ceil_or_floor_range.start = range.end;
+            ceil_or_floor_range.end = prev_range.end;
+            draw_flat(&r, &node->item, ceil_or_floor_range, current_sector->floor);
+            ceil_or_floor_range.start = prev_range.start;
+            ceil_or_floor_range.end = range.start;
+            draw_ceil(&r, &node->item, ceil_or_floor_range, current_sector);
+            current_sector = get_next_sector_addr(current_sector, node->item.d.wall);
+            prev_range = range;
+        }
+        else if (node->item.type == ct_object)
+            draw_object(&r, &node->item);
 		node = node->next;
-		prev_range = range;
 	}
 }

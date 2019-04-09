@@ -44,13 +44,13 @@ t_map		*create_map(t_textures *textures)
                 (t_objects*)malloc(sizeof(t_objects));
         map->sectors->items[i].objects->count = 0;
         map->sectors->items[i].objects->items = NULL;
-        if (i == 1000)
+        if (i == 1)
         {
             map->sectors->items[i].objects->count = 1;
             map->sectors->items[i].objects->items = (t_object*)malloc(
                     sizeof(t_object) * map->sectors->items[i].objects->count);
-            map->sectors->items[i].objects->items[0].x = 7;
-            map->sectors->items[i].objects->items[0].y = 5;
+            map->sectors->items[i].objects->items[0].x = 2;
+            map->sectors->items[i].objects->items[0].y = 6;
             if (find_texture_by_name(
                     textures,
                     "textures/sprites/voilaunefleur.bmp",

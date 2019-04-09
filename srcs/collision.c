@@ -41,7 +41,7 @@ static t_collisions		*add_collision(
     return (new);
 }
 
-void		find_objects_collisions_in_sector(
+static void		find_objects_collisions_in_sector(
         t_sector *sector,
         t_segment *ray,
         t_collisions **collisions)
@@ -129,7 +129,7 @@ void		find_ray_collisions(
 	node = collisions;
 	while (1)
 	{
-        //find_objects_collisions_in_sector(sector, ray, node);
+        find_objects_collisions_in_sector(sector, ray, node);
         if (!find_wall_collisions_in_sector(sector, ray, node, last_portal))
             break;
         while ((*node)->next)
