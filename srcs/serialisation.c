@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include "libft.h"
-
+#include "doom.h"
 #include "serialisation.h"
 
 int	read_file(char *filename, t_textures **textures, t_map **map)
@@ -17,21 +17,22 @@ int	read_file(char *filename, t_textures **textures, t_map **map)
         return (-2);
     if (read_map_from_file(fd, *textures, map) < 0)
         return (-3);
+    close(fd);
     return (0);
 }
 
-int	write_file(char *filename, t_textures *textures, t_map *map)
+void	write_file(char *filename, t_textures *textures, t_map *map)
 {
     int fd;
 
     fd = open(filename, O_WRONLY | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
     if (fd <= 0)
-        return (-1);
+        error_doom("couldn't open file");
     if (write_textures_to_file(fd, textures) < 0)
-        return (-2);
+		error_doom("couldn't write textures");
     if (write_map_to_file(fd, map) < 0)
-        return (-3);
-    return (0);
+		error_doom("couldn't write map");
+    close(fd);
 }
 
 int	read_str_from_file(int fd, char **name)
@@ -71,5 +72,4 @@ int	write_str_to_file(int fd, char *name)
         if (!*c)
             return (0);
     }
-    exit(0);
 }

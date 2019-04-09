@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <stdlib.h>
+#include "SDL.h"
+#include "SDL_ttf.h"
+#include "libft.h"
 #include "doom.h"
 #include "default.h"
 
@@ -27,6 +29,7 @@ int         quit_doom(t_env *e)
 	SDL_DestroyTexture(e->doom.texture);
 	SDL_DestroyRenderer(e->doom.renderer);
 	SDL_DestroyWindow(e->doom.window);
+	TTF_Quit();
 	SDL_Quit();
     exit(EXIT_SUCCESS);
 	return (0);

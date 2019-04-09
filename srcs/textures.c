@@ -113,7 +113,7 @@ int	write_textures_to_file(int fd, t_textures *textures)
         count++;
         node = node->next;
     }
-    if ((write(fd, &count, sizeof(count))) < 0)
+    if (write(fd, &count, sizeof(count)) < 0)
         return (-1);
     count = 0;
     node = textures->first;

@@ -47,7 +47,8 @@ SRCS_NAMES = vector.c \
 			skybox.c \
 			config.c \
 			textures.c \
-			keyboard.c
+			keyboard.c \
+			font_utils.c
 
 SRC_NAME =	main.c \
 			$(SRCS_NAMES)
@@ -152,6 +153,13 @@ $(NAME_EDITOR): $(OBJS_EDITOR)
 	$(CC) $(OBJS_EDITOR) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
+	@if [ ! -d $(SDL_PATH)/$(SDL2) ] || [ ! -d $(SDL_PATH)/$(SDL2_MIXER) ] \
+	    || [ ! -d $(SDL_PATH)/$(SDL2_TTF) ]; then $(EXTRACT); fi
+	@if [ ! -d $(SDL_PATH)/$(SDL2)/build ]; then $(CONFIGURE_SDL2); fi
+	@if [ ! -d $(SDL_PATH)/$(SDL2_MIXER)/build ]; \
+	    then $(CONFIGURE_SDL2_MIXER); fi
+	@if [ ! -e $(SDL_PATH)/$(SDL2_TTF)/config.status ]; \
+	    then $(CONFIGURE_SDL2_TTF); fi
 	mkdir $(OBJ_PATH) 2> /dev/null || true
 	$(CC) $(CFLAGS) $(IFLAGS) $(SDL_CFLAGS) -o $@ -c $<
 

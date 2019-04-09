@@ -10,7 +10,6 @@ t_map		*create_map(t_textures *textures)
 	int			j;
 	t_walls*	walls;
 	t_map		*map;
-	printf("blop\n");
 
 	if (!(map = (t_map*)malloc(sizeof(t_map))))
 		error_doom("error: cannot allocate memory for struct map");
@@ -124,8 +123,9 @@ t_textures	*load_textures(void)
 {
     t_textures	*textures;
 
-    if (!(textures = (t_textures*)malloc(sizeof(textures))))
+    if (!(textures = (t_textures*)malloc(sizeof(t_textures))))
         error_doom("could not allocate textures");
+    textures->first = NULL;
     if (add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp") < 0)
         error_doom("could not load dwa");
     if (add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp") < 0)
@@ -152,12 +152,7 @@ int		main()
 
     textures = load_textures();
     map = create_map(textures);
-    if (write_file("mabite.roflolilolmao", textures, map) < 0)
-    {
-        error_doom("Failure when writing file\n");
-        return (-1);
-    }
-
-    printf("ta mere est une pute\n");
+	write_file("mabite.roflolilolmao", textures, map);
+	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
     return (0);
 }

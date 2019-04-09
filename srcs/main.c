@@ -1,5 +1,6 @@
 #include "SDL.h"
 #include "SDL_mixer.h"
+#include "SDL_ttf.h"
 #include "doom.h"
 #include "map.h"
 #include "debug.h"
@@ -41,7 +42,7 @@ int		main (int ac, char **av)
 		e.debug_mode = t_true;
 	else
 		e.debug_mode = t_false;
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 || TTF_Init() < 0)
 		error_doom("error: cannot run SDL");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	if (!(e.music = Mix_LoadMUS("sounds/lamerde.wav")))

@@ -1,5 +1,5 @@
-#ifndef DOOMNUKEM_TEXTURES_H
-# define DOOMNUKEM_TEXTURES_H
+#ifndef TEXTURES_H
+# define TEXTURES_H
 
 # include "SDL.h"
 

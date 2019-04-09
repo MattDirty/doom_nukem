@@ -38,13 +38,16 @@ static void loop_events(
 	{
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
 			quit_doom(e);
-        if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
-            e->p.weapons.list[e->p.weapons.current].main(&e->p.weapons.list[e->p.weapons.current], timer_handler);
-        if (ev.type == SDL_MOUSEMOTION)
-		{
-			x += ev.motion.xrel;
-			y += ev.motion.yrel;
-		}
+        if (!e->p.dead)
+        {
+            if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
+                e->p.weapons.list[e->p.weapons.current].main(&e->p.weapons.list[e->p.weapons.current], timer_handler);
+            if (ev.type == SDL_MOUSEMOTION)
+            {
+                x += ev.motion.xrel;
+                y += ev.motion.yrel;
+            }
+        }
 	}
 	e->p.heading += x * e->op.mouse_sensi * timer_handler->ms_since_update;
 	e->p.vision_height -= y * 1000 * e->op.mouse_sensi
@@ -57,7 +60,8 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
 
 	ptr = (t_logic_params *)params;
 	loop_events(ptr->e, ptr->state, ptr->timer_handler);
-	key_handler(ptr->state, &ptr->e->p, ptr->timer_handler);
+	if (!ptr->e->p.dead)
+	    key_handler(ptr->state, &ptr->e->p, ptr->timer_handler);
     if (ptr->e->p.jump.height > 0)
     {
         ptr->e->p.jump.height -= ptr->e->p.jump.gravity * ms_since_update;
@@ -110,6 +114,8 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
             &e->p.weapons.list[e->p.weapons.current].animation,
             &e->op);
     ui_draw(&e->doom, &e->op);
+    if (e->p.dead)
+        game_over(e->doom.surface, &e->op);
     print_surface(e->doom.renderer, e->doom.surface);
     return (t_true);
 }
