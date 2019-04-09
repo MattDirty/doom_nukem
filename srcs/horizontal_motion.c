@@ -37,13 +37,15 @@ static void	handle_collision_for_speed(
         return;
 	ptr = collisions;
 	while (ptr->next)
-		ptr = ptr->next;
-	if (ptr->item.type == ct_wall
-        && ptr->item.d.wall
-        && ptr->item.d.wall->type == e_wall)
+	    ptr = ptr->next;
+	if (ptr->item.type == ct_wall && ptr->item.d.wall
+	&& ptr->item.d.wall->type == e_wall)
 	{
 		if (ptr->item.distance <= PLAYER_THICKNESS)
-			return;
+		{
+            change_vector_magnitude(&p->speed, 0);
+            return;
+        }
 		if (ptr->item.distance <= RUN * time + PLAYER_THICKNESS)
 			change_vector_magnitude(&p->speed,
 					fabs(ptr->item.distance) - PLAYER_THICKNESS);
