@@ -119,6 +119,14 @@ t_map		*create_map(t_textures *textures)
         error_doom("could not find sun");
     if (find_texture_by_name(textures, "textures/hud/moon.bmp", &map->moon) < 0)
         error_doom("could not find moon");
+	if (find_texture_by_name(textures, "textures/hud/health_ico1.bmp", &map->cross[0]) < 0)
+		error_doom("could not find health_ico1");
+	if (find_texture_by_name(textures, "textures/hud/health_ico2.bmp", &map->cross[1]) < 0)
+		error_doom("could not find health_ico2");
+	if (find_texture_by_name(textures, "textures/hud/health_ico3.bmp", &map->cross[2]) < 0)
+		error_doom("could not find health_ico3");
+	if (find_texture_by_name(textures, "textures/hud/bullet.bmp", &map->bullet) < 0)
+		error_doom("could not find bullet");
     map->daytime = t_true;
 	return (map);
 }
@@ -150,6 +158,14 @@ t_textures	*load_textures(void)
         error_doom("could not load sun");
     if (add_bitmap_file_to_textures(textures, "textures/hud/moon.bmp") < 0)
         error_doom("could not load moon");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/health_ico1.bmp") < 0)
+		error_doom("could not load health_ico1");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/health_ico2.bmp") < 0)
+		error_doom("could not load health_ico2");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/health_ico3.bmp") < 0)
+		error_doom("could not load health_ico3");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/bullet.bmp") < 0)
+		error_doom("could not load bullet");
     return (textures);
 }
 

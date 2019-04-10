@@ -126,10 +126,17 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     return (t_true);
 }
 
+enum e_bool cross_index(double ms_since_update, t_params i)
+{
+    (void)ms_since_update;
+    (*(int*)i)++;
+    return (t_true);
+}
+
 void		loop_doom(t_env *e)
 {
     const Uint8 			*state;
-    t_timer_handler			timer_handler;
+    t_timer_handler	   		timer_handler;
     void					*update_logic_params;
     t_frame_event_params	*frame_event_params;
 
@@ -146,6 +153,8 @@ void		loop_doom(t_env *e)
             &frame_event,
             frame_event_params);
     add_event(&timer_handler, 30000, &day_to_night, &e->map->daytime);
+    e->map->i = 0;
+    add_event(&timer_handler, 1000, &cross_index, &e->map->i);
     Mix_PlayMusic(e->music, -1);
     while (42)
         update_events(&timer_handler);

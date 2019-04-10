@@ -10,6 +10,9 @@ typedef struct			s_map
     SDL_Surface         *nightsky;
     SDL_Surface         *sun;
     SDL_Surface         *moon;
+    SDL_Surface         *cross[3];
+    SDL_Surface         *bullet;
+    int                 i;
     enum e_bool         daytime;
 }						t_map;
 

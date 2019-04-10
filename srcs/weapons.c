@@ -7,7 +7,7 @@ t_weapon    load_weapon(SDL_Surface *texture)
     t_weapon    weapon;
 
     weapon.sprite = texture;
-    weapon.ammo = 0;
+    weapon.ammo = 10;
     weapon.main = NULL;
     weapon.secondary = NULL;
     weapon.usable = t_true;

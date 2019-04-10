@@ -49,28 +49,52 @@ static void     draw_fps(SDL_Surface *surface, int fps, t_config *op)
     free(fps_text);
 }
 
-static void     draw_sun_or_moon(SDL_Surface *surface, t_map *map, t_config *op)
-{
-    t_coords    location;
-
-    location.x = op->win_w - 50;
-    location.y = 0;
-    if (map->daytime)
-        draw_on_screen(surface, map->sun, location, t_true);
-    else
-        draw_on_screen(surface, map->moon, location, t_true);
-}
-
-static void     draw_health(SDL_Surface *surface, t_player *p, t_config *op)
+static void     draw_health(SDL_Surface *surface, t_player *p, t_map *map, t_config *op)
 {
     SDL_Surface *health;
     t_coords    location;
 
-    location.x = 10;
-    location.y = op->win_h - 25;
-    health = write_text("fonts/sixty.ttf", 20, ft_strjoin(ft_itoa(p->health), " HP"), (SDL_Colour){255, 255, 255, 255});
+    location.x = op->half_w - 250;
+    location.y = op->win_h - 45;
+    if (location.x < 0)
+        location.x = 0;
+    if (location.y < 0)
+        location.y = 0;
+    health = write_text("fonts/sixty.ttf", 40, ft_itoa(p->health), (SDL_Colour){244, 182, 66, 255});
     draw_on_screen(surface, health, location, t_false);
+    location.x = op->half_w - 300;
+    location.y = op->win_h - 50;
+    if (location.x < 0)
+        location.x = 0;
+    if (location.y < 0)
+        location.y = 0;
+    if (map->i > 2 || p->dead)
+        map->i = 0;
+    draw_on_screen(surface, map->cross[map->i], location, t_false);
     free(health);
+}
+
+void            draw_ammo(SDL_Surface *surface, SDL_Surface *bullet, Uint32 ammo, t_config *op)
+{
+    SDL_Surface *ammo_nb;
+    t_coords     location;
+
+    location.x = op->half_w + 250;
+    location.y = op->win_h - 45;
+    if (location.x >= op->win_w)
+        location.x = op->half_w;
+    if (location.y < 0)
+        location.y = 0;
+    ammo_nb = write_text("fonts/sixty.ttf", 40, ft_itoa(ammo), (SDL_Colour){0, 0, 0, 255});
+    draw_on_screen(surface, ammo_nb, location, t_false);
+    location.x = op->half_w + 285;
+    location.y = op->win_h - 52;
+    if (location.x >= op->win_w)
+        location.x = op->half_w;
+    if (location.y < 0)
+        location.y = 0;
+    draw_on_screen(surface, bullet, location, t_false);
+    free(ammo_nb);
 }
 
 void            ui_draw(SDL_Surface *surface, t_map *map, int fps, t_env *e)
@@ -78,6 +102,7 @@ void            ui_draw(SDL_Surface *surface, t_map *map, int fps, t_env *e)
     draw_crosshair(surface, &e->op, CROSSHAIR_COLOR);
     draw_fps(surface, fps, &e->op);
     draw_sun_or_moon(surface, map, &e->op);
-    draw_health(surface, &e->p, &e->op);
+    draw_health(surface, &e->p, map, &e->op);
+    draw_ammo(surface, map->bullet, e->p.weapons.list[e->p.weapons.current].ammo, &e->op);
 }
 

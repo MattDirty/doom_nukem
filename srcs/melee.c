@@ -51,7 +51,7 @@ void    melee_secondary(t_weapon *weapon, t_timer_handler *timer_handler)
 
 void    melee_primary(t_weapon *weapon, t_timer_handler *timer_handler)
 {
-    if (!weapon->main_ready)
+    if (!weapon->main_ready || !weapon->ammo)
         return;
 
     reset_animation(&weapon->animation);
@@ -63,6 +63,7 @@ void    melee_primary(t_weapon *weapon, t_timer_handler *timer_handler)
             &weapon->animation);
     Mix_PlayChannel(-1, weapon->main_sound, 0);
     weapon->main_ready = t_false;
+    weapon->ammo--;
     add_event(
             timer_handler,
             weapon->main_cooldown,

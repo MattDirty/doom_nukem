@@ -16,6 +16,7 @@
 #include "default.h"
 #include "render.h"
 #include "surface_manipulation.h"
+#include "ui.h"
 #include <math.h>
 
 enum e_bool    day_to_night(double ms_since_update, t_params daytime)
@@ -26,6 +27,18 @@ enum e_bool    day_to_night(double ms_since_update, t_params daytime)
     else
         *(enum e_bool*)daytime = t_true;
     return (t_true);
+}
+
+void     draw_sun_or_moon(SDL_Surface *surface, t_map *map, t_config *op)
+{
+    t_coords    location;
+
+    location.x = op->win_w - 50;
+    location.y = 0;
+    if (map->daytime)
+        draw_on_screen(surface, map->sun, location, t_true);
+    else
+        draw_on_screen(surface, map->moon, location, t_true);
 }
 
 void            skybox(t_render *render, t_u_range range)
