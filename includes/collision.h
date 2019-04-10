@@ -40,6 +40,7 @@ typedef struct			s_collision
         t_wall			*wall;
         t_object		*object;
 	} d;
+    t_segment			object_segment;
 }						t_collision;
 
 typedef struct			s_collisions

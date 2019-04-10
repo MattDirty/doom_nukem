@@ -17,8 +17,9 @@ t_segment perpendicular_segment_from_point(
     view.x = object->x - point_of_view_x;
     view.y = object->y - point_of_view_y;
     normalize_vector(&view);
+    scalar_multiply(&view, 1 / 2.0);  // todo: 1=object size
     perpendicular_view.x = view.y;
-    perpendicular_view.y = view.x;
+    perpendicular_view.y = -view.x;
     segment.x1 = object->x - perpendicular_view.x;
     segment.y1 = object->y - perpendicular_view.y;
     segment.x2 = object->x + perpendicular_view.x;

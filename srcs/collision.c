@@ -69,6 +69,7 @@ static void		find_objects_collisions_in_sector(
             new = add_collision(collisions, distance, inters);
             new->item.type = ct_object;
             new->item.d.object = sector->objects->items + i;
+            new->item.object_segment = s;
         }
 	    i++;
     }
