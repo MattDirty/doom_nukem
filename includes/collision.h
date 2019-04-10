@@ -17,6 +17,7 @@
 # include "walls.h"
 # include "sectors.h"
 # include "doom.h"
+# include "objects.h"
 
 typedef struct          s_ray
 {
@@ -29,8 +30,17 @@ typedef struct			s_collision
 {
 	double				distance;
 	t_coords			inters;
-	t_wall				*wall;
-	t_wall				*last_portal;
+	enum e_collision_type
+	{
+	    ct_wall,
+	    ct_object
+	} type;
+	union u_type_data
+	{
+        t_wall			*wall;
+        t_object		*object;
+	} d;
+    t_segment			object_segment;
 }						t_collision;
 
 typedef struct			s_collisions
@@ -40,7 +50,10 @@ typedef struct			s_collisions
 }						t_collisions;
 
 enum e_bool	segments_intersect(t_segment *a, t_segment *b, t_coords *inters);
-void		check_collision(t_sector *sector, t_segment *seg, t_collisions **first);
+void		find_ray_collisions(
+        t_sector *sector,
+        t_segment *ray,
+        t_collisions **collisions);
 t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall);
 void		raycasting(t_env *e);
 void		free_collisions(t_collisions *collisions);

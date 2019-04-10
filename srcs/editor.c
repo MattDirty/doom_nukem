@@ -39,7 +39,47 @@ t_map		*create_map(t_textures *textures)
                 &map->sectors->items[i].ceil) < 0)
             error_doom("could not find dirt");
         map->sectors->items[i].open_sky = t_false;
-        map->sectors->items[1].open_sky = t_true;
+        map->sectors->items[2].open_sky = t_true;
+        map->sectors->items[i].objects =
+                (t_objects*)malloc(sizeof(t_objects));
+        map->sectors->items[i].objects->count = 0;
+        map->sectors->items[i].objects->items = NULL;
+       // if (i == 0)
+        //{
+            map->sectors->items[i].objects->count = 3;
+            map->sectors->items[i].objects->items = (t_object*)malloc(
+                    sizeof(t_object) * map->sectors->items[i].objects->count);
+            map->sectors->items[i].objects->items[0].x = 1;
+            map->sectors->items[i].objects->items[0].y = i * 4 + 2;;
+            map->sectors->items[i].objects->items[0].z = 0;
+            map->sectors->items[i].objects->items[0].horizontal_size = 0.25;
+            map->sectors->items[i].objects->items[0].vertical_size = 0.25;
+            if (find_texture_by_name(
+                    textures,
+                    "textures/sprites/voilaunefleur.bmp",
+                    &map->sectors->items[i].objects->items[0].sprite) < 0)
+                error_doom("could not find voilaunefleur.bmp");
+        //}
+        map->sectors->items[i].objects->items[1].x = 2;
+        map->sectors->items[i].objects->items[1].y = i * 4 + 2;
+        map->sectors->items[i].objects->items[1].z = 0;
+        map->sectors->items[i].objects->items[1].horizontal_size = 0.25;
+        map->sectors->items[i].objects->items[1].vertical_size = 0.5;
+        map->sectors->items[i].objects->items[2].x = 3;
+        map->sectors->items[i].objects->items[2].y = i * 4 + 2;
+        map->sectors->items[i].objects->items[2].z = 0;
+        map->sectors->items[i].objects->items[2].horizontal_size = 0.25;
+        map->sectors->items[i].objects->items[2].vertical_size = 1;
+        if (find_texture_by_name(
+                textures,
+                "textures/sprites/voilaunefleur.bmp",
+                &map->sectors->items[i].objects->items[1].sprite) < 0)
+            error_doom("could not find voilaunefleur.bmp");
+        if (find_texture_by_name(
+                textures,
+                "textures/sprites/voilaunefleur.bmp",
+                &map->sectors->items[i].objects->items[2].sprite) < 0)
+            error_doom("could not find voilaunefleur.bmp");
 		walls = map->sectors->items[i].walls;
 		find_texture_by_name(
 				textures,

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "collision.h"
 #include "default.h"
 
@@ -13,58 +14,167 @@ void			free_collisions(t_collisions *collisions)
 	}
 }
 
-static void		update_collision(t_collision *collision, double distance, t_coords inters, t_wall *wall)
+static t_collisions		*add_collision(
+        t_collisions **collisions,
+        double distance,
+        t_coords inters)
 {
-	collision->distance = distance;
-	collision->inters = inters;
-	collision->wall = wall;
+    t_collisions	*node;
+    t_collisions	*new;
+
+    if (!(new = (t_collisions*)malloc(sizeof(t_collisions))))
+        error_doom("Allocation of t_collisions failed");
+    new->next = NULL;
+    new->item.distance = distance;
+    new->item.inters = inters;
+    if (!*collisions)
+    {
+        *collisions = new;
+    }
+    else
+    {
+        node = *collisions;
+        while (node->next)
+            node = node->next;
+        node->next = new;
+    }
+    return (new);
 }
 
-static enum e_bool	check_collision_in_sector(t_sector *sector, t_segment *seg, t_collision *collision)
+static t_collisions		*insert_collision(
+        t_collisions **collisions,
+        double distance,
+        t_coords inters)
+{
+    t_collisions	*node;
+    t_collisions	*prev;
+    t_collisions	*new;
+
+    if (!(new = (t_collisions*)malloc(sizeof(t_collisions))))
+        error_doom("Allocation of t_collisions failed");
+    new->next = NULL;
+    new->item.distance = distance;
+    new->item.inters = inters;
+    if (!*collisions)
+        *collisions = new;
+    else if (new->item.distance < (*collisions)->item.distance)
+    {
+        new->next = *collisions;
+        *collisions = new;
+    }
+    else
+    {
+        prev = *collisions;
+        node = prev->next;
+        while (node && new->item.distance > prev->item.distance)
+        {
+            prev = node;
+            node = node->next;
+        }
+        if (!node)
+            prev->next = new;
+        else
+        {
+            prev->next = new;
+            new->next = node;
+        }
+    }
+    return (new);
+}
+
+static void		find_objects_collisions_in_sector(
+        t_sector *sector,
+        t_segment *ray,
+        t_collisions **collisions)
+{
+	int			i;
+	t_coords	inters;
+    double		distance;
+    t_segment   s;
+    t_collisions	*new;
+
+	i = 0;
+	while (i < sector->objects->count)
+    {
+        s = perpendicular_segment_from_point(
+                sector->objects->items + i,
+                ray->x1,
+                ray->y1);
+        if (segments_intersect(ray, &s, &inters))
+        {
+			distance = get_distance_between_points(
+                    ray->x1,
+                    ray->y1,
+                    inters.x,
+                    inters.y);
+            new = insert_collision(collisions, distance, inters);
+            new->item.type = ct_object;
+            new->item.d.object = sector->objects->items + i;
+            new->item.object_segment = s;
+        }
+	    i++;
+    }
+}
+
+static enum e_bool	find_wall_collisions_in_sector(
+        t_sector *sector,
+        t_segment *ray,
+        t_collisions **collisions,
+        t_wall *last_portal)
 {
 	int 		i;
 	t_coords	inters;
 	double		distance;
+    t_collision best_collision;
+    t_collisions *new;
 
-	i = 0;
-	collision->distance = HORIZON;
-	while (i < sector->walls->count)
+	i = -1;
+	best_collision.distance = HORIZON;
+	while (++i < sector->walls->count)
 	{
-		if (segments_intersect(seg, &sector->walls->items[i]->segment, &inters)
-			&& collision->last_portal != sector->walls->items[i])
+		if (last_portal == sector->walls->items[i])
+			continue;
+		if (segments_intersect(ray, &sector->walls->items[i]->segment, &inters))
 		{
-			if ((distance = get_distance_between_points(seg->x1, seg->y1, inters.x, inters.y)) < collision->distance)
-				update_collision(collision, distance, inters, sector->walls->items[i]);
+			distance = get_distance_between_points(
+                    ray->x1, ray->y1, inters.x, inters.y);
+            if (distance < best_collision.distance)
+            {
+                best_collision.distance = distance;
+                best_collision.inters = inters;
+                best_collision.d.wall = sector->walls->items[i];
+            }
 		}
-		i++;
 	}
-	if (collision->distance >= HORIZON)
-		return (t_false);
-	return (t_true);
+    if (best_collision.distance >= HORIZON)
+        return (t_false);
+    new = add_collision(collisions, best_collision.distance, best_collision.inters);
+    new->item.type = ct_wall;
+    new->item.d.wall = best_collision.d.wall;
+    return (t_true);
 }
 
-void		check_collision(t_sector *sector, t_segment *seg, t_collisions **first)
+void		find_ray_collisions(
+        t_sector *sector,
+        t_segment *ray,
+        t_collisions **collisions)
 {
 	t_wall			*last_portal;
-	t_collisions	*collisions;
+	t_collisions	**node;
 
 	last_portal = NULL;
-	if (!(*first = (t_collisions *)malloc(sizeof(t_collisions))))
-		error_doom("Allocation of t_collisions failed");
-	collisions = *first;
-	collisions->item.wall = NULL;
-	collisions->item.last_portal = NULL;
-	collisions->next = NULL;
-	while (check_collision_in_sector(sector, seg, &collisions->item)
-			&& collisions->item.wall->type != e_wall)
+	*collisions = NULL;
+	node = collisions;
+	while (1)
 	{
-		last_portal = collisions->item.wall;
-		sector = get_next_sector_addr(sector, collisions->item.wall);
-		if (!(collisions->next = (t_collisions *)malloc(sizeof(t_collisions))))
-			error_doom("Allocation of t_collisions failed");
-		collisions = collisions->next;
-		collisions->item.last_portal = last_portal;
-		collisions->item.wall = NULL;
-		collisions->next = NULL;
+        find_objects_collisions_in_sector(sector, ray, node);
+        if (!find_wall_collisions_in_sector(sector, ray, node, last_portal))
+            break;
+        while ((*node)->next)
+            node = &(*node)->next;
+        if ((*node)->item.d.wall->type == e_wall)
+            break;
+		last_portal = (*node)->item.d.wall;
+		sector = get_next_sector_addr(sector, (*node)->item.d.wall);
 	}
 }

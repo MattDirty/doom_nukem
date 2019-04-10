@@ -34,6 +34,7 @@ SRCS_NAMES = vector.c \
 			horizontal_motion.c \
 			render_utils.c \
 			render.c \
+			objects.c \
 			debug_init.c \
 			debug_draw_tools.c \
 			draw_tools.c \

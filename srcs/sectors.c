@@ -3,6 +3,7 @@
 #include "textures.h"
 #include "serialisation.h"
 #include "sectors.h"
+#include "objects.h"
 
 void		free_walls(t_linked_walls *linked_walls)
 {
@@ -48,6 +49,8 @@ int			read_sectors_from_file(
             return (-7);
         if (read(fd, &sector->light, sizeof(sector->light)) <= 0)
         	return (-8);
+        if (read_objects_from_file(fd, textures, &sector->objects) < 0)
+            return (-9);
         i++;
     }
     free_walls(linked_walls);
@@ -78,9 +81,11 @@ int			write_sectors_to_file(int fd, t_sectors *sectors)
         if (write_walls_to_file(fd, linked_walls, sector.walls) < 0)
             return (-5);
         if (write(fd, &sector.open_sky, sizeof(sector.open_sky)) <= 0)
-            return (-7);
+            return (-6);
         if (write(fd, &sector.light, sizeof(sector.light)) <= 0)
-        	return (-8);
+        	return (-7);
+        if (write_objects_to_file(fd, sector.objects) < 0)
+            return (-8);
         i++;
     }
     free_walls(linked_walls);

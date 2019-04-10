@@ -48,6 +48,7 @@ t_vector	create_vector(double x, double y);
 t_vector	get_vector_from_segment(t_segment *segment);
 void		print_vector(t_vector *vector, char *str);
 void        scalar_multiply(t_vector *vector, double scalar);
+void		normalize_vector(t_vector *vector);
 void        add_vector_to_vector(t_vector *vector, t_vector vector2);
 void        rotate_vector(t_vector *vector, double rad);
 void		change_vector_magnitude(t_vector *vector, double new_magnitude);

@@ -23,6 +23,15 @@ enum e_bool	invert_bool(enum e_bool bool)
 	return (t_true);
 }
 
+void		normalize_vector(t_vector *vector)
+{
+    double	l;
+
+    l = get_vector_length(vector);
+    vector->x /= l;
+    vector->y /= l;
+}
+
 double  get_distance_between_points(double x1, double y1, double x2, double y2)
 {
     return (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
