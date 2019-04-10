@@ -26,6 +26,20 @@ int		read_map_from_file(int fd, t_textures *textures, t_map **map)
         return (-9);
     if (find_texture_from_file(fd, textures, &(*map)->bullet) < 0)
         return (-10);
+    if (find_texture_from_file(fd, textures, &(*map)->happy_face) < 0)
+        return (-11);
+    if (find_texture_from_file(fd, textures, &(*map)->meh_face) < 0)
+        return (-12);
+    if (find_texture_from_file(fd, textures, &(*map)->sad_face) < 0)
+        return (-13);
+    if (find_texture_from_file(fd, textures, &(*map)->dead_face) < 0)
+        return (-14);
+    if (find_texture_from_file(fd, textures, &(*map)->badass_face) < 0)
+        return (-15);
+    if (find_texture_from_file(fd, textures, &(*map)->sehr_happy_face) < 0)
+        return (-16);
+    if (find_texture_from_file(fd, textures, &(*map)->hurt_face) < 0)
+        return (-17);
     return (0);
 }
 
@@ -49,5 +63,19 @@ int		write_map_to_file(int fd, t_map *map)
         return (-8);
     if (write_str_to_file(fd, map->bullet->userdata) < 0)
         return (-9);
+//    if (write_str_to_file(fd, map->happy_face->userdata) < 0)
+//        return (-10);
+//    if (write_str_to_file(fd, map->meh_face->userdata) < 0)
+//        return (-11);
+//    if (write_str_to_file(fd, map->sad_face->userdata) < 0)
+//        return (-12);
+//    if (write_str_to_file(fd, map->dead_face->userdata) < 0)
+//        return (-13);
+//    if (write_str_to_file(fd, map->badass_face->userdata) < 0)
+//        return (-14);
+//    if (write_str_to_file(fd, map->sehr_happy_face->userdata) < 0)
+//        return (-15);
+//    if (write_str_to_file(fd, map->hurt_face->userdata) < 0)
+//        return (-16);
     return (0);
 }

@@ -54,23 +54,23 @@ static void     draw_health(SDL_Surface *surface, t_player *p, t_map *map, t_con
     SDL_Surface *health;
     t_coords    location;
 
-    location.x = op->half_w - 250;
+    location.x = op->half_w + 200;
     location.y = op->win_h - 45;
-    if (location.x < 0)
-        location.x = 0;
+    if (location.x >= op->win_w)
+        location.x = op->half_w;
     if (location.y < 0)
         location.y = 0;
     health = write_text("fonts/sixty.ttf", 40, ft_itoa(p->health), (SDL_Colour){244, 182, 66, 255});
     draw_on_screen(surface, health, location, t_false);
-    location.x = op->half_w - 300;
+    location.x = op->half_w + 150;
     location.y = op->win_h - 50;
-    if (location.x < 0)
-        location.x = 0;
+    if (location.x >= op->win_w)
+        location.x = op->half_w;
     if (location.y < 0)
         location.y = 0;
-    if (map->i > 2 || p->dead)
-        map->i = 0;
-    draw_on_screen(surface, map->cross[map->i], location, t_false);
+    if (map->id > 2 || p->dead)
+        map->id = 0;
+    draw_on_screen(surface, map->cross[map->id], location, t_false);
     free(health);
 }
 
@@ -79,15 +79,15 @@ void            draw_ammo(SDL_Surface *surface, SDL_Surface *bullet, Uint32 ammo
     SDL_Surface *ammo_nb;
     t_coords     location;
 
-    location.x = op->half_w + 250;
+    location.x = op->half_w - 300;
     location.y = op->win_h - 45;
-    if (location.x >= op->win_w)
-        location.x = op->half_w;
+    if (location.x < 0)
+        location.x = 0;
     if (location.y < 0)
         location.y = 0;
     ammo_nb = write_text("fonts/sixty.ttf", 40, ft_itoa(ammo), (SDL_Colour){0, 0, 0, 255});
     draw_on_screen(surface, ammo_nb, location, t_false);
-    location.x = op->half_w + 285;
+    location.x = op->half_w - 350;
     location.y = op->win_h - 52;
     if (location.x >= op->win_w)
         location.x = op->half_w;

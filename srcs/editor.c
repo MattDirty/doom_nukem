@@ -119,14 +119,26 @@ t_map		*create_map(t_textures *textures)
         error_doom("could not find sun");
     if (find_texture_by_name(textures, "textures/hud/moon.bmp", &map->moon) < 0)
         error_doom("could not find moon");
-	if (find_texture_by_name(textures, "textures/hud/health_ico1.bmp", &map->cross[0]) < 0)
+	if (find_texture_by_name(textures, "textures/hud/health/ico1.bmp", &map->cross[0]) < 0)
 		error_doom("could not find health_ico1");
-	if (find_texture_by_name(textures, "textures/hud/health_ico2.bmp", &map->cross[1]) < 0)
+	if (find_texture_by_name(textures, "textures/hud/health/ico2.bmp", &map->cross[1]) < 0)
 		error_doom("could not find health_ico2");
-	if (find_texture_by_name(textures, "textures/hud/health_ico3.bmp", &map->cross[2]) < 0)
+	if (find_texture_by_name(textures, "textures/hud/health/ico3.bmp", &map->cross[2]) < 0)
 		error_doom("could not find health_ico3");
-	if (find_texture_by_name(textures, "textures/hud/bullet.bmp", &map->bullet) < 0)
-		error_doom("could not find bullet");
+	if (find_texture_by_name(textures, "textures/hud/faces/happy.bmp", &map->happy_face) < 0)
+		error_doom("could not find happy face");
+	if (find_texture_by_name(textures, "textures/hud/faces/meh.bmp", &map->meh_face) < 0)
+		error_doom("could not find meh face");
+	if (find_texture_by_name(textures, "textures/hud/faces/sad.bmp", &map->sad_face) < 0)
+		error_doom("could not find sad face");
+	if (find_texture_by_name(textures, "textures/hud/faces/dead.bmp", &map->dead_face) < 0)
+		error_doom("could not find dead face");
+	if (find_texture_by_name(textures, "textures/hud/faces/badass.bmp", &map->badass_face) < 0)
+		error_doom("could not find badass face");
+	if (find_texture_by_name(textures, "textures/hud/faces/sehr_happy.bmp", &map->sehr_happy_face) < 0)
+		error_doom("could not find sehr happy face");
+	if (find_texture_by_name(textures, "textures/hud/faces/hurt.bmp", &map->hurt_face) < 0)
+		error_doom("could not find hurt face");
     map->daytime = t_true;
 	return (map);
 }
@@ -158,14 +170,28 @@ t_textures	*load_textures(void)
         error_doom("could not load sun");
     if (add_bitmap_file_to_textures(textures, "textures/hud/moon.bmp") < 0)
         error_doom("could not load moon");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/health_ico1.bmp") < 0)
+	if (add_bitmap_file_to_textures(textures, "textures/hud/health/ico1.bmp") < 0)
 		error_doom("could not load health_ico1");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/health_ico2.bmp") < 0)
+	if (add_bitmap_file_to_textures(textures, "textures/hud/health/ico2.bmp") < 0)
 		error_doom("could not load health_ico2");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/health_ico3.bmp") < 0)
+	if (add_bitmap_file_to_textures(textures, "textures/hud/health/ico3.bmp") < 0)
 		error_doom("could not load health_ico3");
 	if (add_bitmap_file_to_textures(textures, "textures/hud/bullet.bmp") < 0)
 		error_doom("could not load bullet");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/happy.bmp") < 0)
+		error_doom("could not load happy face");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/meh.bmp") < 0)
+		error_doom("could not load meh face");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/sad.bmp") < 0)
+		error_doom("could not load sad face");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/dead.bmp") < 0)
+		error_doom("could not load dead face");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/badass.bmp") < 0)
+		error_doom("could not load badass face");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/sehr_happy.bmp") < 0)
+		error_doom("could not load sehr happy face");
+	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/hurt.bmp") < 0)
+		error_doom("could not load hurt face");
     return (textures);
 }
 

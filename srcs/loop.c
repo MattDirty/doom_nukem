@@ -153,8 +153,8 @@ void		loop_doom(t_env *e)
             &frame_event,
             frame_event_params);
     add_event(&timer_handler, 30000, &day_to_night, &e->map->daytime);
-    e->map->i = 0;
-    add_event(&timer_handler, 1000, &cross_index, &e->map->i);
+    e->map->id = 0;
+    add_event(&timer_handler, 1000, &cross_index, &e->map->id);
     Mix_PlayMusic(e->music, -1);
     while (42)
         update_events(&timer_handler);
