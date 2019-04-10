@@ -21,6 +21,7 @@ t_player init_player(t_config *op, t_sector *starting_sector)
     p.jump.duration = 400;
     p.jump.time = 0;
     p.dead = t_false;
+    p.health = 100;
     return (p);
 }
 
@@ -44,4 +45,22 @@ void    game_over(SDL_Surface *surface, t_config *op)
     location.y = op->half_h - game_over->h / 2;
     draw_on_screen(surface, game_over, location, t_false);
     free(game_over);
+}
+void    hurt_or_heal(t_player *p, const Uint8 *state, double time)
+{
+    if (state[SDL_SCANCODE_J])
+    {
+        p->health -= DAMAGE * time;
+        if (p->health <= 0)
+        {
+            p->dead = t_true;
+            p->health = 0;
+        }
+    }
+    if (state[SDL_SCANCODE_K])
+    {
+        p->health += HEAL * time;
+        if (p->health >= HEALTH_MAX)
+            p->health = HEALTH_MAX;
+    }
 }
