@@ -17,7 +17,7 @@ t_segment perpendicular_segment_from_point(
     view.x = object->x - point_of_view_x;
     view.y = object->y - point_of_view_y;
     normalize_vector(&view);
-    scalar_multiply(&view, 1 / 2.0);  // todo: 1=object size
+    scalar_multiply(&view, object->horizontal_size / 2.0);
     perpendicular_view.x = view.y;
     perpendicular_view.y = -view.x;
     segment.x1 = object->x - perpendicular_view.x;
@@ -71,8 +71,14 @@ int read_object_from_file(int fd, t_textures *textures, t_object *object)
         return (-1);
     if (read(fd, &object->y, sizeof(object->y)) <= 0)
         return (-2);
-    if (find_texture_from_file(fd, textures, &object->sprite) < 0)
+    if (read(fd, &object->z, sizeof(object->z)) <= 0)
         return (-3);
+    if (read(fd, &object->horizontal_size, sizeof(object->horizontal_size)) <= 0)
+        return (-4);
+    if (read(fd, &object->vertical_size, sizeof(object->vertical_size)) <= 0)
+        return (-5);
+    if (find_texture_from_file(fd, textures, &object->sprite) < 0)
+        return (-6);
     return (0);
 }
 
@@ -82,7 +88,13 @@ int write_object_to_file(int fd, t_object object)
         return (-1);
     if (write(fd, &object.y, sizeof(object.y)) <= 0)
         return (-2);
-    if (write_str_to_file(fd, object.sprite->userdata) < 0)
+    if (write(fd, &object.z, sizeof(object.z)) <= 0)
         return (-3);
+    if (write(fd, &object.horizontal_size, sizeof(object.horizontal_size)) <= 0)
+        return (-4);
+    if (write(fd, &object.vertical_size, sizeof(object.vertical_size)) <= 0)
+        return (-5);
+    if (write_str_to_file(fd, object.sprite->userdata) < 0)
+        return (-6);
     return (0);
 }

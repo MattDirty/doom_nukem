@@ -10,6 +10,9 @@ typedef struct s_object
 {
     double      x;
     double      y;
+    double			z;
+    double			horizontal_size;
+    double			vertical_size;
     SDL_Surface *sprite;
 }               t_object;
 

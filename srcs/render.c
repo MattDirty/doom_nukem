@@ -84,37 +84,32 @@ static void         draw_object(
 		const t_collision *collision)
 {
     Uint32		x;
-    Uint32		y;
+    int		y;
     Uint32		i;
-    SDL_Surface *wall_text;
+    SDL_Surface *surface;
     t_u_range		range;
-    double mabite;
+    double dist_ratio;
 
 	if (collision->type != ct_object)
 		return;
-	wall_text = collision->d.object->sprite;
-    x = (Uint32)(get_distance_between_points(
-            collision->inters.x,
-            collision->inters.y,
-            collision->object_segment.x1,
-            collision->object_segment.y1
-            ) * wall_text->w) % wall_text->w;
-    mabite = e->op.ratio / collision->distance * 1;
-    range = wall_range(
-            mabite,
-            render->vision_height,
-            render->win_h);
-	i = range.start;
-	while (i < range.end)
+	surface = collision->d.object->sprite;
+    x = (Uint32)(get_distance_between_points(collision->inters.x,
+            collision->inters.y, collision->object_segment.x1,
+            collision->object_segment.y1)
+            * surface->w / collision->d.object->horizontal_size) % surface->w;
+    dist_ratio = e->op.ratio / collision->distance;
+    range = wall_range(dist_ratio, render->vision_height, render->win_h);
+	i = range.start - 1;
+	while (i++ < range.end)
 	{
-        y = (Uint32)(fabs(((i - render->vision_height + mabite / 2)
-        		* wall_text->h / mabite))) % wall_text->h;
-        put_pixel_alpha(
-        		render->surface,
-        		render->x,
-        		i,
-        		get_pixel(wall_text, x, y, t_false));
-		i++;
+        y = (Uint32)(fabs(((i - render->vision_height + dist_ratio / 2)
+        * surface->h / dist_ratio))) / collision->d.object->vertical_size
+        + surface->h / collision->d.object->vertical_size
+        * (collision->d.object->z + collision->d.object->vertical_size - 1);
+        if (y >= surface->h || y < 0)
+            continue;
+        put_pixel_alpha(render->surface, render->x, i,
+                get_pixel(surface, x, y, t_false));
 	}
 }
 
