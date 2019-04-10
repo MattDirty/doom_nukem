@@ -41,6 +41,47 @@ static t_collisions		*add_collision(
     return (new);
 }
 
+static t_collisions		*insert_collision(
+        t_collisions **collisions,
+        double distance,
+        t_coords inters)
+{
+    t_collisions	*node;
+    t_collisions	*prev;
+    t_collisions	*new;
+
+    if (!(new = (t_collisions*)malloc(sizeof(t_collisions))))
+        error_doom("Allocation of t_collisions failed");
+    new->next = NULL;
+    new->item.distance = distance;
+    new->item.inters = inters;
+    if (!*collisions)
+        *collisions = new;
+    else if (new->item.distance < (*collisions)->item.distance)
+    {
+        new->next = *collisions;
+        *collisions = new;
+    }
+    else
+    {
+        prev = *collisions;
+        node = prev->next;
+        while (node && new->item.distance > prev->item.distance)
+        {
+            prev = node;
+            node = node->next;
+        }
+        if (!node)
+            prev->next = new;
+        else
+        {
+            prev->next = new;
+            new->next = node;
+        }
+    }
+    return (new);
+}
+
 static void		find_objects_collisions_in_sector(
         t_sector *sector,
         t_segment *ray,
@@ -66,7 +107,7 @@ static void		find_objects_collisions_in_sector(
                     ray->y1,
                     inters.x,
                     inters.y);
-            new = add_collision(collisions, distance, inters);
+            new = insert_collision(collisions, distance, inters);
             new->item.type = ct_object;
             new->item.d.object = sector->objects->items + i;
             new->item.object_segment = s;
