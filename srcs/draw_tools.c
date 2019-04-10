@@ -8,18 +8,19 @@ void draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color)
     int err;
     int cpyerr;
     t_i_coords delta;
-
     delta.x = ft_abs((int) segment.x2 - (int) segment.x1);
     delta.y = ft_abs((int) segment.y2 - (int) segment.y1);
     incr.x = (int) segment.x1 < (int) segment.x2 ? 1 : -1;
     incr.y = (int) segment.y1 < (int) segment.y2 ? 1 : -1;
     err = (delta.x > delta.y ? delta.x : -delta.y) / 2;
+
     while ((int) segment.x1 != (int) segment.x2 || (int) segment.y1 != (int) segment.y2)
     {
         if ((int) segment.x1 < 0 || (int) segment.y1 < 0)
             break;
         if ((int) segment.x1 >= surface->w || (int) segment.y1 >= surface->h)
             break;
+
         put_pixel(surface, (int) segment.x1, (int) segment.y1, color);
         cpyerr = err;
         if (cpyerr > -(delta.x))

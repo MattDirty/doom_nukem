@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "SDL.h"
+#include "editor.h"
 #include "doom.h"
 #include "map.h"
 #include "serialisation.h"
@@ -279,14 +281,90 @@ t_textures	*load_textures(void)
     return (textures);
 }
 
-int		main()
-{
-    t_map		*map;
-    t_textures	*textures;
+///////////////////////////////////////////////
 
+void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
+{
+	int	i;
+	t_segment s2;
+	t_segment s;
+
+	i = 0;
+	printf("count --> %d\n", walls->count - 1);
+	while (i < walls->count)
+	{
+		s = walls->items[i]->segment;
+		s2.x1 = EDITOR_W_H + s.x1 * EDITOR_ZOOM;
+		s2.y1 = EDITOR_H_H - s.y1 * EDITOR_ZOOM;
+		s2.x2 = EDITOR_W_H + s.x2 * EDITOR_ZOOM;
+		s2.y2 = EDITOR_H_H - s.y2 * EDITOR_ZOOM;
+	    draw_segment(surface, s2, 0xFFFFFFF);
+		i++;
+	}
+}
+
+void		draw_editor(t_sdl_editor *sdl_ed, t_map *map)
+{
+	int i;
+
+	//ft_bzero(sdl_ed->surface->pixels, sdl_ed->surface->w * sdl_ed->surface->h * 4);
+
+	i = 0;
+	while (i < map->sectors->count)
+	{
+		draw_walls_editor(sdl_ed->surface, map->sectors->items[i].walls);
+		i++;
+	}
+}
+
+void	reframe_editor(t_map *map, t_sdl_editor *sdl_ed)
+{
+	SDL_Texture		*texture;
+
+	draw_editor(sdl_ed, map);
+	SDL_RenderClear(sdl_ed->renderer);
+	if (!(texture = SDL_CreateTextureFromSurface(sdl_ed->renderer,
+		sdl_ed->surface)))
+		error_doom("Could not create texture");
+	SDL_RenderCopy(sdl_ed->renderer, texture, 0, 0);
+	SDL_DestroyTexture(texture);
+	SDL_RenderPresent(sdl_ed->renderer);
+}
+
+void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_sdl_editor *sdl_ed)
+{
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+		error_doom("error: cannot run SDL");
+    if (!(sdl_ed->window = SDL_CreateWindow(name, 0, 0,
+            w, h, 0)))
+        error_doom("Could not create window.");
+	SDL_RaiseWindow(sdl_ed->window);
+    if (!(sdl_ed->renderer = SDL_CreateRenderer(sdl_ed->window, -1, 0)))
+        error_doom("Could not create renderer");
+	//sdl_ed->surface->w = EDITOR_W;
+	//sdl_ed->surface->h = EDITOR_H;
+}
+
+int		main(void)
+{
+	t_sdl_editor		sdl_ed;
+    t_map				*map;
+    t_textures			*textures;
+
+	//ft_bzero(&sdl_ed, sizeof(t_sdl_editor));
     textures = load_textures();
     map = create_map(textures);
 	write_file("mabite.roflolilolmao", textures, map);
+
+	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &sdl_ed);
+
+	reframe_editor(map, &sdl_ed);
+	//while (1) // C'est pour les futurs inputs
+	//{
+	//	if (events_editor())
+	//		reframe_editor(map, sdl_ed);
+	//}
+
 	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
     return (0);
 }
