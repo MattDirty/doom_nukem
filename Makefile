@@ -22,6 +22,7 @@ SRCS_NAMES = vector.c \
 			collision.c \
 			segment.c \
 			player.c \
+			player_health_variation.c \
 			serialisation.c \
 			walls.c \
 			sectors.c \
@@ -37,6 +38,8 @@ SRCS_NAMES = vector.c \
 			debug_draw_tools.c \
 			draw_tools.c \
 			ui_draw.c \
+			ui_elements.c \
+			ui_utils.c \
 			timer_handler.c \
 			time.c \
 			weapons.c \
@@ -47,8 +50,7 @@ SRCS_NAMES = vector.c \
 			skybox.c \
 			config.c \
 			textures.c \
-			keyboard.c \
-			font_utils.c
+			keyboard.c
 
 SRC_NAME =	main.c \
 			$(SRCS_NAMES)

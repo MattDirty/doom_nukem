@@ -126,12 +126,7 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     return (t_true);
 }
 
-enum e_bool cross_index(double ms_since_update, t_params i)
-{
-    (void)ms_since_update;
-    (*(int*)i)++;
-    return (t_true);
-}
+
 
 void		loop_doom(t_env *e)
 {
@@ -155,6 +150,7 @@ void		loop_doom(t_env *e)
     add_event(&timer_handler, 30000, &day_to_night, &e->map->daytime);
     e->map->hud.id = 0;
     add_event(&timer_handler, 1000, &cross_index, &e->map->hud.id);
+    add_event(&timer_handler, 1000, &toggle_player_health, &e->p);
     Mix_PlayMusic(e->music, -1);
     while (42)
         update_events(&timer_handler);

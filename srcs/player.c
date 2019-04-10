@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/11 00:12:03 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/11 00:12:13 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "player.h"
 #include "default.h"
 #include "config.h"
@@ -22,6 +34,8 @@ t_player init_player(t_config *op, t_sector *starting_sector)
     p.jump.time = 0;
     p.dead = t_false;
     p.health = 100;
+    p.healed = t_false;
+    p.hurt = t_false;
     return (p);
 }
 
@@ -35,31 +49,28 @@ void	clamp_player_values(t_player *p, t_config op)
     p->vision_height < 0 ? p->vision_height = 0 : p->vision_height;
 }
 
-void    game_over(SDL_Surface *surface, t_config *op)
+void    draw_face(SDL_Surface *surface, t_hud *hud, t_player *p, t_config *op)
 {
-    SDL_Surface *game_over;
     t_coords    location;
 
-    game_over = write_text("fonts/horrendo.ttf", 120, "GAME OVER!", (SDL_Colour){255,0,0,255});
-    location.x = op->half_w - game_over->w / 2;
-    location.y = op->half_h - game_over->h / 2;
-    draw_on_screen(surface, game_over, location, t_false);
-    free(game_over);
-}
-void    hurt_or_heal(t_player *p, const Uint8 *state)
-{
-    if (state[SDL_SCANCODE_J])
-    {
-        p->health -= DAMAGE;
-        if (p->health <= 0)
-            p->dead = t_true;
-    }
-    if (state[SDL_SCANCODE_K])
-    {
-        p->health += HEAL;
-        if (p->health >= HEALTH_MAX)
-            p->health = HEALTH_MAX;
-    }
-    if (p->dead)
-        p->health = 0;
+    location.x = op->half_w + 275;
+    location.y = op->win_h - 75;
+    if (location.x >= op->win_w)
+        location.x = op->half_w;
+    if (location.y < 0)
+        location.y = 0;
+    if (!p->weapons.list[p->weapons.current].main_ready)
+        draw_on_screen(surface, hud->badass_face, location, t_true);
+    else if (p->healed)
+        draw_on_screen(surface, hud->sehr_happy_face, location, t_true);
+    else if (p->hurt)
+        draw_on_screen(surface, hud->hurt_face, location, t_true);
+    else if (p->health > 75)
+        draw_on_screen(surface, hud->happy_face, location, t_true);
+    else if (p->health <= 75 && p->health >= 50)
+        draw_on_screen(surface, hud->meh_face, location, t_true);
+    else if (p->health < 50 && p->health >= 1)
+        draw_on_screen(surface, hud->sad_face, location, t_true);
+    else if (p->dead)
+        draw_on_screen(surface, hud->dead_face, location, t_true);
 }

@@ -1,17 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   font_utils.c                                       :+:      :+:    :+:   */
+/*   ui_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/09 11:16:12 by lfatton           #+#    #+#             */
-/*   Updated: 2019/04/09 11:16:14 by lfatton          ###   ########.fr       */
+/*   Created: 2019/04/11 00:34:49 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/11 00:34:51 by lfatton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "SDL_ttf.h"
 #include "doom.h"
+
+enum e_bool cross_index(double ms_since_update, t_params i)
+{
+    (void)ms_since_update;
+    (*(int*)i)++;
+    return (t_true);
+}
 
 SDL_Surface *write_text(char *font_path, int font_size, char *str, SDL_Colour color)
 {
