@@ -23,18 +23,21 @@ int			read_sectors_from_file(
     t_sector	*sector;
     t_linked_walls*	linked_walls;
 
+    printf("entering read_sectors_from_file\n");
     if (!(*sectors = (t_sectors*)malloc(sizeof(t_sectors))))
         return (-1);
     if (read(fd, &count, sizeof(count)) <= 0)
         return (-2);
     (*sectors)->count = count;
     (*sectors)->items = (t_sector*)malloc(sizeof(t_sector) * count);
+    printf("trying to read_linked_walls\n");
     if (read_linked_walls_from_file(
             fd,
             *sectors,
             textures,
             &linked_walls) < 0)
         return (-3);
+    printf("finished reading walls\n");
     i = 0;
     while (i < count)
     {
@@ -51,7 +54,9 @@ int			read_sectors_from_file(
         	return (-8);
         if (read_objects_from_file(fd, textures, &sector->objects) < 0)
             return (-9);
+        printf("trying to read enemies in sector %i\n", i);
         read_enemies_from_file(fd, textures, &sector->enemies);
+        printf("finished reading enemies in sector %i\n", i);
         i++;
     }
     free_walls(linked_walls);

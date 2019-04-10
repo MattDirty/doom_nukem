@@ -10,11 +10,9 @@
 typedef struct s_enemy
 {
     t_object    *object;
-    SDL_Surface *back;
-    double      heading;
     Uint32      hp;
+    double      heading;
     SDL_Surface *front;
-    SDL_Surface *side;
 }               t_enemy;
 
 typedef struct  s_enemies

@@ -17,6 +17,7 @@ int	read_file(char *filename, t_textures **textures, t_map **map)
         return (-2);
     if (read_map_from_file(fd, *textures, map) < 0)
         return (-3);
+    printf("yo\n");
     close(fd);
     return (0);
 }
@@ -41,8 +42,11 @@ int	read_str_from_file(int fd, char **name)
 
     c = ft_strnew(1);
     *name = ft_strnew(1);
+    printf("arrosoir\n");
+    printf("%p\n", name);
     while (1)
     {
+        printf("derp\n");
         if (read(fd, c, sizeof(char)) <= 0)
         {
             free(c);
