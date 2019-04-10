@@ -46,11 +46,11 @@ void    game_over(SDL_Surface *surface, t_config *op)
     draw_on_screen(surface, game_over, location, t_false);
     free(game_over);
 }
-void    hurt_or_heal(t_player *p, const Uint8 *state, double time)
+void    hurt_or_heal(t_player *p, const Uint8 *state)
 {
     if (state[SDL_SCANCODE_J])
     {
-        p->health -= DAMAGE * time;
+        p->health -= DAMAGE;
         if (p->health <= 0)
         {
             p->dead = t_true;
@@ -59,7 +59,7 @@ void    hurt_or_heal(t_player *p, const Uint8 *state, double time)
     }
     if (state[SDL_SCANCODE_K])
     {
-        p->health += HEAL * time;
+        p->health += HEAL;
         if (p->health >= HEALTH_MAX)
             p->health = HEALTH_MAX;
     }

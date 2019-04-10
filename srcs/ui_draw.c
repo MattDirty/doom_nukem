@@ -61,9 +61,23 @@ static void     draw_sun_or_moon(SDL_Surface *surface, t_map *map, t_config *op)
         draw_on_screen(surface, map->moon, location, t_true);
 }
 
-void            ui_draw(SDL_Surface *surface, t_map *map, int fps, t_config *op)
+static void     draw_health(SDL_Surface *surface, t_player *p, t_config *op)
 {
-    draw_crosshair(surface, op, CROSSHAIR_COLOR);
-    draw_fps(surface, fps, op);
-    draw_sun_or_moon(surface, map, op);
+    SDL_Surface *health;
+    t_coords    location;
+
+    location.x = 10;
+    location.y = op->win_h - 25;
+    health = write_text("fonts/sixty.ttf", 20, ft_strjoin(ft_itoa(p->health), " HP"), (SDL_Colour){255, 255, 255, 255});
+    draw_on_screen(surface, health, location, t_false);
+    free(health);
 }
+
+void            ui_draw(SDL_Surface *surface, t_map *map, int fps, t_env *e)
+{
+    draw_crosshair(surface, &e->op, CROSSHAIR_COLOR);
+    draw_fps(surface, fps, &e->op);
+    draw_sun_or_moon(surface, map, &e->op);
+    draw_health(surface, &e->p, &e->op);
+}
+

@@ -25,7 +25,7 @@ void    key_handler(const Uint8 *state, t_player *p, t_timer_handler *timer_hand
     }
     if (state[SDL_SCANCODE_E])
         p->dead = t_true;
-    hurt_or_heal(p, state, timer_handler->ms_since_update);
+    hurt_or_heal(p, state);
     move(p, state, timer_handler->ms_since_update);
     look_around(p, state, timer_handler->ms_since_update);
 }

@@ -120,7 +120,7 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
         frame_event_params->fps = floor(1 / ms_since_update * 1000);
         frame_event_params->time = 0;
     }
-    ui_draw(e->doom.surface, map, frame_event_params->fps, &e->op);
+    ui_draw(e->doom.surface, map, frame_event_params->fps, e);
     print_surface(e->doom.renderer, e->doom.surface);
     frame_event_params->time += ms_since_update;
     return (t_true);
