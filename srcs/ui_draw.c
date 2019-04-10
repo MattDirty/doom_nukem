@@ -6,7 +6,7 @@
 #include "config.h"
 #include "map.h"
 
-static void draw_crosshair(SDL_Surface *surface, t_config *op, Uint32 color)
+static void     draw_crosshair(SDL_Surface *surface, t_config *op, Uint32 color)
 {
     t_segment   segment;
 
@@ -33,7 +33,7 @@ static void draw_crosshair(SDL_Surface *surface, t_config *op, Uint32 color)
     put_pixel_alpha(surface, op->half_w, op->half_h, color);
 }
 
-void draw_fps(SDL_Surface *surface, int fps, t_config *op)
+static void     draw_fps(SDL_Surface *surface, int fps, t_config *op)
 {
     SDL_Surface *fps_text;
     t_coords    location;
@@ -49,7 +49,7 @@ void draw_fps(SDL_Surface *surface, int fps, t_config *op)
     free(fps_text);
 }
 
-void        draw_sun_or_moon(SDL_Surface *surface, t_map *map, t_config *op)
+static void     draw_sun_or_moon(SDL_Surface *surface, t_map *map, t_config *op)
 {
     t_coords    location;
 
@@ -61,7 +61,9 @@ void        draw_sun_or_moon(SDL_Surface *surface, t_map *map, t_config *op)
         draw_on_screen(surface, map->moon, location, t_true);
 }
 
-void        ui_draw(t_sdl *sdl, t_config *op)
+void            ui_draw(SDL_Surface *surface, t_map *map, int fps, t_config *op)
 {
-    draw_crosshair(sdl->surface, op, CROSSHAIR_COLOR);
+    draw_crosshair(surface, op, CROSSHAIR_COLOR);
+    draw_fps(surface, fps, op);
+    draw_sun_or_moon(surface, map, op);
 }
