@@ -8,10 +8,8 @@ int		read_map_from_file(int fd, t_textures *textures, t_map **map)
 {
     if (!(*map = (t_map*)malloc(sizeof(t_map))))
         return (-1);
-    printf("trying to read sectors\n");
     if (read_sectors_from_file(fd, textures, &(*map)->sectors) < 0)
         return (-2);
-    printf("managed to read sectors\n");
     if (find_texture_from_file(fd, textures, &(*map)->daysky) < 0)
         return (-3);
     if (find_texture_from_file(fd, textures, &(*map)->nightsky) < 0)

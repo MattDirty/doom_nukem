@@ -213,11 +213,8 @@ int	find_texture_from_file(int fd, t_textures *textures, SDL_Surface **surface)
 {
     char	*name;
 
-    printf("yo\n");
     if (read_str_from_file(fd, &name) < 0)
         return (-1);
-    printf("derp\n");
-    printf("%s\n", name);
     if (find_texture_by_name(textures, name, surface) < 0)
         return (-2);
     free(name);

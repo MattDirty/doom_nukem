@@ -97,6 +97,8 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].enemies->items[0].object->z = 0;
         map->sectors->items[i].enemies->items[0].object->horizontal_size = 0.25;
         map->sectors->items[i].enemies->items[0].object->vertical_size = 0.25;
+        map->sectors->items[i].enemies->items[0].hp = 100;
+        map->sectors->items[i].enemies->items[0].heading = 0;
         if (find_texture_by_name(textures,
                                  "textures/sprites/enemy_front.bmp",
                                  &map->sectors->items[i].enemies->items[0].front) < 0)
