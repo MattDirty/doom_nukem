@@ -100,7 +100,7 @@ static void         draw_object(
     dist_ratio = e->op.ratio / collision->distance;
     range = wall_range(dist_ratio, render->vision_height, render->win_h);
 	i = range.start - 1;
-	while (i++ < range.end)
+	while (++i < range.end)
 	{
         y = (Uint32)(fabs(((i - render->vision_height + dist_ratio / 2)
         * surface->h / dist_ratio))) / collision->d.object->vertical_size

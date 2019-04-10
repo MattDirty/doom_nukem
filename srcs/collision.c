@@ -87,15 +87,12 @@ static enum e_bool	find_wall_collisions_in_sector(
     t_collision best_collision;
     t_collisions *new;
 
-	i = 0;
+	i = -1;
 	best_collision.distance = HORIZON;
-	while (i < sector->walls->count)
+	while (++i < sector->walls->count)
 	{
 		if (last_portal == sector->walls->items[i])
-		{
-			i++;
 			continue;
-		}
 		if (segments_intersect(ray, &sector->walls->items[i]->segment, &inters))
 		{
 			distance = get_distance_between_points(
@@ -107,7 +104,6 @@ static enum e_bool	find_wall_collisions_in_sector(
                 best_collision.d.wall = sector->walls->items[i];
             }
 		}
-		i++;
 	}
     if (best_collision.distance >= HORIZON)
         return (t_false);
