@@ -12,29 +12,6 @@
 
 #include "SDL_ttf.h"
 #include "doom.h"
-#include "surface_manipulation.h"
-#include "config.h"
-#include "ui.h"
-#include "utils.h"
-
-void        draw_on_screen(SDL_Surface *surface, SDL_Surface *text, t_coords location, enum e_bool force_alpha)
-{
-    int x;
-    int y;
-
-    y = 0;
-    while (y < text->h)
-    {
-        x = 0;
-        while (x < text->w)
-        {
-            put_pixel_alpha(surface, location.x + x, location.y + y,
-                    get_pixel(text, x, y, force_alpha));
-            x++;
-        }
-        y++;
-    }
-}
 
 SDL_Surface *write_text(char *font_path, int font_size, char *str, SDL_Colour color)
 {

@@ -72,6 +72,25 @@ void    put_pixel_alpha(SDL_Surface *s, int x, int y, Uint32 color)
        + (color & MASK_BLUE) * alpha + pBlue * (1 - alpha);
 }
 
+void        draw_on_screen(SDL_Surface *surface, SDL_Surface *text, t_coords location, enum e_bool force_alpha)
+{
+    int x;
+    int y;
+
+    y = 0;
+    while (y < text->h)
+    {
+        x = 0;
+        while (x < text->w)
+        {
+            put_pixel_alpha(surface, location.x + x, location.y + y,
+                            get_pixel(text, x, y, force_alpha));
+            x++;
+        }
+        y++;
+    }
+}
+
 void    print_surface(SDL_Renderer *renderer, SDL_Surface *surface)
 {
     SDL_Texture *texture;
