@@ -6,6 +6,7 @@
 # include "map.h"
 # include "SDL.h"
 # include "config.h"
+# include "inventory.h"
 
 typedef struct          s_jump
 {
@@ -16,11 +17,6 @@ typedef struct          s_jump
     double              time;
 }                       t_jump;
 
-typedef struct 			s_invtry
-{
-	int 			id;
-}						t_invtry;
-
 typedef struct			s_player
 {
 	t_sector	*current_sector;
@@ -29,7 +25,7 @@ typedef struct			s_player
     double		vision_height;
     double		speed_factor;
     int 		health;
-    t_invtry	inventory;
+    t_container_bag		container_bag;
     t_vector    speed;
     t_weapons   weapons;
     t_jump      jump;

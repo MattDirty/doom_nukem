@@ -59,6 +59,6 @@
 
 # define ACTIVATE_LIGHTING 1
 
-# define MAX_INVTRY 10
+# define MAX_SLOT_USABLE 3
 
 #endif

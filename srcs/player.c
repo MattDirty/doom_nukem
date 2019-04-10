@@ -6,6 +6,7 @@
 t_player init_player(t_config *op, t_sector *starting_sector)
 {
     t_player p;
+    t_container_bag container_bag;
 
     p.health = 100;
     p.vision_height = op->half_h;
@@ -22,8 +23,7 @@ t_player init_player(t_config *op, t_sector *starting_sector)
     p.jump.duration = 400;
     p.jump.time = 0;
     p.dead = t_false;
-
-    printf("Current HP : %d", p.health);
+    p.container_bag = init_container_bag(container_bag);
     return (p);
 }
 
