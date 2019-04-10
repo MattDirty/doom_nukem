@@ -68,9 +68,9 @@ static void     draw_health(SDL_Surface *surface, t_player *p, t_map *map, t_con
         location.x = op->half_w;
     if (location.y < 0)
         location.y = 0;
-    if (map->id > 2 || p->dead)
-        map->id = 0;
-    draw_on_screen(surface, map->cross[map->id], location, t_false);
+    if (map->hud.id > 2 || p->dead)
+        map->hud.id = 0;
+    draw_on_screen(surface, map->hud.cross[map->hud.id], location, t_false);
     free(health);
 }
 
@@ -103,6 +103,6 @@ void            ui_draw(SDL_Surface *surface, t_map *map, int fps, t_env *e)
     draw_fps(surface, fps, &e->op);
     draw_sun_or_moon(surface, map, &e->op);
     draw_health(surface, &e->p, map, &e->op);
-    draw_ammo(surface, map->bullet, e->p.weapons.list[e->p.weapons.current].ammo, &e->op);
+    draw_ammo(surface, map->hud.bullet, e->p.weapons.list[e->p.weapons.current].ammo, &e->op);
 }
 

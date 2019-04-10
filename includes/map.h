@@ -5,15 +5,6 @@
 
 typedef struct          s_hud
 {
-    int                 id;
-}                       t_hud;
-
-typedef struct			s_map
-{
-    t_sectors			*sectors;
-    SDL_Surface         *daysky;
-    SDL_Surface         *nightsky;
-    enum e_bool         daytime;
     SDL_Surface         *sun;
     SDL_Surface         *moon;
     SDL_Surface         *cross[3];
@@ -26,6 +17,15 @@ typedef struct			s_map
     SDL_Surface         *badass_face;
     SDL_Surface         *sehr_happy_face;
     SDL_Surface         *hurt_face;
+}                       t_hud;
+
+typedef struct			s_map
+{
+    t_sectors			*sectors;
+    SDL_Surface         *daysky;
+    SDL_Surface         *nightsky;
+    enum e_bool         daytime;
+    t_hud               hud;
 }						t_map;
 
 int		read_map_from_file(int fd, t_textures *textures, t_map **map);

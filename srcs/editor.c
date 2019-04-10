@@ -115,29 +115,31 @@ t_map		*create_map(t_textures *textures)
         error_doom("could not find day");
     if (find_texture_by_name(textures, "textures/skybox/night.bmp", &map->nightsky) < 0)
         error_doom("could not find night");
-    if (find_texture_by_name(textures, "textures/hud/sun.bmp", &map->sun) < 0)
+    if (find_texture_by_name(textures, "textures/hud/sun.bmp", &map->hud.sun) < 0)
         error_doom("could not find sun");
-    if (find_texture_by_name(textures, "textures/hud/moon.bmp", &map->moon) < 0)
+    if (find_texture_by_name(textures, "textures/hud/moon.bmp", &map->hud.moon) < 0)
         error_doom("could not find moon");
-	if (find_texture_by_name(textures, "textures/hud/health/ico1.bmp", &map->cross[0]) < 0)
+	if (find_texture_by_name(textures, "textures/hud/health/ico1.bmp", &map->hud.cross[0]) < 0)
 		error_doom("could not find health_ico1");
-	if (find_texture_by_name(textures, "textures/hud/health/ico2.bmp", &map->cross[1]) < 0)
+	if (find_texture_by_name(textures, "textures/hud/health/ico2.bmp", &map->hud.cross[1]) < 0)
 		error_doom("could not find health_ico2");
-	if (find_texture_by_name(textures, "textures/hud/health/ico3.bmp", &map->cross[2]) < 0)
+	if (find_texture_by_name(textures, "textures/hud/health/ico3.bmp", &map->hud.cross[2]) < 0)
 		error_doom("could not find health_ico3");
-	if (find_texture_by_name(textures, "textures/hud/faces/happy.bmp", &map->happy_face) < 0)
+    if (find_texture_by_name(textures, "textures/hud/bullet.bmp", &map->hud.bullet) < 0)
+        error_doom("could not find bullet");
+	if (find_texture_by_name(textures, "textures/hud/faces/happy.bmp", &map->hud.happy_face) < 0)
 		error_doom("could not find happy face");
-	if (find_texture_by_name(textures, "textures/hud/faces/meh.bmp", &map->meh_face) < 0)
+	if (find_texture_by_name(textures, "textures/hud/faces/meh.bmp", &map->hud.meh_face) < 0)
 		error_doom("could not find meh face");
-	if (find_texture_by_name(textures, "textures/hud/faces/sad.bmp", &map->sad_face) < 0)
+	if (find_texture_by_name(textures, "textures/hud/faces/sad.bmp", &map->hud.sad_face) < 0)
 		error_doom("could not find sad face");
-	if (find_texture_by_name(textures, "textures/hud/faces/dead.bmp", &map->dead_face) < 0)
+	if (find_texture_by_name(textures, "textures/hud/faces/dead.bmp", &map->hud.dead_face) < 0)
 		error_doom("could not find dead face");
-	if (find_texture_by_name(textures, "textures/hud/faces/badass.bmp", &map->badass_face) < 0)
+	if (find_texture_by_name(textures, "textures/hud/faces/badass.bmp", &map->hud.badass_face) < 0)
 		error_doom("could not find badass face");
-	if (find_texture_by_name(textures, "textures/hud/faces/sehr_happy.bmp", &map->sehr_happy_face) < 0)
+	if (find_texture_by_name(textures, "textures/hud/faces/sehr_happy.bmp", &map->hud.sehr_happy_face) < 0)
 		error_doom("could not find sehr happy face");
-	if (find_texture_by_name(textures, "textures/hud/faces/hurt.bmp", &map->hurt_face) < 0)
+	if (find_texture_by_name(textures, "textures/hud/faces/hurt.bmp", &map->hud.hurt_face) < 0)
 		error_doom("could not find hurt face");
     map->daytime = t_true;
 	return (map);
