@@ -18,7 +18,7 @@
 # define EDITOR_H 640
 # define EDITOR_W_H (EDITOR_W / 2)
 # define EDITOR_H_H (EDITOR_H / 2)
-# define EDITOR_ZOOM 2
+# define EDITOR_ZOOM 20
 
 typedef struct			s_sdl_editor
 {
@@ -27,11 +27,12 @@ typedef struct			s_sdl_editor
     SDL_Surface         *surface;
 }						t_sdl_editor;
 
-/*typedef struct          s_editor
+typedef struct          s_editor
 {
 	t_sdl			sdl;
     t_map			*map;
-}                       t_editor;*/
+    t_textures      *textures;
+}                       t_editor;
 
 
 /*int	read_file(char *filename, t_textures **textures, t_map **map);
