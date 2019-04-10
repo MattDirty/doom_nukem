@@ -90,9 +90,9 @@ t_frame_event_params	*frame_event_params_init(t_env *e)
 
     if (!(params = (t_frame_event_params*)malloc(sizeof(t_frame_event_params))))
         error_doom("Couldn't allocate memory for t_frame_event_params");
-    e->fps = 0;
     params->e = e;
     params->map = e->map;
+    params->time = 0;
     return (params);
 }
 
@@ -104,7 +104,6 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
 
     frame_event_params = (t_frame_event_params*)params;
     e = frame_event_params->e;
-    e->fps = floor(1 / ms_since_update * 1000);
     map = frame_event_params->map;
     if (e->debug_mode)
         debug_draw(&e->debug, map, &e->p, &e->op);
@@ -117,8 +116,15 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     ui_draw(&e->doom, &e->op);
     if (e->p.dead)
         game_over(e->doom.surface, &e->op);
-    draw_fps(e->doom.surface, e->fps, &e->op);
+    if (frame_event_params->time >= 500 || !frame_event_params->time)
+    {
+        frame_event_params->fps = floor(1 / ms_since_update * 1000);
+        frame_event_params->time = 0;
+    }
+    draw_fps(e->doom.surface, frame_event_params->fps, &e->op);
+    draw_sun_or_moon(e->doom.surface, map, &e->op);
     print_surface(e->doom.renderer, e->doom.surface);
+    frame_event_params->time += ms_since_update;
     return (t_true);
 }
 

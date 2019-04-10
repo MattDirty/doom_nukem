@@ -17,7 +17,7 @@
 #include "ui.h"
 #include "utils.h"
 
-void        draw_text(SDL_Surface *surface, SDL_Surface *text, t_coords location)
+void        draw_on_screen(SDL_Surface *surface, SDL_Surface *text, t_coords location, enum e_bool force_alpha)
 {
     int x;
     int y;
@@ -29,7 +29,7 @@ void        draw_text(SDL_Surface *surface, SDL_Surface *text, t_coords location
         while (x < text->w)
         {
             put_pixel_alpha(surface, location.x + x, location.y + y,
-                    get_pixel(text, x, y, t_false));
+                    get_pixel(text, x, y, force_alpha));
             x++;
         }
         y++;

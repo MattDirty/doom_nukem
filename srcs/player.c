@@ -42,6 +42,6 @@ void    game_over(SDL_Surface *surface, t_config *op)
     game_over = write_text("fonts/horrendo.ttf", 120, "GAME OVER!", (SDL_Colour){255,0,0,255});
     location.x = op->half_w - game_over->w / 2;
     location.y = op->half_h - game_over->h / 2;
-    draw_text(surface, game_over, location);
+    draw_on_screen(surface, game_over, location, t_false);
     free(game_over);
 }

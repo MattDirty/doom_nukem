@@ -114,7 +114,11 @@ t_map		*create_map(t_textures *textures)
     if (find_texture_by_name(textures, "textures/skybox/day.bmp", &map->daysky) < 0)
         error_doom("could not find day");
     if (find_texture_by_name(textures, "textures/skybox/night.bmp", &map->nightsky) < 0)
-        error_doom("could not find day");
+        error_doom("could not find night");
+    if (find_texture_by_name(textures, "textures/hud/sun.bmp", &map->sun) < 0)
+        error_doom("could not find sun");
+    if (find_texture_by_name(textures, "textures/hud/moon.bmp", &map->moon) < 0)
+        error_doom("could not find moon");
     map->daytime = t_true;
 	return (map);
 }
@@ -142,6 +146,10 @@ t_textures	*load_textures(void)
         error_doom("could not load day");
     if (add_bitmap_file_to_textures(textures, "textures/skybox/night.bmp") < 0)
         error_doom("could not load night");
+    if (add_bitmap_file_to_textures(textures, "textures/hud/sun.bmp") < 0)
+        error_doom("could not load sun");
+    if (add_bitmap_file_to_textures(textures, "textures/hud/moon.bmp") < 0)
+        error_doom("could not load moon");
     return (textures);
 }
 

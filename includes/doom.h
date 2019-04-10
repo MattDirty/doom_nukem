@@ -17,7 +17,6 @@ typedef struct          s_env
         t_sdl           doom;
         t_map			*map;
         Mix_Music 		*music;
-        int			    fps;
 }                       t_env;
 
 void		error_doom(char *err);
