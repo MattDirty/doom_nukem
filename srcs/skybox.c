@@ -41,7 +41,7 @@ void     draw_sun_or_moon(SDL_Surface *surface, t_map *map, t_config *op)
         draw_on_screen(surface, map->hud.moon, location, t_true);
 }
 
-void            skybox(t_render *render, t_u_range range)
+void            skybox(const t_render *render, t_u_range range)
 {
     Uint32 y;
     Uint32 end;

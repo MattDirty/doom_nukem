@@ -180,6 +180,8 @@ void         draw_transparent_wall(
                                              collision->inters.y, collision->d.wall->segment.x1,
                                              collision->d.wall->segment.y1) * wall_text->w) % wall_text->w;
     i = range.start;
+    if (collision->d.wall->links.sector1 == collision->d.wall->links.sector2)
+    	skybox(render, range);
     while (i < range.end)
     {
         y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)
