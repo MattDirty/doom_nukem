@@ -27,6 +27,18 @@ typedef struct			s_sdl_editor
     SDL_Surface         *surface;
 }						t_sdl_editor;
 
+typedef struct			s_button
+{
+	t_rect				rect;
+	void				*funct;
+}						t_button;
+
+typedef struct			s_buttons
+{
+    int                 count;
+	t_button			items[1];
+}						t_buttons;
+
 typedef struct          s_editor
 {
 	t_sdl			sdl;

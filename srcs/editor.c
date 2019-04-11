@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "SDL.h"
+#include "SDL.h"
+#include "SDL_ttf.h"
 #include "editor.h"
 //#include "doom.h"
 //#include "map.h"
@@ -20,9 +21,9 @@
 
 void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_sdl *sdl)
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0 || TTF_Init() < 0)
 		error_doom("error: cannot run SDL");
-    if (!(sdl->window = SDL_CreateWindow(name, 0, 0, w, h, 0)))
+    if (!(sdl->window = SDL_CreateWindow(name, 0, 0, w, h, SDL_WINDOW_FULLSCREEN_DESKTOP)))
         error_doom("Could not create window.");
 	SDL_RaiseWindow(sdl->window);
     if (!(sdl->renderer = SDL_CreateRenderer(sdl->window, -1, 0)))
@@ -38,11 +39,8 @@ int		event_editor(t_editor *ed)
 	SDL_Event	event;
 
 	SDL_PollEvent(&event);
-	//SDL_GetRelativeMouseState(&(env->mouse_x), &(env->mouse_y));
 	if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 		exit(EXIT_SUCCESS);
-	//if (event.key.keysym.scancode == SDL_SCANCODE_)
-		//exit(EXIT_SUCCESS);
 	return (1);
 }
 
@@ -72,9 +70,6 @@ void	gameloop(t_editor *ed)
 int		main(void)
 {
 	t_editor			ed;
-	//t_sdl_editor		sdl_ed;
-	//t_textures			*textures;
-    //t_map				*map;
 
 	ft_bzero(&ed, sizeof(t_editor));
     ed.textures = load_textures();
@@ -86,7 +81,5 @@ int		main(void)
 	gameloop(&ed);
 
 	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
-//    free_map(map);
-//    free_textures(textures);
     return (0);
 }
