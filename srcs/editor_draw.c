@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   editor_draw.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/11 19:50:23 by badhont           #+#    #+#             */
+/*   Updated: 2019/04/11 20:20:46 by badhont          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "editor_draw.h"
 #include "default.h"
 #include "editor.h"
@@ -56,16 +68,23 @@ void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *object
     }
 }
 
-void		draw_editor(t_sdl_editor *sdl_ed, t_map *map)
+void        draw_corners_editor(SDL_Surface *surface, t_walls *walls)
+{
+    (void)surface;
+    (void)walls;
+}
+
+void		draw_editor(t_editor *ed)
 {
     int i;
 
     i = 0;
-    while (i < map->sectors->count)
+    while (i < ed->map->sectors->count)
     {
-        draw_walls_editor(sdl_ed->surface, map->sectors->items[i].walls);
-        draw_objects_in_sector_editor(sdl_ed->surface, map->sectors->items[i].objects);
-        draw_enemies_in_sector_editor(sdl_ed->surface, map->sectors->items[i].enemies);
+        draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i].walls);
+        draw_corners_editor(ed->sdl.surface, ed->map->sectors->items[i].walls);
+        draw_objects_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].objects);
+        draw_enemies_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].enemies);
         i++;
     }
 }

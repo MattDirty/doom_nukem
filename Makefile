@@ -6,7 +6,7 @@
 #    By: badhont <badhont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/07 17:35:48 by lfatton           #+#    #+#              #
-#    Updated: 2019/04/10 19:18:56 by badhont          ###   ########.fr        #
+#    Updated: 2019/04/11 20:25:06 by badhont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ SRC_NAME =	main.c \
 
 SRC_EDITOR_NAME = editor.c \
 				  editor_draw.c \
+				  create_map.c \
 				  $(SRCS_NAMES)
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
@@ -198,5 +199,6 @@ fclean: clean
 	$(RM) $(SDL_PATH)/$(SDL2)
 	$(RM) $(SDL_PATH)/$(SDL2_MIXER)
 	$(RM) $(SDL_PATH)/$(SDL2_TTF)
+	$(RM) mabite.roflolilolmao
 
 re: fclean all

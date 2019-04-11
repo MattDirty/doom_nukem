@@ -11,6 +11,6 @@
 # define GREEN 0xFF00FF00
 
 
-void		draw_editor(t_sdl_editor *sdl_ed, t_map *map);
+void		draw_editor(t_editor *ed);
 
 #endif
