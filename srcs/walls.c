@@ -211,9 +211,9 @@ void			read_wall_from_file(
     read_segment_from_file(fd, &(*wall)->segment);
     if (read(fd, &(*wall)->type, sizeof((*wall)->type)) <= 0)
         error_doom("couldn't read wall type");
-    if ((*wall)->type == e_wall)
+    if ((*wall)->type == e_wall || (*wall)->type == e_transparent_wall)
         find_texture_from_file(fd, textures, &((*wall)->texture));
-    else if ((*wall)->type == e_portal)
+    else if ((*wall)->type == e_portal || (*wall)->type == e_transparent_wall)
     {
         if (read(fd, &index, sizeof(index)) <= 0)
             error_doom("couldn't read first sector index");
@@ -234,9 +234,9 @@ void			write_wall_to_file(
     write_segment_to_file(fd, &wall->segment);
     if (write(fd, &wall->type, sizeof(wall->type)) <= 0)
         error_doom("couldn't write wall type");
-    if (wall->type == e_wall)
+    if (wall->type == e_wall || wall->type == e_transparent_wall)
         write_str_to_file(fd, wall->texture->userdata);
-    else if (wall->type == e_portal)
+    else if (wall->type == e_portal || wall->type == e_transparent_wall)
     {
         index = sector_index(sectors, wall->links.sector1);
         if (index < 0)
