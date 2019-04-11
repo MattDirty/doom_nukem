@@ -28,5 +28,4 @@ void write_enemies_to_file(int fd, t_enemies *enemies);
 void read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy);
 void write_enemy_to_file(int fd, t_enemy enemy);
 
-
 #endif

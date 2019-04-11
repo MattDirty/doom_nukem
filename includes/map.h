@@ -28,7 +28,7 @@ typedef struct			s_map
     t_hud               hud;
 }						t_map;
 
-int		read_map_from_file(int fd, t_textures *textures, t_map **map);
-int		write_map_to_file(int fd, t_map *map);
+void		read_map_from_file(int fd, t_textures *textures, t_map **map);
+void		write_map_to_file(int fd, t_map *map);
 
 #endif

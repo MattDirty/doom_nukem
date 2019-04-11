@@ -27,22 +27,13 @@ t_map		*create_map(t_textures *textures)
 	while (i < map->sectors->count)
 	{
 		if (!(map->sectors->items[i].walls = (t_walls*)malloc(sizeof(t_walls))))
-			error_doom("t_sectors");
+			error_doom("t_walls");
 
-        if (find_texture_by_name(
-                textures,
-                "textures/flats/grass.bmp",
-                &map->sectors->items[i].floor) < 0)
-            error_doom("could not find grass");
-        if (find_texture_by_name(
-                textures,
-                "textures/flats/dirt.bmp",
-                &map->sectors->items[i].ceil) < 0)
-            error_doom("could not find dirt");
+        find_texture_by_name(textures, "textures/flats/grass.bmp", &map->sectors->items[i].floor);
+        find_texture_by_name(textures, "textures/flats/dirt.bmp", &map->sectors->items[i].ceil);
         map->sectors->items[i].open_sky = t_false;
         map->sectors->items[2].open_sky = t_true;
-        map->sectors->items[i].objects =
-                (t_objects*)malloc(sizeof(t_objects));
+        map->sectors->items[i].objects = (t_objects*)malloc(sizeof(t_objects));
         map->sectors->items[i].objects->count = 0;
         map->sectors->items[i].enemies = (t_enemies*)malloc(sizeof(t_enemies));
         map->sectors->items[i].enemies->count = 0;
@@ -57,11 +48,7 @@ t_map		*create_map(t_textures *textures)
             map->sectors->items[i].objects->items[0].z = 0;
             map->sectors->items[i].objects->items[0].horizontal_size = 0.25;
             map->sectors->items[i].objects->items[0].vertical_size = 0.25;
-            if (find_texture_by_name(
-                    textures,
-                    "textures/sprites/voilaunefleur.bmp",
-                    &map->sectors->items[i].objects->items[0].sprite) < 0)
-                error_doom("could not find voilaunefleur.bmp");
+            find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[0].sprite);
         //}
         map->sectors->items[i].objects->items[1].x = 2;
         map->sectors->items[i].objects->items[1].y = i * 4 + 2;
@@ -73,16 +60,8 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].objects->items[2].z = 0;
         map->sectors->items[i].objects->items[2].horizontal_size = 0.25;
         map->sectors->items[i].objects->items[2].vertical_size = 1;
-        if (find_texture_by_name(
-                textures,
-                "textures/sprites/voilaunefleur.bmp",
-                &map->sectors->items[i].objects->items[1].sprite) < 0)
-            error_doom("could not find voilaunefleur.bmp");
-        if (find_texture_by_name(
-                textures,
-                "textures/sprites/voilaunefleur.bmp",
-                &map->sectors->items[i].objects->items[2].sprite) < 0)
-            error_doom("could not find voilaunefleur.bmp");
+        find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[1].sprite);
+        find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[2].sprite);
 
         map->sectors->items[i].enemies = (t_enemies*)malloc(sizeof(t_enemies));
         map->sectors->items[i].enemies->count = 1;
@@ -104,19 +83,10 @@ t_map		*create_map(t_textures *textures)
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(90);
         if (i == 2)
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(180);
-        if (find_texture_by_name(textures,
-                                 "textures/sprites/enemy_front.bmp",
-                                 &map->sectors->items[i].enemies->items[0].front)
-                                 < 0)
-            error_doom("Couldn't find enemy_front.bmp");
-        else
-            map->sectors->items[i].enemies->items[0].object->sprite =
-                    map->sectors->items[i].enemies->items[0].front;
-        if (find_texture_by_name(textures,
-                                 "textures/sprites/enemy_side.bmp",
-                                 &map->sectors->items[i].enemies->items[0].side)
-            < 0)
-            error_doom("Couldn't find enemy_side.bmp");
+        find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->items[0].front);
+        map->sectors->items[i].enemies->items[0].object->sprite =
+                map->sectors->items[i].enemies->items[0].front;
+        find_texture_by_name(textures,"textures/sprites/enemy_side.bmp", &map->sectors->items[i].enemies->items[0].side);
 
 		walls = map->sectors->items[i].walls;
 		find_texture_by_name(
@@ -148,21 +118,9 @@ t_map		*create_map(t_textures *textures)
 		    walls->items[j]->height = 1.0;
 		    walls->items[j]->type = e_wall;
 		    if (i == 1)
-            {
-                if (find_texture_by_name(
-                        textures,
-                        "textures/walls/stones.bmp",
-                        &walls->items[j]->pointer.texture) < 0)
-                    error_doom("could not find stones");
-            }
+                find_texture_by_name(textures, "textures/walls/stones.bmp", &walls->items[j]->pointer.texture);
 		    else
-            {
-                if (find_texture_by_name(
-                        textures,
-                        "textures/walls/brickwall2.bmp",
-                        &walls->items[j]->pointer.texture) < 0)
-                            error_doom("could not find brickwall2");
-            }
+                find_texture_by_name(textures, "textures/walls/brickwall2.bmp", &walls->items[j]->pointer.texture);
 			j++;
 		}
 		if (i == 0)
@@ -189,36 +147,21 @@ t_map		*create_map(t_textures *textures)
 		}
 		i++;
 	}
-    if (find_texture_by_name(textures, "textures/skybox/day.bmp", &map->daysky) < 0)
-        error_doom("could not find day");
-    if (find_texture_by_name(textures, "textures/skybox/night.bmp", &map->nightsky) < 0)
-        error_doom("could not find night");
-    if (find_texture_by_name(textures, "textures/hud/sun.bmp", &map->hud.sun) < 0)
-        error_doom("could not find sun");
-    if (find_texture_by_name(textures, "textures/hud/moon.bmp", &map->hud.moon) < 0)
-        error_doom("could not find moon");
-	if (find_texture_by_name(textures, "textures/hud/health/ico1.bmp", &map->hud.cross[0]) < 0)
-		error_doom("could not find health_ico1");
-	if (find_texture_by_name(textures, "textures/hud/health/ico2.bmp", &map->hud.cross[1]) < 0)
-		error_doom("could not find health_ico2");
-	if (find_texture_by_name(textures, "textures/hud/health/ico3.bmp", &map->hud.cross[2]) < 0)
-		error_doom("could not find health_ico3");
-    if (find_texture_by_name(textures, "textures/hud/bullet.bmp", &map->hud.bullet) < 0)
-        error_doom("could not find bullet");
-	if (find_texture_by_name(textures, "textures/hud/faces/happy.bmp", &map->hud.happy_face) < 0)
-		error_doom("could not find happy face");
-	if (find_texture_by_name(textures, "textures/hud/faces/meh.bmp", &map->hud.meh_face) < 0)
-		error_doom("could not find meh face");
-	if (find_texture_by_name(textures, "textures/hud/faces/sad.bmp", &map->hud.sad_face) < 0)
-		error_doom("could not find sad face");
-	if (find_texture_by_name(textures, "textures/hud/faces/dead.bmp", &map->hud.dead_face) < 0)
-		error_doom("could not find dead face");
-	if (find_texture_by_name(textures, "textures/hud/faces/badass.bmp", &map->hud.badass_face) < 0)
-		error_doom("could not find badass face");
-	if (find_texture_by_name(textures, "textures/hud/faces/sehr_happy.bmp", &map->hud.sehr_happy_face) < 0)
-		error_doom("could not find sehr happy face");
-	if (find_texture_by_name(textures, "textures/hud/faces/hurt.bmp", &map->hud.hurt_face) < 0)
-		error_doom("could not find hurt face");
+    find_texture_by_name(textures, "textures/skybox/day.bmp", &map->daysky);
+    find_texture_by_name(textures, "textures/skybox/night.bmp", &map->nightsky);
+    find_texture_by_name(textures, "textures/hud/sun.bmp", &map->hud.sun);
+    find_texture_by_name(textures, "textures/hud/moon.bmp", &map->hud.moon);
+	find_texture_by_name(textures, "textures/hud/health/ico1.bmp", &map->hud.cross[0]);
+	find_texture_by_name(textures, "textures/hud/health/ico2.bmp", &map->hud.cross[1]);
+	find_texture_by_name(textures, "textures/hud/health/ico3.bmp", &map->hud.cross[2]);
+    find_texture_by_name(textures, "textures/hud/bullet.bmp", &map->hud.bullet);
+	find_texture_by_name(textures, "textures/hud/faces/happy.bmp", &map->hud.happy_face);
+	find_texture_by_name(textures, "textures/hud/faces/meh.bmp", &map->hud.meh_face);
+	find_texture_by_name(textures, "textures/hud/faces/sad.bmp", &map->hud.sad_face);
+	find_texture_by_name(textures, "textures/hud/faces/dead.bmp", &map->hud.dead_face);
+	find_texture_by_name(textures, "textures/hud/faces/badass.bmp", &map->hud.badass_face);
+	find_texture_by_name(textures, "textures/hud/faces/sehr_happy.bmp", &map->hud.sehr_happy_face);
+	find_texture_by_name(textures, "textures/hud/faces/hurt.bmp", &map->hud.hurt_face);
     map->daytime = t_true;
 	return (map);
 }
@@ -230,52 +173,29 @@ t_textures	*load_textures(void)
     if (!(textures = (t_textures*)malloc(sizeof(t_textures))))
         error_doom("could not allocate textures");
     textures->first = NULL;
-    if (add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp") < 0)
-        error_doom("could not load dwa");
-    if (add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp") < 0)
-        error_doom("could not load stones");
-    if (add_bitmap_file_to_textures(textures, "textures/walls/brickwall2.bmp") < 0)
-        error_doom("could not load brickwall2");
-    if (add_bitmap_file_to_textures(textures, "textures/flats/grass.bmp") < 0)
-        error_doom("could not load grass");
-    if (add_bitmap_file_to_textures(textures, "textures/flats/dirt.bmp") < 0)
-        error_doom("could not load dirt");
-    if (add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp") < 0)
-        error_doom("could not load voilaunefleur");
-    if (add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front.bmp") < 0)
-        error_doom("could not load enemy_front");
-    if (add_bitmap_file_to_textures(textures, "textures/sprites/enemy_side.bmp") < 0)
-        error_doom("could not load enemy_side");
-    if (add_bitmap_file_to_textures(textures, "textures/skybox/day.bmp") < 0)
-        error_doom("could not load day");
-    if (add_bitmap_file_to_textures(textures, "textures/skybox/night.bmp") < 0)
-        error_doom("could not load night");
-    if (add_bitmap_file_to_textures(textures, "textures/hud/sun.bmp") < 0)
-        error_doom("could not load sun");
-    if (add_bitmap_file_to_textures(textures, "textures/hud/moon.bmp") < 0)
-        error_doom("could not load moon");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/health/ico1.bmp") < 0)
-		error_doom("could not load health_ico1");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/health/ico2.bmp") < 0)
-		error_doom("could not load health_ico2");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/health/ico3.bmp") < 0)
-		error_doom("could not load health_ico3");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/bullet.bmp") < 0)
-		error_doom("could not load bullet");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/happy.bmp") < 0)
-		error_doom("could not load happy face");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/meh.bmp") < 0)
-		error_doom("could not load meh face");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/sad.bmp") < 0)
-		error_doom("could not load sad face");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/dead.bmp") < 0)
-		error_doom("could not load dead face");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/badass.bmp") < 0)
-		error_doom("could not load badass face");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/sehr_happy.bmp") < 0)
-		error_doom("could not load sehr happy face");
-	if (add_bitmap_file_to_textures(textures, "textures/hud/faces/hurt.bmp") < 0)
-		error_doom("could not load hurt face");
+    add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp");
+    add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp");
+    add_bitmap_file_to_textures(textures, "textures/walls/brickwall2.bmp");
+    add_bitmap_file_to_textures(textures, "textures/flats/grass.bmp");
+    add_bitmap_file_to_textures(textures, "textures/flats/dirt.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/enemy_side.bmp");
+    add_bitmap_file_to_textures(textures, "textures/skybox/day.bmp");
+    add_bitmap_file_to_textures(textures, "textures/skybox/night.bmp");
+    add_bitmap_file_to_textures(textures, "textures/hud/sun.bmp");
+    add_bitmap_file_to_textures(textures, "textures/hud/moon.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/health/ico1.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/health/ico2.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/health/ico3.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/bullet.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/faces/happy.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/faces/meh.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/faces/sad.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/faces/dead.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/faces/badass.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/faces/sehr_happy.bmp");
+	add_bitmap_file_to_textures(textures, "textures/hud/faces/hurt.bmp");
     return (textures);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 16:02:56 by lfatton           #+#    #+#             */
-/*   Updated: 2019/03/18 16:03:13 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/04/11 17:49:26 by mtorsell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include "e_bool.h"
 #include "utils.h"
+#include "doom.h"
 
 enum e_bool	invert_bool(enum e_bool bool)
 {
@@ -37,26 +38,26 @@ double  get_distance_between_points(double x1, double y1, double x2, double y2)
     return (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 }
 
-int			read_segment_from_file(int fd, t_segment *segment)
+void			read_segment_from_file(int fd, t_segment *segment)
 {
-    int res;
-
-    res = read(fd, &(segment->x1), sizeof(segment->x1));
-    res &= read(fd, &(segment->y1), sizeof(segment->y1));
-    res &= read(fd, &(segment->x2), sizeof(segment->x2));
-    res &= read(fd, &(segment->y2), sizeof(segment->y2));
-
-    return (res);
+    if (read(fd, &(segment->x1), sizeof(segment->x1)) <= 0)
+        error_doom("couldn't read segment x1");
+    if (read(fd, &(segment->y1), sizeof(segment->y1)) <= 0)
+        error_doom("couldn't read segment y1");
+    if (read(fd, &(segment->x2), sizeof(segment->x2)) <= 0)
+        error_doom("couldn't read segment x2");
+    if (read(fd, &(segment->y2), sizeof(segment->y2)) <= 0)
+        error_doom("couldn't read segment y2");
 }
 
-int			write_segment_to_file(int fd, t_segment *segment)
+void			write_segment_to_file(int fd, t_segment *segment)
 {
-    int res;
-
-    res = write(fd, &(segment->x1), sizeof(segment->x1));
-    res &= write(fd, &(segment->y1), sizeof(segment->y1));
-    res &= write(fd, &(segment->x2), sizeof(segment->x2));
-    res &= write(fd, &(segment->y2), sizeof(segment->y2));
-
-    return (res);
+    if (write(fd, &(segment->x1), sizeof(segment->x1)) <= 0)
+        error_doom("couldn't write segment x1");
+    if (write(fd, &(segment->y1), sizeof(segment->y1)) <= 0)
+        error_doom("couldn't write segment y1");
+    if (write(fd, &(segment->x2), sizeof(segment->x2)) <= 0)
+        error_doom("couldn't write segment x2");
+    if (write(fd, &(segment->y2), sizeof(segment->y2)) <= 0)
+        error_doom("couldn't write segment y2");
 }
