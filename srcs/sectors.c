@@ -6,12 +6,27 @@
 #include "objects.h"
 #include "doom.h"
 
-void		free_walls(t_linked_walls *linked_walls)
+void			free_sectors(t_sectors *sectors)
 {
-    if (!linked_walls)
-        return;
-    free_walls(linked_walls->next);
-    free(linked_walls);
+    int		i;
+    t_sector	sector;
+    t_linked_walls *linked_walls;
+    int		count;
+
+    create_linked_walls_from_sectors(sectors, &linked_walls, &count);
+    free_linked_walls(linked_walls);
+    i = 0;
+    while (i < sectors->count)
+    {
+        sector = sectors->items[i];
+        free(sector.walls->items);
+        free(sector.walls);
+        free_objects(sector.objects);
+        free_enemies(sector.enemies);
+        i++;
+    }
+    free(sectors->items);
+    free(sectors);
 }
 
 void			read_sectors_from_file(
@@ -46,7 +61,7 @@ void			read_sectors_from_file(
         read_enemies_from_file(fd, textures, &sector->enemies);
         i++;
     }
-    free_walls(linked_walls);
+    free_linked_walls_nodes(linked_walls);
 }
 
 void			write_sectors_to_file(int fd, t_sectors *sectors)
@@ -73,7 +88,7 @@ void			write_sectors_to_file(int fd, t_sectors *sectors)
         write_enemies_to_file(fd, sector.enemies);
         i++;
     }
-    free_walls(linked_walls);
+    free_linked_walls_nodes(linked_walls);
 }
 
 int     sector_index(t_sectors *sectors, t_sector *sector)

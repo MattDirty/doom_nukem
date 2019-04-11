@@ -23,6 +23,7 @@ typedef struct			s_sectors
     t_sector			 *items;
 }						t_sectors;
 
+void		free_sectors(t_sectors *sectors);
 void		read_sectors_from_file(
         int fd,
         t_textures *textures,

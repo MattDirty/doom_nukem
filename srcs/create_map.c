@@ -48,8 +48,6 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[2].open_sky = t_true;
         map->sectors->items[i].objects = (t_objects*)malloc(sizeof(t_objects));
         map->sectors->items[i].objects->count = 0;
-        map->sectors->items[i].enemies = (t_enemies*)malloc(sizeof(t_enemies));
-        map->sectors->items[i].enemies->count = 0;
         map->sectors->items[i].objects->items = NULL;
        // if (i == 0)
         //{

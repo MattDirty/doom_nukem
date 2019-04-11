@@ -46,6 +46,13 @@ typedef struct			s_linked_walls
     struct s_linked_walls	*next;  // I'm not "fixing" the whole file, fuck the norm
 }						t_linked_walls;
 
+void			create_linked_walls_from_sectors(
+        t_sectors *sectors,
+        t_linked_walls **linked_walls,
+        int *count);
+void	free_linked_walls(t_linked_walls *linked_walls);
+void	free_linked_walls_nodes(t_linked_walls *linked_walls);
+
 void			read_linked_walls_from_file(
         int fd,
         t_sectors *sectors,

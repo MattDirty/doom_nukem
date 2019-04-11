@@ -8,6 +8,22 @@
 #include "serialisation.h"
 #include "doom.h"
 
+void	free_textures(t_textures *textures)
+{
+    t_texture_node *n;
+    t_texture_node *p;
+
+    n = textures->first;
+    while (n)
+    {
+        p = n;
+        n = n->next;
+        SDL_FreeSurface(p->texture);
+        free(p);
+    }
+    free(textures);
+}
+
 void	add_texture(t_textures *textures, t_texture_node *new_node)
 {
     t_texture_node	*node;

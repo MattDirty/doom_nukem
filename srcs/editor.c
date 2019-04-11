@@ -86,5 +86,7 @@ int		main(void)
 	gameloop(&ed);
 
 	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
+    free_map(map);
+    free_textures(textures);
     return (0);
 }
