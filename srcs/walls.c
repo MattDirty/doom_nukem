@@ -211,17 +211,26 @@ void			read_wall_from_file(
     read_segment_from_file(fd, &(*wall)->segment);
     if (read(fd, &(*wall)->type, sizeof((*wall)->type)) <= 0)
         error_doom("couldn't read wall type");
-    if ((*wall)->type == e_wall)
-        find_texture_from_file(fd, textures, &((*wall)->pointer.texture));
+    if ((*wall)->type == e_wall || (*wall)->type == e_transparent_wall)
+        find_texture_from_file(fd, textures, &((*wall)->texture));
     else if ((*wall)->type == e_portal)
+        (*wall)->texture = NULL;
+    if ((*wall)->type == e_portal || (*wall)->type == e_transparent_wall)
     {
         if (read(fd, &index, sizeof(index)) <= 0)
             error_doom("couldn't read first sector index");
-        (*wall)->pointer.sector.sector1 = (t_sector*)sectors->items + index;
+        (*wall)->links.sector1 = (t_sector*)sectors->items + index;
         if (read(fd, &index, sizeof(index)) <= 0)
             error_doom("couldn't read second sector index");
-        (*wall)->pointer.sector.sector2 = (t_sector*)sectors->items + index;
+        (*wall)->links.sector2 = (t_sector*)sectors->items + index;
     }
+    else if ((*wall)->type == e_wall)
+    {
+        (*wall)->links.sector1 = NULL;
+        (*wall)->links.sector2 = NULL;
+    }
+    if (read(fd, &(*wall)->to_infinity, sizeof((*wall)->to_infinity)) <= 0)
+        error_doom("Couldn't read wall->to_infinity");
 }
 
 void			write_wall_to_file(
@@ -234,19 +243,21 @@ void			write_wall_to_file(
     write_segment_to_file(fd, &wall->segment);
     if (write(fd, &wall->type, sizeof(wall->type)) <= 0)
         error_doom("couldn't write wall type");
-    if (wall->type == e_wall)
-        write_str_to_file(fd, wall->pointer.texture->userdata);
-    else if (wall->type == e_portal)
+    if (wall->type == e_wall || wall->type == e_transparent_wall)
+        write_str_to_file(fd, wall->texture->userdata);
+    if (wall->type == e_portal || wall->type == e_transparent_wall)
     {
-        index = sector_index(sectors, wall->pointer.sector.sector1);
+        index = sector_index(sectors, wall->links.sector1);
         if (index < 0)
             error_doom("index is stupid");
         if (write(fd, &index, sizeof(index)) <= 0)
             error_doom("couldn't write first sector index");
-        index = sector_index(sectors, wall->pointer.sector.sector2);
+        index = sector_index(sectors, wall->links.sector2);
         if (index < 0)
             error_doom("index is stupid");
         if (write(fd, &index, sizeof(index)) <= 0)
             error_doom("couldn't write second sector index");
     }
+    if (write(fd, &wall->to_infinity, sizeof(wall->to_infinity)) <= 0)
+        error_doom("Couldn't write wall->to_infinity");
 }

@@ -64,6 +64,7 @@ void	find_texture_by_name(
         }
         node = node->next;
     }
+    printf("%s\n", name);
     error_doom("can't find texture in textures");
 }
 

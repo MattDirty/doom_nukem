@@ -18,7 +18,8 @@ typedef struct  s_link
 enum            e_wall_type
 {
     e_portal,
-    e_wall
+    e_wall,
+    e_transparent_wall
 };
 
 union   u_pointer
@@ -30,8 +31,10 @@ union   u_pointer
 typedef struct			s_wall
 {
     t_segment			segment;
-    union u_pointer     pointer;
     enum e_wall_type    type;
+    SDL_Surface         *texture;
+    t_link              links;
+    enum e_bool         to_infinity;
 }						t_wall;
 
 typedef struct			s_walls
