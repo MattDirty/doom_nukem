@@ -125,7 +125,7 @@ static void         draw_wall(
 
 	if (collision->d.wall->type != e_wall)
 		return;
-	wall_text = collision->d.wall->pointer.texture;
+	wall_text = collision->d.wall->texture;
 	x = (Uint32)(get_distance_between_points(collision->inters.x,
 	        collision->inters.y, collision->d.wall->segment.x1,
 	        collision->d.wall->segment.y1) * wall_text->w) % wall_text->w;

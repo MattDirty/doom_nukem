@@ -128,23 +128,23 @@ t_map		*create_map(t_textures *textures)
 		{
 		    walls->items[j]->type = e_wall;
 		    if (i == 1)
-                find_texture_by_name(textures, "textures/walls/stones.bmp", &walls->items[j]->pointer.texture);
+                find_texture_by_name(textures, "textures/walls/stones.bmp", &walls->items[j]->texture);
 		    else
-                find_texture_by_name(textures, "textures/walls/brickwall2.bmp", &walls->items[j]->pointer.texture);
+                find_texture_by_name(textures, "textures/walls/brickwall2.bmp", &walls->items[j]->texture);
 			j++;
 		}
 		if (i == 0)
 		{
 			walls->items[1]->type = e_portal;
-			walls->items[1]->pointer.sector.sector1 = &map->sectors->items[0];
-			walls->items[1]->pointer.sector.sector2 = &map->sectors->items[1];
+			walls->items[1]->links.sector1 = &map->sectors->items[0];
+			walls->items[1]->links.sector2 = &map->sectors->items[1];
 			map->sectors->items[i].light = 0x32000000;
 		}
 		else if (i == 1)
         {
 			walls->items[1]->type = e_portal;
-			walls->items[1]->pointer.sector.sector1 = &map->sectors->items[1];
-			walls->items[1]->pointer.sector.sector2 = &map->sectors->items[2];
+			walls->items[1]->links.sector1 = &map->sectors->items[1];
+			walls->items[1]->links.sector2 = &map->sectors->items[2];
 			free(walls->items[3]);
 			walls->items[3] = map->sectors->items[0].walls->items[1];
 			map->sectors->items[i].light = 0x64000000;
