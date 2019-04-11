@@ -34,6 +34,8 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
             draw_segment(surface, s2, RED);
         else if (walls->items[i]->type == e_wall)
             draw_segment(surface, s2, WHITE);
+        else if (walls->items[i]->type == e_transparent_wall)
+            draw_segment(surface, s2, BLUE);
         i++;
     }
 }
