@@ -176,5 +176,6 @@ void		find_ray_collisions(
             break;
 		last_portal = (*node)->item.d.wall;
 		sector = get_next_sector_addr(sector, (*node)->item.d.wall);
+        node = &(*node)->next;
 	}
 }
