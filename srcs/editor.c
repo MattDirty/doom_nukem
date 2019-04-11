@@ -344,10 +344,10 @@ int		main(void)
     textures = load_textures();
     map = create_map(textures);
 
+	write_file("mabite.roflolilolmao", textures, map);
 	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &sdl_ed);
 
 	gameloop(map, &sdl_ed);
-	write_file("mabite.roflolilolmao", textures, map);
 
 	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
     return (0);
