@@ -51,6 +51,7 @@ int			read_sectors_from_file(
         	return (-8);
         if (read_objects_from_file(fd, textures, &sector->objects) < 0)
             return (-9);
+        read_enemies_from_file(fd, textures, &sector->enemies);
         i++;
     }
     free_walls(linked_walls);
@@ -86,6 +87,7 @@ int			write_sectors_to_file(int fd, t_sectors *sectors)
         	return (-7);
         if (write_objects_to_file(fd, sector.objects) < 0)
             return (-8);
+        write_enemies_to_file(fd, sector.enemies);
         i++;
     }
     free_walls(linked_walls);

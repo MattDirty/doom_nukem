@@ -51,7 +51,8 @@ SRCS_NAMES = vector.c \
 			skybox.c \
 			config.c \
 			textures.c \
-			keyboard.c
+			keyboard.c \
+			enemies.c
 
 SRC_NAME =	main.c \
 			$(SRCS_NAMES)

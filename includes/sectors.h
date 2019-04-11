@@ -4,6 +4,7 @@
 # include "textures.h"
 # include "walls.h"
 # include "objects.h"
+# include "enemies.h"
 
 typedef	struct			s_sector
 {
@@ -13,6 +14,7 @@ typedef	struct			s_sector
     enum e_bool         open_sky;
     Uint32				light;
     t_objects           *objects;
+    t_enemies           *enemies;
 }						t_sector;
 
 typedef struct			s_sectors
