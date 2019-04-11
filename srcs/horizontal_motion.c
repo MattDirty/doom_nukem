@@ -39,7 +39,7 @@ static void	handle_collision_for_speed(
 	while (ptr->next)
 	    ptr = ptr->next;
 	if (ptr->item.type == ct_wall && ptr->item.d.wall
-	&& ptr->item.d.wall->type == e_wall)
+	&& ptr->item.d.wall->type != e_portal)
 	{
 		if (ptr->item.distance <= PLAYER_THICKNESS)
 		{
