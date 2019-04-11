@@ -315,7 +315,7 @@ void        draw_enemies_in_sector_editor(SDL_Surface *target, t_enemies *enemie
     {
         coords.x = EDITOR_W_H + enemies->items[i].object->x * EDITOR_ZOOM;
         coords.y = EDITOR_H_H - enemies->items[i].object->y * EDITOR_ZOOM;
-        draw_circle_filled(target, coords, 5, 0xFFFFAAAA);
+        draw_circle_filled(target, coords, 0.25 * EDITOR_ZOOM, 0xFFFFAAAA);
         i++;
     }
 }
@@ -330,7 +330,7 @@ void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *object
     {
         coords.x = EDITOR_W_H + objects->items[i].x * EDITOR_ZOOM;
         coords.y = EDITOR_H_H - objects->items[i].y * EDITOR_ZOOM;
-        draw_circle_filled(target, coords, 3, 0xFF00FF00);
+        draw_circle_filled(target, coords, 0.15 * EDITOR_ZOOM, 0xFF00FF00);
         i++;
     }
 }
