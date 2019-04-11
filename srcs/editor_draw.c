@@ -87,7 +87,7 @@ void        draw_save_button(SDL_Surface *target, t_buttons *buttons, int i)
     SDL_Surface *save;
     t_coords    location;
 
-    save_btn.rect = create_rect(0, 0, 40, 20);
+    save_btn.rect = create_rect(DRAW_PANNEL_X + 5, DRAW_PANNEL_Y + 5, 40, 20);
     draw_rect(target, &save_btn.rect, RED);
     fill_rect(target, &save_btn.rect, PINK);
     save = write_text("fonts/sixty.ttf", 15, "SAVE", (SDL_Colour){255,0,0,255});
@@ -111,6 +111,7 @@ void		draw_editor(t_editor *ed)
 
     i = 0;
     buttons.count = 1;
+    draw_pannel(ed->sdl.surface);
     while (i < ed->map->sectors->count)
     {
         draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i].walls);
@@ -119,6 +120,5 @@ void		draw_editor(t_editor *ed)
         draw_enemies_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].enemies);
         i++;
     }
-    draw_save_button(sdl_ed->surface, &buttons, 0);
-    draw_pannel(sdl_ed->surface);
+    draw_save_button(ed->sdl.surface, &buttons, 0);
 }
