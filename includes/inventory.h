@@ -24,14 +24,16 @@ typedef struct      s_container_bag
     t_inert_slot_bag    *first_inert_node_bag;
 }                   t_container_bag;
 
-void        init_container_bag(t_container_bag *container_bag);
+t_container_bag        init_container_bag(t_container_bag *container_bag);
 
-void        add_usable_item(t_usable_slot_bag *usable_slot_bag, void *item);
-void        add_usable_slot(t_usable_slot_bag *usable_slot_bag);
-void        del_usable_slot(t_usable_slot_bag *usable_slot_bag);
+int             count_nb_node_slot_bag(t_usable_slot_bag *usable_slot_bag);
 
-void        add_inert_item(t_inert_slot_bag *inert_slot_bag, void *item);
-void        add_inert_slot(t_inert_slot_bag *inert_slot_bag);
-void        del_inert_slot(t_inert_slot_bag *inert_slot_bag);
+void            add_usable_item_slot_to_list(t_container_bag *container_bag, t_usable_slot_bag *usable_slot_bag);
+void            del_usable_item_slot_from_list(t_usable_slot_bag *usable_slot_bag);
+void            new_usable_slot(t_container_bag *container_bag, void *item);
+
+void            add_inert_item_slot_to_list(t_container_bag *container_bag, t_inert_slot_bag *inert_slot_bag);
+void            del_inert_item_slot_from_list(t_inert_slot_bag *inert_slot_bag);
+void            new_inert_slot(t_container_bag *container_bag, void *item);
 
 #endif
