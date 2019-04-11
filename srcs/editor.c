@@ -305,6 +305,21 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
 	}
 }
 
+void        draw_enemies_in_sector_editor(SDL_Surface *target, t_enemies *enemies)
+{
+    int         i;
+    t_coords    coords;
+
+    i = 0;
+    while (i < enemies->count)
+    {
+        coords.x = EDITOR_W_H + enemies->items[i].object->x * EDITOR_ZOOM;
+        coords.y = EDITOR_H_H - enemies->items[i].object->y * EDITOR_ZOOM;
+        draw_circle_filled(target, coords, 5, 0xFFFFAAAA);
+        i++;
+    }
+}
+
 void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *objects)
 {
     int         i;
@@ -329,7 +344,7 @@ void		draw_editor(t_sdl_editor *sdl_ed, t_map *map)
 	{
 		draw_walls_editor(sdl_ed->surface, map->sectors->items[i].walls);
 		draw_objects_in_sector_editor(sdl_ed->surface, map->sectors->items[i].objects);
-
+        draw_enemies_in_sector_editor(sdl_ed->surface, map->sectors->items[i].enemies);
 		i++;
 	}
 }
