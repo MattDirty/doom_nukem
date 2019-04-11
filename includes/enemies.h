@@ -22,6 +22,7 @@ typedef struct  s_enemies
     int         count;
 }               t_enemies;
 
+void free_enemies(t_enemies *enemies);
 void read_enemies_from_file(int fd, t_textures *textures, t_enemies **enemies);
 void write_enemies_to_file(int fd, t_enemies *enemies);
 

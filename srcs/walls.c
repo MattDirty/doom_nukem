@@ -68,7 +68,7 @@ void			read_linked_walls_from_file(
     t_wall	*wall;
 
     if (!(*linked_walls = (t_linked_walls*)malloc(sizeof(t_linked_walls))))
-        error_doom("coulnd't malloc t_linked_walls");
+        error_doom("couldn't malloc t_linked_walls");
     (*linked_walls)->next = NULL;
     (*linked_walls)->wall = NULL;
     if (read(fd, &count, sizeof(count)) <= 0)
@@ -82,39 +82,64 @@ void			read_linked_walls_from_file(
     }
 }
 
-void			write_linked_walls_to_file(
-        int fd,
+void			create_linked_walls_from_sectors(
         t_sectors *sectors,
-        t_linked_walls **p_linked_walls)
+        t_linked_walls **linked_walls,
+        int *count)
 {
     int		i;
     int		j;
     int		index;
-    int		count;
-    t_linked_walls *linked_walls;
 
-    if (!(linked_walls =
-            (t_linked_walls*)malloc(sizeof(t_linked_walls))))
+    if (!(*linked_walls = (t_linked_walls*)malloc(sizeof(t_linked_walls))))
         error_doom("couldn't malloc linked walls");
-    linked_walls->next = NULL;
-    linked_walls->wall = NULL;
-    *p_linked_walls = linked_walls;
-    count = 0;
+    (*linked_walls)->next = NULL;
+    (*linked_walls)->wall = NULL;
+    *count = 0;
     i = 0;
     while (i < sectors->count)
     {
         j = 0;
         while (j < sectors->items[i].walls->count)
         {
-            index = add_wall_to_serialiser(
-                    linked_walls,
+            index = add_wall_to_serialiser(*linked_walls,
                     sectors->items[i].walls->items[j]);
-            if (index >= count)
-                count = index + 1;
+            if (index >= *count)
+                *count = index + 1;
             j++;
         }
         i++;
     }
+}
+
+void		free_linked_walls_nodes(t_linked_walls *linked_walls)
+{
+    if (!linked_walls)
+        return;
+    free_linked_walls_nodes(linked_walls->next);
+    free(linked_walls);
+}
+
+void		free_linked_walls(t_linked_walls *linked_walls)
+{
+    if (!linked_walls)
+        return;
+    free_linked_walls(linked_walls->next);
+    if (linked_walls->wall)
+        free(linked_walls->wall);
+    free(linked_walls);
+}
+
+void			write_linked_walls_to_file(
+        int fd,
+        t_sectors *sectors,
+        t_linked_walls **p_linked_walls)
+{
+    t_linked_walls *linked_walls;
+    int		count;
+
+    create_linked_walls_from_sectors(sectors, p_linked_walls, &count);
+    linked_walls = *p_linked_walls;
     if (write(fd, &count, sizeof(count)) <= 0)
         error_doom("couldn't write walls count");
     while (linked_walls->wall)

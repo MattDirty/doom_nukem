@@ -27,6 +27,7 @@ t_segment perpendicular_segment_from_point(
         double point_of_view_x,
         double point_of_view_y);
 
+void free_objects(t_objects *objects);
 void read_objects_from_file(int fd, t_textures *textures, t_objects **objects);
 void write_objects_to_file(int fd, t_objects *objects);
 

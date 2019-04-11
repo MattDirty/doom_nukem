@@ -3,6 +3,20 @@
 #include "doom.h"
 #include "serialisation.h"
 
+void	free_enemies(t_enemies *enemies)
+{
+    int	i;
+
+    i = 0;
+    while (i < enemies->count)
+    {
+        free(enemies->items[i].object);
+        i++;
+    }
+    free(enemies->items);
+    free(enemies);
+}
+
 void    write_enemy_to_file(int fd, t_enemy enemy)
 {
     write_object_to_file(fd, *enemy.object);

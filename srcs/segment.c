@@ -4,7 +4,7 @@
 
 void print_segment(t_segment *s, char *str)
 {
-    printf("%s\nstart (x : %f y : %f) end(x : %f y : %f)\n", str, s->x1, s->y1, s->x2, s->y2);
+    printf("%s\nstart (x : %f y : %f) end(x : %f y : %f)\n", str, s->x1, s->y1, s->x2, s->y2); // nooorminette
 }
 
 void move_segment_at(t_segment *segment, double x, double y)

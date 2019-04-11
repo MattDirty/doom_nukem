@@ -80,7 +80,7 @@ t_segment create_segment_from_position_and_vector(
 
 void print_vector(t_vector *vector, char *str)
 {
-    printf("%s\nx : %f y : %f \n", str, vector->x, vector->y);
+    printf("%s\nx : %f y : %f \n", str, vector->x, vector->y); // noooorm
 }
 
 t_vector create_vector(double x, double y)

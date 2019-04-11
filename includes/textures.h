@@ -32,6 +32,8 @@ typedef struct				s_SDL_Surface_info
     Uint32					Bmask;
     Uint32					Amask;
 }							t_SDL_Surface_info;
+
+void	free_textures(t_textures *textures);
 void	find_texture_by_name(
         t_textures *textures,
         char *name,

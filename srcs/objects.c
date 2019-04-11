@@ -28,6 +28,12 @@ t_segment perpendicular_segment_from_point(
     return (segment);
 }
 
+void free_objects(t_objects *objects)
+{
+    free(objects->items);
+    free(objects);
+}
+
 void read_objects_from_file(int fd, t_textures *textures, t_objects **objects)
 {
     int count;

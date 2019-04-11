@@ -33,6 +33,7 @@ void	write_file(char *filename, t_textures *textures, t_map *map)
 void	read_str_from_file(int fd, char **name)
 {
     char			*c;
+    char			*new_name;
 
     c = ft_strnew(1);
     *name = ft_strnew(1);
@@ -40,7 +41,9 @@ void	read_str_from_file(int fd, char **name)
     {
         if (read(fd, c, sizeof(char)) <= 0)
             error_doom("couldn't read str in file");
-        *name = ft_strjoin(*name, c);
+        new_name = ft_strjoin(*name, c);
+        free(*name);
+        *name = new_name;
         if (!*c)
         {
             free(c);

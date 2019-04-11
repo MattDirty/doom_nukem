@@ -5,6 +5,12 @@
 #include "serialisation.h"
 #include "doom.h"
 
+void		free_map(t_map *map)
+{
+    free_sectors(map->sectors);
+    free(map);
+}
+
 void		read_map_from_file(int fd, t_textures *textures, t_map **map)
 {
     if (!(*map = (t_map*)malloc(sizeof(t_map))))
