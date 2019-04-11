@@ -216,7 +216,10 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
 		s2.y1 = EDITOR_H_H - s.y1 * EDITOR_ZOOM;
 		s2.x2 = EDITOR_W_H + s.x2 * EDITOR_ZOOM;
 		s2.y2 = EDITOR_H_H - s.y2 * EDITOR_ZOOM;
-	    draw_segment(surface, s2, 0xFFFFFFFF);
+		if (walls->items[i]->type == e_wall)
+    	    draw_segment(surface, s2, 0xFFFFFFFF);
+		else if (walls->items[i]->type == e_portal)
+		    draw_segment(surface, s2, 0xFFFF0000);
 		i++;
 	}
 }
