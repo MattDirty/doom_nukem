@@ -58,6 +58,7 @@ SRC_NAME =	main.c \
 			$(SRCS_NAMES)
 
 SRC_EDITOR_NAME = editor.c \
+				  editor_draw.c \
 				  $(SRCS_NAMES)
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
