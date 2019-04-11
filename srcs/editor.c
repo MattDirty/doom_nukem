@@ -306,7 +306,7 @@ int		event_editor(t_map *map, t_sdl_editor *sdl_ed)
 	(void)sdl_ed;
 	SDL_PollEvent(&event);
 	if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-		exit(EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	return (1);
 }
 
@@ -343,11 +343,11 @@ int		main(void)
 	ft_bzero(&sdl_ed, sizeof(t_sdl_editor));
     textures = load_textures();
     map = create_map(textures);
-	write_file("mabite.roflolilolmao", textures, map);
 
 	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &sdl_ed);
 
 	gameloop(map, &sdl_ed);
+	write_file("mabite.roflolilolmao", textures, map);
 
 	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
     return (0);
