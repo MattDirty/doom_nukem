@@ -127,6 +127,7 @@ t_map		*create_map(t_textures *textures)
 		while (j < walls->count)
 		{
 		    walls->items[j]->type = e_wall;
+		    walls->items[j]->to_infinity = t_false;
 		    if (i == 1)
                 find_texture_by_name(textures, "textures/walls/stones.bmp", &walls->items[j]->texture);
 		    else
@@ -145,7 +146,8 @@ t_map		*create_map(t_textures *textures)
 			walls->items[1]->type = e_transparent_wall;
 			walls->items[1]->links.sector1 = &map->sectors->items[1];
 			walls->items[1]->links.sector2 = &map->sectors->items[2];
-            find_texture_by_name(textures, "textures/walls/fence.bmp", &walls->items[1]->texture);
+            find_texture_by_name(textures, "textures/walls/fence.bmp",
+                    &walls->items[1]->texture);
             free(walls->items[3]);
 			walls->items[3] = map->sectors->items[0].walls->items[1];
 			map->sectors->items[i].light = 0x64000000;

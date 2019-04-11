@@ -213,6 +213,8 @@ void			read_wall_from_file(
         error_doom("couldn't read wall type");
     if ((*wall)->type == e_wall || (*wall)->type == e_transparent_wall)
         find_texture_from_file(fd, textures, &((*wall)->texture));
+    else if ((*wall)->type == e_portal)
+        (*wall)->texture = NULL;
     if ((*wall)->type == e_portal || (*wall)->type == e_transparent_wall)
     {
         if (read(fd, &index, sizeof(index)) <= 0)
@@ -222,15 +224,13 @@ void			read_wall_from_file(
             error_doom("couldn't read second sector index");
         (*wall)->links.sector2 = (t_sector*)sectors->items + index;
     }
-    if (read(fd, &(*wall)->to_infinity, sizeof((*wall)->to_infinity)) <= 0)
-        error_doom("Couldn't read wall->to_infinity");
-    if ((*wall)->type == e_wall)
+    else if ((*wall)->type == e_wall)
     {
         (*wall)->links.sector1 = NULL;
         (*wall)->links.sector2 = NULL;
     }
-    if ((*wall)->type == e_portal)
-        (*wall)->texture = NULL;
+    if (read(fd, &(*wall)->to_infinity, sizeof((*wall)->to_infinity)) <= 0)
+        error_doom("Couldn't read wall->to_infinity");
 }
 
 void			write_wall_to_file(
@@ -258,6 +258,6 @@ void			write_wall_to_file(
         if (write(fd, &index, sizeof(index)) <= 0)
             error_doom("couldn't write second sector index");
     }
-    if (write(fd, &wall->to_infinity, sizeof(wall->to_infinity) <= 0))
+    if (write(fd, &wall->to_infinity, sizeof(wall->to_infinity)) <= 0)
         error_doom("Couldn't write wall->to_infinity");
 }

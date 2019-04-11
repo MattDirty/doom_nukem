@@ -31,9 +31,9 @@ union   u_pointer
 typedef struct			s_wall
 {
     t_segment			segment;
+    enum e_wall_type    type;
     SDL_Surface         *texture;
     t_link              links;
-    enum e_wall_type    type;
     enum e_bool         to_infinity;
 }						t_wall;
 
