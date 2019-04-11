@@ -82,6 +82,40 @@ static t_collisions		*insert_collision(
     return (new);
 }
 
+static void		find_enemies_collisions_in_sector(
+        t_sector *sector,
+        t_segment *ray,
+        t_collisions **collisions)
+{
+    int			    i;
+    t_coords	    inters;
+    double		    distance;
+    t_segment       s;
+    t_collisions	*new;
+
+    i = 0;
+    while (i < sector->enemies->count)
+    {
+        s = perpendicular_segment_from_point(
+                sector->enemies->items[i].object,
+                ray->x1,
+                ray->y1);
+        if (segments_intersect(ray, &s, &inters))
+        {
+            distance = get_distance_between_points(
+                    ray->x1,
+                    ray->y1,
+                    inters.x,
+                    inters.y);
+            new = insert_collision(collisions, distance, inters);
+            new->item.type = ct_object;
+            new->item.d.object = sector->enemies->items[i].object;
+            new->item.object_segment = s;
+        }
+        i++;
+    }
+}
+
 static void		find_objects_collisions_in_sector(
         t_sector *sector,
         t_segment *ray,
@@ -167,6 +201,7 @@ void		find_ray_collisions(
 	node = collisions;
 	while (1)
 	{
+        find_enemies_collisions_in_sector(sector, ray, node);
         find_objects_collisions_in_sector(sector, ray, node);
         if (!find_wall_collisions_in_sector(sector, ray, node, last_portal))
             break;

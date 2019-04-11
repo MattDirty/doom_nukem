@@ -95,17 +95,23 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].enemies->items[0].object->x = 1;
         map->sectors->items[i].enemies->items[0].object->y = i * 4 + 1;;
         map->sectors->items[i].enemies->items[0].object->z = 0;
-        map->sectors->items[i].enemies->items[0].object->horizontal_size = 0.25;
-        map->sectors->items[i].enemies->items[0].object->vertical_size = 0.25;
+        map->sectors->items[i].enemies->items[0].object->horizontal_size = 1;
+        map->sectors->items[i].enemies->items[0].object->vertical_size = 1;
         map->sectors->items[i].enemies->items[0].hp = 100;
         map->sectors->items[i].enemies->items[0].heading = 0;
         if (find_texture_by_name(textures,
                                  "textures/sprites/enemy_front.bmp",
-                                 &map->sectors->items[i].enemies->items[0].front) < 0)
+                                 &map->sectors->items[i].enemies->items[0].front)
+                                 < 0)
             error_doom("Couldn't find enemy_front.bmp");
         else
             map->sectors->items[i].enemies->items[0].object->sprite =
                     map->sectors->items[i].enemies->items[0].front;
+        if (find_texture_by_name(textures,
+                                 "textures/sprites/enemy_side.bmp",
+                                 &map->sectors->items[i].enemies->items[0].side)
+            < 0)
+            error_doom("Couldn't find enemy_side.bmp");
 
 		walls = map->sectors->items[i].walls;
 		find_texture_by_name(
@@ -233,6 +239,8 @@ t_textures	*load_textures(void)
         error_doom("could not load voilaunefleur");
     if (add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front.bmp") < 0)
         error_doom("could not load enemy_front");
+    if (add_bitmap_file_to_textures(textures, "textures/sprites/enemy_side.bmp") < 0)
+        error_doom("could not load enemy_side");
     if (add_bitmap_file_to_textures(textures, "textures/skybox/day.bmp") < 0)
         error_doom("could not load day");
     if (add_bitmap_file_to_textures(textures, "textures/skybox/night.bmp") < 0)

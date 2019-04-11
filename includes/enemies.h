@@ -13,6 +13,7 @@ typedef struct s_enemy
     Uint32      hp;
     double      heading;
     SDL_Surface *front;
+    SDL_Surface *side;
 }               t_enemy;
 
 typedef struct  s_enemies
