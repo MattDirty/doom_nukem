@@ -163,13 +163,49 @@ static t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
 	return (render);
 }
 
-static void	draw_objects(t_env *e, t_render *r, t_collisions *node)
+void         draw_transparent_wall(
+        const t_render *render,
+        const t_collision *collision,
+        const t_u_range range)
+{
+    Uint32		x;
+    Uint32		y;
+    Uint32		i;
+    SDL_Surface *wall_text;
+
+    if (collision->d.wall->type != e_transparent_wall)
+        return;
+    wall_text = collision->d.wall->texture;
+    x = (Uint32)(get_distance_between_points(collision->inters.x,
+                                             collision->inters.y, collision->d.wall->segment.x1,
+                                             collision->d.wall->segment.y1) * wall_text->w) % wall_text->w;
+    i = range.start;
+    while (i < range.end)
+    {
+        y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)
+                           * wall_text->h / render->wall_height))) % wall_text->h;
+        put_pixel_alpha(
+                render->surface,
+                render->x,
+                i,
+                get_pixel(wall_text, x, y, t_false));
+        i++;
+    }
+}
+
+static void	draw_transparents(t_env *e, t_render *r, t_collisions *node)
 {
     if (!node)
         return;
-    draw_objects(e, r, node->next);
+    draw_transparents(e, r, node->next);
     if (node->item.type == ct_object)
         draw_object(e, r, &node->item);
+    else if (node->item.d.wall->type == e_transparent_wall)
+    {
+        r->wall_height =
+                e->op.ratio / node->item.distance;
+        draw_transparent_wall(r, &node->item, wall_range(r->wall_height, r->vision_height, r->win_h));
+    }
 }
 
 static void	draw_walls(t_env *e, t_render *r, t_collisions *node)
@@ -210,5 +246,5 @@ void		draw(t_env *e, t_collisions *node, Uint32 renderer_x)
 
 	r = fill_render_struct(e, renderer_x);
     draw_walls(e, &r, node);
-    draw_objects(e, &r, node);
+    draw_transparents(e, &r, node);
 }
