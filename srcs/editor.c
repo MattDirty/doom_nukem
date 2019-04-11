@@ -115,7 +115,6 @@ t_map		*create_map(t_textures *textures)
 		j = 0;
 		while (j < walls->count)
 		{
-		    walls->items[j]->height = 1.0;
 		    walls->items[j]->type = e_wall;
 		    if (i == 1)
                 find_texture_by_name(textures, "textures/walls/stones.bmp", &walls->items[j]->pointer.texture);

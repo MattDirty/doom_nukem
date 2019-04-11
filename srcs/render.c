@@ -186,7 +186,7 @@ static void	draw_walls(t_env *e, t_render *r, t_collisions *node)
 	{
 		r->light_value = current_sector->light;
 		r->wall_height =
-                e->op.ratio / node->item.distance * node->item.d.wall->height;
+                e->op.ratio / node->item.distance;
         if (node->item.type == ct_wall)
         {
             range = wall_range(r->wall_height, r->vision_height, r->win_h);

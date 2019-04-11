@@ -183,8 +183,6 @@ void			read_wall_from_file(
 
     if (!(*wall = (t_wall*)malloc(sizeof(t_wall))))
         error_doom("couldn't malloc t_wall");
-    if (read(fd, &(*wall)->height, sizeof((*wall)->height)) <= 0)
-        error_doom("couldn't read wall height");
     read_segment_from_file(fd, &(*wall)->segment);
     if (read(fd, &(*wall)->type, sizeof((*wall)->type)) <= 0)
         error_doom("couldn't read wall type");
@@ -208,8 +206,6 @@ void			write_wall_to_file(
 {
     int		index;
 
-    if (write(fd, &wall->height, sizeof(wall->height)) <= 0)
-        error_doom("couldn't write wall height");
     write_segment_to_file(fd, &wall->segment);
     if (write(fd, &wall->type, sizeof(wall->type)) <= 0)
         error_doom("couldn't write wall type");

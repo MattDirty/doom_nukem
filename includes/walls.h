@@ -30,7 +30,6 @@ union   u_pointer
 typedef struct			s_wall
 {
     t_segment			segment;
-    double				height; //debug
     union u_pointer     pointer;
     enum e_wall_type    type;
 }						t_wall;
