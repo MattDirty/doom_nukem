@@ -27,10 +27,10 @@ t_segment perpendicular_segment_from_point(
         double point_of_view_x,
         double point_of_view_y);
 
-int read_objects_from_file(int fd, t_textures *textures, t_objects **objects);
-int write_objects_to_file(int fd, t_objects *objects);
+void read_objects_from_file(int fd, t_textures *textures, t_objects **objects);
+void write_objects_to_file(int fd, t_objects *objects);
 
-int read_object_from_file(int fd, t_textures *textures, t_object *object);
-int write_object_to_file(int fd, t_object object);
+void read_object_from_file(int fd, t_textures *textures, t_object *object);
+void write_object_to_file(int fd, t_object object);
 
 #endif

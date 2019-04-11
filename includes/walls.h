@@ -47,31 +47,31 @@ typedef struct			s_linked_walls
     struct s_linked_walls	*next;  // I'm not "fixing" the whole file, fuck the norm
 }						t_linked_walls;
 
-int			read_linked_walls_from_file(
+void			read_linked_walls_from_file(
         int fd,
         t_sectors *sectors,
         t_textures *textures,
         t_linked_walls **linked_walls);
-int			write_linked_walls_to_file(
+void			write_linked_walls_to_file(
         int fd,
         t_sectors *sectors,
         t_linked_walls **p_linked_walls);
 
-int			read_walls_from_file(
+void			read_walls_from_file(
         int fd,
         t_linked_walls *linked_walls,
         t_walls **walls);
-int			write_walls_to_file(
+void			write_walls_to_file(
         int fd,
         t_linked_walls *linked_walls,
         t_walls *walls);
 
-int			read_wall_from_file(
+void			read_wall_from_file(
         int fd,
         t_sectors *sectors,
         t_textures *textures,
         t_wall **wall);
-int			write_wall_to_file(
+void			write_wall_to_file(
         int fd,
         t_sectors *sectors,
         t_wall *wall);

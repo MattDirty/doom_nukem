@@ -23,11 +23,11 @@ typedef struct			s_sectors
     t_sector			 *items;
 }						t_sectors;
 
-int		read_sectors_from_file(
+void		read_sectors_from_file(
         int fd,
         t_textures *textures,
         t_sectors **sectors);
-int		write_sectors_to_file(int fd, t_sectors *sectors);
+void		write_sectors_to_file(int fd, t_sectors *sectors);
 
 int		sector_index(t_sectors *sectors, t_sector *sector);
 

@@ -6,19 +6,16 @@
 #include "doom.h"
 #include "serialisation.h"
 
-int	read_file(char *filename, t_textures **textures, t_map **map)
+void	read_file(char *filename, t_textures **textures, t_map **map)
 {
     int fd;
 
     fd = open(filename, O_RDONLY);
     if (fd <= 0)
-        return (-1);
-    if (read_textures_from_file(fd, textures) < 0)
-        return (-2);
-    if (read_map_from_file(fd, *textures, map) < 0)
-        return (-3);
+        error_doom("couldn't open file");
+    read_textures_from_file(fd, textures);
+    read_map_from_file(fd, *textures, map);
     close(fd);
-    return (0);
 }
 
 void	write_file(char *filename, t_textures *textures, t_map *map)
@@ -28,14 +25,12 @@ void	write_file(char *filename, t_textures *textures, t_map *map)
     fd = open(filename, O_WRONLY | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
     if (fd <= 0)
         error_doom("couldn't open file");
-    if (write_textures_to_file(fd, textures) < 0)
-		error_doom("couldn't write textures");
-    if (write_map_to_file(fd, map) < 0)
-		error_doom("couldn't write map");
+    write_textures_to_file(fd, textures);
+    write_map_to_file(fd, map);
     close(fd);
 }
 
-int	read_str_from_file(int fd, char **name)
+void	read_str_from_file(int fd, char **name)
 {
     char			*c;
 
@@ -44,32 +39,29 @@ int	read_str_from_file(int fd, char **name)
     while (1)
     {
         if (read(fd, c, sizeof(char)) <= 0)
-        {
-            free(c);
-            return (-1);
-        }
+            error_doom("couldn't read str in file");
         *name = ft_strjoin(*name, c);
         if (!*c)
         {
             free(c);
-            return (0);
+            return;
         }
     }
 }
 
-int	write_str_to_file(int fd, char *name)
+void	write_str_to_file(int fd, char *name)
 {
     char			*c;
     int				i;
 
     if (!name)
-        return(-1);
+        error_doom("can't write null str");
     i = 0;
     while (1)
     {
         c = name + i++;
         write(fd, c, sizeof(char));
         if (!*c)
-            return (0);
+            return;
     }
 }

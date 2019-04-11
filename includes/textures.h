@@ -32,20 +32,20 @@ typedef struct				s_SDL_Surface_info
     Uint32					Bmask;
     Uint32					Amask;
 }							t_SDL_Surface_info;
-int	find_texture_by_name(
+void	find_texture_by_name(
         t_textures *textures,
         char *name,
         SDL_Surface **texture);
-int	add_bitmap_file_to_textures(
+void	add_bitmap_file_to_textures(
         t_textures *textures,
         char *path);
 
-int	read_textures_from_file(int fd, t_textures **textures);
-int	write_textures_to_file(int fd, t_textures *textures);
+void	read_textures_from_file(int fd, t_textures **textures);
+void	write_textures_to_file(int fd, t_textures *textures);
 
-int	read_texture_node_from_file(int fd, t_texture_node **texture_node);
-int	write_texture_node_to_file(int fd, t_texture_node *texture_node);
+void	read_texture_node_from_file(int fd, t_texture_node **texture_node);
+void	write_texture_node_to_file(int fd, t_texture_node *texture_node);
 
-int	find_texture_from_file(int fd, t_textures *textures, SDL_Surface **surface);
+void	find_texture_from_file(int fd, t_textures *textures, SDL_Surface **surface);
 
 #endif

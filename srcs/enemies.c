@@ -10,10 +10,8 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
         error_doom("Problem while reading enemy from file");
     if (write(fd, &enemy.heading, sizeof(enemy.heading)) <= 0)
         error_doom("Problem while reading enemy from file");
-    if (write_str_to_file(fd, enemy.front->userdata) < 0)
-        error_doom("Couldn't find enemy front texture");
-    if (write_str_to_file(fd, enemy.side->userdata) < 0)
-        error_doom("Couldn't find enemy side texture");
+    write_str_to_file(fd, enemy.front->userdata);
+    write_str_to_file(fd, enemy.side->userdata);
 }
 
 void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
@@ -25,11 +23,9 @@ void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
         error_doom("Problem while reading enemy from file");
     if (read(fd, &enemy->heading, sizeof(enemy->heading)) <= 0)
         error_doom("Problem while reading enemy from file");
-    if (find_texture_from_file(fd, textures, &enemy->front) < 0)
-        error_doom("Couldn't find enemy front texture");
+    find_texture_from_file(fd, textures, &enemy->front);
     enemy->object->sprite = enemy->front;
-    if (find_texture_from_file(fd, textures, &enemy->side) < 0)
-        error_doom("Couldn't find enemy side texture");
+    find_texture_from_file(fd, textures, &enemy->side);
 }
 
 void    write_enemies_to_file(int fd, t_enemies *enemies)

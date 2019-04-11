@@ -49,8 +49,7 @@ int		main (int ac, char **av)
 		error_doom("Couldn't open lamerde.wav");
 	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
 		error_doom("error: cannot hide mouse cursor");
-    if (read_file("mabite.roflolilolmao", &textures, &e.map) < 0)
-        error_doom("Could not load game file");
+    read_file("mabite.roflolilolmao", &textures, &e.map);
 	e.p = init_player(&e.op, &e.map->sectors->items[0]);
     e.p.weapons = allocate_weapons();
     if (e.debug_mode)
