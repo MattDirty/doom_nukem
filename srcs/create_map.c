@@ -142,16 +142,21 @@ t_map		*create_map(t_textures *textures)
 		}
 		else if (i == 1)
         {
-			walls->items[1]->type = e_portal;
+			walls->items[1]->type = e_transparent_wall;
 			walls->items[1]->links.sector1 = &map->sectors->items[1];
 			walls->items[1]->links.sector2 = &map->sectors->items[2];
-			free(walls->items[3]);
+            find_texture_by_name(textures, "textures/walls/fence.bmp", &walls->items[1]->texture);
+            free(walls->items[3]);
 			walls->items[3] = map->sectors->items[0].walls->items[1];
 			map->sectors->items[i].light = 0x64000000;
 		}
 		else
 		{
-			free(walls->items[3]);
+		    walls->items[1]->type = e_transparent_wall;
+            walls->items[1]->links.sector1 = &map->sectors->items[1];
+            walls->items[1]->links.sector2 = &map->sectors->items[1];
+            find_texture_by_name(textures, "textures/walls/fence.bmp", &walls->items[1]->texture);
+            free(walls->items[3]);
 			walls->items[3] = map->sectors->items[1].walls->items[1];
 			map->sectors->items[i].light = 0x96000000;
 		}
@@ -186,6 +191,7 @@ t_textures	*load_textures(void)
     add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/brickwall2.bmp");
+    add_bitmap_file_to_textures(textures, "textures/walls/fence.bmp");
     add_bitmap_file_to_textures(textures, "textures/flats/grass.bmp");
     add_bitmap_file_to_textures(textures, "textures/flats/dirt.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp");

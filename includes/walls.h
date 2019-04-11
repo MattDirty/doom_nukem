@@ -34,6 +34,7 @@ typedef struct			s_wall
     SDL_Surface         *texture;
     t_link              links;
     enum e_wall_type    type;
+    enum e_bool         to_infinity;
 }						t_wall;
 
 typedef struct			s_walls
