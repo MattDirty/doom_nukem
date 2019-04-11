@@ -3,6 +3,7 @@
 #include "doom.h"
 #include "map.h"
 #include "serialisation.h"
+#include "libft.h"
 
 t_map		*create_map(t_textures *textures)
 {
@@ -99,6 +100,10 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].enemies->items[0].object->vertical_size = 1;
         map->sectors->items[i].enemies->items[0].hp = 100;
         map->sectors->items[i].enemies->items[0].heading = 0;
+        if (i == 1)
+            map->sectors->items[i].enemies->items[0].heading = ft_degtorad(90);
+        if (i == 2)
+            map->sectors->items[i].enemies->items[0].heading = ft_degtorad(180);
         if (find_texture_by_name(textures,
                                  "textures/sprites/enemy_front.bmp",
                                  &map->sectors->items[i].enemies->items[0].front)
