@@ -207,7 +207,8 @@ void		find_ray_collisions(
             break;
         while ((*node)->next)
             node = &(*node)->next;
-        if ((*node)->item.d.wall->type == e_wall)
+        if ((*node)->item.d.wall->type == e_wall
+        || (*node)->item.d.wall->to_infinity)
             break;
 		last_portal = (*node)->item.d.wall;
 		sector = get_next_sector_addr(sector, (*node)->item.d.wall);

@@ -48,6 +48,8 @@ enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inters)
 
 t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall)
 {
+    if (wall->to_infinity)
+        return (NULL);
 	if (wall->links.sector1 == current)
 		return (wall->links.sector2);
 	else if (wall->links.sector2 == current)

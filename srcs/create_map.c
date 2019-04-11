@@ -154,9 +154,10 @@ t_map		*create_map(t_textures *textures)
 		}
 		else
 		{
-		    walls->items[1]->type = e_transparent_wall;
-            walls->items[1]->links.sector1 = &map->sectors->items[1];
-            walls->items[1]->links.sector2 = &map->sectors->items[1];
+		    walls->items[1]->to_infinity = t_true;
+            walls->items[1]->type = e_transparent_wall;
+            walls->items[1]->links.sector1 = &map->sectors->items[2];
+            walls->items[1]->links.sector2 = &map->sectors->items[2];
             find_texture_by_name(textures, "textures/walls/fence.bmp", &walls->items[1]->texture);
             free(walls->items[3]);
 			walls->items[3] = map->sectors->items[1].walls->items[1];

@@ -177,8 +177,8 @@ void         draw_transparent_wall(
         return;
     wall_text = collision->d.wall->texture;
     x = (Uint32)(get_distance_between_points(collision->inters.x,
-                                             collision->inters.y, collision->d.wall->segment.x1,
-                                             collision->d.wall->segment.y1) * wall_text->w) % wall_text->w;
+            collision->inters.y, collision->d.wall->segment.x1,
+            collision->d.wall->segment.y1) * wall_text->w) % wall_text->w;
     i = range.start;
     if (collision->d.wall->to_infinity)
         skybox(render, range);
