@@ -56,5 +56,10 @@ void    hurt_or_heal(t_player *p, const Uint8 *state)
         p->healed = t_true;
     }
     if (p->dead)
+    {
         p->health = 0;
+        p->hurt = t_false;
+        p->healed = t_false;
+    }
+
 }
