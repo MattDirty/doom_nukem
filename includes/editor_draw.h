@@ -16,6 +16,7 @@
 # define GREEN 0xFF00FF00
 # define BLUE 0xFF0000FF
 # define DARK_BLUE 0xFF073784
+# define L_BLUE 0xFF8888FF
 
 
 void		draw_editor(t_editor *ed);

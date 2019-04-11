@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:50:23 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/12 01:20:02 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/11 22:08:47 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "default.h"
 #include "editor.h"
 #include "map.h"
+#include "utils.h"
 #include "struct_sdl.h"
 #include "ui.h"
 
@@ -22,6 +23,14 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
     int	i;
     t_segment s2;
     t_segment s;
+    t_rect rect;
+
+
+
+    rect.pos.x = 0;
+    rect.pos.y = 0;
+    rect.width = CORNER_SIZE;
+    rect.height = CORNER_SIZE;
 
     i = 0;
     while (i < walls->count)
@@ -37,6 +46,14 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
             draw_segment(surface, s2, WHITE);
         else if (walls->items[i]->type == e_transparent_wall)
             draw_segment(surface, s2, BLUE);
+        rect.pos.x = s2.x1 - CORNER_SIZE / 2;
+        rect.pos.y = s2.y1 - CORNER_SIZE / 2;
+        draw_rect(surface, &rect, L_BLUE);
+        fill_rect(surface, &rect, L_BLUE);
+        rect.pos.x = s2.x2 - CORNER_SIZE / 2;
+        rect.pos.y = s2.y2 - CORNER_SIZE / 2;
+        draw_rect(surface, &rect, L_BLUE);
+        fill_rect(surface, &rect, L_BLUE);
         i++;
     }
 }

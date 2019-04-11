@@ -19,6 +19,7 @@
 # define EDITOR_W_H (EDITOR_W / 2)
 # define EDITOR_H_H (EDITOR_H / 2)
 # define EDITOR_ZOOM 20
+# define CORNER_SIZE 8
 
 typedef struct			s_sdl_editor
 {
