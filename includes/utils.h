@@ -1,5 +1,5 @@
-#ifndef DOOMNUKEM_UTILS_H
-# define DOOMNUKEM_UTILS_H
+#ifndef UTILS_H
+# define UTILS_H
 
 # include <time.h>
 # include "SDL.h"
@@ -44,6 +44,13 @@ typedef struct	s_i_segment
     int	y2;
 }				t_i_segment;
 
+typedef struct	s_rect
+{
+	t_i_coords	pos;
+	int			width;
+	int			height;
+}				t_rect;
+
 t_vector	create_vector(double x, double y);
 t_vector	get_vector_from_segment(t_segment *segment);
 void		print_vector(t_vector *vector, char *str);
@@ -70,6 +77,11 @@ void		print_segment(t_segment *segment, char *str);
 double      delta_ms(struct timespec start, struct timespec end);
 double      get_distance_between_points(double x1, double y1, double x2, double y2);
 
-void			read_segment_from_file(int fd, t_segment *segment);
-void			write_segment_to_file(int fd, t_segment *segment);
+void		read_segment_from_file(int fd, t_segment *segment);
+void		write_segment_to_file(int fd, t_segment *segment);
+
+t_rect      create_rect(int x, int y, int width, int height);
+void        draw_rect(SDL_Surface *surface, t_rect *rect, Uint32 color);
+void        fill_rect(SDL_Surface *surface, t_rect *rect, Uint32 color);
+
 #endif
