@@ -88,7 +88,9 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].enemies->items[0].object->z = 0;
         map->sectors->items[i].enemies->items[0].object->horizontal_size = 1;
         map->sectors->items[i].enemies->items[0].object->vertical_size = 1;
-        map->sectors->items[i].enemies->items[0].hp = 100;
+        map->sectors->items[i].enemies->items[0].life_remaining = 100;
+		map->sectors->items[i].enemies->items[0].time_in_death = -1;
+		map->sectors->items[i].enemies->items[0].to_destroy = t_false;
         map->sectors->items[i].enemies->items[0].heading = 0;
         if (i == 1)
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(90);
@@ -220,6 +222,12 @@ t_map		*create_map(t_textures *textures)
 	find_texture_by_name(textures, "textures/hud/faces/badass.bmp", &map->hud.badass_face);
 	find_texture_by_name(textures, "textures/hud/faces/sehr_happy.bmp", &map->hud.sehr_happy_face);
 	find_texture_by_name(textures, "textures/hud/faces/hurt.bmp", &map->hud.hurt_face);
+    find_texture_by_name(textures, "textures/weapons/dwa.bmp", &map->melee_sprite);
+    find_texture_by_name(textures, "textures/weapons/gun_1.bmp", &map->gun_sprites[0]);
+    find_texture_by_name(textures, "textures/weapons/gun_2.bmp", &map->gun_sprites[1]);
+    find_texture_by_name(textures, "textures/weapons/gun_3.bmp", &map->gun_sprites[2]);
+    find_texture_by_name(textures, "textures/weapons/gun_firing.bmp", &map->gun_sprites[3]);
+    find_texture_by_name(textures, "textures/weapons/gun_cooldown.bmp", &map->gun_sprites[4]);
     map->daytime = t_true;
 	return (map);
 }
@@ -231,7 +239,6 @@ t_textures	*load_textures(void)
     if (!(textures = (t_textures*)malloc(sizeof(t_textures))))
         error_doom("could not allocate textures");
     textures->first = NULL;
-    add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/brickwall2.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/fence.bmp");
@@ -258,5 +265,11 @@ t_textures	*load_textures(void)
 	add_bitmap_file_to_textures(textures, "textures/wall_objects/lever_up.bmp");
 	add_bitmap_file_to_textures(textures, "textures/wall_objects/lever_down.bmp");
 	add_bitmap_file_to_textures(textures, "textures/wall_objects/flag.bmp");
+	add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/gun_1.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/gun_2.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/gun_3.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/gun_firing.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/gun_cooldown.bmp");
     return (textures);
 }

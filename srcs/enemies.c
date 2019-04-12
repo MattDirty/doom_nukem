@@ -2,6 +2,50 @@
 #include "enemies.h"
 #include "doom.h"
 #include "serialisation.h"
+#include "e_bool.h"
+#include "sectors.h"
+
+void	remove_and_free_enemy(t_sector *sector, t_enemy *enemy, int i)
+{
+	free(enemy);
+	sector->enemies->count--;
+	while (i < sector->enemies->count)
+	{
+		sector->enemies->items[i] = sector->enemies->items[i + 1];
+		i++;
+	}
+}
+
+enum e_bool enemy_death(double ms_since_update, t_params params)
+{
+    t_enemy *enemy;
+
+    enemy = (t_enemy *)params;
+    enemy->time_in_death += ms_since_update;
+	enemy->object->horizontal_size -= 0.1;
+	enemy->object->vertical_size -= 0.1;
+	if (enemy->object->horizontal_size <= 0 || enemy->object->vertical_size <= 0)
+	{
+		enemy->to_destroy = t_true;
+		return (t_false);
+	}
+	return (t_true);
+}
+
+void    damage_enemy(t_timer_handler *timer_handler, t_enemy *enemy, Uint32 damage)
+{
+    enemy->life_remaining -= damage;
+    if (enemy->life_remaining <= 0 && (int)enemy->time_in_death <= 0)
+    {
+    	enemy->time_in_death = 1;
+        add_event(
+                timer_handler,
+                1,
+                &enemy_death,
+                enemy
+        );
+    }
+}
 
 void	free_enemies(t_enemies *enemies)
 {
@@ -20,12 +64,19 @@ void	free_enemies(t_enemies *enemies)
 void    write_enemy_to_file(int fd, t_enemy enemy)
 {
     write_object_to_file(fd, *enemy.object);
-    if (write(fd, &enemy.hp, sizeof(enemy.hp)) <= 0)
+    if (write(fd, &enemy.life_remaining, sizeof(enemy.life_remaining)) <= 0)
         error_doom("Problem while reading enemy from file");
+	if (write(fd, &enemy.death_duration, sizeof(enemy.death_duration)) <= 0)
+		error_doom("Problem while reading enemy from file");
+	if (write(fd, &enemy.time_in_death, sizeof(enemy.time_in_death)) <= 0)
+		error_doom("Problem while reading enemy from file");
+	if (write(fd, &enemy.to_destroy, sizeof(enemy.to_destroy)) <= 0)
+		error_doom("Problem while reading enemy from file");
     if (write(fd, &enemy.heading, sizeof(enemy.heading)) <= 0)
         error_doom("Problem while reading enemy from file");
     write_str_to_file(fd, enemy.front->userdata);
     write_str_to_file(fd, enemy.side->userdata);
+
 }
 
 void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
@@ -33,8 +84,14 @@ void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
     if (!(enemy->object = (t_object *)malloc(sizeof(t_object))))
         error_doom("Couldn't allocate object in enemy");
     read_object_from_file(fd, textures, enemy->object);
-    if (read(fd, &enemy->hp, sizeof(enemy->hp)) <= 0)
+    if (read(fd, &enemy->life_remaining, sizeof(enemy->life_remaining)) <= 0)
         error_doom("Problem while reading enemy from file");
+	if (read(fd, &enemy->death_duration, sizeof(enemy->death_duration)) <= 0)
+		error_doom("Problem while reading enemy from file");
+	if (read(fd, &enemy->time_in_death, sizeof(enemy->time_in_death)) <= 0)
+		error_doom("Problem while reading enemy from file");
+	if (read(fd, &enemy->to_destroy, sizeof(enemy->to_destroy)) <= 0)
+		error_doom("Problem while reading enemy from file");
     if (read(fd, &enemy->heading, sizeof(enemy->heading)) <= 0)
         error_doom("Problem while reading enemy from file");
     find_texture_from_file(fd, textures, &enemy->front);

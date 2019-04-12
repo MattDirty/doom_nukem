@@ -22,7 +22,7 @@ void    ui_draw(SDL_Surface *surface, t_map *map, int fps, t_env *e)
     draw_fps(surface, fps, &e->op);
     draw_sun_or_moon(surface, map, &e->op);
     draw_health(surface, &e->p, map, &e->op);
-    draw_ammo(surface, map->hud.bullet, e->p.weapons.list[e->p.weapons.current].ammo, &e->op);
+    draw_ammo(surface, map->hud.bullet, e->p.weapon->ammo, &e->op);
     draw_face(surface, &map->hud, &e->p, &e->op);
 }
 

@@ -22,6 +22,8 @@
 #include "timer_handler.h"
 #include "surface_manipulation.h"
 #include "loop.h"
+#include "weapon.h"
+#include "gun.h"
 
 static void loop_events(
         t_env *e,
@@ -40,8 +42,9 @@ static void loop_events(
 			quit_doom(e);
         if (!e->p.dead)
         {
-            if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
-                e->p.weapons.list[e->p.weapons.current].main(&e->p.weapons.list[e->p.weapons.current], timer_handler);
+            if (ev.type == SDL_MOUSEBUTTONDOWN
+            && ev.button.button == SDL_BUTTON_LEFT)
+                e->p.weapon->main(e, timer_handler);
             if (ev.type == SDL_MOUSEMOTION)
             {
                 x += ev.motion.xrel;
@@ -54,7 +57,7 @@ static void loop_events(
 			* timer_handler->ms_since_update;
 }
 
-static void     update_enemies_sprites(t_sectors *sectors, double p_heading)
+static void     update_enemies(t_sectors *sectors, double p_heading)
 {
     int     i;
     int     j;
@@ -67,7 +70,13 @@ static void     update_enemies_sprites(t_sectors *sectors, double p_heading)
         j = 0;
         while (j < sectors->items[i].enemies->count)
         {
-            sectors->items[i].enemies->items[j].heading += CIRCLE;
+        	if (sectors->items[i].enemies->items[j].to_destroy)
+			{
+				remove_and_free_enemy(&sectors->items[i],
+									  &sectors->items[i].enemies->items[j], j);
+				continue;
+			}
+        		sectors->items[i].enemies->items[j].heading += CIRCLE;
             if (sectors->items[i].enemies->items[j].heading <= facing + 0.785398 * 2
             && sectors->items[i].enemies->items[j].heading >= facing - 0.785398 * 2)
                 sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].front;
@@ -93,7 +102,7 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
         ptr->e->p.jump.height -= ptr->e->p.jump.gravity * ms_since_update;
         ptr->e->p.jump.height = (ptr->e->p.jump.height < 1) ? 0 : ptr->e->p.jump.height;
     }
-    update_enemies_sprites(ptr->map->sectors, ptr->e->p.heading);
+    update_enemies(ptr->map->sectors, ptr->e->p.heading);
 	//todo : if paused return t_false
 	return (t_true);
 }
@@ -137,8 +146,8 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     raycasting(e);
     draw_weapon(
             e->doom.surface,
-            e->p.weapons.list[e->p.weapons.current].sprite,
-            &e->p.weapons.list[e->p.weapons.current].animation,
+            e->p.weapon->sprite_current,
+            &e->p.weapon->main_animation,
             &e->op);
     if (e->p.dead)
         game_over(e->doom.surface, &e->op);
@@ -165,7 +174,7 @@ void		loop_doom(t_env *e)
 	timer_handler_init(&timer_handler);
     state = SDL_GetKeyboardState(NULL);
 
-	update_logic_params = logic_params_init(e, state, &timer_handler);
+    update_logic_params = logic_params_init(e, state, &timer_handler);
     frame_event_params = frame_event_params_init(e);
 
     add_event(&timer_handler, 1, &update_logic, update_logic_params);
@@ -177,6 +186,7 @@ void		loop_doom(t_env *e)
     add_event(&timer_handler, 30000, &day_to_night, &e->map->daytime);
     e->map->hud.id = 0;
     add_event(&timer_handler, 1000, &cross_index, &e->map->hud.id);
+    add_event(&timer_handler, 5, &gun_idle_anim, get_weapon(e->p.weapons, 1));
     add_event(&timer_handler, 1000, &toggle_player_health, &e->p);
     Mix_PlayMusic(e->music, -1);
     while (42)

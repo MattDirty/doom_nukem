@@ -64,18 +64,16 @@ void			raycasting(t_env *e)
     t_collisions	*collisions;
     t_collisions	*ptr;
 
-    renderer_x = 0;
+    renderer_x = -1;
 	clamp_player_values(&e->p, e->op);
-	while (renderer_x < e->op.win_w)
+    while (++renderer_x < e->op.win_w)
     {
         ray.angle = e->p.heading + atan(
                 (renderer_x / e->op.half_w - 1) * e->op.tan_half_fov);
 		ray.vect = create_vector(cos(ray.angle), -sin(ray.angle));
 		change_vector_magnitude(&ray.vect, HORIZON);
-		ray.seg = create_segment_from_position_and_vector(
-				e->p.pos.x,
-				e->p.pos.y,
-				&ray.vect);
+		ray.seg = create_segment_from_position_and_vector(e->p.pos.x,
+		        e->p.pos.y, &ray.vect);
 		find_ray_collisions(e->p.current_sector, &ray.seg, &collisions);
         if (!collisions)
             continue;
@@ -86,7 +84,6 @@ void			raycasting(t_env *e)
 			ptr = ptr->next;
 		}
 		draw(e, collisions, renderer_x);
-		renderer_x++;
 		free_collisions(collisions);
 	}
 }

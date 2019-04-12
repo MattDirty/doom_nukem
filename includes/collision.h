@@ -19,6 +19,7 @@
 # include "doom.h"
 # include "objects.h"
 # include "levers.h"
+# include "enemies.h"
 
 typedef struct          s_ray
 {
@@ -34,14 +35,16 @@ typedef struct			s_collision
 	enum e_collision_type
 	{
 	    ct_wall,
-	    ct_object,
-        ct_lever,
+	    ct_enemy,
+		ct_lever,
+	    ct_object
 	} type;
 	union u_type_data
 	{
         t_wall			*wall;
         t_object		*object;
         t_lever			*lever;
+		t_enemy			*enemy;
 	} d;
     t_segment			object_segment;
 }						t_collision;

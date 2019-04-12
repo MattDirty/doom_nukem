@@ -31,6 +31,12 @@ void		read_map_from_file(int fd, t_textures *textures, t_map **map)
     find_texture_from_file(fd, textures, &(*map)->hud.badass_face);
     find_texture_from_file(fd, textures, &(*map)->hud.sehr_happy_face);
     find_texture_from_file(fd, textures, &(*map)->hud.hurt_face);
+    find_texture_from_file(fd, textures, &(*map)->melee_sprite);
+    find_texture_from_file(fd, textures, &(*map)->gun_sprites[0]);
+    find_texture_from_file(fd, textures, &(*map)->gun_sprites[1]);
+    find_texture_from_file(fd, textures, &(*map)->gun_sprites[2]);
+    find_texture_from_file(fd, textures, &(*map)->gun_sprites[3]);
+    find_texture_from_file(fd, textures, &(*map)->gun_sprites[4]);
 }
 
 void		write_map_to_file(int fd, t_map *map)
@@ -51,4 +57,10 @@ void		write_map_to_file(int fd, t_map *map)
     write_str_to_file(fd, map->hud.badass_face->userdata);
     write_str_to_file(fd, map->hud.sehr_happy_face->userdata);
     write_str_to_file(fd, map->hud.hurt_face->userdata);
+    write_str_to_file(fd, map->melee_sprite->userdata);
+    write_str_to_file(fd, map->gun_sprites[0]->userdata);
+    write_str_to_file(fd, map->gun_sprites[1]->userdata);
+    write_str_to_file(fd, map->gun_sprites[2]->userdata);
+    write_str_to_file(fd, map->gun_sprites[3]->userdata);
+    write_str_to_file(fd, map->gun_sprites[4]->userdata);
 }

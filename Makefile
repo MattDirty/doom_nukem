@@ -51,6 +51,7 @@ SRCS_NAMES = vector.c \
 			utils.c \
 			animation.c \
 			melee.c \
+			gun.c \
 			skybox.c \
 			config.c \
 			textures.c \
