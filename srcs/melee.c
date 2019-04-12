@@ -31,11 +31,11 @@ enum e_bool    melee_primary_animation(
     return (animation->time <= animation->duration);
 }
 
-void    melee_primary(t_player *p, t_timer_handler *timer_handler)
+void    melee_primary(t_env *e, t_timer_handler *timer_handler)
 {
     t_weapon    *weapon;
 
-    weapon = p->weapon;
+    weapon = e->p.weapon;
     if (!weapon->main_ready || !weapon->ammo)
         return;
     reset_animation(&weapon->main_animation);
