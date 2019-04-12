@@ -1,9 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   textures.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 06:06:39 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 06:06:45 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <errno.h>
-
 #include "SDL.h"
 #include "libft.h"
-
 #include "textures.h"
 #include "serialisation.h"
 #include "doom.h"

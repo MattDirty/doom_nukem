@@ -1,5 +1,17 @@
-#ifndef DOOMNUKEM_WALLS_H
-# define DOOMNUKEM_WALLS_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   walls.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 05:53:30 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 05:53:45 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef WALLS_H
+# define WALLS_H
 
 # include "SDL.h"
 # include "utils.h"

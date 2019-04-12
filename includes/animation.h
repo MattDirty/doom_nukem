@@ -1,5 +1,17 @@
-#ifndef DOOMNUKEM_ANIMATION_H
-# define DOOMNUKEM_ANIMATION_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   animation.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 05:36:54 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 05:37:02 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef ANIMATION_H
+# define ANIMATION_H
 
 # include "SDL.h"
 

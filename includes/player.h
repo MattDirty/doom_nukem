@@ -1,5 +1,17 @@
-#ifndef DOOMNUKEM_PLAYER_H
-# define DOOMNUKEM_PLAYER_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 05:50:12 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 05:50:25 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PLAYER_H
+# define PLAYER_H
 
 # include "weapon.h"
 # include "utils.h"

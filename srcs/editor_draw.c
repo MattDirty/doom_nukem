@@ -26,10 +26,10 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
     while (i < walls->count)
     {
         s = walls->items[i]->segment;
-        s2.x1 = EDITOR_W_H + s.x1 * EDITOR_ZOOM;
-        s2.y1 = EDITOR_H_H - s.y1 * EDITOR_ZOOM;
-        s2.x2 = EDITOR_W_H + s.x2 * EDITOR_ZOOM;
-        s2.y2 = EDITOR_H_H - s.y2 * EDITOR_ZOOM;
+        s2.x1 = E_HALF_W + s.x1 * EDITOR_ZOOM;
+        s2.y1 = E_HALF_H - s.y1 * EDITOR_ZOOM;
+        s2.x2 = E_HALF_W + s.x2 * EDITOR_ZOOM;
+        s2.y2 = E_HALF_H - s.y2 * EDITOR_ZOOM;
         if (walls->items[i]->type == e_portal)
             draw_segment(surface, s2, RED);
         else if (walls->items[i]->type == e_wall)
@@ -48,8 +48,8 @@ void        draw_enemies_in_sector_editor(SDL_Surface *target, t_enemies *enemie
     i = 0;
     while (i < enemies->count)
     {
-        coords.x = EDITOR_W_H + enemies->items[i].object->x * EDITOR_ZOOM;
-        coords.y = EDITOR_H_H - enemies->items[i].object->y * EDITOR_ZOOM;
+        coords.x = E_HALF_W + enemies->items[i].object->x * EDITOR_ZOOM;
+        coords.y = E_HALF_H - enemies->items[i].object->y * EDITOR_ZOOM;
         draw_circle_filled(target, coords, 0.25 * EDITOR_ZOOM, PINK);
         i++;
     }
@@ -63,8 +63,8 @@ void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *object
     i = 0;
     while (i < objects->count)
     {
-        coords.x = EDITOR_W_H + objects->items[i].x * EDITOR_ZOOM;
-        coords.y = EDITOR_H_H - objects->items[i].y * EDITOR_ZOOM;
+        coords.x = E_HALF_W + objects->items[i].x * EDITOR_ZOOM;
+        coords.y = E_HALF_H - objects->items[i].y * EDITOR_ZOOM;
         draw_circle_filled(target, coords, 0.15 * EDITOR_ZOOM, GREEN);
         i++;
     }

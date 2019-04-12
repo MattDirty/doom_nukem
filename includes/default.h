@@ -1,22 +1,21 @@
-#ifndef DOOMNUKEM_DEFAULT_H
-# define DOOMNUKEM_DEFAULT_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   default.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 05:39:43 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 05:41:06 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "libft.h"
+#ifndef DEFAULT_H
+# define DEFAULT_H
+
+# include "libft.h"
 
 # define CONFIG_PATH "config.ini"
-
-# define DEBUG_W 800
-# define DEBUG_H 640
-# define DEBUG_W_H (DEBUG_W / 2)
-# define DEBUG_H_H (DEBUG_H / 2)
-# define DEBUG_GRID_STEP 40
-# define DEBUG_ZOOM 20
-
-# define GRID_COLOR 0xFF111111
-# define ABS_ORD_COLOR 0xFFE2EAFF
-# define DEBUG_WALL_COLOR 0xFFFFFFFF
-# define DEBUG_PORTAL_COLOR 0xFFFF0000
-# define DEBUG_PLAYER_COLOR 0xFF4FE4EA
 
 # define CROSSHAIR_COLOR 0xE400FF00
 

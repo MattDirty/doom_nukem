@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   weapon.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 05:53:53 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 05:54:08 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef WEAPON_H
 # define WEAPON_H
 
-# include <SDL_mixer.h>
+# include "SDL_mixer.h"
 # include "e_bool.h"
 # include "SDL.h"
 # include "animation.h"

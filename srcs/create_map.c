@@ -6,17 +6,11 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:36:17 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/11 19:45:54 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/12 05:55:36 by lfatton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "SDL.h"
-//#include "editor.h"
 #include "doom.h"
-//#include "map.h"
-//#include "serialisation.h"
-//#include "libft.h"
-//#include "editor_draw.h"
 
 t_map		*create_map(t_textures *textures)
 {
@@ -49,8 +43,6 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].objects = (t_objects*)malloc(sizeof(t_objects));
         map->sectors->items[i].objects->count = 0;
         map->sectors->items[i].objects->items = NULL;
-       // if (i == 0)
-        //{
             map->sectors->items[i].objects->count = 3;
             map->sectors->items[i].objects->items = (t_object*)malloc(
                     sizeof(t_object) * map->sectors->items[i].objects->count);
@@ -60,7 +52,6 @@ t_map		*create_map(t_textures *textures)
             map->sectors->items[i].objects->items[0].horizontal_size = 0.25;
             map->sectors->items[i].objects->items[0].vertical_size = 0.25;
             find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[0].sprite);
-        //}
         map->sectors->items[i].objects->items[1].x = 2;
         map->sectors->items[i].objects->items[1].y = i * 4 + 2;
         map->sectors->items[i].objects->items[1].z = 0;

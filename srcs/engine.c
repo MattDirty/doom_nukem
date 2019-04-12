@@ -6,11 +6,10 @@
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 01:10:34 by lfatton           #+#    #+#             */
-/*   Updated: 2019/03/13 11:58:05 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/04/12 06:05:20 by lfatton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "utils.h"
 #include "e_bool.h"
 #include "libft.h"

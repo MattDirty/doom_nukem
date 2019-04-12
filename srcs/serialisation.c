@@ -1,7 +1,17 @@
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   serialisation.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 06:08:59 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 06:09:11 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include <fcntl.h>
+#include <stdlib.h>
 #include "libft.h"
 #include "doom.h"
 #include "serialisation.h"

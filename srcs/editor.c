@@ -6,16 +6,11 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:44:24 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/11 20:20:09 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/12 06:17:55 by lfatton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "SDL.h"
 #include "editor.h"
-//#include "doom.h"
-//#include "map.h"
-//#include "serialisation.h"
-//#include "libft.h"
 #include "editor_draw.h"
 
 void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_sdl *sdl)
@@ -38,11 +33,8 @@ int		event_editor(t_editor *ed)
 	SDL_Event	event;
 
 	SDL_PollEvent(&event);
-	//SDL_GetRelativeMouseState(&(env->mouse_x), &(env->mouse_y));
 	if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 		exit(EXIT_SUCCESS);
-	//if (event.key.keysym.scancode == SDL_SCANCODE_)
-		//exit(EXIT_SUCCESS);
 	return (1);
 }
 
@@ -72,21 +64,16 @@ void	gameloop(t_editor *ed)
 int		main(void)
 {
 	t_editor			ed;
-	//t_sdl_editor		sdl_ed;
-	//t_textures			*textures;
-    //t_map				*map;
 
 	ft_bzero(&ed, sizeof(t_editor));
     ed.textures = load_textures();
     ed.map = create_map(ed.textures);
 
 	write_file("mabite.roflolilolmao", ed.textures, ed.map);
-	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed.sdl);
+	init_sdl_editor(E_WIN_W, E_WIN_H, "editor", &ed.sdl);
 
 	gameloop(&ed);
 
 	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
-//    free_map(map);
-//    free_textures(textures);
     return (0);
 }

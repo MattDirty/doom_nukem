@@ -1,7 +1,19 @@
-#ifndef DOOMNUKEM_SERIALISATION_H
-# define DOOMNUKEM_SERIALISATION_H
-# include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   serialisation.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 05:50:59 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 05:51:15 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#ifndef SERIALISATION_H
+# define SERIALISATION_H
+
+# include <unistd.h>
 # include "textures.h"
 # include "map.h"
 

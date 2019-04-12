@@ -1,11 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   segment.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 06:06:49 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 06:06:51 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 #include <math.h>
-#include <stdio.h>
-
-void print_segment(t_segment *s, char *str)
-{
-    printf("%s\nstart (x : %f y : %f) end(x : %f y : %f)\n", str, s->x1, s->y1, s->x2, s->y2); // nooorminette
-}
 
 void move_segment_at(t_segment *segment, double x, double y)
 {

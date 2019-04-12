@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   weapons.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 06:00:36 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 06:01:57 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "weapon.h"
 #include "doom.h"
-#include <SDL_mixer.h>
+#include "SDL_mixer.h"
 
 t_weapon    load_weapon(SDL_Surface *texture)
 {

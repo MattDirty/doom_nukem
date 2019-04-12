@@ -6,7 +6,7 @@
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 19:56:04 by lfatton           #+#    #+#             */
-/*   Updated: 2019/04/05 19:56:26 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/04/12 06:00:26 by lfatton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,3 @@ void look_around(t_player *p, const Uint8 *state, double time)
     if (state[SDL_SCANCODE_RIGHT])
         p->heading += ROT_X * time;
 }
-

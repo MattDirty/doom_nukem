@@ -1,8 +1,19 @@
-#ifndef DOOM_NUKEM_OBJECTS_H
-# define DOOM_NUKEM_OBJECTS_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   objects.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 05:49:49 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 05:50:07 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef OBJECTS_H
+# define OBJECTS_H
 
 # include "SDL.h"
-
 # include "textures.h"
 # include "utils.h"
 

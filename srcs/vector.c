@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 06:09:46 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 06:10:00 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 #include <math.h>
-#include <stdio.h>
 
 t_segment get_segment_from_vector(t_vector *vector)
 {
@@ -76,11 +87,6 @@ t_segment create_segment_from_position_and_vector(
     segment.y2 = y + v->y;
 
     return (segment);
-}
-
-void print_vector(t_vector *vector, char *str)
-{
-    printf("%s\nx : %f y : %f \n", str, vector->x, vector->y); // noooorm
 }
 
 t_vector create_vector(double x, double y)

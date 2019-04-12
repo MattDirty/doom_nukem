@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 05:56:28 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 05:56:35 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
 #include "doom.h"
 #include "map.h"
-#include "debug.h"
 #include "config.h"
 #include "default.h"
 #include "serialisation.h"
@@ -37,11 +48,9 @@ int		main (int ac, char **av)
 	t_env		e;
     t_textures	*textures;
 
-	e.op = load_config();
-    if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
-		e.debug_mode = t_true;
-	else
-		e.debug_mode = t_false;
+    (void)ac;
+    (void)av;
+    e.op = load_config();
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 || TTF_Init() < 0)
 		error_doom("error: cannot run SDL");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
@@ -52,8 +61,6 @@ int		main (int ac, char **av)
     read_file("mabite.roflolilolmao", &textures, &e.map);
 	e.p = init_player(&e.op, &e.map->sectors->items[0]);
     e.p.weapons = allocate_weapons();
-    if (e.debug_mode)
-		e.debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
 	loop_doom(&e);
     free(textures);
 	return (EXIT_SUCCESS);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   surface_manipulation.h                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/12 05:51:43 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/12 05:51:52 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SURFACE_MANIPULATION_H
 # define SURFACE_MANIPULATION_H
 
@@ -15,4 +27,5 @@ void		draw_circle_filled(SDL_Surface *surface, t_coords center, int r, Uint32 co
 void        draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color);
 
 void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
+
 #endif
