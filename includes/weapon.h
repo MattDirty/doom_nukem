@@ -9,6 +9,8 @@
 # include "timer_handler.h"
 # include "map.h"
 
+typedef struct  s_player t_player;
+
 typedef struct  s_weapon
 {
     SDL_Surface *sprite_current;
@@ -25,6 +27,9 @@ typedef struct  s_weapon
     double      main_cooldown;
     enum e_bool main_ready;
     Mix_Chunk   *main_sound;
+    double      range;
+    Uint32      scatter;
+    double      gun_damage;
     enum e_bool usable;
 }               t_weapon;
 
@@ -44,5 +49,7 @@ t_weapons   *allocate_weapons(t_map *map);
 void        draw_weapon(SDL_Surface *Surface, SDL_Surface *weapon, t_animation *animation, t_config *op);
 t_weapon    *get_weapon(t_weapons *node, Uint32 target);
 enum e_bool unlock(double ms_since_update, t_params ready);
+void        weapon_ray_fire(t_player *p);
+
 
 #endif

@@ -1,5 +1,6 @@
 #include "weapon.h"
 #include "doom.h"
+#include "default.h"
 
 enum e_bool gun_idle_anim(double ms_since_update, t_params params)
 {
@@ -55,6 +56,7 @@ void    gun_primary(t_player *p, t_timer_handler *timer_handler)
         error_doom("Couldn't malloc params for firing");
     params->weapon = weapon;
     params->timer_handler = timer_handler;
+    weapon_ray_fire(p);
     add_event(timer_handler, 1, &gun_firing, params);
     add_event(timer_handler, weapon->main_cooldown, &unlock,
             &weapon->main_ready);
@@ -88,21 +90,23 @@ void        load_gun_sprites(t_weapon *weapon, t_map *map)
 
 t_weapon    *load_gun(t_map *map)
 {
-    t_weapon    *weapon;
+    t_weapon    *gun;
 
-    if (!(weapon = (t_weapon *)malloc(sizeof(t_weapon))))
+    if (!(gun = (t_weapon *)malloc(sizeof(t_weapon))))
         error_doom("Couldn't malloc gun");
-    load_gun_sprites(weapon, map);
-    weapon->ammo = 10;
-    weapon->main = NULL;
-    weapon->usable = t_true;
-    reset_animation(&weapon->animation);
-    weapon->animation.duration = 500;
-    weapon->main = gun_primary;
-    weapon->main_cooldown = 500;
-    reset_animation(&weapon->main_animation);
-    weapon->main_ready = t_true;
-    if (!(weapon->main_sound = Mix_LoadWAV("sounds/zap.wav")))
-        error_doom("Can't load weapon sound ...");
-    return (weapon);
+    load_gun_sprites(gun, map);
+    gun->ammo = 10;
+    gun->main = NULL;
+    gun->usable = t_true;
+    reset_animation(&gun->animation);
+    gun->animation.duration = 500;
+    gun->main = gun_primary;
+    gun->main_cooldown = 500;
+    reset_animation(&gun->main_animation);
+    gun->main_ready = t_true;
+    if (!(gun->main_sound = Mix_LoadWAV("sounds/zap.wav")))
+        error_doom("Can't load gun sound ...");
+    gun->range = HORIZON;
+    gun->scatter = 1;
+    return (gun);
 }

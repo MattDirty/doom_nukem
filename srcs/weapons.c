@@ -5,6 +5,16 @@
 #include "gun.h"
 #include "map.h"
 
+void    weapon_ray_fire(t_player *p)
+{
+    t_weapon    *weapon;
+    t_vector    vector;
+
+    weapon = p->weapon;
+    add_vector_to_vector(&vector, create_vector(cos(p->heading), -sin(p->heading)));
+
+}
+
 enum e_bool    unlock(double ms_since_update, t_params ready)
 {
     (void)ms_since_update;
