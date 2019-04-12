@@ -31,26 +31,22 @@ enum e_bool    melee_primary_animation(
     return (animation->time <= animation->duration);
 }
 
-void    melee_primary(t_weapon *weapon, t_timer_handler *timer_handler)
+void    melee_primary(t_player *p, t_timer_handler *timer_handler)
 {
+    t_weapon    *weapon;
+
+    weapon = p->weapon;
     if (!weapon->main_ready || !weapon->ammo)
         return;
-
     reset_animation(&weapon->main_animation);
     start_animation(&weapon->main_animation, 400);
-    add_event(
-            timer_handler,
-            5,
-            &melee_primary_animation,
+    add_event(timer_handler, 5,&melee_primary_animation,
             &weapon->main_animation);
     Mix_PlayChannel(-1, weapon->main_sound, 0);
     weapon->main_ready = t_false;
     weapon->ammo--;
-    add_event(
-            timer_handler,
-            weapon->main_cooldown,
-            &unlock,
-            &weapon->main_ready);
+    add_event(timer_handler, weapon->main_cooldown,
+            &unlock,&weapon->main_ready);
 }
 
 t_weapon    *load_melee(t_map *map)
@@ -60,7 +56,8 @@ t_weapon    *load_melee(t_map *map)
     if (!(weapon = (t_weapon *)malloc(sizeof(t_weapon))))
         error_doom("Couldn't malloc melee");
     weapon->sprites_count = 1;
-    if (!(weapon->sprites = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * weapon->sprites_count)))
+    if (!(weapon->sprites = (SDL_Surface **)malloc(sizeof(SDL_Surface *)
+            * weapon->sprites_count)))
         error_doom("Couldn't malloc melee.sprites");
     weapon->sprites[0] = map->melee_sprite;
     weapon->sprite_current = weapon->sprites[0];

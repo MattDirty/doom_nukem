@@ -42,8 +42,7 @@ typedef struct  s_weapon_and_timer
 
 t_weapons   *allocate_weapons(t_map *map);
 void        draw_weapon(SDL_Surface *Surface, SDL_Surface *weapon, t_animation *animation, t_config *op);
-void        melee_primary(t_weapon *weapon, t_timer_handler *timer_handler);
 t_weapon    *get_weapon(t_weapons *node, Uint32 target);
-enum e_bool    unlock(double ms_since_update, t_params ready);
+enum e_bool unlock(double ms_since_update, t_params ready);
 
 #endif

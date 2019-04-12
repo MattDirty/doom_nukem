@@ -42,8 +42,9 @@ static void loop_events(
 			quit_doom(e);
         if (!e->p.dead)
         {
-            if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
-                e->p.weapon->main(e->p.weapon, timer_handler);
+            if (ev.type == SDL_MOUSEBUTTONDOWN
+            && ev.button.button == SDL_BUTTON_LEFT)
+                e->p.weapon->main(&e->p, timer_handler);
             if (ev.type == SDL_MOUSEMOTION)
             {
                 x += ev.motion.xrel;
