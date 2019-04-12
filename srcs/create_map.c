@@ -90,6 +90,7 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].enemies->items[0].object->vertical_size = 1;
         map->sectors->items[i].enemies->items[0].life_remaining = 100;
 		map->sectors->items[i].enemies->items[0].time_in_death = -1;
+		map->sectors->items[i].enemies->items[0].to_destroy = t_false;
         map->sectors->items[i].enemies->items[0].heading = 0;
         if (i == 1)
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(90);

@@ -33,7 +33,7 @@ void    weapon_ray_fire(t_env *e, t_timer_handler *timer_handler) {
         && ptr->item.type == ct_wall && ptr->item.d.wall->type == e_portal)
             ptr = ptr->next;
         if (ptr && ptr->item.type == ct_enemy)
-            enemy_hit(timer_handler, ptr->item.d.enemy, weapon->damage);
+			damage_enemy(timer_handler, ptr->item.d.enemy, weapon->damage);
     }
 }
 
