@@ -116,7 +116,7 @@ USER = $(shell whoami)
 
 CC = clang
 
-CFLAGS = -Wall -Werror -Wextra -Ofast
+CFLAGS = -Wall -Werror -Wextra -Ofast -flto
 
 RM = rm -rf
 

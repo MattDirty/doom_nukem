@@ -44,8 +44,6 @@ void    hurt_or_heal(t_player *p, const Uint8 *state)
     if (state[SDL_SCANCODE_J])
     {
         p->health -= DAMAGE;
-        if (p->health <= 0)
-            p->dead = t_true;
         p->hurt = t_true;
     }
     if (state[SDL_SCANCODE_K])
@@ -54,12 +52,6 @@ void    hurt_or_heal(t_player *p, const Uint8 *state)
         if (p->health >= HEALTH_MAX)
             p->health = HEALTH_MAX;
         p->healed = t_true;
-    }
-    if (p->dead)
-    {
-        p->health = 0;
-        p->hurt = t_false;
-        p->healed = t_false;
     }
 
 }

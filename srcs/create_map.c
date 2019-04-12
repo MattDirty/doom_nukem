@@ -98,7 +98,6 @@ t_map		*create_map(t_textures *textures)
         {
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(180);
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].objects->items[2].sprite);
-
         }
         find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->items[0].front);
         map->sectors->items[i].enemies->items[0].object->sprite =
@@ -185,7 +184,7 @@ t_map		*create_map(t_textures *textures)
 			walls->items[1]->type = e_portal;
 			walls->items[1]->links.sector1 = &map->sectors->items[0];
 			walls->items[1]->links.sector2 = &map->sectors->items[1];
-			map->sectors->items[i].light = 0x32000000;
+			map->sectors->items[i].light = 0x32FF0000;
 		}
 		else if (i == 1)
         {

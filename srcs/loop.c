@@ -132,24 +132,22 @@ t_frame_event_params	*frame_event_params_init(t_env *e)
     return (params);
 }
 
-void            screen_dying(t_env *e)
+enum e_bool     screen_dying(double ms_since_update, t_params pointer)
 {
-    Uint32  i;
-    Uint32  x;
-    Uint32  y;
+    t_env   *e;
+    double  dist;
+    double  ratio;
 
-    x = rand() % WIN_W;
-    y = rand() % WIN_H;
-
-    e->dead_pixel_x[e->nb_dead_pixels] = x;
-    e->dead_pixel_y[e->nb_dead_pixels] = y;
-    i = 0;
-    while (i < e->nb_dead_pixels)
-    {
-        put_pixel_alpha(e->doom.surface, e->dead_pixel_x[i], e->dead_pixel_y[i], BLACK);
-        i++;
-    }
-    e->nb_dead_pixels++;
+    (void)ms_since_update;
+    e = (t_env*)pointer;
+    dist = get_distance_between_points(e->p.pos.x, e->p.pos.y, e->map->boss.pos.x, e->map->boss.pos.y);
+    ratio = dist * HORIZON / HORIZON;
+    e->p.health -= DAMAGE / ratio;
+    if (ratio <= 2.5)
+        e->p.hurt = t_true;
+    else
+        e->p.hurt = t_false;
+    return (t_true);
 }
 
 enum e_bool		frame_event(double ms_since_update, t_params params)
@@ -196,7 +194,8 @@ void		loop_doom(t_env *e)
     update_logic_params = logic_params_init(e, state, &timer_handler);
     frame_event_params = frame_event_params_init(e);
 
-    e->nb_dead_pixels = 0;
+    e->map->boss.pos.x = 3;
+    e->map->boss.pos.y = 10;
 
     add_event(&timer_handler, 1, &update_logic, update_logic_params);
     add_event(
@@ -208,6 +207,7 @@ void		loop_doom(t_env *e)
     e->map->hud.id = 0;
     add_event(&timer_handler, 1000, &cross_index, &e->map->hud.id);
     add_event(&timer_handler, 5, &gun_idle_anim, get_weapon(e->p.weapons, 1));
+    add_event(&timer_handler, 500, &screen_dying, e);
     add_event(&timer_handler, 1000, &toggle_player_health, &e->p);
     Mix_PlayMusic(e->music, -1);
     while (42)

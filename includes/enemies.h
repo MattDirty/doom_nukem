@@ -10,6 +10,11 @@
 # include "timer_handler.h"
 #include "sectors.h"
 
+typedef struct  s_enemy_boss
+{
+    t_coords    pos;
+}               t_enemy_boss;
+
 typedef struct s_enemy
 {
     t_object    *object;

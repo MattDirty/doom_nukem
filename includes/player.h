@@ -30,9 +30,10 @@ typedef struct			s_player
     t_weapon    *weapon;
     t_jump      jump;
     enum e_bool dead;
-    int         health;
+    double      health;
     enum e_bool healed;
     enum e_bool hurt;
+
 }						t_player;
 
 t_player    init_player(t_config *op, t_sector *starting_sector);

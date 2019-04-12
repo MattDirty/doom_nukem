@@ -9,6 +9,7 @@
 # include "config.h"
 # include "fonts.h"
 # include "default.h"
+# include "enemies.h"
 
 typedef struct          s_env
 {

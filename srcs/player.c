@@ -47,6 +47,14 @@ void	clamp_player_values(t_player *p, t_config op)
         p->heading += CIRCLE;
     p->vision_height > op.win_h ? p->vision_height = op.win_h : 0;
     p->vision_height < 0 ? p->vision_height = 0 : p->vision_height;
+    if (p->health <= 0)
+        p->dead = t_true;
+    if (p->dead)
+    {
+        p->health = 0;
+        p->hurt = t_false;
+        p->healed = t_false;
+    }
 }
 
 void    draw_face(SDL_Surface *surface, t_hud *hud, t_player *p, t_config *op)

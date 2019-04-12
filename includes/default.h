@@ -53,7 +53,7 @@
 # define PLAYER_THICKNESS 0.25
 # define JUMP_MAX 50
 # define HEALTH_MAX 100
-# define DAMAGE 2
+# define DAMAGE 1
 # define HEAL 1
 
 # define RUN 0.001

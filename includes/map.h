@@ -28,6 +28,7 @@ typedef struct			s_map
     t_hud               hud;
     SDL_Surface         *melee_sprite;
     SDL_Surface         *gun_sprites[5];
+    t_enemy_boss        boss;
 }						t_map;
 
 void		free_map(t_map *map);
