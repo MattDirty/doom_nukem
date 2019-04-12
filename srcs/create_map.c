@@ -127,8 +127,10 @@ t_map		*create_map(t_textures *textures)
 		while (j < walls->count)
 		{
             walls->items[j]->wall_object = NULL;
+            walls->items[j]->lever = NULL;
 		    walls->items[j]->type = e_wall;
 		    walls->items[j]->to_infinity = t_false;
+            walls->items[j]->wall_offset = 0;
 		    if (i == 1)
                 find_texture_by_name(textures, "textures/walls/stones.bmp", &walls->items[j]->texture);
 		    else
@@ -146,6 +148,31 @@ t_map		*create_map(t_textures *textures)
                     textures,
                     "textures/wall_objects/flag.bmp",
                     &walls->items[2]->wall_object->texture);
+        }
+        if (i == 1)
+        {
+            if (!(walls->items[2]->lever = malloc(sizeof(t_lever))))
+                error_doom("can't alloc wall lever");
+            if (!(walls->items[2]->lever->wall_object =
+                    malloc(sizeof(t_wall_object))))
+                error_doom("can't alloc wall lever object");
+            walls->items[2]->lever->activated = t_false;
+            walls->items[2]->lever->wall_object->offset_on_wall = 2;
+            walls->items[2]->lever->wall_object->z = 0.25;
+            walls->items[2]->lever->wall_object->size = 0.5;
+            walls->items[2]->lever->door = walls->items[1];
+            find_texture_by_name(
+                    textures,
+                    "textures/wall_objects/lever_up.bmp",
+                    &walls->items[2]->lever->wall_object->texture);
+            find_texture_by_name(
+                    textures,
+                    "textures/wall_objects/lever_up.bmp",
+                    &walls->items[2]->lever->up_texture);
+            find_texture_by_name(
+                    textures,
+                    "textures/wall_objects/lever_down.bmp",
+                    &walls->items[2]->lever->down_texture);
         }
 		if (i == 0)
 		{

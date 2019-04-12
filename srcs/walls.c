@@ -5,7 +5,7 @@
 #include "doom.h"
 #include "serialisation.h"
 
-static int			wall_index(t_linked_walls *linked_walls, t_wall *wall)
+int			wall_index(t_linked_walls *linked_walls, t_wall *wall)
 {
     int		i;
 
@@ -57,6 +57,26 @@ static int			add_wall_to_serialiser(
     return (i);
 }
 
+static void		fix_levers(
+        t_linked_walls *linked_walls)
+{
+    t_linked_walls	*node;
+    t_wall			*door;
+
+    node = linked_walls;
+    while (node->wall)
+    {
+        if (node->wall->lever)
+        {
+            door = wall_at_index(linked_walls, node->wall->lever->door_index);
+            if (door == NULL)
+                error_doom("couldn't find door");
+            node->wall->lever->door = door;
+        }
+        node = node->next;
+    }
+}
+
 void			read_linked_walls_from_file(
         int fd,
         t_sectors *sectors,
@@ -80,6 +100,7 @@ void			read_linked_walls_from_file(
         add_wall_to_serialiser(*linked_walls, wall);
         i++;
     }
+    fix_levers(*linked_walls);
 }
 
 void			create_linked_walls_from_sectors(
@@ -126,7 +147,15 @@ void		free_linked_walls(t_linked_walls *linked_walls)
         return;
     free_linked_walls(linked_walls->next);
     if (linked_walls->wall)
+    {
+        if (linked_walls->wall->wall_object)
+            free(linked_walls->wall->wall_object);
+        if (linked_walls->wall->lever)
+            free(linked_walls->wall->lever);
+        if (linked_walls->wall->lever->wall_object)
+            free(linked_walls->wall->lever->wall_object);
         free(linked_walls->wall);
+    }
     free(linked_walls);
 }
 
@@ -144,7 +173,7 @@ void			write_linked_walls_to_file(
         error_doom("couldn't write walls count");
     while (linked_walls->wall)
     {
-        write_wall_to_file(fd, sectors, linked_walls->wall);
+        write_wall_to_file(fd, sectors, *p_linked_walls, linked_walls->wall);
         linked_walls = linked_walls->next;
     }
 }
@@ -208,13 +237,15 @@ void			read_wall_from_file(
 
     if (!(*wall = (t_wall*)malloc(sizeof(t_wall))))
         error_doom("couldn't malloc t_wall");
+    (*wall)->wall_offset = 0;
     read_segment_from_file(fd, &(*wall)->segment);
     if (read(fd, &(*wall)->type, sizeof((*wall)->type)) <= 0)
         error_doom("couldn't read wall type");
+    (*wall)->texture = NULL;
     if ((*wall)->type == e_wall || (*wall)->type == e_transparent_wall)
         find_texture_from_file(fd, textures, &((*wall)->texture));
-    else if ((*wall)->type == e_portal)
-        (*wall)->texture = NULL;
+    (*wall)->links.sector1 = NULL;
+    (*wall)->links.sector2 = NULL;
     if ((*wall)->type == e_portal || (*wall)->type == e_transparent_wall)
     {
         if (read(fd, &index, sizeof(index)) <= 0)
@@ -224,19 +255,16 @@ void			read_wall_from_file(
             error_doom("couldn't read second sector index");
         (*wall)->links.sector2 = (t_sector*)sectors->items + index;
     }
-    else if ((*wall)->type == e_wall)
-    {
-        (*wall)->links.sector1 = NULL;
-        (*wall)->links.sector2 = NULL;
-    }
     if (read(fd, &(*wall)->to_infinity, sizeof((*wall)->to_infinity)) <= 0)
         error_doom("Couldn't read wall->to_infinity");
     read_wall_object_from_file(fd, textures, &(*wall)->wall_object);
+    read_lever_from_file(fd, textures, &(*wall)->lever);
 }
 
 void			write_wall_to_file(
         int fd,
         t_sectors *sectors,
+        t_linked_walls *linked_walls,
         t_wall *wall)
 {
     int		index;
@@ -262,49 +290,5 @@ void			write_wall_to_file(
     if (write(fd, &wall->to_infinity, sizeof(wall->to_infinity)) <= 0)
         error_doom("Couldn't write wall->to_infinity");
     write_wall_object_to_file(fd, wall->wall_object);
-}
-
-void			read_wall_object_from_file(
-        int fd,
-        t_textures *textures,
-        t_wall_object **wall_object)
-{
-    enum e_bool	wall_has_object;
-
-    if (read(fd, &wall_has_object, sizeof(wall_has_object)) <= 0)
-        error_doom("can't read wall_has_object");
-    *wall_object = NULL;
-    if (!wall_has_object)
-        return;
-    if (!(*wall_object = (t_wall_object*)malloc(sizeof(t_wall_object))))
-        error_doom("can't alloc wall_object");
-    if (read(fd, &(*wall_object)->offset_on_wall,
-                sizeof((*wall_object)->offset_on_wall)) <= 0)
-        error_doom("can't write offset on wall");
-    if (read(fd, &(*wall_object)->z, sizeof((*wall_object)->z)) <= 0)
-        error_doom("can't write z");
-    if (read(fd, &(*wall_object)->size, sizeof((*wall_object)->size)) <= 0)
-        error_doom("can't write size");
-    find_texture_from_file(fd, textures, &(*wall_object)->texture);
-}
-
-void			write_wall_object_to_file(
-        int fd,
-        t_wall_object *wall_object)
-{
-    enum e_bool	wall_has_object;
-
-    wall_has_object = wall_object != NULL;
-    if (write(fd, &wall_has_object, sizeof(wall_has_object)) <= 0)
-        error_doom("can't write wall_has_object");
-    if (!wall_has_object)
-        return;
-    if (write(fd, &wall_object->offset_on_wall,
-                sizeof(wall_object->offset_on_wall)) <= 0)
-        error_doom("can't write offset on wall");
-    if (write(fd, &wall_object->z, sizeof(wall_object->z)) <= 0)
-        error_doom("can't write z");
-    if (write(fd, &wall_object->size, sizeof(wall_object->size)) <= 0)
-        error_doom("can't write size");
-    write_str_to_file(fd, wall_object->texture->userdata);
+    write_lever_to_file(fd, linked_walls, wall->lever);
 }

@@ -119,17 +119,15 @@ static void			draw_wall_object(
         t_env *e,
 		const t_render *render,
 		const t_collision *collision,
-		t_u_range range)
+        t_wall_object	*wall_object)
 {
     double		x;
     double		y;
     Uint32		i;
     SDL_Surface *surface;
     double dist_ratio;
+    t_u_range range;
 
-    t_wall_object	*wall_object;
-
-    wall_object = collision->d.wall->wall_object;
 	surface = wall_object->texture;
     x = (get_distance_between_points(collision->inters.x,
             collision->inters.y, collision->d.wall->segment.x1,
@@ -137,9 +135,8 @@ static void			draw_wall_object(
     if (x >= (wall_object->offset_on_wall + wall_object->size) * surface->w
             || x < wall_object->offset_on_wall * surface->w)
         return;
+    x -= (wall_object->offset_on_wall * surface->w);
     x = x / wall_object->size;
-    while (x > surface->w)
-        x -= surface->w;
     dist_ratio = e->op.ratio / collision->distance;
     range = wall_range(dist_ratio, render->vision_height, render->win_h);
 	i = range.start - 1;
@@ -185,7 +182,9 @@ static void         draw_wall(
 		i++;
 	}
     if (collision->d.wall->wall_object)
-        draw_wall_object(e, render, collision, range);
+        draw_wall_object(e, render, collision, collision->d.wall->wall_object);
+    if (collision->d.wall->lever)
+        draw_wall_object(e, render, collision, collision->d.wall->lever->wall_object);
 }
 
 static t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
@@ -211,20 +210,24 @@ void         draw_transparent_wall(
         const t_collision *collision,
         const t_u_range range)
 {
-    Uint32		x;
+    double		x;
     Uint32		y;
     Uint32		i;
     SDL_Surface *wall_text;
 
     if (collision->d.wall->type != e_transparent_wall)
         return;
-    wall_text = collision->d.wall->texture;
-    x = (Uint32)(get_distance_between_points(collision->inters.x,
-            collision->inters.y, collision->d.wall->segment.x1,
-            collision->d.wall->segment.y1) * wall_text->w) % wall_text->w;
-    i = range.start;
     if (collision->d.wall->to_infinity)
         skybox(render, range);
+    wall_text = collision->d.wall->texture;
+    x = get_distance_between_points(collision->inters.x,
+            collision->inters.y, collision->d.wall->segment.x1,
+            collision->d.wall->segment.y1);
+    if (x < collision->d.wall->wall_offset)
+        return;
+    x = (Uint32)((x - collision->d.wall->wall_offset) * wall_text->w)
+        % wall_text->w;
+    i = range.start;
     while (i < range.end)
     {
         y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)

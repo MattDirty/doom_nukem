@@ -26,8 +26,10 @@ SRCS_NAMES = vector.c \
 			player_health_variation.c \
 			serialisation.c \
 			walls.c \
+			wall_objects.c \
 			sectors.c \
 			map.c \
+			levers.c \
 			environment.c \
 			loop.c \
 			engine.c \
