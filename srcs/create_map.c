@@ -72,7 +72,7 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].objects->items[2].horizontal_size = 0.25;
         map->sectors->items[i].objects->items[2].vertical_size = 1;
         find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[1].sprite);
-        find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[2].sprite);
+        find_texture_by_name(textures,"textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[2].sprite);
 
         map->sectors->items[i].enemies = (t_enemies*)malloc(sizeof(t_enemies));
         map->sectors->items[i].enemies->count = 1;
@@ -95,7 +95,11 @@ t_map		*create_map(t_textures *textures)
         if (i == 1)
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(90);
         if (i == 2)
+        {
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(180);
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].objects->items[2].sprite);
+
+        }
         find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->items[0].front);
         map->sectors->items[i].enemies->items[0].object->sprite =
                 map->sectors->items[i].enemies->items[0].front;
@@ -247,6 +251,7 @@ t_textures	*load_textures(void)
     add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/enemy_side.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/blackhole.bmp");
     add_bitmap_file_to_textures(textures, "textures/skybox/day.bmp");
     add_bitmap_file_to_textures(textures, "textures/skybox/night.bmp");
     add_bitmap_file_to_textures(textures, "textures/hud/sun.bmp");
