@@ -4,15 +4,38 @@
 #include "melee.h"
 #include "gun.h"
 #include "map.h"
+#include "collision.h"
 
-void    weapon_ray_fire(t_player *p)
-{
-    t_weapon    *weapon;
-    t_vector    vector;
+void    weapon_ray_fire(t_env *e) {
+    t_weapon        *weapon;
+    t_ray           ray;
+    t_collisions    *collisions;
+    t_collisions    *ptr;
+    Uint32          x;
+    double          angle;
 
-    weapon = p->weapon;
-    add_vector_to_vector(&vector, create_vector(cos(p->heading), -sin(p->heading)));
-
+    weapon = e->p.weapon;
+    x = -1;
+    angle = e->p.heading - weapon->scatter_angle / 2;
+    printf("firing !\n");
+    while (angle <= e->p.heading + weapon->scatter_angle / 2)
+    {
+        angle += weapon->scatter_angle / weapon->scatter;
+        ray.angle = angle;
+        ray.vect = create_vector(cos(ray.angle), -sin(ray.angle));
+        change_vector_magnitude(&ray.vect, weapon->range);
+        ray.seg = create_segment_from_position_and_vector(e->p.pos.x,
+                e->p.pos.y, &ray.vect);
+        find_ray_collisions(e->p.current_sector, &ray.seg, &collisions);
+        if (!collisions)
+            continue;
+        ptr = collisions;
+        while (ptr
+        && ptr->item.type == ct_wall && ptr->item.d.wall->type == e_portal)
+            ptr = ptr->next;
+        if (ptr && ptr->item.type == ct_object)
+            printf("%s, %f, %f\n", ptr->item.d.object->sprite->userdata, ptr->item.d.object->x, ptr->item.d.object->y);
+    }
 }
 
 enum e_bool    unlock(double ms_since_update, t_params ready)

@@ -8,12 +8,13 @@
 
 typedef struct s_object
 {
-    double      x;
-    double      y;
+    double          x;
+    double          y;
     double			z;
     double			horizontal_size;
     double			vertical_size;
-    SDL_Surface *sprite;
+    int             hit_counter;
+    SDL_Surface     *sprite;
 }               t_object;
 
 typedef struct  s_objects

@@ -39,12 +39,12 @@ enum e_bool gun_firing(double ms_since_update, t_params params)
     return (t_true);
 }
 
-void    gun_primary(t_player *p, t_timer_handler *timer_handler)
+void    gun_primary(t_env *e, t_timer_handler *timer_handler)
 {
     t_weapon_and_timer  *params;
     t_weapon            *weapon;
 
-    weapon = p->weapon;
+    weapon = e->p.weapon;
     if (!weapon->main_ready || !weapon->ammo)
         return;
     Mix_PlayChannel(-1, weapon->main_sound, 0);
@@ -56,7 +56,7 @@ void    gun_primary(t_player *p, t_timer_handler *timer_handler)
         error_doom("Couldn't malloc params for firing");
     params->weapon = weapon;
     params->timer_handler = timer_handler;
-    weapon_ray_fire(p);
+    weapon_ray_fire(e);
     add_event(timer_handler, 1, &gun_firing, params);
     add_event(timer_handler, weapon->main_cooldown, &unlock,
             &weapon->main_ready);
@@ -107,6 +107,7 @@ t_weapon    *load_gun(t_map *map)
     if (!(gun->main_sound = Mix_LoadWAV("sounds/zap.wav")))
         error_doom("Can't load gun sound ...");
     gun->range = HORIZON;
-    gun->scatter = 1;
+    gun->scatter = 30;
+    gun->scatter_angle = 0.785398;
     return (gun);
 }

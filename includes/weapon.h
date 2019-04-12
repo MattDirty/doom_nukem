@@ -10,6 +10,7 @@
 # include "map.h"
 
 typedef struct  s_player t_player;
+typedef struct  s_env t_env;
 
 typedef struct  s_weapon
 {
@@ -29,6 +30,7 @@ typedef struct  s_weapon
     Mix_Chunk   *main_sound;
     double      range;
     Uint32      scatter;
+    double      scatter_angle;
     double      gun_damage;
     enum e_bool usable;
 }               t_weapon;
@@ -49,7 +51,7 @@ t_weapons   *allocate_weapons(t_map *map);
 void        draw_weapon(SDL_Surface *Surface, SDL_Surface *weapon, t_animation *animation, t_config *op);
 t_weapon    *get_weapon(t_weapons *node, Uint32 target);
 enum e_bool unlock(double ms_since_update, t_params ready);
-void        weapon_ray_fire(t_player *p);
+void        weapon_ray_fire(t_env *e);
 
 
 #endif

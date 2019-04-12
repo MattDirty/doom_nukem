@@ -44,7 +44,7 @@ static void loop_events(
         {
             if (ev.type == SDL_MOUSEBUTTONDOWN
             && ev.button.button == SDL_BUTTON_LEFT)
-                e->p.weapon->main(&e->p, timer_handler);
+                e->p.weapon->main(e, timer_handler);
             if (ev.type == SDL_MOUSEMOTION)
             {
                 x += ev.motion.xrel;
