@@ -83,8 +83,8 @@ static void         draw_object(
 		const t_render *render,
 		const t_collision *collision)
 {
-    Uint32		x;
-    int		y;
+    double		x;
+    double		y;
     Uint32		i;
     SDL_Surface *surface;
     t_u_range		range;
@@ -93,23 +93,25 @@ static void         draw_object(
 	if (collision->type != ct_object)
 		return;
 	surface = collision->d.object->sprite;
-    x = (Uint32)(get_distance_between_points(collision->inters.x,
+    x = get_distance_between_points(collision->inters.x,
             collision->inters.y, collision->object_segment.x1,
             collision->object_segment.y1)
-            * surface->w / collision->d.object->horizontal_size) % surface->w;
+            * surface->w / collision->d.object->horizontal_size;
+    while (x > surface->w)
+        x -= surface->w;
     dist_ratio = e->op.ratio / collision->distance;
     range = wall_range(dist_ratio, render->vision_height, render->win_h);
 	i = range.start - 1;
 	while (++i < range.end)
 	{
-        y = (Uint32)(fabs(((i - render->vision_height + dist_ratio / 2)
-        * surface->h / dist_ratio))) / collision->d.object->vertical_size
+        y = fabs((i - render->vision_height + dist_ratio / 2)
+        * surface->h / dist_ratio) / collision->d.object->vertical_size
         + surface->h / collision->d.object->vertical_size
         * (collision->d.object->z + collision->d.object->vertical_size - 1);
         if (y >= surface->h || y < 0)
             continue;
         put_pixel_alpha(render->surface, render->x, i,
-                get_pixel(surface, x, y, t_false));
+                get_pixel(surface, (Uint32)x, (Uint32)y, t_false));
 	}
 }
 
@@ -143,8 +145,8 @@ static void			draw_wall_object(
 	i = range.start - 1;
 	while (++i < range.end)
 	{
-        y = fabs(((i - render->vision_height + dist_ratio / 2)
-        * surface->h / dist_ratio)) / wall_object->size
+        y = fabs((i - render->vision_height + dist_ratio / 2)
+        * surface->h / dist_ratio) / wall_object->size
         + surface->h / wall_object->size
         * (wall_object->z + wall_object->size - 1);
         if (y >= surface->h || y < 0)
