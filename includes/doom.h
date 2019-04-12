@@ -8,6 +8,7 @@
 # include "player.h"
 # include "config.h"
 # include "fonts.h"
+# include "default.h"
 
 typedef struct          s_env
 {

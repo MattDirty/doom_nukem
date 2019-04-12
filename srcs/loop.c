@@ -132,6 +132,26 @@ t_frame_event_params	*frame_event_params_init(t_env *e)
     return (params);
 }
 
+void            screen_dying(t_env *e)
+{
+    Uint32  i;
+    Uint32  x;
+    Uint32  y;
+
+    x = rand() % WIN_W;
+    y = rand() % WIN_H;
+
+    e->dead_pixel_x[e->nb_dead_pixels] = x;
+    e->dead_pixel_y[e->nb_dead_pixels] = y;
+    i = 0;
+    while (i < e->nb_dead_pixels)
+    {
+        put_pixel_alpha(e->doom.surface, e->dead_pixel_x[i], e->dead_pixel_y[i], BLACK);
+        i++;
+    }
+    e->nb_dead_pixels++;
+}
+
 enum e_bool		frame_event(double ms_since_update, t_params params)
 {
     t_env   				*e;
@@ -157,12 +177,11 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
         frame_event_params->time = 0;
     }
     ui_draw(e->doom.surface, map, frame_event_params->fps, e);
+    screen_dying(e);
     print_surface(e->doom.renderer, e->doom.surface);
     frame_event_params->time += ms_since_update;
     return (t_true);
 }
-
-
 
 void		loop_doom(t_env *e)
 {
@@ -176,6 +195,8 @@ void		loop_doom(t_env *e)
 
     update_logic_params = logic_params_init(e, state, &timer_handler);
     frame_event_params = frame_event_params_init(e);
+
+    e->nb_dead_pixels = 0;
 
     add_event(&timer_handler, 1, &update_logic, update_logic_params);
     add_event(
