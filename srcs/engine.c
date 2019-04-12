@@ -66,7 +66,7 @@ void			raycasting(t_env *e)
 
     renderer_x = 0;
 	clamp_player_values(&e->p, e->op);
-	while (renderer_x < e->op.win_w)
+    while (renderer_x < e->op.win_w)
     {
         ray.angle = e->p.heading + atan(
                 (renderer_x / e->op.half_w - 1) * e->op.tan_half_fov);

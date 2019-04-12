@@ -11,6 +11,14 @@
 typedef struct  s_weapon
 {
     SDL_Surface *sprite;
+    SDL_Surface **sprites;
+    Uint32      sprites_count;
+    SDL_Surface *sprite_fire;
+    SDL_Surface **sprites_fire;
+    Uint32      sprites_fire_count;
+    SDL_Surface *sprite_cooldown;
+    SDL_Surface **sprites_cooldown;
+    Uint32      sprites_cooldown_count;
     Uint32      ammo;
     t_animation animation;
     void        (*main)();

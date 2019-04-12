@@ -165,7 +165,7 @@ void		loop_doom(t_env *e)
 	timer_handler_init(&timer_handler);
     state = SDL_GetKeyboardState(NULL);
 
-	update_logic_params = logic_params_init(e, state, &timer_handler);
+    update_logic_params = logic_params_init(e, state, &timer_handler);
     frame_event_params = frame_event_params_init(e);
 
     add_event(&timer_handler, 1, &update_logic, update_logic_params);
