@@ -282,6 +282,8 @@ void			read_wall_object_from_file(
         error_doom("can't write offset on wall");
     if (read(fd, &(*wall_object)->z, sizeof((*wall_object)->z)) <= 0)
         error_doom("can't write z");
+    if (read(fd, &(*wall_object)->size, sizeof((*wall_object)->size)) <= 0)
+        error_doom("can't write size");
     find_texture_from_file(fd, textures, &(*wall_object)->texture);
 }
 
@@ -301,5 +303,7 @@ void			write_wall_object_to_file(
         error_doom("can't write offset on wall");
     if (write(fd, &wall_object->z, sizeof(wall_object->z)) <= 0)
         error_doom("can't write z");
+    if (write(fd, &wall_object->size, sizeof(wall_object->size)) <= 0)
+        error_doom("can't write size");
     write_str_to_file(fd, wall_object->texture->userdata);
 }

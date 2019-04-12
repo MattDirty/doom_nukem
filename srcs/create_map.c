@@ -137,14 +137,15 @@ t_map		*create_map(t_textures *textures)
 		}
         if (i == 0)
         {
-            if (!(walls->items[0]->wall_object = malloc(sizeof(t_wall_object))))
+            if (!(walls->items[2]->wall_object = malloc(sizeof(t_wall_object))))
                 error_doom("can't alloc wall object");
-            walls->items[0]->wall_object->offset_on_wall = 2;
-            walls->items[0]->wall_object->z = 0.3;
+            walls->items[2]->wall_object->offset_on_wall = 2;
+            walls->items[2]->wall_object->z = 0.3;
+            walls->items[2]->wall_object->size = 0.7;
             find_texture_by_name(
                     textures,
                     "textures/wall_objects/flag.bmp",
-                    &walls->items[0]->wall_object->texture);
+                    &walls->items[2]->wall_object->texture);
         }
 		if (i == 0)
 		{

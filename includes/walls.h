@@ -32,6 +32,7 @@ typedef struct			s_wall_object
 {
     double				offset_on_wall;
     double				z;
+    double				size;
     SDL_Surface			*texture;
 }						t_wall_object;
 
