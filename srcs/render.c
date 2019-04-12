@@ -210,20 +210,24 @@ void         draw_transparent_wall(
         const t_collision *collision,
         const t_u_range range)
 {
-    Uint32		x;
+    double		x;
     Uint32		y;
     Uint32		i;
     SDL_Surface *wall_text;
 
     if (collision->d.wall->type != e_transparent_wall)
         return;
-    wall_text = collision->d.wall->texture;
-    x = (Uint32)(get_distance_between_points(collision->inters.x,
-            collision->inters.y, collision->d.wall->segment.x1,
-            collision->d.wall->segment.y1) * wall_text->w) % wall_text->w;
-    i = range.start;
     if (collision->d.wall->to_infinity)
         skybox(render, range);
+    wall_text = collision->d.wall->texture;
+    x = get_distance_between_points(collision->inters.x,
+            collision->inters.y, collision->d.wall->segment.x1,
+            collision->d.wall->segment.y1);
+    if (x < collision->d.wall->wall_offset)
+        return;
+    x = (Uint32)((x - collision->d.wall->wall_offset) * wall_text->w)
+        % wall_text->w;
+    i = range.start;
     while (i < range.end)
     {
         y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)

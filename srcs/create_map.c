@@ -130,6 +130,7 @@ t_map		*create_map(t_textures *textures)
             walls->items[j]->lever = NULL;
 		    walls->items[j]->type = e_wall;
 		    walls->items[j]->to_infinity = t_false;
+            walls->items[j]->wall_offset = 0;
 		    if (i == 1)
                 find_texture_by_name(textures, "textures/walls/stones.bmp", &walls->items[j]->texture);
 		    else
@@ -159,6 +160,7 @@ t_map		*create_map(t_textures *textures)
             walls->items[2]->lever->wall_object->offset_on_wall = 2;
             walls->items[2]->lever->wall_object->z = 0.25;
             walls->items[2]->lever->wall_object->size = 0.5;
+            walls->items[2]->lever->door = walls->items[1];
             find_texture_by_name(
                     textures,
                     "textures/wall_objects/lever_up.bmp",

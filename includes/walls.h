@@ -24,12 +24,6 @@ enum            e_wall_type
     e_transparent_wall
 };
 
-union   u_pointer
-{
-    SDL_Surface *texture;
-    t_link      sector;
-};
-
 typedef struct			s_wall
 {
     t_segment			segment;
@@ -37,6 +31,7 @@ typedef struct			s_wall
     SDL_Surface         *texture;
     t_link              links;
     enum e_bool         to_infinity;
+    double				wall_offset;
     t_wall_object		*wall_object;
     t_lever				*lever;
 }						t_wall;
@@ -59,6 +54,8 @@ void			create_linked_walls_from_sectors(
         int *count);
 void	free_linked_walls(t_linked_walls *linked_walls);
 void	free_linked_walls_nodes(t_linked_walls *linked_walls);
+
+int			wall_index(t_linked_walls *linked_walls, t_wall *wall);
 
 void			read_linked_walls_from_file(
         int fd,
@@ -87,6 +84,7 @@ void			read_wall_from_file(
 void			write_wall_to_file(
         int fd,
         t_sectors *sectors,
+        t_linked_walls *linked_walls,
         t_wall *wall);
 
 #endif
