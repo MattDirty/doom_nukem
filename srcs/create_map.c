@@ -224,6 +224,8 @@ t_map		*create_map(t_textures *textures)
     find_texture_by_name(textures, "textures/weapons/gun_1.bmp", &map->gun_sprites[0]);
     find_texture_by_name(textures, "textures/weapons/gun_2.bmp", &map->gun_sprites[1]);
     find_texture_by_name(textures, "textures/weapons/gun_3.bmp", &map->gun_sprites[2]);
+    find_texture_by_name(textures, "textures/weapons/gun_firing.bmp", &map->gun_sprites[3]);
+    find_texture_by_name(textures, "textures/weapons/gun_cooldown.bmp", &map->gun_sprites[4]);
     map->daytime = t_true;
 	return (map);
 }
@@ -235,7 +237,6 @@ t_textures	*load_textures(void)
     if (!(textures = (t_textures*)malloc(sizeof(t_textures))))
         error_doom("could not allocate textures");
     textures->first = NULL;
-    add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/brickwall2.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/fence.bmp");
@@ -266,5 +267,7 @@ t_textures	*load_textures(void)
     add_bitmap_file_to_textures(textures, "textures/weapons/gun_1.bmp");
     add_bitmap_file_to_textures(textures, "textures/weapons/gun_2.bmp");
     add_bitmap_file_to_textures(textures, "textures/weapons/gun_3.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/gun_firing.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/gun_cooldown.bmp");
     return (textures);
 }

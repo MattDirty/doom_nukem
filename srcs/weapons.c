@@ -5,6 +5,26 @@
 #include "gun.h"
 #include "map.h"
 
+enum e_bool    unlock(double ms_since_update, t_params ready)
+{
+    (void)ms_since_update;
+    *(enum e_bool*)ready = t_true;
+    return (t_false);
+}
+
+t_weapon    *get_weapon(t_weapons *node, Uint32 target)
+{
+    Uint32  i;
+
+    i = 0;
+    while (node && i < target)
+    {
+        node = node->next;
+        i++;
+    }
+    return (node->item);
+}
+
 t_weapons   *allocate_weapons(t_map *map)
 {
     t_weapons   *node;

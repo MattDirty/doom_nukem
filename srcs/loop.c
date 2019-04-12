@@ -23,6 +23,7 @@
 #include "surface_manipulation.h"
 #include "loop.h"
 #include "weapon.h"
+#include "gun.h"
 
 static void loop_events(
         t_env *e,
@@ -42,7 +43,7 @@ static void loop_events(
         if (!e->p.dead)
         {
             if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
-                e->p.weapon.main(&e->p.weapon, timer_handler);
+                e->p.weapon->main(e->p.weapon, timer_handler);
             if (ev.type == SDL_MOUSEMOTION)
             {
                 x += ev.motion.xrel;
@@ -138,8 +139,8 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     raycasting(e);
     draw_weapon(
             e->doom.surface,
-            e->p.weapon.sprite_current,
-            &e->p.weapon.animation,
+            e->p.weapon->sprite_current,
+            &e->p.weapon->main_animation,
             &e->op);
     if (e->p.dead)
         game_over(e->doom.surface, &e->op);
@@ -178,6 +179,7 @@ void		loop_doom(t_env *e)
     add_event(&timer_handler, 30000, &day_to_night, &e->map->daytime);
     e->map->hud.id = 0;
     add_event(&timer_handler, 1000, &cross_index, &e->map->hud.id);
+    add_event(&timer_handler, 5, &gun_idle_anim, get_weapon(e->p.weapons, 1));
     add_event(&timer_handler, 1000, &toggle_player_health, &e->p);
     Mix_PlayMusic(e->music, -1);
     while (42)

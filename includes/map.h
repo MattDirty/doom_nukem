@@ -27,7 +27,7 @@ typedef struct			s_map
     enum e_bool         daytime;
     t_hud               hud;
     SDL_Surface         *melee_sprite;
-    SDL_Surface         *gun_sprites[3];
+    SDL_Surface         *gun_sprites[5];
 }						t_map;
 
 void		free_map(t_map *map);
