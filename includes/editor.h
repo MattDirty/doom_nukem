@@ -21,6 +21,8 @@
 # define EDITOR_ZOOM 20
 # define CORNER_SIZE 8
 
+typedef struct          s_editor t_editor;
+
 typedef struct			s_sdl_editor
 {
     SDL_Window			*window;
@@ -31,7 +33,7 @@ typedef struct			s_sdl_editor
 typedef struct			s_button
 {
 	t_rect				rect;
-	void				*funct;
+	void				(*f)(t_editor *ed, t_rect *rect);
 }						t_button;
 
 typedef struct			s_buttons
@@ -42,9 +44,10 @@ typedef struct			s_buttons
 
 typedef struct          s_editor
 {
-	t_sdl			sdl;
+	t_sdl_editor    sdl;
     t_map			*map;
     t_textures      *textures;
+    t_buttons       buttons;
     int             mouse_x;
     int             mouse_y;
 }                       t_editor;

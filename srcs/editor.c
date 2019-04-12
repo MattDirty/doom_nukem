@@ -19,29 +19,30 @@
 //#include "libft.h"
 #include "editor_draw.h"
 
-void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_sdl *sdl)
+void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0 || TTF_Init() < 0)
 		error_doom("error: cannot run SDL");
-    if (!(sdl->window = SDL_CreateWindow(name, 0, 0, w, h, SDL_WINDOW_FULLSCREEN_DESKTOP)))
+    if (!(ed->sdl.window = SDL_CreateWindow(name, 0, 0, w, h, SDL_WINDOW_FULLSCREEN_DESKTOP)))
         error_doom("Could not create window.");
-	SDL_RaiseWindow(sdl->window);
-    if (!(sdl->renderer = SDL_CreateRenderer(sdl->window, -1, 0)))
+	SDL_RaiseWindow(ed->sdl.window);
+    if (!(ed->sdl.renderer = SDL_CreateRenderer(ed->sdl.window, -1, 0)))
         error_doom("Could not create renderer");
-	if (!(sdl->surface = SDL_CreateRGBSurface(0, w, h,
+	if (!(ed->sdl.surface = SDL_CreateRGBSurface(0, w, h,
 			32, MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
         error_doom("Could not create surface.");
 }
 
 int		event_editor(t_editor *ed)
 {
-	(void)ed;
-	SDL_Event	event;
+	SDL_Event	ev;
 
-	SDL_GetRelativeMouseState(&(ed->mouse_x), &(ed->mouse_y));
-	SDL_PollEvent(&event);
-	if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+    SDL_GetRelativeMouseState(&(ed->mouse_x), &(ed->mouse_y));
+    SDL_PollEvent(&ev);
+	if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 		exit(EXIT_SUCCESS);
+    if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
+	    click_on_pannel(ed, &ed->buttons, ev.button.x, ev.button.y);
 	return (1);
 }
 
@@ -60,7 +61,9 @@ void	reframe_editor(t_editor *ed)
 
 void	gameloop(t_editor *ed)
 {
-	reframe_editor(ed);
+    reframe_editor(ed);
+    ed->buttons.count = 1;
+    draw_pannel(ed->sdl.surface);
 	while (1)
 	{
 		if (event_editor(ed))
@@ -76,7 +79,9 @@ int		main(void)
     ed.textures = load_textures();
     ed.map = create_map(ed.textures);
 
-	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed.sdl);
+	write_file("mabite.roflolilolmao", ed.textures, ed.map);
+	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
+
 	gameloop(&ed);
 	write_file("mabite.roflolilolmao", ed.textures, ed.map);
 

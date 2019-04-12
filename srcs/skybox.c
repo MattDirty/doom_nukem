@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   skybox.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/29 23:07:46 by lfatton           #+#    #+#             */
 /*   Updated: 2019/03/29 23:07:49 by lfatton          ###   ########.fr       */

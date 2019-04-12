@@ -7,8 +7,8 @@
 
 # define DRAW_MAP_X (EDITOR_W_H / 3)
 # define DRAW_MAP_Y EDITOR_H_H
-# define DRAW_PANNEL_X (EDITOR_W - 2 * DRAW_MAP_X)
-# define DRAW_PANNEL_Y 0
+# define PANNEL_X (EDITOR_W - 2 * DRAW_MAP_X)
+# define PANNEL_Y 0
 
 # define WHITE 0xFFFFFFFF
 # define RED 0xFFFF0000
@@ -18,7 +18,8 @@
 # define DARK_BLUE 0xFF073784
 # define L_BLUE 0xFF8888FF
 
-
+void        click_on_pannel(t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y);
+void        draw_pannel(SDL_Surface *target);
 void		draw_editor(t_editor *ed);
 
 #endif

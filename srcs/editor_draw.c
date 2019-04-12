@@ -41,14 +41,7 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
     int	i;
     t_segment s2;
     t_segment s;
-    t_rect rect;
-
-
-
-    rect.pos.x = 0;
-    rect.pos.y = 0;
-    rect.width = CORNER_SIZE;
-    rect.height = CORNER_SIZE;
+    //t_rect rect;
 
     i = 0;
     while (i < walls->count)
@@ -62,14 +55,7 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
             draw_segment(surface, s2, RED);
         else if (walls->items[i]->type == e_wall)
             draw_segment(surface, s2, WHITE);
-        rect.pos.x = s2.x1 - CORNER_SIZE / 2;
-        rect.pos.y = s2.y1 - CORNER_SIZE / 2;
-        draw_rect(surface, &rect, L_BLUE);
-        fill_rect(surface, &rect, L_BLUE);
-        rect.pos.x = s2.x2 - CORNER_SIZE / 2;
-        rect.pos.y = s2.y2 - CORNER_SIZE / 2;
-        draw_rect(surface, &rect, L_BLUE);
-        fill_rect(surface, &rect, L_BLUE);
+        draw_corners_editor(surface, &s2);
         i++;
     }
 }
@@ -108,8 +94,8 @@ void        draw_pannel(SDL_Surface *target)
 {
     t_rect  pannel;
 
-    pannel = create_rect(DRAW_PANNEL_X, DRAW_PANNEL_Y,
-            EDITOR_W - DRAW_PANNEL_X - 1, EDITOR_H - 1);
+    pannel = create_rect(PANNEL_X, PANNEL_Y,
+            EDITOR_W - PANNEL_X - 1, EDITOR_H - 1);
     draw_rect(target, &pannel, WHITE);
     fill_rect(target, &pannel, DARK_BLUE);
 }
@@ -120,7 +106,7 @@ void        draw_save_button(SDL_Surface *target, t_buttons *buttons, int i)
     SDL_Surface *save;
     t_coords    location;
 
-    save_btn.rect = create_rect(DRAW_PANNEL_X + 5, DRAW_PANNEL_Y + 5, 40, 20);
+    save_btn.rect = create_rect(PANNEL_X + 5, PANNEL_Y + 5, 40, 20);
     draw_rect(target, &save_btn.rect, RED);
     fill_rect(target, &save_btn.rect, PINK);
     save = write_text("fonts/sixty.ttf", 15, "SAVE", (SDL_Colour){255,0,0,255});
