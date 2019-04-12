@@ -5,6 +5,7 @@
 # include "utils.h"
 # include "e_bool.h"
 # include "textures.h"
+# include "wall_objects.h"
 
 typedef struct s_sector t_sector;
 typedef struct s_sectors t_sectors;
@@ -27,14 +28,6 @@ union   u_pointer
     SDL_Surface *texture;
     t_link      sector;
 };
-
-typedef struct			s_wall_object
-{
-    double				offset_on_wall;
-    double				z;
-    double				size;
-    SDL_Surface			*texture;
-}						t_wall_object;
 
 typedef struct			s_wall
 {
@@ -93,13 +86,5 @@ void			write_wall_to_file(
         int fd,
         t_sectors *sectors,
         t_wall *wall);
-
-void			read_wall_object_from_file(
-        int fd,
-        t_textures *textures,
-        t_wall_object **wall_object);
-void			write_wall_object_to_file(
-        int fd,
-        t_wall_object *wall_object);
 
 #endif
