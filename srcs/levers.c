@@ -15,7 +15,8 @@ static enum e_bool	animate_door(double ms_since_update, t_params params)
         / animation->total_time * animation->target_offset;
     if (animation->elapsed_time >= animation->total_time)
     {
-        animation->door->type = e_portal;
+        if (!animation->door->to_infinity)
+            animation->door->type = e_portal;
         free(animation);
         return (t_false);
     }
@@ -33,7 +34,7 @@ static void	use_lever(t_lever *lever, t_timer_handler *timer_handler)
     if (!(animation = (t_door_animation*)malloc(sizeof(t_door_animation))))
         error_doom("can't allocate animation");
     animation->elapsed_time = 0;
-    animation->total_time = 4000;
+    animation->total_time = 2000;
     animation->door = lever->door;
     animation->target_offset = get_distance_between_points(
             lever->door->segment.x1, lever->door->segment.y1,
