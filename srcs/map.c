@@ -54,6 +54,7 @@ void		write_map_to_file(int fd, t_map *map)
     write_str_to_file(fd, map->hud.dead_face->userdata);
     write_str_to_file(fd, map->hud.badass_face->userdata);
     write_str_to_file(fd, map->hud.sehr_happy_face->userdata);
+    write_str_to_file(fd, map->hud.hurt_face->userdata);
     write_str_to_file(fd, map->melee_sprite->userdata);
     write_str_to_file(fd, map->gun_sprites[0]->userdata);
     write_str_to_file(fd, map->gun_sprites[1]->userdata);

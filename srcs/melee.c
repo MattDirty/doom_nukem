@@ -66,7 +66,7 @@ t_weapon    load_melee(t_map *map)
 
     weapon.sprites_count = 1;
     if (!(weapon.sprites = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * weapon.sprites_count)))
-        error_doom("Couldn't malloc gun.sprites");
+        error_doom("Couldn't malloc melee.sprites");
     weapon.sprites[0] = map->melee_sprite;
     weapon.ammo = 10;
     weapon.main = NULL;
