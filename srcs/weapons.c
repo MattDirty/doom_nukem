@@ -33,7 +33,7 @@ void    weapon_ray_fire(t_env *e) {
         && ptr->item.type == ct_wall && ptr->item.d.wall->type == e_portal)
             ptr = ptr->next;
         if (ptr && ptr->item.type == ct_enemy)
-            printf("die biatch\n");
+            enemy_hit(ptr->item.d.enemy, weapon->damage);
     }
 }
 
