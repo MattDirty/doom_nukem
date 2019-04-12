@@ -66,13 +66,10 @@ void    gun_primary(t_weapon *weapon, t_timer_handler *timer_handler)
             &weapon->main_ready);
 }
 
-t_weapon    *load_gun(t_map *map)
+void        load_gun_sprites(t_weapon *weapon, t_map *map)
 {
-    t_weapon    *weapon;
-    Uint32      i;
+    Uint32  i;
 
-    if (!(weapon = (t_weapon *)malloc(sizeof(t_weapon))))
-        error_doom("Couldn't malloc gun");
     weapon->sprites_count = 3;
     if (!(weapon->sprites = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * weapon->sprites_count)))
         error_doom("Couldn't malloc gun.sprites");
@@ -91,6 +88,15 @@ t_weapon    *load_gun(t_map *map)
     if (!(weapon->sprites_cooldown = (SDL_Surface **)malloc(sizeof(SDL_Surface *))))
         error_doom("Couldn't malloc gun firing sprites");
     weapon->sprites_cooldown[0] = map->gun_sprites[4];
+}
+
+t_weapon    *load_gun(t_map *map)
+{
+    t_weapon    *weapon;
+
+    if (!(weapon = (t_weapon *)malloc(sizeof(t_weapon))))
+        error_doom("Couldn't malloc gun");
+    load_gun_sprites(weapon, map);
     weapon->ammo = 10;
     weapon->main = NULL;
     weapon->usable = t_true;
@@ -99,7 +105,6 @@ t_weapon    *load_gun(t_map *map)
     weapon->main = gun_primary;
     weapon->main_cooldown = 500;
     reset_animation(&weapon->main_animation);
-    weapon->main_animation.duration = 100;
     weapon->main_ready = t_true;
     if (!(weapon->main_sound = Mix_LoadWAV("sounds/zap.wav")))
         error_doom("Can't load weapon sound ...");
