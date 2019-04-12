@@ -141,7 +141,7 @@ enum e_bool     screen_dying(double ms_since_update, t_params pointer)
     (void)ms_since_update;
     e = (t_env*)pointer;
     dist = get_distance_between_points(e->p.pos.x, e->p.pos.y, e->map->boss.pos.x, e->map->boss.pos.y);
-    ratio = dist * HORIZON / HORIZON;
+    ratio = dist * HORIZON / HORIZON / 2;
     e->p.health -= DAMAGE / ratio;
     if (ratio <= 2.5)
         e->p.hurt = t_true;
