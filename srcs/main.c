@@ -51,7 +51,7 @@ int		main (int ac, char **av)
 		error_doom("error: cannot hide mouse cursor");
     read_file("mabite.roflolilolmao", &textures, &e.map);
 	e.p = init_player(&e.op, &e.map->sectors->items[0]);
-    e.p.weapons = allocate_weapons();
+    e.p.weapons = allocate_weapons(e.map);
     if (e.debug_mode)
 		e.debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
 	loop_doom(&e);

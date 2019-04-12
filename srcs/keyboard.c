@@ -16,9 +16,6 @@
 
 void    key_handler(const Uint8 *state, t_player *p, t_timer_handler *timer_handler)
 {
-    if (state[SDL_SCANCODE_X])
-        p->weapons.list[p->weapons.current].secondary(p->weapons.list[p->weapons.current],
-                timer_handler);
     if (state[SDL_SCANCODE_SPACE] && !p->jump.height)
     {
         p->jump.time = 0;

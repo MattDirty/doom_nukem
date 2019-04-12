@@ -59,7 +59,7 @@ void    draw_face(SDL_Surface *surface, t_hud *hud, t_player *p, t_config *op)
         location.x = op->half_w;
     if (location.y < 0)
         location.y = 0;
-    if (!p->weapons.list[p->weapons.current].main_ready)
+    if (!p->weapon.main_ready)
         draw_on_screen(surface, hud->badass_face, location, t_true);
     else if (p->healed)
         draw_on_screen(surface, hud->sehr_happy_face, location, t_true);

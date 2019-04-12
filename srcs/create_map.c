@@ -220,6 +220,10 @@ t_map		*create_map(t_textures *textures)
 	find_texture_by_name(textures, "textures/hud/faces/badass.bmp", &map->hud.badass_face);
 	find_texture_by_name(textures, "textures/hud/faces/sehr_happy.bmp", &map->hud.sehr_happy_face);
 	find_texture_by_name(textures, "textures/hud/faces/hurt.bmp", &map->hud.hurt_face);
+    find_texture_by_name(textures, "textures/weapons/dwa.bmp", &map->melee_sprite);
+    find_texture_by_name(textures, "textures/weapons/gun_1.bmp", &map->gun_sprites[0]);
+    find_texture_by_name(textures, "textures/weapons/gun_2.bmp", &map->gun_sprites[1]);
+    find_texture_by_name(textures, "textures/weapons/gun_3.bmp", &map->gun_sprites[2]);
     map->daytime = t_true;
 	return (map);
 }
@@ -258,5 +262,9 @@ t_textures	*load_textures(void)
 	add_bitmap_file_to_textures(textures, "textures/wall_objects/lever_up.bmp");
 	add_bitmap_file_to_textures(textures, "textures/wall_objects/lever_down.bmp");
 	add_bitmap_file_to_textures(textures, "textures/wall_objects/flag.bmp");
+	add_bitmap_file_to_textures(textures, "textures/weapons/dwa.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/gun_1.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/gun_2.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/gun_3.bmp");
     return (textures);
 }

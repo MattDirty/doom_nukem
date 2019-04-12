@@ -2,6 +2,7 @@
 #include "weapon.h"
 #include "timer_handler.h"
 #include "e_bool.h"
+#include "doom.h"
 
 enum e_bool    unlock(double ms_since_update, t_params ready)
 {
@@ -37,18 +38,6 @@ enum e_bool    melee_primary_animation(
     return (animation->time <= animation->duration);
 }
 
-void    melee_secondary(t_weapon *weapon, t_timer_handler *timer_handler)
-{
-    if (!weapon->secondary_ready)
-        return;
-    weapon->secondary_ready = t_false;
-    add_event(
-            timer_handler,
-            weapon->secondary_cooldown,
-            &unlock,
-            &weapon->secondary_ready);
-}
-
 void    melee_primary(t_weapon *weapon, t_timer_handler *timer_handler)
 {
     if (!weapon->main_ready || !weapon->ammo)
@@ -69,4 +58,24 @@ void    melee_primary(t_weapon *weapon, t_timer_handler *timer_handler)
             weapon->main_cooldown,
             &unlock,
             &weapon->main_ready);
+}
+
+t_weapon    load_melee(t_map *map)
+{
+    t_weapon    weapon;
+
+    weapon.sprites_count = 1;
+    if (!(weapon.sprites = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * weapon.sprites_count)))
+        error_doom("Couldn't malloc gun.sprites");
+    weapon.sprites[0] = map->melee_sprite;
+    weapon.ammo = 10;
+    weapon.main = NULL;
+    weapon.usable = t_true;
+    reset_animation(&weapon.animation);
+    weapon.main = melee_primary;
+    weapon.main_cooldown = 2000;
+    weapon.main_ready = t_true;
+    if (!(weapon.main_sound = Mix_LoadWAV("sounds/fu_bitch.wav")))
+        error_doom("Can't load weapon sound ...");
+    return (weapon);
 }
