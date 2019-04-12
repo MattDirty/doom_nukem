@@ -150,6 +150,31 @@ static void		find_objects_collisions_in_sector(
     }
 }
 
+static void			find_lever_collisions(
+        t_collisions **collisions,
+        t_wall *wall,
+        double distance,
+        t_coords inters)
+{
+    t_lever		*lever;
+    double		offset_on_wall;
+    t_collisions	*new;
+
+    if (distance < PLAYER_THICKNESS)
+        return;
+    if (!(lever = wall->lever) || lever->wall_object == NULL)
+        return;
+    offset_on_wall = get_distance_between_points(wall->segment.x1,
+            wall->segment.y1, inters.x, inters.y);
+    if (offset_on_wall < wall->lever->wall_object->offset_on_wall
+            || offset_on_wall >= lever->wall_object->offset_on_wall
+                + lever->wall_object->size)
+        return;
+    new = add_collision(collisions, distance, inters);
+    new->item.type = ct_lever;
+    new->item.d.lever = lever;
+}
+
 static enum e_bool	find_wall_collisions_in_sector(
         t_sector *sector,
         t_segment *ray,
@@ -178,6 +203,8 @@ static enum e_bool	find_wall_collisions_in_sector(
                 best_collision.inters = inters;
                 best_collision.d.wall = sector->walls->items[i];
             }
+            find_lever_collisions(collisions, sector->walls->items[i],
+                    distance, inters);
 		}
 	}
     if (best_collision.distance >= HORIZON)

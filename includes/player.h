@@ -41,5 +41,6 @@ void        game_over(SDL_Surface *surface, t_config *op);
 void        hurt_or_heal(t_player *p, const Uint8 *state);
 void        draw_face(SDL_Surface *surface, t_hud *hud, t_player *p, t_config *op);
 enum e_bool toggle_player_health(double ms_since_update, t_params pointer);
+void	use_lever_if_available(t_player *p);
 
 #endif
