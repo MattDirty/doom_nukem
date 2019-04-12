@@ -273,6 +273,7 @@ void			read_wall_object_from_file(
 
     if (read(fd, &wall_has_object, sizeof(wall_has_object)) <= 0)
         error_doom("can't read wall_has_object");
+    *wall_object = NULL;
     if (!wall_has_object)
         return;
     if (!(*wall_object = (t_wall_object*)malloc(sizeof(t_wall_object))))
