@@ -113,7 +113,49 @@ static void         draw_object(
 	}
 }
 
+static void			draw_wall_object(
+        t_env *e,
+		const t_render *render,
+		const t_collision *collision,
+		t_u_range range)
+{
+    double		x;
+    double		y;
+    Uint32		i;
+    SDL_Surface *surface;
+    double dist_ratio;
+
+    t_wall_object	*wall_object;
+
+    wall_object = collision->d.wall->wall_object;
+	surface = wall_object->texture;
+    x = (get_distance_between_points(collision->inters.x,
+            collision->inters.y, collision->d.wall->segment.x1,
+            collision->d.wall->segment.y1) * surface->w);
+    if (x >= (wall_object->offset_on_wall + wall_object->size) * surface->w
+            || x < wall_object->offset_on_wall * surface->w)
+        return;
+    x = x / wall_object->size;
+    while (x > surface->w)
+        x -= surface->w;
+    dist_ratio = e->op.ratio / collision->distance;
+    range = wall_range(dist_ratio, render->vision_height, render->win_h);
+	i = range.start - 1;
+	while (++i < range.end)
+	{
+        y = fabs(((i - render->vision_height + dist_ratio / 2)
+        * surface->h / dist_ratio)) / wall_object->size
+        + surface->h / wall_object->size
+        * (wall_object->z + wall_object->size - 1);
+        if (y >= surface->h || y < 0)
+            continue;
+        put_pixel_alpha(render->surface, render->x, i,
+                get_pixel(surface, (Uint32)x, (Uint32)y, t_false));
+	}
+}
+
 static void         draw_wall(
+        t_env *e,
 		const t_render *render,
 		const t_collision *collision,
 		const t_u_range range)
@@ -134,15 +176,14 @@ static void         draw_wall(
 	{
         y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)
         		* wall_text->h / render->wall_height))) % wall_text->h;
-        put_pixel(
-        		render->surface,
-        		render->x,
-        		i,
+        put_pixel(render->surface, render->x, i,
         		get_pixel(wall_text, x, y, t_true));
         if (render->lights)
         	put_pixel_alpha(render->surface,render->x, i, render->light_value);
 		i++;
 	}
+    if (collision->d.wall->wall_object)
+        draw_wall_object(e, render, collision, range);
 }
 
 static t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
@@ -228,7 +269,7 @@ static void	draw_walls(t_env *e, t_render *r, t_collisions *node)
         if (node->item.type == ct_wall)
         {
             range = wall_range(r->wall_height, r->vision_height, r->win_h);
-            draw_wall(r, &node->item, range);
+            draw_wall(e, r, &node->item, range);
             ceil_or_floor_range.start = range.end;
             ceil_or_floor_range.end = prev_range.end;
             draw_flat(r, &node->item, ceil_or_floor_range, current_sector->floor);

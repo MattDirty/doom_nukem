@@ -126,6 +126,7 @@ t_map		*create_map(t_textures *textures)
 		j = 0;
 		while (j < walls->count)
 		{
+            walls->items[j]->wall_object = NULL;
 		    walls->items[j]->type = e_wall;
 		    walls->items[j]->to_infinity = t_false;
 		    if (i == 1)
@@ -134,6 +135,18 @@ t_map		*create_map(t_textures *textures)
                 find_texture_by_name(textures, "textures/walls/brickwall2.bmp", &walls->items[j]->texture);
 			j++;
 		}
+        if (i == 0)
+        {
+            if (!(walls->items[2]->wall_object = malloc(sizeof(t_wall_object))))
+                error_doom("can't alloc wall object");
+            walls->items[2]->wall_object->offset_on_wall = 2;
+            walls->items[2]->wall_object->z = 0.3;
+            walls->items[2]->wall_object->size = 0.7;
+            find_texture_by_name(
+                    textures,
+                    "textures/wall_objects/flag.bmp",
+                    &walls->items[2]->wall_object->texture);
+        }
 		if (i == 0)
 		{
 			walls->items[1]->type = e_portal;
@@ -215,5 +228,8 @@ t_textures	*load_textures(void)
 	add_bitmap_file_to_textures(textures, "textures/hud/faces/badass.bmp");
 	add_bitmap_file_to_textures(textures, "textures/hud/faces/sehr_happy.bmp");
 	add_bitmap_file_to_textures(textures, "textures/hud/faces/hurt.bmp");
+	add_bitmap_file_to_textures(textures, "textures/wall_objects/lever_up.bmp");
+	add_bitmap_file_to_textures(textures, "textures/wall_objects/lever_down.bmp");
+	add_bitmap_file_to_textures(textures, "textures/wall_objects/flag.bmp");
     return (textures);
 }
