@@ -17,7 +17,6 @@ void    weapon_ray_fire(t_env *e) {
     weapon = e->p.weapon;
     x = -1;
     angle = e->p.heading - weapon->scatter_angle / 2;
-    printf("firing !\n");
     while (angle <= e->p.heading + weapon->scatter_angle / 2)
     {
         angle += weapon->scatter_angle / weapon->scatter;
@@ -34,7 +33,7 @@ void    weapon_ray_fire(t_env *e) {
         && ptr->item.type == ct_wall && ptr->item.d.wall->type == e_portal)
             ptr = ptr->next;
         if (ptr && ptr->item.type == ct_enemy)
-            ;
+            printf("die biatch\n");
     }
 }
 
