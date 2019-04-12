@@ -33,8 +33,8 @@ void    weapon_ray_fire(t_env *e) {
         while (ptr
         && ptr->item.type == ct_wall && ptr->item.d.wall->type == e_portal)
             ptr = ptr->next;
-        if (ptr && ptr->item.type == ct_object)
-            printf("%s, %f, %f\n", ptr->item.d.object->sprite->userdata, ptr->item.d.object->x, ptr->item.d.object->y);
+        if (ptr && ptr->item.type == ct_enemy)
+            ;
     }
 }
 

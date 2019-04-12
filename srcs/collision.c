@@ -108,8 +108,8 @@ static void		find_enemies_collisions_in_sector(
                     inters.x,
                     inters.y);
             new = insert_collision(collisions, distance, inters);
-            new->item.type = ct_object;
-            new->item.d.object = sector->enemies->items[i].object;
+            new->item.type = ct_enemy;
+            new->item.d.enemy = &sector->enemies->items[i];
             new->item.object_segment = s;
         }
         i++;
