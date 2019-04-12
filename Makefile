@@ -130,8 +130,9 @@ else
 	    && $(MAKE) -j && sudo $(MAKE) install
 	CONFIGURE_SDL2_TTF = cd $(SDL_PATH)/$(SDL2_TTF) && ./configure \
 	    && $(MAKE) -j && sudo $(MAKE) install
-	SDL_LDFLAGS = $(shell sdl-config --libs) -lSDL2 -lSDL2_mixer -lSDL2_ttf
-	SDL_CFLAGS = $(shell sdl-config --cflags)
+	SDL_LDFLAGS = -L/usr/local/lib -Wl,-rpath,/usr/local/lib \
+	    -Wl,--enable-new-dtags -lSDL2 -lSDL2_mixer -lSDL2_ttf
+    SDL_CFLAGS = -I/usr/local/include/SDL2 -D_REENTRANT
 endif
 
 all: $(NAME) $(NAME_EDITOR)
