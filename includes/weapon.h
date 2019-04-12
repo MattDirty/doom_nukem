@@ -31,7 +31,7 @@ typedef struct  s_weapon
     double      range;
     Uint32      scatter;
     double      scatter_angle;
-    double      gun_damage;
+    Uint32      damage;
     enum e_bool usable;
 }               t_weapon;
 
@@ -51,7 +51,7 @@ t_weapons   *allocate_weapons(t_map *map);
 void        draw_weapon(SDL_Surface *Surface, SDL_Surface *weapon, t_animation *animation, t_config *op);
 t_weapon    *get_weapon(t_weapons *node, Uint32 target);
 enum e_bool unlock(double ms_since_update, t_params ready);
-void        weapon_ray_fire(t_env *e);
+void        weapon_ray_fire(t_env *e, t_timer_handler *timer_handler);
 
 
 #endif

@@ -6,7 +6,7 @@
 #include "map.h"
 #include "collision.h"
 
-void    weapon_ray_fire(t_env *e) {
+void    weapon_ray_fire(t_env *e, t_timer_handler *timer_handler) {
     t_weapon        *weapon;
     t_ray           ray;
     t_collisions    *collisions;
@@ -33,7 +33,7 @@ void    weapon_ray_fire(t_env *e) {
         && ptr->item.type == ct_wall && ptr->item.d.wall->type == e_portal)
             ptr = ptr->next;
         if (ptr && ptr->item.type == ct_enemy)
-            enemy_hit(ptr->item.d.enemy, weapon->damage);
+            enemy_hit(timer_handler, ptr->item.d.enemy, weapon->damage);
     }
 }
 

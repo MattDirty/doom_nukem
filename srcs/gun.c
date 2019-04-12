@@ -56,7 +56,7 @@ void    gun_primary(t_env *e, t_timer_handler *timer_handler)
         error_doom("Couldn't malloc params for firing");
     params->weapon = weapon;
     params->timer_handler = timer_handler;
-    weapon_ray_fire(e);
+    weapon_ray_fire(e, timer_handler);
     add_event(timer_handler, 1, &gun_firing, params);
     add_event(timer_handler, weapon->main_cooldown, &unlock,
             &weapon->main_ready);
@@ -109,5 +109,6 @@ t_weapon    *load_gun(t_map *map)
     gun->range = HORIZON;
     gun->scatter = 30;
     gun->scatter_angle = 0.785398;
+    gun->damage = 90;
     return (gun);
 }
