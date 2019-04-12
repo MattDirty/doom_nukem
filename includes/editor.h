@@ -45,6 +45,8 @@ typedef struct          s_editor
 	t_sdl			sdl;
     t_map			*map;
     t_textures      *textures;
+    int             mouse_x;
+    int             mouse_y;
 }                       t_editor;
 
 t_map		*create_map(t_textures *textures);

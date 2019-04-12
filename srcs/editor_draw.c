@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:50:23 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/11 22:08:47 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/12 03:21:32 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,24 @@
 #include "utils.h"
 #include "struct_sdl.h"
 #include "ui.h"
+
+void        draw_corners_editor(SDL_Surface *surface, t_segment *s)
+{
+    t_rect  rect;
+
+    rect.width = CORNER_SIZE;
+    rect.height = CORNER_SIZE;
+
+    rect.pos.x = s->x1 - CORNER_SIZE / 2;
+    rect.pos.y = s->y1 - CORNER_SIZE / 2;
+    draw_rect(surface, &rect, L_BLUE);
+    fill_rect(surface, &rect, L_BLUE);
+
+    rect.pos.x = s->x2 - CORNER_SIZE / 2;
+    rect.pos.y = s->y2 - CORNER_SIZE / 2;
+    draw_rect(surface, &rect, L_BLUE);
+    fill_rect(surface, &rect, L_BLUE);
+}
 
 void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
 {
@@ -44,8 +62,6 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
             draw_segment(surface, s2, RED);
         else if (walls->items[i]->type == e_wall)
             draw_segment(surface, s2, WHITE);
-        else if (walls->items[i]->type == e_transparent_wall)
-            draw_segment(surface, s2, BLUE);
         rect.pos.x = s2.x1 - CORNER_SIZE / 2;
         rect.pos.y = s2.y1 - CORNER_SIZE / 2;
         draw_rect(surface, &rect, L_BLUE);
@@ -115,12 +131,6 @@ void        draw_save_button(SDL_Surface *target, t_buttons *buttons, int i)
     buttons->items[i] = save_btn;
 }
 
-void        draw_corners_editor(SDL_Surface *surface, t_walls *walls)
-{
-    (void)surface;
-    (void)walls;
-}
-
 void		draw_editor(t_editor *ed)
 {
     t_buttons   buttons;
@@ -132,7 +142,6 @@ void		draw_editor(t_editor *ed)
     while (i < ed->map->sectors->count)
     {
         draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i].walls);
-        draw_corners_editor(ed->sdl.surface, ed->map->sectors->items[i].walls);
         draw_objects_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].objects);
         draw_enemies_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].enemies);
         i++;

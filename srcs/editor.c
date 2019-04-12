@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:44:24 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/11 20:20:09 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/12 03:09:11 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		event_editor(t_editor *ed)
 	(void)ed;
 	SDL_Event	event;
 
+	SDL_GetRelativeMouseState(&(ed->mouse_x), &(ed->mouse_y));
 	SDL_PollEvent(&event);
 	if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 		exit(EXIT_SUCCESS);
@@ -75,10 +76,9 @@ int		main(void)
     ed.textures = load_textures();
     ed.map = create_map(ed.textures);
 
-	write_file("mabite.roflolilolmao", ed.textures, ed.map);
 	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed.sdl);
-
 	gameloop(&ed);
+	write_file("mabite.roflolilolmao", ed.textures, ed.map);
 
 	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
     return (0);
