@@ -119,17 +119,15 @@ static void			draw_wall_object(
         t_env *e,
 		const t_render *render,
 		const t_collision *collision,
-		t_u_range range)
+        t_wall_object	*wall_object)
 {
     double		x;
     double		y;
     Uint32		i;
     SDL_Surface *surface;
     double dist_ratio;
+    t_u_range range;
 
-    t_wall_object	*wall_object;
-
-    wall_object = collision->d.wall->wall_object;
 	surface = wall_object->texture;
     x = (get_distance_between_points(collision->inters.x,
             collision->inters.y, collision->d.wall->segment.x1,
@@ -185,7 +183,9 @@ static void         draw_wall(
 		i++;
 	}
     if (collision->d.wall->wall_object)
-        draw_wall_object(e, render, collision, range);
+        draw_wall_object(e, render, collision, collision->d.wall->wall_object);
+    if (collision->d.wall->lever)
+        draw_wall_object(e, render, collision, collision->d.wall->lever->wall_object);
 }
 
 static t_render	fill_render_struct(t_env *e, Uint32 renderer_x)

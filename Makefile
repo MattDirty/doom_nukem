@@ -29,6 +29,7 @@ SRCS_NAMES = vector.c \
 			wall_objects.c \
 			sectors.c \
 			map.c \
+			levers.c \
 			environment.c \
 			loop.c \
 			engine.c \

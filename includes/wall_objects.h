@@ -1,5 +1,9 @@
-#ifndef DOOMNUKEM_LEVERS_H
-# define DOOMNUKEM_LEVERS_H
+#ifndef DOOMNUKEM_WALL_OBJECTS_H
+# define DOOMNUKEM_WALL_OBJECTS_H
+
+# include "SDL.h"
+
+# include "textures.h"
 
 typedef struct			s_wall_object
 {

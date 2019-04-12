@@ -5,6 +5,7 @@
 # include "utils.h"
 # include "e_bool.h"
 # include "textures.h"
+# include "levers.h"
 # include "wall_objects.h"
 
 typedef struct s_sector t_sector;
@@ -37,6 +38,7 @@ typedef struct			s_wall
     t_link              links;
     enum e_bool         to_infinity;
     t_wall_object		*wall_object;
+    t_lever				*lever;
 }						t_wall;
 
 typedef struct			s_walls

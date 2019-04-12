@@ -126,7 +126,15 @@ void		free_linked_walls(t_linked_walls *linked_walls)
         return;
     free_linked_walls(linked_walls->next);
     if (linked_walls->wall)
+    {
+        if (linked_walls->wall->wall_object)
+            free(linked_walls->wall->wall_object);
+        if (linked_walls->wall->lever)
+            free(linked_walls->wall->lever);
+        if (linked_walls->wall->lever->wall_object)
+            free(linked_walls->wall->lever->wall_object);
         free(linked_walls->wall);
+    }
     free(linked_walls);
 }
 
@@ -232,6 +240,7 @@ void			read_wall_from_file(
     if (read(fd, &(*wall)->to_infinity, sizeof((*wall)->to_infinity)) <= 0)
         error_doom("Couldn't read wall->to_infinity");
     read_wall_object_from_file(fd, textures, &(*wall)->wall_object);
+    read_lever_from_file(fd, textures, &(*wall)->lever);
 }
 
 void			write_wall_to_file(
@@ -262,4 +271,5 @@ void			write_wall_to_file(
     if (write(fd, &wall->to_infinity, sizeof(wall->to_infinity)) <= 0)
         error_doom("Couldn't write wall->to_infinity");
     write_wall_object_to_file(fd, wall->wall_object);
+    write_lever_to_file(fd, wall->lever);
 }
