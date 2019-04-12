@@ -135,9 +135,8 @@ static void			draw_wall_object(
     if (x >= (wall_object->offset_on_wall + wall_object->size) * surface->w
             || x < wall_object->offset_on_wall * surface->w)
         return;
+    x -= (wall_object->offset_on_wall * surface->w);
     x = x / wall_object->size;
-    while (x > surface->w)
-        x -= surface->w;
     dist_ratio = e->op.ratio / collision->distance;
     range = wall_range(dist_ratio, render->vision_height, render->win_h);
 	i = range.start - 1;
