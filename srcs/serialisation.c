@@ -1,6 +1,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 #include "libft.h"
 #include "doom.h"
@@ -67,4 +68,62 @@ void	write_str_to_file(int fd, char *name)
         if (!*c)
             return;
     }
+}
+
+void	copy_file_in_file(int fd, char *name)
+{
+    int				read_bytes;
+    int 			name_fd;
+    char			*buffer;
+    struct stat		statbuf;
+
+    if ((name_fd = open(name, O_RDONLY)) < 0)
+        error_doom("couldn't open file");
+    if (fstat(fd, &statbuf) < 0)
+        error_doom("couldn't find file stats");
+    if (write(fd, &statbuf.st_size, sizeof(statbuf.st_size)) <= 0)
+        error_doom("couldn't write file size");
+    if (!(buffer = malloc(1024)))
+        error_doom("couln't allocate buffer");
+    while (1)
+    {
+        read_bytes = read(name_fd, buffer, 1024);
+        if (read_bytes < 0)
+            error_doom("error while copying from file");
+        if (write(fd, buffer, 1024) != read_bytes)
+            error_doom("error while copying to file");
+        if (read_bytes < 1024)
+            break;
+    }
+    free(buffer);
+    close(name_fd);
+}
+
+void	create_tmp_file_from_file(int fd, char *name)
+{
+    int 			tmp_fd;
+    int				read_bytes;
+    int				total_bytes;
+    int				bytes_to_read;
+    char			*buffer;
+
+    tmp_fd = open(name, O_WRONLY | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
+    if (tmp_fd <= 0)
+        error_doom("couldn't open file");
+    if (read(fd, &bytes_to_read, sizeof(bytes_to_read)) <= 0)
+        error_doom("couldn't read bytes_to_read");
+    if (!(buffer = malloc(1024)))
+        error_doom("couldn't malloc buffer");
+    total_bytes = 0;
+    while (total_bytes < bytes_to_read)
+    {
+        read_bytes = read(fd, buffer, 1024);
+        if (read_bytes <= 0)
+            error_doom("rip");
+        if (write(tmp_fd, buffer, 1024) != read_bytes)
+            error_doom("oh no");
+        total_bytes += read_bytes;
+    }
+    free(buffer);
+    close(tmp_fd);
 }
