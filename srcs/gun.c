@@ -101,7 +101,7 @@ t_weapon    *load_gun(t_map *map)
     reset_animation(&weapon->main_animation);
     weapon->main_animation.duration = 100;
     weapon->main_ready = t_true;
-    if (!(weapon->main_sound = Mix_LoadWAV("sounds/fu_bitch.wav")))
+    if (!(weapon->main_sound = Mix_LoadWAV("sounds/zap.wav")))
         error_doom("Can't load weapon sound ...");
     return (weapon);
 }
