@@ -181,10 +181,7 @@ run: $(NAME)
 	./$(NAME)
 
 redit: $(NAME_EDITOR)
-	./$(NAME_EDITOR)
-
-debug: $(NAME)
-	./$(NAME) debug
+	./$(NAME_EDITOR) mabite.roflolilolmao
 
 norm:
 	norminette $(SRCS) $(INCL)
