@@ -11,10 +11,10 @@ void			read_fonts_from_file(int fd, t_fonts **fonts)
     if ((*fonts)->horrendo120 == NULL)
         error_doom("error: couldn't load horrendo120");
     create_tmp_file_from_file(fd, "roflolilolmao_tmp_s.ttf");
-    (*fonts)->sixty20 = TTF_OpenFont("roflolilolmao_tmp_s.ttf", 120);
+    (*fonts)->sixty20 = TTF_OpenFont("roflolilolmao_tmp_s.ttf", 20);
     if ((*fonts)->sixty20 == NULL)
         error_doom("error: couldn't load sixty20");
-    (*fonts)->sixty40 = TTF_OpenFont("roflolilolmao_tmp_s.ttf", 120);
+    (*fonts)->sixty40 = TTF_OpenFont("roflolilolmao_tmp_s.ttf", 40);
     if ((*fonts)->sixty40 == NULL)
         error_doom("error: couldn't load sixty40");
 }
