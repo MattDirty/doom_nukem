@@ -45,6 +45,7 @@ typedef struct			s_buttons
 typedef struct          s_editor
 {
 	t_sdl_editor    sdl;
+	char			*map_path;
     t_map			*map;
     t_textures      *textures;
     t_buttons       buttons;
