@@ -18,8 +18,11 @@
 # define DARK_BLUE 0xFF073784
 # define L_BLUE 0xFF8888FF
 
-void        click_on_pannel(t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y);
-void        draw_pannel(t_editor *ed);
-void		draw_editor(t_editor *ed);
+void click_on_pannel(
+        t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y);
+void draw_pannel(t_editor *ed);
+void draw_editor(t_editor *ed);
+void draw_save_button(
+        TTF_Font *font, SDL_Surface *target, t_buttons *buttons, int i);
 
 #endif

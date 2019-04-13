@@ -50,6 +50,7 @@ typedef struct          s_editor
     t_buttons       buttons;
     int             mouse_x;
     int             mouse_y;
+    t_fonts			*fonts;
 }                       t_editor;
 
 t_map		*create_map(t_textures *textures);

@@ -55,6 +55,8 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
             draw_segment(surface, s2, RED);
         else if (walls->items[i]->type == e_wall)
             draw_segment(surface, s2, WHITE);
+        else if (walls->items[i]->type == e_transparent_wall)
+            draw_segment(surface, s2, BLUE);
         draw_corners_editor(surface, &s2);
         i++;
     }
@@ -90,23 +92,6 @@ void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *object
     }
 }
 
-void        draw_save_button(SDL_Surface *target, t_buttons *buttons, int i)
-{
-    t_button    save_btn;
-    SDL_Surface *save;
-    t_coords    location;
-
-    save_btn.rect = create_rect(PANNEL_X + 5, PANNEL_Y + 5, 40, 20);
-    draw_rect(target, &save_btn.rect, RED);
-    fill_rect(target, &save_btn.rect, PINK);
-    save = write_text("fonts/sixty.ttf", 15, "SAVE", (SDL_Colour){255,0,0,255});
-    location.x = save_btn.rect.pos.x + save_btn.rect.width / 2 - save->w / 2;
-    location.y = save_btn.rect.pos.y + save_btn.rect.height / 2 - save->h / 2;
-    draw_on_screen(target, save, location, t_false);
-    free(save);
-    buttons->items[i] = save_btn;
-}
-
 void		draw_editor(t_editor *ed)
 {
     t_buttons   buttons;
@@ -122,5 +107,4 @@ void		draw_editor(t_editor *ed)
         draw_enemies_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].enemies);
         i++;
     }
-    draw_save_button(ed->sdl.surface, &buttons, 0);
 }

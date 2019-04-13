@@ -39,7 +39,7 @@ static void save_editor(t_editor *ed, t_rect *rect)
     draw_rect(ed->sdl.surface, rect, BLACK);
 }
 
-static void draw_save_button(SDL_Surface *target, t_buttons *buttons, int i)
+void draw_save_button(TTF_Font *font, SDL_Surface *target, t_buttons *buttons, int i)
 {
     t_button    save_btn;
     SDL_Surface *save;
@@ -48,7 +48,7 @@ static void draw_save_button(SDL_Surface *target, t_buttons *buttons, int i)
     save_btn.rect = create_rect(PANNEL_X + 5, PANNEL_Y + 5, 40, 20);
     draw_rect(target, &save_btn.rect, RED);
     fill_rect(target, &save_btn.rect, PINK);
-    save = write_text("fonts/sixty.ttf", 15, "SAVE", (SDL_Colour){255,0,0,255});
+    save = write_text(font, "SAVE", (SDL_Colour){255,0,0,255});
     location.x = save_btn.rect.pos.x + save_btn.rect.width / 2 - save->w / 2;
     location.y = save_btn.rect.pos.y + save_btn.rect.height / 2 - save->h / 2;
     draw_on_screen(target, save, location, t_false);
@@ -117,6 +117,6 @@ void        draw_pannel(t_editor *ed)
                          EDITOR_W - PANNEL_X - 1, EDITOR_H - 1);
     draw_rect(ed->sdl.surface, &pannel, WHITE);
     fill_rect(ed->sdl.surface, &pannel, DARK_BLUE);
-    draw_save_button(ed->sdl.surface, &ed->buttons, 0);
+    draw_save_button(ed->fonts->sixty20, ed->sdl.surface, &ed->buttons, 0);
     get_all_text(ed);
 }

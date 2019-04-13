@@ -71,6 +71,20 @@ void	gameloop(t_editor *ed)
 	}
 }
 
+t_fonts *load_fonts(void)
+{
+    t_fonts *fonts;
+
+    if (!(fonts = (t_fonts *)malloc(sizeof(t_fonts))))
+        error_doom("cannot alloc fonts");
+    fonts->horrendo120 = TTF_OpenFont("fonts/horrendo.ttf", 120);
+    fonts->sixty20 = TTF_OpenFont("fonts/sixty.ttf", 20);
+    fonts->sixty40 = TTF_OpenFont("fonts/sixty.ttf", 40);
+    if (!fonts->horrendo120 || !fonts->sixty20 || !fonts->sixty40)
+        error_doom("Couldn't open fonts");
+    return (fonts);
+}
+
 int		main(void)
 {
 	t_editor			ed;
@@ -82,8 +96,9 @@ int		main(void)
 	write_file("mabite.roflolilolmao", ed.textures, ed.map);
 	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
 
-	gameloop(&ed);
-	write_file("mabite.roflolilolmao", ed.textures, ed.map);
+    ed.fonts = load_fonts();
+
+    gameloop(&ed);
 
 	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
     return (0);
