@@ -94,12 +94,9 @@ void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *object
 
 void		draw_editor(t_editor *ed)
 {
-    t_buttons   buttons;
     int         i;
 
     i = 0;
-    buttons.count = 1;
-    draw_pannel(ed);
     while (i < ed->map->sectors->count)
     {
         draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i].walls);

@@ -23,7 +23,7 @@ void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0 || TTF_Init() < 0)
 		error_doom("error: cannot run SDL");
-    if (!(ed->sdl.window = SDL_CreateWindow(name, 0, 0, w, h, SDL_WINDOW_FULLSCREEN_DESKTOP)))
+    if (!(ed->sdl.window = SDL_CreateWindow(name, 0, 0, w, h, 0)))
         error_doom("Could not create window.");
 	SDL_RaiseWindow(ed->sdl.window);
     if (!(ed->sdl.renderer = SDL_CreateRenderer(ed->sdl.window, -1, 0)))
@@ -37,12 +37,11 @@ int		event_editor(t_editor *ed)
 {
 	SDL_Event	ev;
 
-    SDL_GetRelativeMouseState(&(ed->mouse_x), &(ed->mouse_y));
     SDL_PollEvent(&ev);
-	if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+	if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE || ev.type == SDL_QUIT)
 		exit(EXIT_SUCCESS);
     if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
-	    click_on_pannel(ed, &ed->buttons, ev.button.x, ev.button.y);
+        click_on_pannel(ed, &ed->buttons, ev.button.x, ev.button.y);
 	return (1);
 }
 
@@ -93,7 +92,6 @@ int		main(void)
     ed.textures = load_textures();
     ed.map = create_map(ed.textures);
 
-	write_file("mabite.roflolilolmao", ed.textures, ed.map);
 	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
 
     ed.fonts = load_fonts();
