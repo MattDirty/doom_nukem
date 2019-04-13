@@ -5,6 +5,7 @@
 #include "libft.h"
 
 #include "textures.h"
+#include "bitmaps.h"
 #include "serialisation.h"
 #include "doom.h"
 
@@ -74,7 +75,7 @@ void	add_bitmap_file_to_textures(
     SDL_Surface		*texture;
     t_texture_node	*node;
 
-    texture = SDL_LoadBMP(path);
+    texture = load_bmp(path);
     if (!texture)
         error_doom("can't open bmp");
     if (!(node = (t_texture_node*)malloc(sizeof(t_texture_node))))
