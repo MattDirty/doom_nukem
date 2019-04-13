@@ -36,7 +36,7 @@ void    melee_primary(t_env *e, t_timer_handler *timer_handler)
     t_weapon    *weapon;
 
     weapon = e->p.weapon;
-    if (!weapon->main_ready || !weapon->ammo)
+    if (!weapon->main_ready)
         return;
     reset_animation(&weapon->main_animation);
     start_animation(&weapon->main_animation, 400);
@@ -44,9 +44,9 @@ void    melee_primary(t_env *e, t_timer_handler *timer_handler)
             &weapon->main_animation);
     Mix_PlayChannel(-1, weapon->main_sound, 0);
     weapon->main_ready = t_false;
-    weapon->ammo--;
     add_event(timer_handler, weapon->main_cooldown,
             &unlock,&weapon->main_ready);
+    weapon_ray_fire(e, timer_handler);
 }
 
 t_weapon    *load_melee(t_map *map)
@@ -61,9 +61,13 @@ t_weapon    *load_melee(t_map *map)
         error_doom("Couldn't malloc melee.sprites");
     weapon->sprites[0] = map->melee_sprite;
     weapon->sprite_current = weapon->sprites[0];
-    weapon->ammo = 10;
+    weapon->ammo = -1;
     weapon->main = NULL;
     weapon->usable = t_true;
+    weapon->damage = 99;
+    weapon->range = 0.5;
+    weapon->scatter = 1;
+    weapon->scatter_angle = 1;
     reset_animation(&weapon->main_animation);
     weapon->main = melee_primary;
     weapon->main_cooldown = 2000;
