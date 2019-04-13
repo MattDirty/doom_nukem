@@ -55,4 +55,9 @@ typedef struct          s_editor
 t_map		*create_map(t_textures *textures);
 t_textures	*load_textures(void);
 
+void    click_action(t_editor *ed, int mouse_x, int mouse_y);
+enum e_bool click_on_panel(
+        t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y);
+enum e_bool click_on_nodes(t_map *map, int mouse_x, int mouse_y);
+
 #endif

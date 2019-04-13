@@ -66,6 +66,7 @@ SRC_NAME =	main.c \
 SRC_EDITOR_NAME = editor.c \
 				  editor_draw.c \
 				  editor_panel.c \
+				  editor_mouse_clicks.c \
 				  create_map.c \
 				  $(SRCS_NAMES)
 
