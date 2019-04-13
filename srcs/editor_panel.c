@@ -14,25 +14,6 @@
 #include "editor_draw.h"
 #include "ui.h"
 
-void        click_on_panel(t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y)
-{
-    int i;
-
-    if (mouse_x < panel_X)
-        return ;
-    i = 0;
-    while (i < buttons->count)
-    {
-        if (is_in_rect(&buttons->items[i].rect, mouse_x, mouse_y))
-        {
-            buttons->items[i].f(ed, &buttons->items[i].rect);
-            return ;
-        }
-        i++;
-    }
-
-}
-
 static void save_editor(t_editor *ed, t_rect *rect)
 {
     write_file(ed->map_path, ed->textures, ed->map);
@@ -45,7 +26,7 @@ void draw_save_button(TTF_Font *font, SDL_Surface *target, t_buttons *buttons, i
     SDL_Surface *save;
     t_coords    location;
 
-    save_btn.rect = create_rect(panel_X + 5, panel_Y + 5, 40, 20);
+    save_btn.rect = create_rect(PANEL_X + 5, PANEL_Y + 5, 40, 20);
     draw_rect(target, &save_btn.rect, RED);
     fill_rect(target, &save_btn.rect, PINK);
     save = write_text(font, "SAVE", (SDL_Colour){255,0,0,255});
@@ -91,8 +72,8 @@ void        get_all_text(t_editor *ed)
     t_texture_node *p;
     t_i_coords      pos;
 
-    pos.x = panel_X + 5;
-    pos.y = panel_Y + 35;
+    pos.x = PANEL_X + 5;
+    pos.y = PANEL_Y + 35;
     n = ed->textures->first;
     while (n)
     {
@@ -101,7 +82,7 @@ void        get_all_text(t_editor *ed)
         draw_texture_btn(ed->sdl.surface, p->texture, pos);
         if (pos.x >= EDITOR_W - 75)
         {
-            pos.x = panel_X + 5;
+            pos.x = PANEL_X + 5;
             pos.y += 45;
         }
         else
@@ -113,8 +94,8 @@ void        draw_panel(t_editor *ed)
 {
     t_rect  panel;
 
-    panel = create_rect(panel_X, panel_Y,
-                         EDITOR_W - panel_X - 1, EDITOR_H - 1);
+    panel = create_rect(PANEL_X, PANEL_Y,
+                         EDITOR_W - PANEL_X - 1, EDITOR_H - 1);
     draw_rect(ed->sdl.surface, &panel, WHITE);
     fill_rect(ed->sdl.surface, &panel, DARK_BLUE);
     draw_save_button(ed->fonts->sixty20, ed->sdl.surface, &ed->buttons, 0);

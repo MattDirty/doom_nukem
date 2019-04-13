@@ -36,12 +36,14 @@ int		event_editor(t_editor *ed)
 {
 	SDL_Event	ev;
 
-    SDL_PollEvent(&ev);
-	if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE || ev.type == SDL_QUIT)
-		exit(EXIT_SUCCESS);
-    if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
-        click_on_panel(ed, &ed->buttons, ev.button.x, ev.button.y);
-	return (1);
+    while (SDL_PollEvent(&ev))
+    {
+        if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE || ev.type == SDL_QUIT)
+            exit(EXIT_SUCCESS);
+        if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
+            click_action(ed, ev.button.x, ev.button.y);
+    }
+    return (1);
 }
 
 void	reframe_editor(t_editor *ed)
@@ -49,6 +51,7 @@ void	reframe_editor(t_editor *ed)
 	SDL_Texture		*texture;
 
 	draw_editor(ed);
+    draw_panel(ed);
 	SDL_RenderClear(ed->sdl.renderer);
 	if (!(texture = SDL_CreateTextureFromSurface(ed->sdl.renderer, ed->sdl.surface)))
 		error_doom("Could not create texture");
@@ -61,11 +64,10 @@ void	gameloop(t_editor *ed)
 {
     reframe_editor(ed);
     ed->buttons.count = 1;
-    draw_panel(ed);
 	while (1)
 	{
 		if (event_editor(ed))
-			reframe_editor(ed);
+            reframe_editor(ed);
 	}
 }
 
