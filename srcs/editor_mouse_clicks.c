@@ -3,11 +3,6 @@
 #include "editor_draw.h"
 #include "map.h"
 
-void            deal_with_clicked_node(t_linked_walls *ptr, t_coords point)
-{
-	t_wall_nodes
-}
-
 enum e_bool     click_on_nodes(t_map *map, int x, int y)
 {
     t_linked_walls *linked_walls;
