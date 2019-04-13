@@ -45,7 +45,7 @@ void        draw_crosshair(SDL_Surface *surface, t_config *op, Uint32 color)
     put_pixel_alpha(surface, op->half_w, op->half_h, color);
 }
 
-void        draw_fps(SDL_Surface *surface, int fps, t_config *op)
+void        draw_fps(TTF_Font *font, SDL_Surface *surface, int fps, t_config *op)
 {
     SDL_Surface *fps_text;
     t_coords    location;
@@ -56,55 +56,58 @@ void        draw_fps(SDL_Surface *surface, int fps, t_config *op)
         location.x = 0;
     if (location.y >= op->win_h)
         location.y = 0;
-    fps_text = write_text("fonts/sixty.ttf", 20, ft_strjoin(ft_itoa(fps), " fps"), (SDL_Colour){255,255,255,255});
+    fps_text = write_text(font, ft_strjoin(ft_itoa(fps), " fps"), (SDL_Colour){255,255,255,255});
     draw_on_screen(surface, fps_text, location, t_false);
     free(fps_text);
 }
 
-void        draw_health(SDL_Surface *surface, t_player *p, t_map *map, t_config *op)
+void        draw_health(t_env *e)
 {
     SDL_Surface *health;
     t_coords    location;
 
-    location.x = op->half_w + 200;
-    location.y = op->win_h - 45;
-    if (location.x >= op->win_w)
-        location.x = op->half_w;
+    location.x = e->op.half_w + 200;
+    location.y = e->op.win_h - 45;
+    if (location.x >= e->op.win_w)
+        location.x = e->op.half_w;
     if (location.y < 0)
         location.y = 0;
-    health = write_text("fonts/sixty.ttf", 40, ft_itoa(p->health), (SDL_Colour){244, 182, 66, 255});
-    draw_on_screen(surface, health, location, t_false);
-    location.x = op->half_w + 150;
-    location.y = op->win_h - 50;
-    if (location.x >= op->win_w)
-        location.x = op->half_w;
+    health = write_text(e->fonts->sixty40, ft_itoa(e->p.health),
+            (SDL_Colour){244, 182, 66, 255});
+    draw_on_screen(e->doom.surface, health, location, t_false);
+    location.x = e->op.half_w + 150;
+    location.y = e->op.win_h - 50;
+    if (location.x >= e->op.win_w)
+        location.x = e->op.half_w;
     if (location.y < 0)
         location.y = 0;
-    if (map->hud.id > 2 || p->dead)
-        map->hud.id = 0;
-    draw_on_screen(surface, map->hud.cross[map->hud.id], location, t_false);
+    if (e->map->hud.id > 2 || e->p.dead)
+        e->map->hud.id = 0;
+    draw_on_screen(e->doom.surface, e->map->hud.cross[e->map->hud.id],
+            location, t_false);
     free(health);
 }
 
-void        draw_ammo(SDL_Surface *surface, SDL_Surface *bullet, Uint32 ammo, t_config *op)
+void        draw_ammo(t_env *e, SDL_Surface *bullet, Uint32 ammo)
 {
     SDL_Surface *ammo_nb;
     t_coords     location;
 
-    location.x = op->half_w - 300;
-    location.y = op->win_h - 45;
+    location.x = e->op.half_w - 300;
+    location.y = e->op.win_h - 45;
     if (location.x < 0)
         location.x = 0;
     if (location.y < 0)
         location.y = 0;
-    ammo_nb = write_text("fonts/sixty.ttf", 40, ft_itoa(ammo), (SDL_Colour){0, 0, 0, 255});
-    draw_on_screen(surface, ammo_nb, location, t_false);
-    location.x = op->half_w - 350;
-    location.y = op->win_h - 52;
-    if (location.x >= op->win_w)
-        location.x = op->half_w;
+    ammo_nb = write_text(e->fonts->sixty40, ft_itoa(ammo),
+            (SDL_Colour){0, 0, 0, 255});
+    draw_on_screen(e->doom.surface, ammo_nb, location, t_false);
+    location.x = e->op.half_w - 350;
+    location.y = e->op.win_h - 52;
+    if (location.x >= e->op.win_w)
+        location.x = e->op.half_w;
     if (location.y < 0)
         location.y = 0;
-    draw_on_screen(surface, bullet, location, t_false);
+    draw_on_screen(e->doom.surface, bullet, location, t_false);
     free(ammo_nb);
 }
