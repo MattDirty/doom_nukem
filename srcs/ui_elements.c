@@ -88,7 +88,7 @@ void        draw_health(t_env *e)
     free(health);
 }
 
-void        draw_ammo(t_env *e, SDL_Surface *bullet, Uint32 ammo)
+void        draw_ammo(t_env *e, SDL_Surface *bullet, int ammo)
 {
     SDL_Surface *ammo_nb;
     t_coords     location;
@@ -99,9 +99,19 @@ void        draw_ammo(t_env *e, SDL_Surface *bullet, Uint32 ammo)
         location.x = 0;
     if (location.y < 0)
         location.y = 0;
-    ammo_nb = write_text(e->fonts->sixty40, ft_itoa(ammo),
-            (SDL_Colour){0, 0, 0, 255});
-    draw_on_screen(e->doom.surface, ammo_nb, location, t_false);
+    if (ammo == -1)
+    {
+        location.y = e->op.win_h - 35;
+        ammo_nb = write_text(e->fonts->sixty40, "8",
+                (SDL_Colour){0, 0, 0, 255});
+        rotate_and_draw(e->doom.surface, ammo_nb, location, t_false);
+    }
+    else
+    {
+        ammo_nb = write_text(e->fonts->sixty40, ft_itoa(ammo),
+                             (SDL_Colour){0, 0, 0, 255});
+        draw_on_screen(e->doom.surface, ammo_nb, location, t_false);
+    }
     location.x = e->op.half_w - 350;
     location.y = e->op.win_h - 52;
     if (location.x >= e->op.win_w)
