@@ -36,6 +36,7 @@ SRCS_NAMES = vector.c \
 			engine.c \
 			vertical_motion.c \
 			horizontal_motion.c \
+			sounds.c \
 			render_utils.c \
 			render.c \
 			objects.c \
