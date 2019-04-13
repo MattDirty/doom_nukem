@@ -115,12 +115,12 @@ void	create_tmp_file_from_file(int fd, char *name)
         error_doom("mabite couldn't open file");
     if (read(fd, &bytes_to_read, sizeof(bytes_to_read)) <= 0)
         error_doom("couldn't read bytes_to_read");
-    if (!(buffer = malloc(1024)))
+    if (!(buffer = malloc(bytes_to_read)))
         error_doom("couldn't malloc buffer");
     read_bytes = read(fd, buffer, bytes_to_read);
     if (read_bytes <= 0)
         error_doom("rip");
-    if (write(tmp_fd, buffer, read_bytes) != read_bytes)
+    if (write(tmp_fd, buffer, read_bytes) != bytes_to_read)
         error_doom("oh no");
     free(buffer);
     close(tmp_fd);
