@@ -11,6 +11,7 @@ typedef struct	s_fonts
 }				t_fonts;
 
 void			read_fonts_from_file(int fd, t_fonts **fonts);
-void			write_fonts_to_file(int fd, t_fonts *fonts);
+void			write_fonts_to_file(int fd);
+void			free_fonts(t_fonts *fonts);
 
 #endif

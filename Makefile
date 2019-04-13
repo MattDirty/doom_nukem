@@ -32,6 +32,7 @@ SRCS_NAMES = vector.c \
 			levers.c \
 			environment.c \
 			loop.c \
+			fonts.c \
 			engine.c \
 			vertical_motion.c \
 			horizontal_motion.c \

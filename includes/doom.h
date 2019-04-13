@@ -7,6 +7,7 @@
 # include "e_bool.h"
 # include "player.h"
 # include "config.h"
+# include "fonts.h"
 
 typedef struct          s_env
 {
@@ -17,6 +18,7 @@ typedef struct          s_env
         t_sdl           doom;
         t_map			*map;
         Mix_Music 		*music;
+        t_fonts			*fonts;
 }                       t_env;
 
 void		error_doom(char *err);

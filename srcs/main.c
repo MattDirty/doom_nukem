@@ -35,6 +35,7 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
 int		main (int ac, char **av)
 {
 	t_env		e;
+    t_read_data	read_data;
     t_textures	*textures;
 
 	e.op = load_config();
@@ -49,13 +50,17 @@ int		main (int ac, char **av)
 		error_doom("Couldn't open lamerde.wav");
 	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
 		error_doom("error: cannot hide mouse cursor");
-    read_file("mabite.roflolilolmao", &textures, &e.map);
-    e.p = init_player(&e.op, &e.map->sectors->items[0]);
+    read_data.textures = &textures;
+    read_data.map = &e.map;
+    read_data.fonts = &e.fonts;
+    read_file("mabite.roflolilolmao", &read_data);
+	e.p = init_player(&e.op, &e.map->sectors->items[0]);
     e.p.weapons = allocate_weapons(e.map);
     e.p.weapon = e.p.weapons->item;
     if (e.debug_mode)
 		e.debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
 	loop_doom(&e);
-    free(textures);
+    free_textures(textures);
+    free_fonts(e.fonts);
 	return (EXIT_SUCCESS);
 }

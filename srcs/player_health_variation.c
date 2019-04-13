@@ -16,12 +16,12 @@
 #include "utils.h"
 #include "ui.h"
 
-void    game_over(SDL_Surface *surface, t_config *op)
+void    game_over(TTF_Font *font, SDL_Surface *surface, t_config *op)
 {
     SDL_Surface *game_over;
     t_coords    location;
 
-    game_over = write_text("fonts/horrendo.ttf", 120, "GAME OVER!", (SDL_Colour){255,0,0,255});
+    game_over = write_text(font, "GAME OVER!", (SDL_Colour){255,0,0,255});
     location.x = op->half_w - game_over->w / 2;
     location.y = op->half_h - game_over->h / 2;
     draw_on_screen(surface, game_over, location, t_false);

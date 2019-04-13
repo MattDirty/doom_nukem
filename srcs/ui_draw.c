@@ -19,10 +19,10 @@
 void    ui_draw(SDL_Surface *surface, t_map *map, int fps, t_env *e)
 {
     draw_crosshair(surface, &e->op, CROSSHAIR_COLOR);
-    draw_fps(surface, fps, &e->op);
+    draw_fps(e->fonts->sixty20, surface, fps, &e->op);
     draw_sun_or_moon(surface, map, &e->op);
-    draw_health(surface, &e->p, map, &e->op);
-    draw_ammo(surface, map->hud.bullet, e->p.weapon->ammo, &e->op);
+    draw_health(e);
+    draw_ammo(e, map->hud.bullet, e->p.weapon->ammo);
     draw_face(surface, &map->hud, &e->p, &e->op);
 }
 

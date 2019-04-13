@@ -4,8 +4,16 @@
 
 # include "textures.h"
 # include "map.h"
+# include "fonts.h"
 
-void	read_file(char *filename, t_textures **textures, t_map **map);
+typedef struct		s_read_data
+{
+    t_textures		**textures;
+    t_map			**map;
+    t_fonts			**fonts;
+}					t_read_data;
+
+void	read_file(char *filename, t_read_data *read_data);
 void	write_file(char *filename, t_textures *textures, t_map *map);
 
 void	read_str_from_file(int fd, char **name);

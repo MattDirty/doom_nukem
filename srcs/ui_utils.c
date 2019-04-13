@@ -20,15 +20,11 @@ enum e_bool cross_index(double ms_since_update, t_params i)
     return (t_true);
 }
 
-SDL_Surface *write_text(char *font_path, int font_size, char *str, SDL_Colour color)
+SDL_Surface *write_text(TTF_Font *font, char *str, SDL_Colour color)
 {
     SDL_Surface *text;
-    TTF_Font    *font;
 
-    if (!(font = TTF_OpenFont(font_path, font_size)))
-        error_doom("error: couldn't load font");
     if (!(text = TTF_RenderText_Blended(font, str, color)))
         error_doom("error: cannot write on screen");
-    TTF_CloseFont(font);
     return (text);
 }
