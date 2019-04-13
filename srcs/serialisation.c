@@ -15,6 +15,7 @@ void	read_file(char *filename, t_read_data *read_data)
     if (fd <= 0)
         error_doom("couldn't open file");
     read_fonts_from_file(fd, read_data->fonts);
+    read_sounds_from_file(fd, read_data->sounds);
     read_textures_from_file(fd, read_data->textures);
     read_map_from_file(fd, *(read_data->textures), read_data->map);
     close(fd);
@@ -28,6 +29,7 @@ void	write_file(char *filename, t_textures *textures, t_map *map)
     if (fd <= 0)
         error_doom("couldn't open file");
     write_fonts_to_file(fd);
+    write_sounds_to_file(fd);
     write_textures_to_file(fd, textures);
     write_map_to_file(fd, map);
     close(fd);

@@ -8,6 +8,7 @@
 # include "config.h"
 # include "timer_handler.h"
 # include "map.h"
+# include "sounds.h"
 
 typedef struct  s_player t_player;
 typedef struct  s_env t_env;
@@ -47,7 +48,7 @@ typedef struct  s_weapon_and_timer
     t_timer_handler *timer_handler;
 }               t_weapon_and_timer;
 
-t_weapons   *allocate_weapons(t_map *map);
+t_weapons   *allocate_weapons(t_sounds *sounds, t_map *map);
 void        draw_weapon(SDL_Surface *Surface, SDL_Surface *weapon, t_animation *animation, t_config *op);
 t_weapon    *get_weapon(t_weapons *node, Uint32 target);
 enum e_bool unlock(double ms_since_update, t_params ready);

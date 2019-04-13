@@ -88,7 +88,7 @@ void        load_gun_sprites(t_weapon *weapon, t_map *map)
     weapon->sprites_cooldown[0] = map->gun_sprites[4];
 }
 
-t_weapon    *load_gun(t_map *map)
+t_weapon    *load_gun(t_sounds *sounds, t_map *map)
 {
     t_weapon    *gun;
 
@@ -104,7 +104,7 @@ t_weapon    *load_gun(t_map *map)
     gun->main_cooldown = 500;
     reset_animation(&gun->main_animation);
     gun->main_ready = t_true;
-    if (!(gun->main_sound = Mix_LoadWAV("sounds/zap.wav")))
+    if (!(gun->main_sound = sounds->zap))
         error_doom("Can't load gun sound ...");
     gun->range = HORIZON;
     gun->scatter = 30;

@@ -5,12 +5,14 @@
 # include "textures.h"
 # include "map.h"
 # include "fonts.h"
+# include "sounds.h"
 
 typedef struct		s_read_data
 {
     t_textures		**textures;
     t_map			**map;
     t_fonts			**fonts;
+    t_sounds		**sounds;
 }					t_read_data;
 
 void	read_file(char *filename, t_read_data *read_data);

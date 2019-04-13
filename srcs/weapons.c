@@ -57,7 +57,7 @@ t_weapon    *get_weapon(t_weapons *node, Uint32 target)
     return (node->item);
 }
 
-t_weapons   *allocate_weapons(t_map *map)
+t_weapons   *allocate_weapons(t_sounds *sounds, t_map *map)
 {
     t_weapons   *node;
     t_weapons   *first;
@@ -65,11 +65,11 @@ t_weapons   *allocate_weapons(t_map *map)
     if (!(node = (t_weapons *)malloc(sizeof(t_weapons))))
         error_doom("Couldn't allocate weapons");
     first = node;
-    node->item = load_melee(map);
+    node->item = load_melee(sounds, map);
     if (!(node->next = (t_weapons *)malloc(sizeof(t_weapons))))
         error_doom("Couldn't allocate weapons");
     node = node->next;
     node->next = NULL;
-    node->item = load_gun(map);
+    node->item = load_gun(sounds, map);
     return (first);
 }

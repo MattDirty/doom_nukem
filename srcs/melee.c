@@ -49,7 +49,7 @@ void    melee_primary(t_env *e, t_timer_handler *timer_handler)
     weapon_ray_fire(e, timer_handler);
 }
 
-t_weapon    *load_melee(t_map *map)
+t_weapon    *load_melee(t_sounds *sounds, t_map *map)
 {
     t_weapon    *weapon;
 
@@ -72,7 +72,7 @@ t_weapon    *load_melee(t_map *map)
     weapon->main = melee_primary;
     weapon->main_cooldown = 2000;
     weapon->main_ready = t_true;
-    if (!(weapon->main_sound = Mix_LoadWAV("sounds/fu_bitch.wav")))
+    if (!(weapon->main_sound = sounds->fu_bitch))
         error_doom("Can't load weapon sound ...");
     return (weapon);
 }
