@@ -41,7 +41,7 @@ int		event_editor(t_editor *ed)
 	if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE || ev.type == SDL_QUIT)
 		exit(EXIT_SUCCESS);
     if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
-        click_on_pannel(ed, &ed->buttons, ev.button.x, ev.button.y);
+        click_on_panel(ed, &ed->buttons, ev.button.x, ev.button.y);
 	return (1);
 }
 
@@ -62,7 +62,7 @@ void	gameloop(t_editor *ed)
 {
     reframe_editor(ed);
     ed->buttons.count = 1;
-    draw_pannel(ed);
+    draw_panel(ed);
 	while (1)
 	{
 		if (event_editor(ed))

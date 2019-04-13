@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   editor_pannel.c                                    :+:      :+:    :+:   */
+/*   editor_panel.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,11 +14,11 @@
 #include "editor_draw.h"
 #include "ui.h"
 
-void        click_on_pannel(t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y)
+void        click_on_panel(t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y)
 {
     int i;
 
-    if (mouse_x < PANNEL_X)
+    if (mouse_x < panel_X)
         return ;
     i = 0;
     while (i < buttons->count)
@@ -45,7 +45,7 @@ void draw_save_button(TTF_Font *font, SDL_Surface *target, t_buttons *buttons, i
     SDL_Surface *save;
     t_coords    location;
 
-    save_btn.rect = create_rect(PANNEL_X + 5, PANNEL_Y + 5, 40, 20);
+    save_btn.rect = create_rect(panel_X + 5, panel_Y + 5, 40, 20);
     draw_rect(target, &save_btn.rect, RED);
     fill_rect(target, &save_btn.rect, PINK);
     save = write_text(font, "SAVE", (SDL_Colour){255,0,0,255});
@@ -91,8 +91,8 @@ void        get_all_text(t_editor *ed)
     t_texture_node *p;
     t_i_coords      pos;
 
-    pos.x = PANNEL_X + 5;
-    pos.y = PANNEL_Y + 35;
+    pos.x = panel_X + 5;
+    pos.y = panel_Y + 35;
     n = ed->textures->first;
     while (n)
     {
@@ -101,7 +101,7 @@ void        get_all_text(t_editor *ed)
         draw_texture_btn(ed->sdl.surface, p->texture, pos);
         if (pos.x >= EDITOR_W - 75)
         {
-            pos.x = PANNEL_X + 5;
+            pos.x = panel_X + 5;
             pos.y += 45;
         }
         else
@@ -109,14 +109,14 @@ void        get_all_text(t_editor *ed)
     }
 }
 
-void        draw_pannel(t_editor *ed)
+void        draw_panel(t_editor *ed)
 {
-    t_rect  pannel;
+    t_rect  panel;
 
-    pannel = create_rect(PANNEL_X, PANNEL_Y,
-                         EDITOR_W - PANNEL_X - 1, EDITOR_H - 1);
-    draw_rect(ed->sdl.surface, &pannel, WHITE);
-    fill_rect(ed->sdl.surface, &pannel, DARK_BLUE);
+    panel = create_rect(panel_X, panel_Y,
+                         EDITOR_W - panel_X - 1, EDITOR_H - 1);
+    draw_rect(ed->sdl.surface, &panel, WHITE);
+    fill_rect(ed->sdl.surface, &panel, DARK_BLUE);
     draw_save_button(ed->fonts->sixty20, ed->sdl.surface, &ed->buttons, 0);
     get_all_text(ed);
 }
