@@ -1,6 +1,7 @@
 #include "e_bool.h"
 #include "editor.h"
 #include "editor_draw.h"
+#include "editor_walls_nodes.h"
 #include "map.h"
 
 enum e_bool     click_on_nodes(t_map *map, int x, int y)
@@ -12,7 +13,7 @@ enum e_bool     click_on_nodes(t_map *map, int x, int y)
 
     create_linked_walls_from_sectors(map->sectors, &linked_walls, &count);
     ptr = linked_walls;
-    while (ptr)
+    while (ptr->wall)
     {
         rect = create_rect(DRAW_MAP_X + ptr->wall->segment.x1 * EDITOR_ZOOM - CORNER_SIZE / 2, DRAW_MAP_Y
         - ptr->wall->segment.y1 * EDITOR_ZOOM - CORNER_SIZE / 2, CORNER_SIZE, CORNER_SIZE);
