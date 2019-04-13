@@ -35,7 +35,7 @@ void        click_on_panel(t_editor *ed, t_buttons *buttons, int mouse_x, int mo
 
 static void save_editor(t_editor *ed, t_rect *rect)
 {
-    write_file("mabite.roflolilolmao", ed->textures, ed->map);
+    write_file(ed->map_path, ed->textures, ed->map);
     draw_rect(ed->sdl.surface, rect, BLACK);
 }
 

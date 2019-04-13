@@ -13,15 +13,12 @@
 #include "SDL.h"
 #include "SDL_ttf.h"
 #include "editor.h"
-//#include "doom.h"
-//#include "map.h"
-//#include "serialisation.h"
-//#include "libft.h"
+#include <sys/stat.h>
 #include "editor_draw.h"
 
 void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0 || TTF_Init() < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 || TTF_Init() < 0 )
 		error_doom("error: cannot run SDL");
     if (!(ed->sdl.window = SDL_CreateWindow(name, 0, 0, w, h, 0)))
         error_doom("Could not create window.");
@@ -31,6 +28,8 @@ void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
 	if (!(ed->sdl.surface = SDL_CreateRGBSurface(0, w, h,
 			32, MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
         error_doom("Could not create surface.");
+    if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+        error_doom((char *)Mix_GetError());
 }
 
 int		event_editor(t_editor *ed)
@@ -84,20 +83,30 @@ t_fonts *load_fonts(void)
     return (fonts);
 }
 
-int		main(void)
+int		main(int ac, char **av)
 {
 	t_editor			ed;
+	t_read_data         read_data;
+	t_sounds            *sounds;
+	struct stat         buf;
 
+	if (ac != 2)
+	    error_doom("Usage is : ./editor target_map_path");
 	ft_bzero(&ed, sizeof(t_editor));
+	ed.map_path = av[1];
     ed.textures = load_textures();
-    ed.map = create_map(ed.textures);
-
-	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
-
+    init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
+	if (stat(av[1], &buf) < 0)
+	    ed.map = create_map(ed.textures);
+    else
+    {
+        read_data.textures = &ed.textures;
+        read_data.map = &ed.map;
+        read_data.fonts = &ed.fonts;
+        read_data.sounds = &sounds;
+        read_file(av[1], &read_data);
+    }
     ed.fonts = load_fonts();
-
     gameloop(&ed);
-
-	printf("ta mere est une pute\n"); //j'aimerais que la norminette m'engueule.
     return (0);
 }
