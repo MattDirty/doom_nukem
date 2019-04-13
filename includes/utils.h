@@ -83,5 +83,6 @@ void		write_segment_to_file(int fd, t_segment *segment);
 t_rect      create_rect(int x, int y, int width, int height);
 void        draw_rect(SDL_Surface *surface, t_rect *rect, Uint32 color);
 void        fill_rect(SDL_Surface *surface, t_rect *rect, Uint32 color);
+enum e_bool is_in_rect(t_rect *rect, int x, int y);
 
 #endif
