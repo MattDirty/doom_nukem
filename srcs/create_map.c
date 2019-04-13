@@ -92,17 +92,20 @@ t_map		*create_map(t_textures *textures)
 		map->sectors->items[i].enemies->items[0].time_in_death = -1;
 		map->sectors->items[i].enemies->items[0].to_destroy = t_false;
         map->sectors->items[i].enemies->items[0].heading = 0;
-        if (i == 1)
-            map->sectors->items[i].enemies->items[0].heading = ft_degtorad(90);
-        if (i == 2)
-        {
-            map->sectors->items[i].enemies->items[0].heading = ft_degtorad(180);
-            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].objects->items[2].sprite);
-        }
         find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->items[0].front);
         map->sectors->items[i].enemies->items[0].object->sprite =
                 map->sectors->items[i].enemies->items[0].front;
         find_texture_by_name(textures,"textures/sprites/enemy_side.bmp", &map->sectors->items[i].enemies->items[0].side);
+        if (i == 1)
+            map->sectors->items[i].enemies->items[0].heading = ft_degtorad(90);
+        if (i == 2)
+        {
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].front);
+            map->sectors->items[i].enemies->items[0].object->sprite =
+                    map->sectors->items[i].enemies->items[0].front;
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].side);
+            map->sectors->items[i].enemies->items[0].heading = ft_degtorad(180);
+        }
 
 		walls = map->sectors->items[i].walls;
 		find_texture_by_name(
