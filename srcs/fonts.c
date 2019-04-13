@@ -1,6 +1,15 @@
+#include <unistd.h>
 #include "fonts.h"
 #include "doom.h"
 #include "serialisation.h"
+
+void    delete_tmp_files(void)
+{
+    if (unlink("roflolilolmao_tmp_h.ttf") < 0)
+        error_doom("Couldn't delete tmp_h.ttf");
+    if (unlink("roflolilolmao_tmp_s.ttf") < 0)
+        error_doom("Couldn't delete tmp_s.ttf");
+}
 
 void			read_fonts_from_file(int fd, t_fonts **fonts)
 {
@@ -17,6 +26,7 @@ void			read_fonts_from_file(int fd, t_fonts **fonts)
     (*fonts)->sixty40 = TTF_OpenFont("roflolilolmao_tmp_s.ttf", 40);
     if ((*fonts)->sixty40 == NULL)
         error_doom("error: couldn't load sixty40");
+    delete_tmp_files();
 }
 
 void			write_fonts_to_file(int fd)
