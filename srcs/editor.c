@@ -63,7 +63,7 @@ void	gameloop(t_editor *ed)
 {
     reframe_editor(ed);
     ed->buttons.count = 1;
-    draw_pannel(ed->sdl.surface);
+    draw_pannel(ed);
 	while (1)
 	{
 		if (event_editor(ed))

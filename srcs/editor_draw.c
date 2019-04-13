@@ -90,16 +90,6 @@ void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *object
     }
 }
 
-void        draw_pannel(SDL_Surface *target)
-{
-    t_rect  pannel;
-
-    pannel = create_rect(PANNEL_X, PANNEL_Y,
-            EDITOR_W - PANNEL_X - 1, EDITOR_H - 1);
-    draw_rect(target, &pannel, WHITE);
-    fill_rect(target, &pannel, DARK_BLUE);
-}
-
 void        draw_save_button(SDL_Surface *target, t_buttons *buttons, int i)
 {
     t_button    save_btn;
@@ -124,7 +114,7 @@ void		draw_editor(t_editor *ed)
 
     i = 0;
     buttons.count = 1;
-    draw_pannel(ed->sdl.surface);
+    draw_pannel(ed);
     while (i < ed->map->sectors->count)
     {
         draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i].walls);
