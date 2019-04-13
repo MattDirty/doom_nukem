@@ -57,6 +57,58 @@ static void draw_save_button(SDL_Surface *target, t_buttons *buttons, int i)
     free(save);
 }
 
+static void draw_texture_btn(SDL_Surface *target, SDL_Surface *texture, t_i_coords pos)
+{
+    t_button    text_btn;
+    int         x;
+    int         y;
+    t_i_coords  text;
+    Uint32      color;
+
+    text_btn.rect = create_rect(pos.x, pos.y, 40, 40);
+    draw_rect(target, &text_btn.rect, GREEN);
+    y = text_btn.rect.pos.y + 1;
+    text.y = 0;
+    while (y < (text_btn.rect.pos.y + text_btn.rect.height))
+    {
+        x = text_btn.rect.pos.x + 1;
+        text.x = 0;
+        while (x < (text_btn.rect.pos.x + text_btn.rect.width - 1))
+        {
+            color = get_pixel(texture, text.x, text.y, t_true);
+            put_pixel(target, x, y, color);
+            x++;
+            text.x += texture->w / 40;
+        }
+        y++;
+        text.y += texture->h / 40;
+    }
+}
+
+void        get_all_text(t_editor *ed)
+{
+    t_texture_node *n;
+    t_texture_node *p;
+    t_i_coords      pos;
+
+    pos.x = PANNEL_X + 5;
+    pos.y = PANNEL_Y + 35;
+    n = ed->textures->first;
+    while (n)
+    {
+        p = n;
+        n = n->next;
+        draw_texture_btn(ed->sdl.surface, p->texture, pos);
+        if (pos.x >= EDITOR_W - 75)
+        {
+            pos.x = PANNEL_X + 5;
+            pos.y += 45;
+        }
+        else
+            pos.x += 43;
+    }
+}
+
 void        draw_pannel(t_editor *ed)
 {
     t_rect  pannel;
@@ -66,4 +118,5 @@ void        draw_pannel(t_editor *ed)
     draw_rect(ed->sdl.surface, &pannel, WHITE);
     fill_rect(ed->sdl.surface, &pannel, DARK_BLUE);
     draw_save_button(ed->sdl.surface, &ed->buttons, 0);
+    get_all_text(ed);
 }
