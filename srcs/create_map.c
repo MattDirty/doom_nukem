@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:36:17 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/11 19:45:54 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/14 18:20:34 by mtorsell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ t_map		*create_map(t_textures *textures)
 		map->sectors->items[i].enemies->items[0].time_in_death = -1;
 		map->sectors->items[i].enemies->items[0].to_destroy = t_false;
         map->sectors->items[i].enemies->items[0].heading = 0;
+        map->sectors->items[i].enemies->items[0].death_duration = 0;
         find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->items[0].front);
         map->sectors->items[i].enemies->items[0].object->sprite =
                 map->sectors->items[i].enemies->items[0].front;
