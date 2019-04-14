@@ -22,8 +22,8 @@ t_player init_player(t_config *op, t_coords spawn, t_sector *starting_sector)
     p.vision_height = op->half_h;
     p.heading = EAST;
     p.current_sector = starting_sector;
-    p.pos.y = spawn.x;
-    p.pos.x = spawn.y;
+    p.pos.x = spawn.x;
+    p.pos.y = spawn.y;
     p.speed.x = 0;
     p.speed.y = 0;
     p.speed_factor = 1;
