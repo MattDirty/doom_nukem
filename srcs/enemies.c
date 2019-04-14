@@ -76,6 +76,7 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
         error_doom("Problem while reading enemy from file");
     write_str_to_file(fd, enemy.front->userdata);
     write_str_to_file(fd, enemy.side->userdata);
+    write_str_to_file(fd, enemy.back->userdata);
 
 }
 
@@ -97,6 +98,7 @@ void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
     find_texture_from_file(fd, textures, &enemy->front);
     enemy->object->sprite = enemy->front;
     find_texture_from_file(fd, textures, &enemy->side);
+    find_texture_from_file(fd, textures, &enemy->back);
 }
 
 void    write_enemies_to_file(int fd, t_enemies *enemies)

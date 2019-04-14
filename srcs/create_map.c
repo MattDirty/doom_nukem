@@ -96,6 +96,7 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].enemies->items[0].object->sprite =
                 map->sectors->items[i].enemies->items[0].front;
         find_texture_by_name(textures,"textures/sprites/enemy_side.bmp", &map->sectors->items[i].enemies->items[0].side);
+        find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].back);
         if (i == 1)
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(90);
         if (i == 2)

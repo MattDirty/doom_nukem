@@ -25,6 +25,7 @@ typedef struct s_enemy
     double      heading;
     SDL_Surface *front;
     SDL_Surface *side;
+    SDL_Surface *back;
 }               t_enemy;
 
 typedef struct  s_enemies

@@ -77,11 +77,14 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
 				continue;
 			}
         		sectors->items[i].enemies->items[j].heading += CIRCLE;
-            if (sectors->items[i].enemies->items[j].heading <= facing + 0.785398 * 2
-            && sectors->items[i].enemies->items[j].heading >= facing - 0.785398 * 2)
+            if (sectors->items[i].enemies->items[j].heading <= facing + 1.5708
+            && sectors->items[i].enemies->items[j].heading >= facing - 1.5708)
                 sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].front;
             else
                 sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].side;
+            if (sectors->items[i].enemies->items[j].heading <= p_heading + 1.5708
+            && sectors->items[i].enemies->items[j].heading >= p_heading - 1.5708)
+                sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].back;
             sectors->items[i].enemies->items[j].heading -= CIRCLE;
             j++;
         }
