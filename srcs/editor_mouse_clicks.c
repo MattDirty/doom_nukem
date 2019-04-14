@@ -63,6 +63,7 @@ void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y)
     ed->selected_nodes = NULL;
     ed->selected_player = NULL;
     ed->selected_enemy = NULL;
+    ed->selected_object = NULL;
 }
 
 void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
@@ -76,6 +77,8 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
         return ;
     if (click_on_enemy(ed, ed->map, mouse_x, mouse_y))
         return ;
+    if (click_on_object(ed, ed->map, mouse_x, mouse_y))
+    	return ;
     create_linked_walls_from_sectors(ed->map->sectors, &linked_walls, &count);
     if (click_on_nodes(ed, linked_walls, mouse_x, mouse_y))
         return ;

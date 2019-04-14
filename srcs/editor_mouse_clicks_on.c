@@ -15,6 +15,35 @@ enum e_bool     click_on_player(t_editor *ed, t_map *map, int x, int y)
 	return (t_false);
 }
 
+enum e_bool		click_on_object(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
+{
+	int			i;
+	int			j;
+	t_sector	*sector;
+	t_rect		rect;
+
+	i = 0;
+	while (i < map->sectors->count)
+	{
+		sector = &map->sectors->items[i];
+		j = 0;
+		while (j < sector->objects->count)
+		{
+			rect = create_rect(DRAW_MAP_X + sector->objects->items[j].x * EDITOR_ZOOM - 6,
+							   DRAW_MAP_Y - sector->objects->items[j].y * EDITOR_ZOOM - 6,
+							   12, 12);
+			if (is_in_rect(&rect, mouse_x, mouse_y))
+			{
+				deal_with_clicked_object(ed, &sector->objects->items[j]);
+				return (t_true);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (t_false);
+}
+
 enum e_bool		click_on_enemy(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 {
 	int			i;

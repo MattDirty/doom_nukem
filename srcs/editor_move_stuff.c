@@ -20,8 +20,8 @@ void    move_player_spawn(t_coords *spawn, double x, double y)
     spawn->y -= y / EDITOR_ZOOM;
 }
 
-void    move_enemy(t_enemy *enemy, double x, double y)
+void	move_object(t_object *object, double x, double y)
 {
-    enemy->object->x += x / EDITOR_ZOOM;
-    enemy->object->y -= y / EDITOR_ZOOM;
+	object->x += x / EDITOR_ZOOM;
+	object->y -= y / EDITOR_ZOOM;
 }
