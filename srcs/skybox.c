@@ -31,14 +31,14 @@ enum e_bool    day_to_night(double ms_since_update, t_params daytime)
 
 void     draw_sun_or_moon(SDL_Surface *surface, t_map *map, t_config *op)
 {
-    t_coords    location;
+    t_i_coords    pos;
 
-    location.x = op->win_w - 50;
-    location.y = 0;
+    pos.x = op->win_w - 50;
+    pos.y = 0;
     if (map->daytime)
-        draw_on_screen(surface, map->hud.sun, location, t_true);
+        draw_on_screen(surface, map->hud.sun, pos, t_true);
     else
-        draw_on_screen(surface, map->hud.moon, location, t_true);
+        draw_on_screen(surface, map->hud.moon, pos, t_true);
 }
 
 void            skybox(const t_render *render, t_u_range range)
