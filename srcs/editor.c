@@ -59,6 +59,8 @@ int		event_editor(t_editor *ed)
         move_walls_nodes(ed->selected_nodes, x, y);
     else if (ed->selected_player)
         move_player_spawn(ed->selected_player, x, y);
+    else if (ed->selected_enemy)
+    	move_enemy(ed->selected_enemy, x, y);
     return (1);
 }
 

@@ -1,0 +1,16 @@
+#ifndef EDITOR_MOUSE_CLICKS_H
+# define EDITOR_MOUSE_CLICKS_H
+
+#include "editor.h"
+#include "editor_draw.h"
+
+enum e_bool     click_on_panel(t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y);
+enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int mouse_x, int mouse_y);
+enum e_bool     click_on_player(t_editor *ed, t_map *map, int mouse_x, int mouse_y);
+enum e_bool     click_on_walls(t_editor *ed, t_linked_walls *linked_walls, int mouse_x, int mouse_y);
+enum e_bool		click_on_enemy(t_editor *ed, t_map *map, int mouse_x, int mouse_y);
+enum e_bool     is_on_seg(t_segment seg, int mouse_x, int mouse_y);
+void            deal_with_clicked_player(t_editor *ed, t_coords *spawn);
+void			deal_with_clicked_enemy(t_editor *ed, t_enemy *enemy);
+
+#endif

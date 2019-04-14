@@ -10,13 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "SDL.h"
-//#include "editor.h"
 #include "doom.h"
-//#include "map.h"
-//#include "serialisation.h"
-//#include "libft.h"
-//#include "editor_draw.h"
 
 t_map		*create_map(t_textures *textures)
 {

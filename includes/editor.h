@@ -56,6 +56,7 @@ typedef struct          s_editor
     t_fonts			*fonts;
     t_wall_nodes    *selected_nodes;
     t_coords        *selected_player;
+    t_enemy			*selected_enemy;
 }                       t_editor;
 
 t_map		*create_map(t_textures *textures);

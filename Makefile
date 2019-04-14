@@ -68,6 +68,8 @@ SRC_EDITOR_NAME = editor.c \
 				  editor_draw.c \
 				  editor_panel.c \
 				  editor_mouse_clicks.c \
+				  editor_mouse_clicks_on.c \
+				  editor_mouse_clicks_action.c \
 				  editor_move_stuff.c \
 				  create_map.c \
 				  editor_walls_nodes.c \
