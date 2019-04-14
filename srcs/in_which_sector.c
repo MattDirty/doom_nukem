@@ -14,7 +14,7 @@
 #include "editor.h"
 
 int     is_in_sector(t_i_coords pos, t_sector sector)
-{	
+{
     t_segment   segment;
     t_segment   edge;
     int         i;
