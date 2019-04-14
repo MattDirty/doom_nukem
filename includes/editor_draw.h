@@ -5,6 +5,9 @@
 # include "struct_sdl.h"
 # include "editor.h"
 
+typedef struct s_editor t_editor;
+typedef struct s_buttons t_buttons;
+
 # define DRAW_MAP_X EDITOR_W_H / 3
 # define DRAW_MAP_Y EDITOR_H_H
 # define PANEL_X (EDITOR_W - 2 * DRAW_MAP_X)
