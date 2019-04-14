@@ -5,7 +5,7 @@
 # include "struct_sdl.h"
 # include "editor.h"
 
-# define DRAW_MAP_X (EDITOR_W_H / 3)
+# define DRAW_MAP_X EDITOR_W_H / 3
 # define DRAW_MAP_Y EDITOR_H_H
 # define PANEL_X (EDITOR_W - 2 * DRAW_MAP_X)
 # define PANEL_Y 0
