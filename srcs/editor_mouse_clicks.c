@@ -4,7 +4,7 @@
 #include "editor_walls_nodes.h"
 #include "map.h"
 
-enum e_bool     click_on_nodes(t_map *map, int x, int y)
+enum e_bool     click_on_nodes(t_editor *ed, t_map *map, int x, int y)
 {
     t_linked_walls *linked_walls;
     t_linked_walls *ptr;
@@ -19,7 +19,7 @@ enum e_bool     click_on_nodes(t_map *map, int x, int y)
         - ptr->wall->segment.y1 * EDITOR_ZOOM - CORNER_SIZE / 2, CORNER_SIZE, CORNER_SIZE);
         if (is_in_rect(&rect, x, y))
         {
-			deal_with_clicked_node(ptr, (t_coords){ptr->wall->segment.x1, ptr->wall->segment.y1});
+			deal_with_clicked_node(ed, ptr, (t_coords){ptr->wall->segment.x1, ptr->wall->segment.y1});
             free_linked_walls_nodes(linked_walls);
             return (t_true);
         }
@@ -27,7 +27,7 @@ enum e_bool     click_on_nodes(t_map *map, int x, int y)
         - ptr->wall->segment.y2 * EDITOR_ZOOM - CORNER_SIZE / 2, CORNER_SIZE, CORNER_SIZE);
         if (is_in_rect(&rect, x, y))
         {
-            deal_with_clicked_node(ptr, (t_coords){ptr->wall->segment.x2, ptr->wall->segment.y2});
+            deal_with_clicked_node(ed, ptr, (t_coords){ptr->wall->segment.x2, ptr->wall->segment.y2});
             free_linked_walls_nodes(linked_walls);
             return (t_true);
         }
@@ -56,10 +56,20 @@ enum e_bool     click_on_panel(t_editor *ed, t_buttons *buttons, int mouse_x, in
     return (t_false);
 }
 
-void    click_action(t_editor *ed, int mouse_x, int mouse_y)
+void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y)
+{
+    (void)mouse_x; (void)mouse_y;
+    if (ed->selected_nodes)
+    {
+        free_walls_nodes(ed->selected_nodes);
+    }
+    ed->selected_nodes = NULL;
+}
+
+void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
 {
     if (click_on_panel(ed, &ed->buttons, mouse_x, mouse_y))
         return ;
-    if (click_on_nodes(ed->map, mouse_x, mouse_y))
+    if (click_on_nodes(ed, ed->map, mouse_x, mouse_y))
         return ;
 }

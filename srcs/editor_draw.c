@@ -17,6 +17,7 @@
 #include "utils.h"
 #include "struct_sdl.h"
 #include "ui.h"
+#include "utils.h"
 
 void        draw_corners_editor(SDL_Surface *surface, t_segment *s)
 {
@@ -90,6 +91,14 @@ void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *object
         draw_circle_filled(target, coords, 0.15 * EDITOR_ZOOM, GREEN);
         i++;
     }
+}
+
+void        draw_background(t_editor *ed)
+{
+    t_rect  background;
+
+    background = create_rect(1, 1, EDITOR_W, EDITOR_H);
+    fill_rect(ed->sdl.surface, &background, BACKGROUND_COLOR);
 }
 
 void		draw_editor(t_editor *ed)
