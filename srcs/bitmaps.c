@@ -20,8 +20,8 @@ t_SDL_Surface_info		read_header(int fd, int *pixels_size)
     if (pixels_offset != 138 || read(fd, buffer, pixels_offset - 14) <= 0)
         error_doom("Can't read a BITMAPV5HEADER.");
     *pixels_size -= pixels_offset;
-    info.h = *((unsigned int*)&buffer[4]);
-    info.w = *((unsigned int*)&buffer[8]);
+    info.w = *((unsigned int*)&buffer[4]);
+    info.h = *((unsigned int*)&buffer[8]);
     info.depth = *((unsigned int*)&buffer[20]) / info.h / info.w * 8;
     info.pitch = info.w * info.depth / 8;
     info.Rmask = *((unsigned int*)&buffer[40]);
@@ -31,15 +31,17 @@ t_SDL_Surface_info		read_header(int fd, int *pixels_size)
     return (info);
 }
 
-static inline char		*read_pixels(int fd, int pixel_size)
+static inline int		shift_from_mask(Uint32 mask)
 {
-    char				*pixels;
-
-    if (!(pixels = malloc(pixel_size)))
-        error_doom("buy some more ram plz");
-    if (read(fd, pixels, pixel_size) <= 0)
-        error_doom("yeah well too bad");
-    return (pixels);
+    if (mask == 0xff000000)
+        return (24);
+    if (mask == 0x00ff0000)
+        return (16);
+    if (mask == 0x0000ff00)
+        return (8);
+    if (mask == 0x000000ff)
+        return (0);
+    return (-1);
 }
 
 static inline void		swap_colors(Uint32 *pixel, t_SDL_Surface_info info)
@@ -49,10 +51,17 @@ static inline void		swap_colors(Uint32 *pixel, t_SDL_Surface_info info)
     Uint32				green;
     Uint32				blue;
 
-    alpha = ((*pixel & info.Amask) % 0xff) << AMASK_SHIFT;
-    red = ((*pixel & info.Rmask) % 0xff) << RMASK_SHIFT;
-    green = ((*pixel & info.Gmask) % 0xff) << GMASK_SHIFT;
-    blue = ((*pixel & info.Bmask) % 0xff) << BMASK_SHIFT;
+    if (info.Amask == 0)
+        alpha = 0xff;
+    else
+        alpha = ((*pixel & info.Amask) >> shift_from_mask(info.Amask))
+            << AMASK_SHIFT;
+    red = ((*pixel & info.Rmask) >> shift_from_mask(info.Rmask))
+        << RMASK_SHIFT;
+    green = ((*pixel & info.Gmask) >> shift_from_mask(info.Gmask))
+        << GMASK_SHIFT;
+    blue = ((*pixel & info.Bmask) >> shift_from_mask(info.Bmask))
+        << BMASK_SHIFT;
     *pixel = alpha | red | green | blue;
 }
 
@@ -97,7 +106,10 @@ SDL_Surface				*load_bmp(char* path)
     info = read_header(fd, &pixels_size);
     if (info.depth != 32)
         error_doom("Only 32 bits depth bitmaps can be used");
-    pixels = read_pixels(fd, pixels_size);
+    if (!(pixels = malloc(pixels_size)))
+        error_doom("buy some more ram plz");
+    if (read(fd, pixels, pixels_size) <= 0)
+        error_doom("yeah well too bad");
     close(fd);
     reorder_colors((Uint32*)pixels, info);
     ret = SDL_CreateRGBSurfaceFrom(pixels, info.w, info.h, info.depth,

@@ -3,14 +3,14 @@
 
 # include "SDL.h"
 
-# define TARGET_AMASK 0xff000000
-# define TARGET_RMASK 0x00ff0000
-# define TARGET_GMASK 0x0000ff00
-# define TARGET_BMASK 0x000000ff
-# define AMASK_SHIFT 24
-# define RMASK_SHIFT 16
-# define GMASK_SHIFT 8
-# define BMASK_SHIFT 0
+# define TARGET_AMASK 0x000000ff
+# define TARGET_RMASK 0xff000000
+# define TARGET_GMASK 0x00ff0000
+# define TARGET_BMASK 0x0000ff00
+# define AMASK_SHIFT 0
+# define RMASK_SHIFT 24
+# define GMASK_SHIFT 16
+# define BMASK_SHIFT 8
 
 SDL_Surface	*load_bmp(char* path);
 
