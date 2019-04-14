@@ -80,7 +80,6 @@ void	add_bitmap_file_to_textures(
         error_doom("can't open bmp");
     if (!(node = (t_texture_node*)malloc(sizeof(t_texture_node))))
         error_doom("can't malloc t_texture_node");
-    texture->userdata = path;
     node->texture = texture;
     node->next = NULL;
     add_texture(textures, node);

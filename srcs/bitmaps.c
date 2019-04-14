@@ -31,7 +31,7 @@ t_SDL_Surface_info		read_header(int fd, int *pixels_size)
     return (info);
 }
 
-static char				*read_pixels(int fd, int pixel_size)
+static inline char		*read_pixels(int fd, int pixel_size)
 {
     char				*pixels;
 
@@ -40,6 +40,49 @@ static char				*read_pixels(int fd, int pixel_size)
     if (read(fd, pixels, pixel_size) <= 0)
         error_doom("yeah well too bad");
     return (pixels);
+}
+
+static inline void		swap_colors(Uint32 *pixel, t_SDL_Surface_info info)
+{
+    Uint32				alpha;
+    Uint32				red;
+    Uint32				green;
+    Uint32				blue;
+
+    alpha = ((*pixel & info.Amask) % 0xff) << AMASK_SHIFT;
+    red = ((*pixel & info.Rmask) % 0xff) << RMASK_SHIFT;
+    green = ((*pixel & info.Gmask) % 0xff) << GMASK_SHIFT;
+    blue = ((*pixel & info.Bmask) % 0xff) << BMASK_SHIFT;
+    *pixel = alpha | red | green | blue;
+}
+
+static inline void		reorder_colors(Uint32 *pixels, t_SDL_Surface_info info)
+{
+    int					i;
+    int					j;
+    int					swap;
+    int					size;
+
+    size = info.w * info.h;
+    i = 0;
+    while (i < size)
+    {
+        swap_colors(pixels + i, info);
+        i++;
+    }
+    i = 0;
+    while (i < info.h / 2)
+    {
+        j = 0;
+        while (j < info.w)
+        {
+            swap = pixels[i * info.w + j];
+            pixels[i * info.w + j] = pixels[(info.h - i - 1) * info.w + j];
+            pixels[(info.h - i - 1) * info.w + j] = swap;
+            j++;
+        }
+        i++;
+    }
 }
 
 SDL_Surface				*load_bmp(char* path)
@@ -52,12 +95,15 @@ SDL_Surface				*load_bmp(char* path)
 
     fd = open(path, O_RDONLY);
     info = read_header(fd, &pixels_size);
+    if (info.depth != 32)
+        error_doom("Only 32 bits depth bitmaps can be used");
     pixels = read_pixels(fd, pixels_size);
     close(fd);
+    reorder_colors((Uint32*)pixels, info);
     ret = SDL_CreateRGBSurfaceFrom(pixels, info.w, info.h, info.depth,
-            info.pitch, info.Rmask, info.Gmask, info.Bmask, info.Amask);
+        info.pitch, TARGET_RMASK, TARGET_GMASK, TARGET_BMASK, TARGET_AMASK);
     if (ret == NULL)
         error_doom("I've done all I could but it wasn't enough");
-    free(pixels);
+    ret->userdata = path;
     return (ret);
 }
