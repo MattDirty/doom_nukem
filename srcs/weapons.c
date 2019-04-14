@@ -34,6 +34,7 @@ void    weapon_ray_fire(t_env *e, t_timer_handler *timer_handler) {
             ptr = ptr->next;
         if (ptr && ptr->item.type == ct_enemy)
 			damage_enemy(timer_handler, ptr->item.d.enemy, weapon->damage);
+        free_collisions(collisions);
     }
 }
 
@@ -72,4 +73,25 @@ t_weapons   *allocate_weapons(t_sounds *sounds, t_map *map)
     node->next = NULL;
     node->item = load_gun(sounds, map);
     return (first);
+}
+
+void		free_weapons(t_weapons *weapons)
+{
+    t_weapons	*n;
+    t_weapons	*p;
+
+    n = weapons;
+    while (n)
+    {
+        if (n->item->sprites)
+            free(n->item->sprites);
+        if (n->item->sprites_fire)
+            free(n->item->sprites_fire);
+        if (n->item->sprites_cooldown)
+            free(n->item->sprites_cooldown);
+        free(n->item);
+        p = n;
+        n = n->next;
+        free(p);
+    }
 }

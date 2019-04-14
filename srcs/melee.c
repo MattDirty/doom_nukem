@@ -60,6 +60,8 @@ t_weapon    *load_melee(t_sounds *sounds, t_map *map)
             * weapon->sprites_count)))
         error_doom("Couldn't malloc melee.sprites");
     weapon->sprites[0] = map->melee_sprite;
+    weapon->sprites_cooldown = NULL;
+    weapon->sprites_fire = NULL;
     weapon->sprite_current = weapon->sprites[0];
     weapon->ammo = -1;
     weapon->main = NULL;
