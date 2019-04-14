@@ -38,6 +38,7 @@ SRCS_NAMES = vector.c \
 			horizontal_motion.c \
 			sounds.c \
 			render_utils.c \
+			bitmaps.c \
 			render.c \
 			objects.c \
 			debug_init.c \

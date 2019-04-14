@@ -97,7 +97,7 @@ void        draw_background(t_editor *ed)
 {
     t_rect  background;
 
-    background = create_rect(1, 1, EDITOR_W, EDITOR_H);
+    background = create_rect(-1, -1, EDITOR_W, EDITOR_H);
     fill_rect(ed->sdl.surface, &background, BACKGROUND_COLOR);
 }
 

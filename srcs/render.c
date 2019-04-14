@@ -211,7 +211,7 @@ static void         draw_wall(
         put_pixel(render->surface, render->x, i,
         		get_pixel(wall_text, x, y, t_true));
         if (render->lights)
-        	put_pixel_alpha(render->surface,render->x, i, render->light_value);
+        	put_pixel_alpha(render->surface, render->x, i, render->light_value);
 		i++;
 	}
     if (collision->d.wall->wall_object)
