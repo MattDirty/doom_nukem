@@ -6,11 +6,10 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:50:23 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/12 03:21:32 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/14 06:34:32 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "editor_draw.h"
 #include "default.h"
 #include "editor.h"
 #include "map.h"
@@ -36,6 +35,8 @@ void        draw_corners_editor(SDL_Surface *surface, t_segment *s)
     draw_rect(surface, &rect, L_BLUE);
     fill_rect(surface, &rect, L_BLUE);
 }
+
+
 
 void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
 {
