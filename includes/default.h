@@ -31,7 +31,7 @@
 
 # define FOV 90.0
 # define HALF_FOV (FOV / 2)
-# define HORIZON 25
+# define HORIZON 100
 # define TAN_HALF_FOV (tan(ft_degtorad(HALF_FOV)))
 # define RATIO (HALF_W / TAN_HALF_FOV)
 
