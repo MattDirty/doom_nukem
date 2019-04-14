@@ -59,6 +59,8 @@ int		event_editor(t_editor *ed)
         move_walls_nodes(ed->selected_nodes, x, y);
     else if (ed->selected_player)
         move_player_spawn(ed->selected_player, x, y);
+    else if (ed->selected_object)
+    	move_object(ed->selected_object, x, y);
     return (1);
 }
 
@@ -127,6 +129,9 @@ int		main(int ac, char **av)
     }
     ed.fonts = load_fonts();
     ed.selected_nodes = NULL;
+    ed.selected_player = NULL;
+    ed.selected_enemy = NULL;
+    ed.selected_object = NULL;
     gameloop(&ed);
     return (0);
 }
