@@ -36,7 +36,7 @@ typedef struct			s_player
 
 }						t_player;
 
-t_player    init_player(t_config *op, t_sector *starting_sector);
+t_player    init_player(t_config *op, t_coords spawn, t_sector *starting_sector);
 void    	clamp_player_values(t_player *p, t_config op);
 void		move(t_player *p, const Uint8 *state, double time);
 void        look_around(t_player *p, const Uint8 *state, double time);

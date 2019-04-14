@@ -56,7 +56,7 @@ int		main (int ac, char **av)
     read_file("mabite.roflolilolmao", &read_data);
 	if (!(e.music = sounds->lamerde))
 		error_doom("Couldn't open lamerde.wav");
-	e.p = init_player(&e.op, &e.map->sectors->items[0]);
+	e.p = init_player(&e.op, e.map->spawn, &e.map->sectors->items[0]);
     e.p.weapons = allocate_weapons(sounds, e.map);
     e.p.weapon = e.p.weapons->item;
     if (e.debug_mode)

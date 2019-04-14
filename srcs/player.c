@@ -15,15 +15,15 @@
 #include "config.h"
 #include "ui.h"
 
-t_player init_player(t_config *op, t_sector *starting_sector)
+t_player init_player(t_config *op, t_coords spawn, t_sector *starting_sector)
 {
     t_player p;
 
     p.vision_height = op->half_h;
     p.heading = EAST;
     p.current_sector = starting_sector;
-    p.pos.y = 2;
-    p.pos.x = 3;
+    p.pos.y = spawn.x;
+    p.pos.x = spawn.y;
     p.speed.x = 0;
     p.speed.y = 0;
     p.speed_factor = 1;

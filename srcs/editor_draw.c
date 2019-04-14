@@ -101,6 +101,16 @@ void        draw_background(t_editor *ed)
     fill_rect(ed->sdl.surface, &background, BACKGROUND_COLOR);
 }
 
+void        draw_player_spawn(SDL_Surface *surface, t_coords spawn)
+{
+    t_coords coords;
+
+    coords.x = DRAW_MAP_X + spawn.x * EDITOR_ZOOM;
+    coords.y = DRAW_MAP_Y - spawn.y * EDITOR_ZOOM;
+
+    draw_circle_filled(surface, coords, 0.33 * EDITOR_ZOOM, PLAYER_COLOR);
+}
+
 void		draw_editor(t_editor *ed)
 {
     int         i;
@@ -113,4 +123,5 @@ void		draw_editor(t_editor *ed)
         draw_enemies_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].enemies);
         i++;
     }
+    draw_player_spawn(ed->sdl.surface, ed->map->spawn);
 }
