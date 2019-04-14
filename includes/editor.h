@@ -56,6 +56,7 @@ typedef struct          s_editor
     t_fonts			*fonts;
     t_wall_nodes    *selected_nodes;
     t_coords        *selected_player;
+    t_wall			*selected_wall;
     t_enemy			*selected_enemy;
     t_object		*selected_object;
 }                       t_editor;
@@ -68,5 +69,6 @@ void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y);
 enum e_bool click_on_panel(
         t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y);
 enum e_bool click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int mouse_x, int mouse_y);
+void            deal_with_clicked_wall(t_editor *ed, t_wall *wall);
 
 #endif

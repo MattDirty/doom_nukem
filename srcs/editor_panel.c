@@ -29,7 +29,7 @@ void draw_save_button(TTF_Font *font, SDL_Surface *target, t_buttons *buttons, i
     save_btn.rect = create_rect(PANEL_X + 5, PANEL_Y + 5, 40, 20);
     draw_rect(target, &save_btn.rect, RED);
     fill_rect(target, &save_btn.rect, PINK);
-    save = write_text(font, "SAVE", (SDL_Colour){255,0,0,255});
+    save = write_text(font, "SAVE", (SDL_Colour){255,255,255,255});
     pos.x = save_btn.rect.pos.x + save_btn.rect.width / 2 - save->w / 2;
     pos.y = save_btn.rect.pos.y + save_btn.rect.height / 2 - save->h / 2;
     draw_on_screen(target, save, pos, t_false);
@@ -69,38 +69,36 @@ void draw_texture(t_editor *ed, SDL_Surface *texture, Uint32 color)
 
 void    choose_texture(t_editor *ed, char **str, SDL_Surface *texture)
 {
+    Uint32  color_walls;
+
+    color_walls = GREEN;
+    if (ed->selected_wall && ed->selected_wall->texture
+    && !(ft_strcmp(ed->selected_wall->texture->userdata, texture->userdata)))
+        color_walls = RED;
     if (!(ft_strcmp(str[1], "walls")) || !(ft_strcmp(str[1], "flats")))
     {
         ed->text_pos.y = 125;
-        draw_texture(ed, texture, GREEN);
-        if (ed->index >= 6)
-        {
-            ed->text_pos.x = PANEL_X + 5;
+        draw_texture(ed, texture, color_walls);
+        if (ed->index >= 6 && (ed->text_pos.x = PANEL_X + 5))
             ed->index = 0;
-        }
     }
-    if (!(ft_strcmp(str[1], "skybox")))
-    {
-        ed->text_pos.y = 55;
-        draw_texture(ed, texture, YELLOW);
-    }
+    if (!(ft_strcmp(str[1], "skybox")) && (ed->text_pos.y = 55))
+        draw_texture(ed, texture, WHITE);
     if (!(ft_strcmp(str[1], "sprites")) || !(ft_strcmp(str[2], "flag.bmp")))
     {
         ed->text_pos.y = 195;
-        draw_texture(ed, texture, GREEN);
-        if (ed->index >= 4)
-        {
-            ed->text_pos.x = PANEL_X + 5;
+        draw_texture(ed, texture, color_walls);
+        if (ed->index >= 4 && (ed->text_pos.x = PANEL_X + 5))
             ed->index = 0;
-        }
     }
 }
 
-void        get_all_text(t_editor *ed)
+void        draw_all_text(t_editor *ed)
 {
     t_texture_node *n;
     t_texture_node *p;
     char            **path;
+    int             i;
 
     ed->text_pos.x = PANEL_X + 5;
     n = ed->textures->first;
@@ -112,6 +110,10 @@ void        get_all_text(t_editor *ed)
         choose_texture(ed, path, p->texture);
         n = n->next;
     }
+    i = -1;
+    while (path[++i])
+        free(path[i]);
+    free(path);
 }
 
 void        write_textures_categories(SDL_Surface *target, TTF_Font *font)
@@ -144,5 +146,5 @@ void        draw_panel(t_editor *ed)
     fill_rect(ed->sdl.surface, &panel, DARK_BLUE);
     draw_save_button(ed->fonts->sixty20, ed->sdl.surface, &ed->buttons, 0);
     write_textures_categories(ed->sdl.surface, ed->fonts->sixty20);
-    get_all_text(ed);
+    draw_all_text(ed);
 }

@@ -55,6 +55,7 @@ enum e_bool     is_on_seg(t_segment seg, int mouse_x, int mouse_y)
     return (t_false);
 }
 
+
 void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y)
 {
     (void)mouse_x; (void)mouse_y;
@@ -71,6 +72,7 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
     int count;
     t_linked_walls *linked_walls;
 
+    ed->selected_wall = NULL;
     if (click_on_panel(ed, &ed->buttons, mouse_x, mouse_y))
         return ;
     if (click_on_player(ed, ed->map, mouse_x, mouse_y))
