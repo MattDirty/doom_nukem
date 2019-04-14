@@ -19,6 +19,7 @@
 # define L_BLUE 0xFF8888FF
 # define YELLOW 0xFFF4EE42
 # define BACKGROUND_COLOR 0xFF756F68
+# define YELLOW 0xFFF4EE42
 # define PLAYER_COLOR WHITE
 
 void draw_background(t_editor *ed);

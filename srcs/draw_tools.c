@@ -2,6 +2,19 @@
 #include "surface_manipulation.h"
 #include <math.h>
 
+enum e_bool is_bresenham_out_of_bounds(t_segment *seg, t_i_coords *incr,
+        int *w, int *h)
+{
+    if ((int) seg->x1 < 0 || (int) seg->y1 < 0
+        || (int) seg->x1 >= *w || (int) seg->y1 >= *h
+        || (incr->x > 0 && (int)seg->x1 > (int)seg->x2)
+        || (incr->x < 0 && (int)seg->x1 < (int)seg->x2)
+        || (incr->y > 0 && (int)seg->y1 > (int)seg->y2)
+        || (incr->y < 0 && (int)seg->y1 < (int)seg->y2))
+        return (t_true);
+    return (t_false);
+}
+
 void draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color)
 {
     t_i_coords incr;
@@ -9,21 +22,16 @@ void draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color)
     int cpyerr;
     t_i_coords delta;
 
-    delta.x = ft_abs((int) segment.x2 - (int) segment.x1);
-    delta.y = ft_abs((int) segment.y2 - (int) segment.y1);
-    incr.x = (int) segment.x1 < (int) segment.x2 ? 1 : -1;
-    incr.y = (int) segment.y1 < (int) segment.y2 ? 1 : -1;
+    delta.x = fabs(segment.x2 - segment.x1);
+    delta.y = fabs(segment.y2 - segment.y1);
+    incr.x = segment.x1 < segment.x2 ? 1 : -1;
+    incr.y = segment.y1 < segment.y2 ? 1 : -1;
     err = (delta.x > delta.y ? delta.x : -delta.y) / 2;
-
-    while ((int) segment.x1 != (int) segment.x2 || (int) segment.y1 != (int) segment.y2)
+    while (((int)segment.x1 != (int)segment.x2
+    || (int)segment.y1 != (int)segment.y2) &&
+    !is_bresenham_out_of_bounds(&segment, &incr, &surface->w, &surface->h))
     {
-        if ((int) segment.x1 < 0 || (int) segment.y1 < 0)
-            break;
-        if ((int) segment.x1 >= surface->w || (int) segment.y1 >= surface->h)
-            break;
-
         put_pixel(surface, (int) segment.x1, (int) segment.y1, color);
-        
         cpyerr = err;
         if (cpyerr > -(delta.x))
         {
