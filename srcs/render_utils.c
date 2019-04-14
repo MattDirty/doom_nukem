@@ -46,9 +46,9 @@ void    put_pixel_alpha(SDL_Surface *s, int x, int y, Uint32 color)
     if (alpha == 0)
         return;
     color_mask = (255 << 24) | (alpha << 16) | (alpha << 8) | alpha;
-    pix_mask = (255 << 24) + ~color_mask;
-    pix = (Uint32*)s->pixels + (x + y * s->w);
-    *pix = (color & color_mask) + (*pix & pix_mask);
+    pix_mask = (255 << 24) | ~color_mask;
+    pix = (Uint32*)s->pixels + x + y * s->w;
+    *pix = (color & color_mask) | (*pix & pix_mask);
 }
 
 void        rotate_and_draw(SDL_Surface *surface, SDL_Surface *text, t_i_coords pos, enum e_bool force_alpha)
