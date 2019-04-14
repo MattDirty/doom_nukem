@@ -236,6 +236,8 @@ t_map		*create_map(t_textures *textures)
     find_texture_by_name(textures, "textures/weapons/gun_firing.bmp", &map->gun_sprites[3]);
     find_texture_by_name(textures, "textures/weapons/gun_cooldown.bmp", &map->gun_sprites[4]);
     map->daytime = t_true;
+    map->spawn.x = 1;
+    map->spawn.y = 1;
 	return (map);
 }
 

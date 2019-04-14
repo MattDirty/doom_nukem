@@ -15,6 +15,7 @@
 #include "editor.h"
 #include <sys/stat.h>
 #include "editor_draw.h"
+#include "editor_move_stuff.h"
 
 void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
 {
@@ -56,6 +57,8 @@ int		event_editor(t_editor *ed)
     }
     if (ed->selected_nodes)
         move_walls_nodes(ed->selected_nodes, x, y);
+    else if (ed->selected_player)
+        move_player_spawn(ed->selected_player, x, y);
     return (1);
 }
 

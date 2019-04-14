@@ -16,7 +16,7 @@
 #include "editor_walls_nodes.h"
 
 # define EDITOR_W 1600
-# define EDITOR_H 900
+# define EDITOR_H 600
 # define EDITOR_W_H (EDITOR_W / 2)
 # define EDITOR_H_H (EDITOR_H / 2)
 # define EDITOR_ZOOM 20
@@ -55,6 +55,7 @@ typedef struct          s_editor
     int             index;
     t_fonts			*fonts;
     t_wall_nodes    *selected_nodes;
+    t_coords        *selected_player;
 }                       t_editor;
 
 t_map		*create_map(t_textures *textures);

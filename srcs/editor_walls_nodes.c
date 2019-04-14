@@ -2,19 +2,6 @@
 #include "walls.h"
 #include "doom.h"
 
-void    move_walls_nodes(t_wall_nodes *nodes, double x, double y)
-{
-    t_wall_nodes *ptr;
-
-    ptr = nodes;
-    while (ptr)
-    {
-        *ptr->item.x += x / EDITOR_ZOOM;
-        *ptr->item.y -= y / EDITOR_ZOOM;
-        ptr = ptr->next;
-    }
-}
-
 void    free_walls_nodes(t_wall_nodes *nodes)
 {
     t_wall_nodes *next;

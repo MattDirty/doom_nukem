@@ -22,6 +22,7 @@ typedef struct          s_hud
 typedef struct			s_map
 {
     t_sectors			*sectors;
+    t_coords            spawn;
     SDL_Surface         *daysky;
     SDL_Surface         *nightsky;
     enum e_bool         daytime;
