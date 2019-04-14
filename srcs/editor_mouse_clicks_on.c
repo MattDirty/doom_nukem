@@ -78,12 +78,11 @@ enum e_bool     click_on_walls(t_editor *ed, t_linked_walls *linked_walls, int m
 	t_linked_walls *ptr;
 
 	ptr = linked_walls;
-	(void)ed;
 	while (ptr->wall)
 	{
 		if (is_on_seg(ptr->wall->segment, mouse_x, mouse_y))
 		{
-			printf("blop\n");
+			ed->selected_wall = ptr->wall;
 			return (t_true);
 		}
 		ptr = ptr->next;
