@@ -20,6 +20,7 @@ void	free_textures(t_textures *textures)
         p = n;
         n = n->next;
         free(p->texture->pixels);
+        free(p->texture->userdata);
         SDL_FreeSurface(p->texture);
         free(p);
     }
