@@ -19,9 +19,9 @@
 
 # define EDITOR_W 1600
 # define EDITOR_H 600
-# define EDITOR_W_H (EDITOR_W / 2)
+# define EDITOR_W_H (EDITOR_W / 3)
 # define EDITOR_H_H (EDITOR_H / 2)
-# define EDITOR_ZOOM 30
+# define EDITOR_ZOOM 20
 # define CORNER_SIZE 10
 
 typedef struct          s_editor t_editor;

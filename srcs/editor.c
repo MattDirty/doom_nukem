@@ -6,11 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:44:24 by badhont           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2019/04/14 20:26:59 by badhont          ###   ########.fr       */
-=======
-/*   Updated: 2019/04/14 20:21:02 by badhont          ###   ########.fr       */
->>>>>>> in which sector working
+/*   Updated: 2019/04/14 20:47:32 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +72,6 @@ void	reframe_editor(t_editor *ed)
     draw_editor(ed);
     draw_panel(ed);
 	SDL_RenderClear(ed->sdl.renderer);
-	draw_editor(ed);
 	if (!(texture = SDL_CreateTextureFromSurface(ed->sdl.renderer, ed->sdl.surface)))
 		error_doom("Could not create texture");
 	SDL_RenderCopy(ed->sdl.renderer, texture, 0, 0);
