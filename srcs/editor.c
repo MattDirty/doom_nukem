@@ -115,10 +115,14 @@ int		main(int ac, char **av)
 	    error_doom("Usage is : ./editor target_map_path");
 	ft_bzero(&ed, sizeof(t_editor));
 	ed.map_path = av[1];
-    ed.textures = load_textures();
     init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
 	if (stat(av[1], &buf) < 0)
+    {
+        ed.textures = load_textures();
 	    ed.map = create_map(ed.textures);
+        ed.fonts = load_fonts();
+        ed.sounds = NULL;
+    }
     else
     {
         read_data.textures = &ed.textures;
@@ -127,7 +131,6 @@ int		main(int ac, char **av)
         read_data.sounds = &sounds;
         read_file(av[1], &read_data);
     }
-    ed.fonts = load_fonts();
     ed.selected_nodes = NULL;
     ed.selected_player = NULL;
     ed.selected_enemy = NULL;
