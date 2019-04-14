@@ -183,7 +183,7 @@ run: $(NAME)
 	./$(NAME)
 
 redit: $(NAME_EDITOR)
-	./$(NAME_EDITOR)
+	./$(NAME_EDITOR) 0
 
 debug: $(NAME)
 	./$(NAME) debug
