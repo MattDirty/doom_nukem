@@ -82,7 +82,8 @@ void        draw_on_screen(SDL_Surface *surface, SDL_Surface *text, t_i_coords p
         x = 0;
         while (x < text->w)
         {
-            put_pixel_alpha(surface, pos.x + x, pos.y + y,
+            if (pos.x + x < surface->w && pos.y + y < surface->h)
+                put_pixel_alpha(surface, pos.x + x, pos.y + y,
                             get_pixel(text, x, y, force_alpha));
             x++;
         }
