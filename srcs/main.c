@@ -35,9 +35,6 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
 int		main (int ac, char **av)
 {
 	t_env		e;
-    t_read_data	read_data;
-    t_textures	*textures;
-    t_sounds	*sounds;
 
 	e.op = load_config();
     if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
@@ -49,21 +46,15 @@ int		main (int ac, char **av)
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");
 	if (SDL_SetRelativeMouseMode(SDL_TRUE) > 0)
 		error_doom("error: cannot hide mouse cursor");
-    read_data.textures = &textures;
-    read_data.map = &e.map;
-    read_data.fonts = &e.fonts;
-    read_data.sounds = &sounds;
-    read_file("mabite.roflolilolmao", &read_data);
-	if (!(e.music = sounds->lamerde))
+    read_file("mabite.roflolilolmao", &e);
+	if (!(e.music = e.sounds->lamerde))
 		error_doom("Couldn't open lamerde.wav");
 	e.p = init_player(&e.op, e.map->spawn, &e.map->sectors->items[0]);
-    e.p.weapons = allocate_weapons(sounds, e.map);
+    e.p.weapons = allocate_weapons(e.sounds, e.map);
     e.p.weapon = e.p.weapons->item;
     if (e.debug_mode)
 		e.debug = init_sdl(DEBUG_W, DEBUG_H, 0, "debug");
 	loop_doom(&e);
-    free_textures(textures);
-    free_fonts(e.fonts);
-    free_sounds(sounds);
+    quit_doom(&e);
 	return (EXIT_SUCCESS);
 }

@@ -16,6 +16,10 @@
 #include "libft.h"
 #include "doom.h"
 #include "default.h"
+#include "map.h"
+#include "fonts.h"
+#include "textures.h"
+#include "sounds.h"
 
 void        error_doom(char *err)
 {

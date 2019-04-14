@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:44:24 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/12 03:09:11 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/14 18:30:57 by mtorsell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,8 @@ t_fonts *load_fonts(void)
 int		main(int ac, char **av)
 {
 	t_editor			ed;
-	t_read_data         read_data;
-	t_sounds            *sounds;
 	struct stat         buf;
+    t_read_data			read_data;
 
 	if (ac != 2)
 	    error_doom("Usage is : ./editor target_map_path");
@@ -128,8 +127,8 @@ int		main(int ac, char **av)
         read_data.textures = &ed.textures;
         read_data.map = &ed.map;
         read_data.fonts = &ed.fonts;
-        read_data.sounds = &sounds;
-        read_file(av[1], &read_data);
+        read_data.sounds = &ed.sounds;
+        read_file_editor(av[1], &read_data);
     }
     ed.selected_nodes = NULL;
     ed.selected_player = NULL;

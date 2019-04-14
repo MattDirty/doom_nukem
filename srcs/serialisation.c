@@ -7,17 +7,31 @@
 #include "doom.h"
 #include "serialisation.h"
 
-void	read_file(char *filename, t_read_data *read_data)
+void	read_file(char *filename, t_env *e)
 {
     int fd;
 
     fd = open(filename, O_RDONLY);
     if (fd <= 0)
         error_doom("couldn't open file");
-    read_fonts_from_file(fd, read_data->fonts);
-    read_sounds_from_file(fd, read_data->sounds);
-    read_textures_from_file(fd, read_data->textures);
-    read_map_from_file(fd, *(read_data->textures), read_data->map);
+    read_fonts_from_file(fd, &e->fonts);
+    read_sounds_from_file(fd, &e->sounds);
+    read_textures_from_file(fd, &e->textures);
+    read_map_from_file(fd, e->textures, &e->map);
+    close(fd);
+}
+
+void	read_file_editor(char *filename, t_read_data *e)
+{
+    int fd;
+
+    fd = open(filename, O_RDONLY);
+    if (fd <= 0)
+        error_doom("couldn't open file");
+    read_fonts_from_file(fd, e->fonts);
+    read_sounds_from_file(fd, e->sounds);
+    read_textures_from_file(fd, e->textures);
+    read_map_from_file(fd, *e->textures, e->map);
     close(fd);
 }
 
