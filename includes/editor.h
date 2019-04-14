@@ -13,6 +13,7 @@
 # include "walls.h"
 #include "default.h"
 #include "surface_manipulation.h"
+#include "editor_walls_nodes.h"
 
 # define EDITOR_W 1600
 # define EDITOR_H 900
@@ -22,6 +23,7 @@
 # define CORNER_SIZE 8
 
 typedef struct          s_editor t_editor;
+typedef struct          s_wall_nodes t_wall_nodes;
 
 typedef struct			s_sdl_editor
 {
@@ -50,9 +52,16 @@ typedef struct          s_editor
     t_textures      *textures;
     t_buttons       buttons;
     t_fonts			*fonts;
+    t_wall_nodes    *selected_nodes;
 }                       t_editor;
 
 t_map		*create_map(t_textures *textures);
 t_textures	*load_textures(void);
+
+void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y);
+void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y);
+enum e_bool click_on_panel(
+        t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y);
+enum e_bool click_on_nodes(t_editor *ed, t_map *map, int mouse_x, int mouse_y);
 
 #endif

@@ -66,7 +66,9 @@ SRC_NAME =	main.c \
 SRC_EDITOR_NAME = editor.c \
 				  editor_draw.c \
 				  editor_panel.c \
+				  editor_mouse_clicks.c \
 				  create_map.c \
+				  editor_walls_nodes.c \
 				  $(SRCS_NAMES)
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
