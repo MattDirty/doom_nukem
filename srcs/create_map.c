@@ -195,7 +195,7 @@ t_map		*create_map(t_textures *textures)
 			walls->items[1]->type = e_transparent_wall;
 			walls->items[1]->links.sector1 = &map->sectors->items[1];
 			walls->items[1]->links.sector2 = &map->sectors->items[2];
-            find_texture_by_name(textures, "textures/walls/fence.bmp",
+            find_texture_by_name(textures, "textures/walls/window.bmp",
                     &walls->items[1]->texture);
             free(walls->items[3]);
 			walls->items[3] = map->sectors->items[0].walls->items[1];
@@ -221,7 +221,7 @@ t_map		*create_map(t_textures *textures)
 	find_texture_by_name(textures, "textures/hud/health/ico1.bmp", &map->hud.cross[0]);
 	find_texture_by_name(textures, "textures/hud/health/ico2.bmp", &map->hud.cross[1]);
 	find_texture_by_name(textures, "textures/hud/health/ico3.bmp", &map->hud.cross[2]);
-    find_texture_by_name(textures, "textures/hud/bullet.bmp", &map->hud.bullet);
+	find_texture_by_name(textures, "textures/hud/bullet.bmp", &map->hud.bullet);
 	find_texture_by_name(textures, "textures/hud/faces/happy.bmp", &map->hud.happy_face);
 	find_texture_by_name(textures, "textures/hud/faces/meh.bmp", &map->hud.meh_face);
 	find_texture_by_name(textures, "textures/hud/faces/sad.bmp", &map->hud.sad_face);
@@ -249,6 +249,7 @@ t_textures	*load_textures(void)
     add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/brickwall2.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/fence.bmp");
+    add_bitmap_file_to_textures(textures, "textures/walls/window.bmp");
     add_bitmap_file_to_textures(textures, "textures/flats/grass.bmp");
     add_bitmap_file_to_textures(textures, "textures/flats/dirt.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp");

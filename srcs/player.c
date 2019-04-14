@@ -59,26 +59,22 @@ void	clamp_player_values(t_player *p, t_config op)
 
 void    draw_face(SDL_Surface *surface, t_hud *hud, t_player *p, t_config *op)
 {
-    t_coords    location;
+    t_i_coords    pos;
 
-    location.x = op->half_w + 275;
-    location.y = op->win_h - 75;
-    if (location.x >= op->win_w)
-        location.x = op->half_w;
-    if (location.y < 0)
-        location.y = 0;
+    pos.x = op->half_w + 275;
+    pos.y = op->win_h - 75;
     if (!p->weapon->main_ready)
-        draw_on_screen(surface, hud->badass_face, location, t_true);
+        draw_on_screen(surface, hud->badass_face, pos, t_true);
     else if (p->healed)
-        draw_on_screen(surface, hud->sehr_happy_face, location, t_true);
+        draw_on_screen(surface, hud->sehr_happy_face, pos, t_true);
     else if (p->hurt)
-        draw_on_screen(surface, hud->hurt_face, location, t_true);
+        draw_on_screen(surface, hud->hurt_face, pos, t_true);
     else if (p->health > 75)
-        draw_on_screen(surface, hud->happy_face, location, t_true);
+        draw_on_screen(surface, hud->happy_face, pos, t_true);
     else if (p->health <= 75 && p->health >= 50)
-        draw_on_screen(surface, hud->meh_face, location, t_true);
+        draw_on_screen(surface, hud->meh_face, pos, t_true);
     else if (p->health < 50 && p->health >= 1)
-        draw_on_screen(surface, hud->sad_face, location, t_true);
+        draw_on_screen(surface, hud->sad_face, pos, t_true);
     else if (p->dead)
-        draw_on_screen(surface, hud->dead_face, location, t_true);
+        draw_on_screen(surface, hud->dead_face, pos, t_true);
 }

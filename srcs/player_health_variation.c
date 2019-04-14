@@ -19,12 +19,12 @@
 void    game_over(TTF_Font *font, SDL_Surface *surface, t_config *op)
 {
     SDL_Surface *game_over;
-    t_coords    location;
+    t_i_coords  pos;
 
     game_over = write_text(font, "GAME OVER!", (SDL_Colour){255,0,0,255});
-    location.x = op->half_w - game_over->w / 2;
-    location.y = op->half_h - game_over->h / 2;
-    draw_on_screen(surface, game_over, location, t_false);
+    pos.x = op->half_w - game_over->w / 2;
+    pos.y = op->half_h - game_over->h / 2;
+    draw_on_screen(surface, game_over, pos, t_false);
     free(game_over);
 }
 

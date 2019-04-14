@@ -17,6 +17,7 @@
 # define BLUE 0xFF0000FF
 # define DARK_BLUE 0xFF073784
 # define L_BLUE 0xFF8888FF
+# define YELLOW 0xFFF4EE42
 # define BACKGROUND_COLOR 0xFF756F68
 
 void draw_background(t_editor *ed);

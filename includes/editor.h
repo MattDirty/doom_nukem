@@ -51,6 +51,8 @@ typedef struct          s_editor
     t_map			*map;
     t_textures      *textures;
     t_buttons       buttons;
+    t_i_coords      text_pos;
+    int             index;
     t_fonts			*fonts;
     t_wall_nodes    *selected_nodes;
 }                       t_editor;

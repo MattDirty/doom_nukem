@@ -16,7 +16,7 @@ void        draw_health(t_env *e);
 void        draw_ammo(t_env *e, SDL_Surface *bullet, int ammo);
 void        ui_draw(SDL_Surface *surface, t_map *map, int fps, t_env *e);
 SDL_Surface *write_text(TTF_Font *font, char *str, SDL_Colour color);
-void        draw_on_screen(SDL_Surface *surface, SDL_Surface *text, t_coords location, enum e_bool force_alpha);
-void        rotate_and_draw(SDL_Surface *surface, SDL_Surface *text, t_coords location, enum e_bool force_alpha);
+void        draw_on_screen(SDL_Surface *surface, SDL_Surface *text, t_i_coords pos, enum e_bool force_alpha);
+void        rotate_and_draw(SDL_Surface *surface, SDL_Surface *text, t_i_coords pos, enum e_bool force_alpha);
 
 #endif
