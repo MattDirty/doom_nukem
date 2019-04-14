@@ -70,7 +70,11 @@ void        rotate_and_draw(SDL_Surface *surface, SDL_Surface *text, t_i_coords 
         y = text->h - 1;
         while (y >= 0)
         {
-            put_pixel_alpha(surface, pos.x + y, pos.y + x,
+            if (pos.x + y < surface->w && pos.y + x < surface->h
+                    && pos.x + y >= 0 && pos.y + x >= 0
+                    && x < text->w && y < text->h
+                    && x >= 0 && y >= 0)
+                put_pixel_alpha(surface, pos.x + y, pos.y + x,
                             get_pixel(text, x, y, force_alpha));
             y--;
         }
@@ -90,7 +94,10 @@ void        draw_on_screen(SDL_Surface *surface, SDL_Surface *text, t_i_coords p
         x = 0;
         while (x < text->w)
         {
-            if (pos.x + x < surface->w && pos.y + y < surface->h)
+            if (pos.x + x < surface->w && pos.y + y < surface->h
+                    && pos.x + x >= 0 && pos.y + y >= 0
+                    && x < text->w && y < text->h
+                    && x >= 0 && y >= 0)
                 put_pixel_alpha(surface, pos.x + x, pos.y + y,
                             get_pixel(text, x, y, force_alpha));
             x++;

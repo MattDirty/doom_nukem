@@ -55,29 +55,31 @@ void        draw_fps(TTF_Font *font, SDL_Surface *surface, int fps)
     pos.y = 10;
     charabia = ft_strjoinfree(ft_itoa(fps), " fps", 1);
     fps_text = write_text(font, charabia, (SDL_Colour){255,255,255,255});
-    draw_on_screen(surface, fps_text, pos, t_false);
     free(charabia);
-    free(fps_text);
+    draw_on_screen(surface, fps_text, pos, t_false);
+    SDL_FreeSurface(fps_text);
 }
 
 void        draw_health(t_env *e)
 {
-    SDL_Surface *health;
+    SDL_Surface *health_text;
     t_i_coords  pos;
     char        *charivari;
 
     pos.x = e->op.half_w + 200;
     pos.y = e->op.win_h - 45;
     charivari = ft_itoa((int)e->p.health);
-    health = write_text(e->fonts->sixty40, charivari, (SDL_Colour){244, 182, 66, 255});
-    draw_on_screen(e->doom.surface, health, pos, t_false);
+    health_text = write_text(e->fonts->sixty40, charivari,
+           (SDL_Colour){244, 182, 66, 255});
+    free(charivari);
+    draw_on_screen(e->doom.surface, health_text, pos, t_false);
+    SDL_FreeSurface(health_text);
     if (e->map->hud.id > 2 || e->p.dead)
         e->map->hud.id = 0;
     pos.x = e->op.half_w + 150;
     pos.y = e->op.win_h - 50;
-    draw_on_screen(e->doom.surface, e->map->hud.cross[e->map->hud.id], pos, t_false);
-    free(charivari);
-    free(health);
+    draw_on_screen(e->doom.surface,
+            e->map->hud.cross[e->map->hud.id], pos, t_false);
 }
 
 void        draw_ammo(t_env *e, SDL_Surface *bullet, int ammo)
@@ -86,25 +88,26 @@ void        draw_ammo(t_env *e, SDL_Surface *bullet, int ammo)
     t_i_coords  pos;
     char        *charlatan;
 
-    charlatan = ft_itoa(ammo);
     pos.x = e->op.half_w - 300;
     pos.y = e->op.win_h - 45;
     if (ammo == -1)
     {
         pos.y = e->op.win_h - 35;
-        ammo_nb = write_text(e->fonts->sixty40, "8",
+        charlatan = ft_itoa(8);
+        ammo_nb = write_text(e->fonts->sixty40, charlatan,
                              (SDL_Colour){0, 0, 0, 255});
         rotate_and_draw(e->doom.surface, ammo_nb, pos, t_false);
     }
     else
     {
+        charlatan = ft_itoa(ammo);
         ammo_nb = write_text(e->fonts->sixty40, charlatan,
                              (SDL_Colour){0, 0, 0, 255});
         draw_on_screen(e->doom.surface, ammo_nb, pos, t_false);
     }
+    free(charlatan);
+    SDL_FreeSurface(ammo_nb);
     pos.x = e->op.half_w - 350;
     pos.y = e->op.win_h - 52;
     draw_on_screen(e->doom.surface, bullet, pos, t_false);
-    free(charlatan);
-    free(ammo_nb);
 }
