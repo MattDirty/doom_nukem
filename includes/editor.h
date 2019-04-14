@@ -12,6 +12,7 @@
 # include "textures.h"
 # include "map.h"
 # include "walls.h"
+# include "collision.h"
 #include "default.h"
 #include "surface_manipulation.h"
 #include "editor_walls_nodes.h"
@@ -65,11 +66,8 @@ typedef struct          s_editor
 
 t_map		*create_map(t_textures *textures);
 t_textures	*load_textures(void);
-int         in_which_sector(t_i_coords pos, t_sectors sectors, t_editor *ed);
-int         is_in_sector(t_i_coords pos, t_sector sector, t_editor *ed);
-int	    	intersect_segment(t_i_coords p1, t_i_coords q1, t_i_coords p2, t_i_coords q2);
-static int	orientation(t_i_coords p, t_i_coords q, t_i_coords r);
-int			onSegment(t_i_coords p, t_i_coords q, t_i_coords r);s
+t_sector    *in_which_sector(t_i_coords pos, t_sectors sectors);
+int         is_in_sector(t_i_coords pos, t_sector sector);
 
 void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y);
 void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y);

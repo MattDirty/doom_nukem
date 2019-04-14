@@ -6,7 +6,7 @@
 #    By: badhont <badhont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/07 17:35:48 by lfatton           #+#    #+#              #
-#    Updated: 2019/04/11 21:25:04 by mtorsell         ###   ########.fr        #
+#    Updated: 2019/04/14 20:30:30 by badhont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,8 +59,11 @@ SRCS_NAMES = vector.c \
 			config.c \
 			textures.c \
 			keyboard.c \
-			enemies.c
-
+			enemies.c \
+			editor_draw.c \
+			editor_panel.c \
+			create_map.c \
+			
 SRC_NAME =	main.c \
 			$(SRCS_NAMES)
 
@@ -73,6 +76,7 @@ SRC_EDITOR_NAME = editor.c \
 				  editor_move_stuff.c \
 				  create_map.c \
 				  editor_walls_nodes.c \
+				  in_which_sector.c \
 				  $(SRCS_NAMES)
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
