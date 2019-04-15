@@ -209,9 +209,23 @@ static enum e_bool	find_wall_collisions_in_sector(
 	}
     if (best_collision.distance >= HORIZON)
         return (t_false);
-    new = add_collision(collisions, best_collision.distance, best_collision.inters);
+    if (best_collision.d.wall->type == e_wall)
+        new = insert_collision(
+                collisions,
+                best_collision.distance,
+                best_collision.inters);
+    else
+        new = add_collision(
+                collisions,
+                best_collision.distance,
+                best_collision.inters);
     new->item.type = ct_wall;
     new->item.d.wall = best_collision.d.wall;
+    if (new->item.d.wall->type == e_wall)
+    {
+        free_collisions(new->next);
+        new->next = NULL;
+    }
     return (t_true);
 }
 
