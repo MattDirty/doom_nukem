@@ -1,5 +1,13 @@
 #include "editor_mouse_clicks.h"
 
+enum e_bool		click_on_sector(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
+{
+	ed->selected.sector = in_which_sector((t_i_coords){mouse_x, mouse_y}, map->sectors);
+	if (!ed->selected.sector)
+		return (t_false);
+	return (t_true);
+}
+
 enum e_bool     click_on_player(t_editor *ed, t_map *map, int x, int y)
 {
 	t_rect  rect;

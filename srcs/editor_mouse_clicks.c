@@ -47,16 +47,12 @@ enum e_bool     is_on_seg(t_segment seg, int mouse_x, int mouse_y)
     return (t_false);
 }
 
-
 void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y)
 {
     (void)mouse_x; (void)mouse_y;
-    if (ed->selected_nodes)
-        free_walls_nodes(ed->selected_nodes);
-    ed->selected_nodes = NULL;
-    ed->selected_player = NULL;
-    ed->selected_enemy = NULL;
-    ed->selected_object = NULL;
+    if (ed->selected.nodes)
+        free_walls_nodes(ed->selected.nodes);
+    clear_selection(&ed->selected);
 }
 
 void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
@@ -64,7 +60,6 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
     int count;
     t_linked_walls *linked_walls;
 
-    ed->selected_wall = NULL;
     if (click_on_panel(ed, &ed->buttons, mouse_x, mouse_y))
         return ;
     if (click_on_player(ed, ed->map, mouse_x, mouse_y))
@@ -78,5 +73,7 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
         return ;
     if (click_on_walls(ed, linked_walls, mouse_x, mouse_y))
         return ;
+	if (click_on_sector(ed, ed->map, mouse_x, mouse_y))
+		return ;
     free_linked_walls_nodes(linked_walls);
 }

@@ -17,6 +17,15 @@
 #include "editor_draw.h"
 #include "editor_move_stuff.h"
 
+void	clear_selection(t_selected_elements *selected)
+{
+	selected->nodes = NULL;
+	selected->p_spawn = NULL;
+	selected->enemy = NULL;
+	selected->object = NULL;
+	selected->sector = NULL;
+}
+
 void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 || TTF_Init() < 0 )
@@ -130,10 +139,8 @@ int		main(int ac, char **av)
         read_data.sounds = &ed.sounds;
         read_file_editor(av[1], &read_data);
     }
-    ed.selected_nodes = NULL;
-    ed.selected_player = NULL;
-    ed.selected_enemy = NULL;
-    ed.selected_object = NULL;
-    gameloop(&ed);
+    ed.fonts = load_fonts();
+    clear_selection(&ed.selected);
+    editor_loop(&ed);
     return (0);
 }
