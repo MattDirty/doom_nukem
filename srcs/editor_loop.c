@@ -17,7 +17,7 @@ int		event_editor(t_editor *ed)
 			y += ev.motion.yrel;
 		}
 		if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE || ev.type == SDL_QUIT)
-			exit(EXIT_SUCCESS);
+			quit_editor(ed);
 		if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
 			mousedown_action(ed, ev.button.x, ev.button.y);
 		if (ev.type == SDL_MOUSEBUTTONUP && ev.button.button == SDL_BUTTON_LEFT)

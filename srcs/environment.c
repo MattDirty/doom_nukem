@@ -40,11 +40,10 @@ static void	free_env(t_env *e)
 	SDL_DestroyWindow(e->doom.window);
 }
 
-int         quit_doom(t_env *e)
+void    quit_doom(t_env *e)
 {
     free_env(e);
 	TTF_Quit();
 	SDL_Quit();
     exit(EXIT_SUCCESS);
-	return (0);
 }
