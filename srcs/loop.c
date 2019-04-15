@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 00:45:13 by lfatton           #+#    #+#             */
-/*   Updated: 2019/04/15 01:25:13 by mtorsell         ###   ########.fr       */
+/*   Updated: 2019/04/15 04:08:21 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
     int     i;
     t_linked_enemies	*enemies;
     t_linked_enemies	*next;
+    int     k;
 
     i = 0;
     while (i < sectors->count)
@@ -86,6 +87,12 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
                   enemies->item.object->sprite = enemies->item.back;
             else
                 enemies->item.object->sprite = enemies->item.side;
+            k = 0;
+            while (/*sectors->items[i].enemies->items[j].time_in_death != 0 && */k < 15)
+            {
+                enemies->item.object->sprite = enemies->item.explosion[k];
+                k++;
+            }
             enemies = enemies->next;
         }
         i++;

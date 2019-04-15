@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:36:17 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/14 18:20:34 by mtorsell         ###   ########.fr       */
+/*   Updated: 2019/04/11 19:45:54 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,37 @@ t_map		*create_map(t_textures *textures)
                 map->sectors->items[i].enemies->item.front;
         find_texture_by_name(textures,"textures/sprites/enemy_side.bmp", &map->sectors->items[i].enemies->item.side);
         find_texture_by_name(textures,"textures/sprites/enemy_back.bmp", &map->sectors->items[i].enemies->item.back);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_1.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[0]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_2.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[1]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_3.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[2]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_4.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[3]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_5.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[4]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_6.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[5]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_7.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[6]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_8.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[7]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_9.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[8]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_10.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[9]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_11.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[10]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_12.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[11]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_13.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[12]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_14.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[13]);
+        find_texture_by_name(textures,"textures/Explosions/Explosion_15.bmp",
+                             &map->sectors->items[i].enemies->items[0].explosion[14]);
+
         if (i == 1)
             map->sectors->items[i].enemies->item.heading = ft_degtorad(90);
         if (i == 2)
@@ -279,5 +310,22 @@ t_textures	*load_textures(void)
     add_bitmap_file_to_textures(textures, "textures/weapons/gun_3.bmp");
     add_bitmap_file_to_textures(textures, "textures/weapons/gun_firing.bmp");
     add_bitmap_file_to_textures(textures, "textures/weapons/gun_cooldown.bmp");
+
+
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_1.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_2.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_3.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_4.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_5.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_6.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_7.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_8.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_9.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_10.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_11.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_12.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_13.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_14.bmp");
+    add_bitmap_file_to_textures(textures, "textures/Explosions/Explosion_15.bmp");
     return (textures);
 }
