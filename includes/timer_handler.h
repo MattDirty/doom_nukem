@@ -1,6 +1,7 @@
 #ifndef TIMER_HANDLER_H
 # define TIMER_HANDLER_H
 
+# include "time.h"
 # include "e_bool.h"
 
 typedef const void *t_params;

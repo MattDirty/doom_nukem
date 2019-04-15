@@ -24,6 +24,7 @@
 #include "loop.h"
 #include "weapon.h"
 #include "gun.h"
+#include "enemies_intelligence.h"
 
 static void loop_events(
         t_env *e,
@@ -137,24 +138,6 @@ t_frame_event_params	*frame_event_params_init(t_env *e)
     return (params);
 }
 
-enum e_bool     screen_dying(double ms_since_update, t_params pointer)
-{
-    t_env   *e;
-    double  dist;
-    double  ratio;
-
-    (void)ms_since_update;
-    e = (t_env*)pointer;
-    dist = get_distance_between_points(e->p.pos.x, e->p.pos.y, e->map->boss.pos.x, e->map->boss.pos.y);
-    ratio = dist * HORIZON / HORIZON / 2;
-    e->p.health -= DAMAGE / ratio;
-    if (ratio <= 2.5)
-        e->p.hurt = t_true;
-    else
-        e->p.hurt = t_false;
-    return (t_true);
-}
-
 enum e_bool		frame_event(double ms_since_update, t_params params)
 {
     t_env   				*e;
@@ -199,9 +182,6 @@ void		loop_doom(t_env *e)
     update_logic_params = logic_params_init(e, state, &timer_handler, &stop);
     frame_event_params = frame_event_params_init(e);
 
-    e->map->boss.pos.x = 3;
-    e->map->boss.pos.y = 10;
-
     add_event(&timer_handler, 1, &update_logic, update_logic_params);
     add_event(&timer_handler, 1000.0 / e->op.fps_max, &frame_event,
             frame_event_params);
@@ -209,7 +189,7 @@ void		loop_doom(t_env *e)
     e->map->hud.id = 0;
     add_event(&timer_handler, 1000, &cross_index, &e->map->hud.id);
     add_event(&timer_handler, 5, &gun_idle_anim, get_weapon(e->p.weapons, 1));
-    add_event(&timer_handler, 500, &screen_dying, e);
+    add_event(&timer_handler, 500, &let_enemies_act, e);
     add_event(&timer_handler, 1000, &toggle_player_health, &e->p);
     Mix_PlayMusic(e->music, -1);
     while (!stop)

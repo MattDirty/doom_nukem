@@ -15,6 +15,7 @@
 #include "SDL.h"
 #include "default.h"
 #include "render.h"
+#include "render_blackhole.h"
 #include "surface_manipulation.h"
 #include "ui.h"
 #include <math.h>
@@ -56,7 +57,7 @@ void            skybox(const t_render *render, t_u_range range)
         draw_text.y = fabs((render->win_h - 1) - fabs(render->vision_height - y))
         		* render->sky->h / render->win_h;
         color_text = get_pixel(render->sky, draw_text.x, draw_text.y, t_true);
-        put_pixel(render->surface, render->x, y, color_text);
+        put_pixel_blackhole(render->bandaid, render->x, y, color_text);
         y++;
     }
 }

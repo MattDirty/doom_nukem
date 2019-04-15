@@ -10,11 +10,6 @@
 # include "timer_handler.h"
 #include "sectors.h"
 
-typedef struct  s_enemy_boss
-{
-    t_coords    pos;
-}               t_enemy_boss;
-
 typedef struct s_enemy
 {
     t_object    *object;
@@ -26,6 +21,7 @@ typedef struct s_enemy
     SDL_Surface *front;
     SDL_Surface *side;
     SDL_Surface *back;
+    enum e_bool	is_boss;
 }               t_enemy;
 
 typedef struct  s_enemies
