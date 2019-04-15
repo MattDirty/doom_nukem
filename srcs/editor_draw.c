@@ -36,30 +36,26 @@ void        draw_corners_editor(SDL_Surface *surface, t_segment *s)
     fill_rect(surface, &rect, L_BLUE);
 }
 
-
-
 void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
 {
     int	i;
-    t_segment s2;
     t_segment s;
-    //t_rect rect;
 
     i = 0;
     while (i < walls->count)
     {
         s = walls->items[i]->segment;
-        s2.x1 = DRAW_MAP_X + s.x1 * EDITOR_ZOOM;
-        s2.y1 = DRAW_MAP_Y - s.y1 * EDITOR_ZOOM;
-        s2.x2 = DRAW_MAP_X + s.x2 * EDITOR_ZOOM;
-        s2.y2 = DRAW_MAP_Y - s.y2 * EDITOR_ZOOM;
+        s.x1 = DRAW_MAP_X + s.x1 * EDITOR_ZOOM;
+        s.y1 = DRAW_MAP_Y - s.y1 * EDITOR_ZOOM;
+        s.x2 = DRAW_MAP_X + s.x2 * EDITOR_ZOOM;
+        s.y2 = DRAW_MAP_Y - s.y2 * EDITOR_ZOOM;
         if (walls->items[i]->type == e_portal)
-            draw_segment(surface, s2, RED);
+            draw_segment(surface, s, RED);
         else if (walls->items[i]->type == e_wall)
-            draw_segment(surface, s2, WHITE);
+            draw_segment(surface, s, WHITE);
         else if (walls->items[i]->type == e_transparent_wall)
-            draw_segment(surface, s2, BLUE);
-        draw_corners_editor(surface, &s2);
+            draw_segment(surface, s, BLUE);
+        draw_corners_editor(surface, &s);
         i++;
     }
 }
