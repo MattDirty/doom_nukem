@@ -8,12 +8,12 @@
 typedef struct				s_texture_node
 {
     SDL_Surface				*texture;
-    struct s_texture_node	*next;
 }							t_texture_node;
 
 typedef struct				s_textures
 {
-    t_texture_node			*first;
+    t_texture_node			*item;
+    t_textures              *next
 }							t_textures;
 
 /**

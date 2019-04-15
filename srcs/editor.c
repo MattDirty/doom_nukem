@@ -16,6 +16,7 @@
 #include <sys/stat.h>
 #include "editor_draw.h"
 #include "editor_move_stuff.h"
+#include "bitmaps.h"
 
 static void    free_editor(t_editor *ed)
 {
@@ -72,6 +73,31 @@ t_fonts *load_fonts(void)
     return (fonts);
 }
 
+void    link_textures(t_textures *textures, t_panel panel, char *chooser)
+{
+    t_texture_node  *ptr;
+    char            **str;
+
+    ptr = textures->first;
+
+    while (ptr)
+    {
+        str = ft_strsplit(ptr->texture->userdata, '/');
+        if (ft_strcmp(str[1], "skybox"))
+            add_texture(panel->skies, ptr);
+        ptr = ptr->next;
+    }
+}
+
+void    init_panel(t_panel *panel, t_textures *textures)
+{
+    if (!(panel->surface = SDL_CreateRGBSurface(
+            0, PANEL_W, PANEL_H, 32,
+            MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
+        error_doom("Couldn't create Panel Surface");
+    link_textures(textures, panel, "skybox");
+}
+
 int		main(int ac, char **av)
 {
 	t_editor			ed;
@@ -102,6 +128,7 @@ int		main(int ac, char **av)
         read_file_editor(av[1], &read_data);
     }
     ed.fonts = load_fonts();
+    init_panel(&ed.panel);
     clear_selection(&ed.selected);
     clear_selection(&ed.dragged);
     editor_loop(&ed);

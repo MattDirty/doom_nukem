@@ -63,9 +63,11 @@ typedef struct          s_editor
     t_map				*map;
     t_textures      	*textures;
     t_sounds            *sounds;
+    t_panel             panel;
     t_buttons       	buttons;
     t_i_coords      	text_pos;
     t_i_coords			map_offset;
+    SDL_Surface         *panel_surface;
     int             	index;
     int					zoom;
     t_fonts				*fonts;
