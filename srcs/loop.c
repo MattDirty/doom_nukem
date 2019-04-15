@@ -62,10 +62,8 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
 {
     int     i;
     int     j;
-    double  facing;
 
     i = 0;
-    facing = p_heading + 3.14159;
     while (i < sectors->count)
     {
         j = 0;
@@ -77,16 +75,14 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
 									  &sectors->items[i].enemies->items[j], j);
 				continue;
 			}
-        		sectors->items[i].enemies->items[j].heading += CIRCLE;
-            if (sectors->items[i].enemies->items[j].heading <= facing + 1.5708
-            && sectors->items[i].enemies->items[j].heading >= facing - 1.5708)
+            if (fabs(sectors->items[i].enemies->items[j].heading - p_heading) <= 3.14 + 0.78
+                && fabs(sectors->items[i].enemies->items[j].heading - p_heading) >= 3.14 - 0.78)
                 sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].front;
+            else if (fabs(sectors->items[i].enemies->items[j].heading - p_heading) <= 0.78
+                || fabs(sectors->items[i].enemies->items[j].heading - p_heading) >= 6.28 - 0.78)
+                  sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].back;
             else
                 sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].side;
-            if (sectors->items[i].enemies->items[j].heading <= p_heading + 1.5708
-            && sectors->items[i].enemies->items[j].heading >= p_heading - 1.5708)
-                sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].back;
-            sectors->items[i].enemies->items[j].heading -= CIRCLE;
             j++;
         }
         i++;
