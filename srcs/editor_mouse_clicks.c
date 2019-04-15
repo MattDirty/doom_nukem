@@ -16,20 +16,12 @@ t_segment       transform_seg_in_ed_coords(t_segment seg)
 
 enum e_bool     check_delta(double delta_x, double delta_y, t_segment seg, t_i_coords mouse)
 {
-    if (!delta_x)
-    {
-        if ((fabs(seg.x1 - mouse.x) <= 5) && ((mouse.y <= seg.y1
-            && mouse.y >= seg.y2) || (mouse.y <= seg.y2 && mouse.y >= seg.y1)))
-            return (t_true);
-        return (t_false);
-    }
-    else if (!delta_y)
-    {
-        if ((fabs(seg.y1 - mouse.y) <= 5) && ((mouse.x <= seg.x1
-            && mouse.x >= seg.x2) || (mouse.x <= seg.x2 && mouse.x >= seg.x1)))
-            return (t_true);
-        return (t_false);
-    }
+    if (fabs(delta_x) <= 5)
+        return ((fabs(seg.x1 - mouse.x) <= 8) && ((mouse.y <= seg.y1
+            && mouse.y >= seg.y2) || (mouse.y <= seg.y2 && mouse.y >= seg.y1)));
+    else if (fabs(delta_y) <= 5)
+		return ((fabs(seg.y1 - mouse.y) <= 8) && ((mouse.x <= seg.x1
+            && mouse.x >= seg.x2) || (mouse.x <= seg.x2 && mouse.x >= seg.x1)));
     return (t_false);
 
 }
@@ -50,7 +42,7 @@ enum e_bool     is_on_seg(t_segment seg, int mouse_x, int mouse_y)
         return (t_false);
     m = delta_y / delta_x;
     d = -(m * seg.x1) + seg.y1;
-    if (fabs(mouse_y - (m * mouse_x + d)) <= 10)
+    if (fabs(mouse_y - (m * mouse_x + d)) <= 16)
         return (t_true);
     return (t_false);
 }
