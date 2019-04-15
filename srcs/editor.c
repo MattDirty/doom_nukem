@@ -141,6 +141,7 @@ int		main(int ac, char **av)
     }
     ed.fonts = load_fonts();
     clear_selection(&ed.selected);
+    clear_selection(&ed.dragged);
     editor_loop(&ed);
     return (0);
 }

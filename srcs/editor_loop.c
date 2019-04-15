@@ -24,12 +24,12 @@ int		event_editor(t_editor *ed)
 			mouseup_action(ed, ev.button.x, ev.button.y);
 	}
 
-	if (ed->selected.nodes)
-		move_walls_nodes(ed->selected.nodes, x, y);
+	if (ed->dragged.nodes)
+		move_walls_nodes(ed->dragged.nodes, x, y);
 	else if (ed->selected.p_spawn)
-		move_player_spawn(ed->selected.p_spawn, x, y);
+		move_player_spawn(ed->dragged.p_spawn, x, y);
 	else if (ed->selected.object)
-		move_object(ed->selected.object, x, y);
+		move_object(ed->dragged.object, x, y);
 	return (1);
 }
 

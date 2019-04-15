@@ -66,6 +66,7 @@ typedef struct          s_editor
     int             	index;
     t_fonts				*fonts;
 	t_selected_elements	selected;
+	t_selected_elements	dragged;
 }                       t_editor;
 
 t_map		*create_map(t_textures *textures);

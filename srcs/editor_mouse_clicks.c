@@ -51,8 +51,8 @@ void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y)
 {
     (void)mouse_x; (void)mouse_y;
     if (ed->selected.nodes)
-        free_walls_nodes(ed->selected.nodes);
-    clear_selection(&ed->selected);
+        free_walls_nodes(ed->dragged.nodes);
+    clear_selection(&ed->dragged);
 }
 
 void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
@@ -60,8 +60,11 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
     int count;
     t_linked_walls *linked_walls;
 
+
     if (click_on_panel(ed, &ed->buttons, mouse_x, mouse_y))
         return ;
+    clear_selection(&ed->selected);
+    clear_selection(&ed->dragged);
     if (click_on_player(ed, ed->map, mouse_x, mouse_y))
         return ;
     if (click_on_enemy(ed, ed->map, mouse_x, mouse_y))
