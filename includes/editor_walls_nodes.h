@@ -23,5 +23,6 @@ void            deal_with_clicked_node(
         t_editor *ed, t_linked_walls *linked, t_coords point);
 void    move_walls_nodes(t_wall_nodes *nodes, double x, double y);
 void    free_walls_nodes(t_wall_nodes *nodes);
+void    add_wall_node_to_list(t_wall_nodes **list, t_wall *wall, t_coords point);
 
 #endif

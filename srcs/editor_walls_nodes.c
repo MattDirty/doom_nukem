@@ -44,25 +44,3 @@ void    add_wall_node_to_list(t_wall_nodes **list, t_wall *wall, t_coords point)
         ptr = ptr->next;
     ptr->next = new;
 }
-
-void            deal_with_clicked_node(
-        t_editor *ed, t_linked_walls *linked, t_coords point)
-{
-	t_wall_nodes	*list;
-    t_linked_walls  *ptr;
-
-    ptr = linked;
-    list = NULL;
-    add_wall_node_to_list(&list, ptr->wall, point);
-	ptr = ptr->next;
-	while (ptr->wall)
-    {
-	    if ((fabs(ptr->wall->segment.x1 - point.x) < 0.001
-	    && fabs(ptr->wall->segment.y1 - point.y) < 0.001)
-	    || (fabs(ptr->wall->segment.x2 - point.x) < 0.001
-	    && fabs(ptr->wall->segment.y2 - point.y) < 0.001))
-	        add_wall_node_to_list(&list, ptr->wall, point);
-	    ptr = ptr->next;
-    }
-	ed->selected_nodes = list;
-}

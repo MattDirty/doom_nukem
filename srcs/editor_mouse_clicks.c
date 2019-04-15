@@ -16,20 +16,12 @@ t_segment       transform_seg_in_ed_coords(t_segment seg)
 
 enum e_bool     check_delta(double delta_x, double delta_y, t_segment seg, t_i_coords mouse)
 {
-    if (!delta_x)
-    {
-        if ((fabs(seg.x1 - mouse.x) <= 5) && ((mouse.y <= seg.y1
-            && mouse.y >= seg.y2) || (mouse.y <= seg.y2 && mouse.y >= seg.y1)))
-            return (t_true);
-        return (t_false);
-    }
-    else if (!delta_y)
-    {
-        if ((fabs(seg.y1 - mouse.y) <= 5) && ((mouse.x <= seg.x1
-            && mouse.x >= seg.x2) || (mouse.x <= seg.x2 && mouse.x >= seg.x1)))
-            return (t_true);
-        return (t_false);
-    }
+    if (fabs(delta_x) <= 5)
+        return ((fabs(seg.x1 - mouse.x) <= 8) && ((mouse.y <= seg.y1
+            && mouse.y >= seg.y2) || (mouse.y <= seg.y2 && mouse.y >= seg.y1)));
+    else if (fabs(delta_y) <= 5)
+		return ((fabs(seg.y1 - mouse.y) <= 8) && ((mouse.x <= seg.x1
+            && mouse.x >= seg.x2) || (mouse.x <= seg.x2 && mouse.x >= seg.x1)));
     return (t_false);
 
 }
@@ -50,21 +42,17 @@ enum e_bool     is_on_seg(t_segment seg, int mouse_x, int mouse_y)
         return (t_false);
     m = delta_y / delta_x;
     d = -(m * seg.x1) + seg.y1;
-    if (fabs(mouse_y - (m * mouse_x + d)) <= 10)
+    if (fabs(mouse_y - (m * mouse_x + d)) <= 16)
         return (t_true);
     return (t_false);
 }
 
-
 void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y)
 {
     (void)mouse_x; (void)mouse_y;
-    if (ed->selected_nodes)
-        free_walls_nodes(ed->selected_nodes);
-    ed->selected_nodes = NULL;
-    ed->selected_player = NULL;
-    ed->selected_enemy = NULL;
-    ed->selected_object = NULL;
+    if (ed->selected.nodes)
+        free_walls_nodes(ed->dragged.nodes);
+    clear_selection(&ed->dragged);
 }
 
 void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
@@ -72,9 +60,11 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
     int count;
     t_linked_walls *linked_walls;
 
-    ed->selected_wall = NULL;
+
     if (click_on_panel(ed, &ed->buttons, mouse_x, mouse_y))
         return ;
+    clear_selection(&ed->selected);
+    clear_selection(&ed->dragged);
     if (click_on_player(ed, ed->map, mouse_x, mouse_y))
         return ;
     if (click_on_enemy(ed, ed->map, mouse_x, mouse_y))
@@ -86,5 +76,7 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
         return ;
     if (click_on_walls(ed, linked_walls, mouse_x, mouse_y))
         return ;
+	if (click_on_sector(ed, ed->map, mouse_x, mouse_y))
+		return ;
     free_linked_walls_nodes(linked_walls);
 }

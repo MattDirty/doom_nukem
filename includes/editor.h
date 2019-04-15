@@ -8,19 +8,21 @@
 #include "SDL.h"
 #include "doom.h"
 #include "serialisation.h"
+#include "editor_draw.h"
 # include "textures.h"
 # include "map.h"
 # include "walls.h"
+# include "collision.h"
 #include "default.h"
 #include "surface_manipulation.h"
 #include "editor_walls_nodes.h"
 
 # define EDITOR_W 1600
 # define EDITOR_H 600
-# define EDITOR_W_H (EDITOR_W / 2)
+# define EDITOR_W_H (EDITOR_W / 3)
 # define EDITOR_H_H (EDITOR_H / 2)
 # define EDITOR_ZOOM 20
-# define CORNER_SIZE 8
+# define CORNER_SIZE 10
 
 typedef struct          s_editor t_editor;
 typedef struct          s_wall_nodes t_wall_nodes;
@@ -44,26 +46,37 @@ typedef struct			s_buttons
 	t_button			items[1];
 }						t_buttons;
 
+typedef	struct			s_selected_elements
+{
+	t_wall_nodes		*nodes;
+	t_coords			*p_spawn;
+	t_enemy				*enemy;
+	t_object			*object;
+	t_sector			*sector;
+	t_wall              *wall;
+}						t_selected_elements;
+
 typedef struct          s_editor
 {
-	t_sdl_editor    sdl;
-	char			*map_path;
-    t_map			*map;
-    t_textures      *textures;
-    t_buttons       buttons;
-    t_i_coords      text_pos;
-    int             index;
-    t_fonts			*fonts;
-    t_wall_nodes    *selected_nodes;
-    t_coords        *selected_player;
-    t_wall			*selected_wall;
-    t_enemy			*selected_enemy;
-    t_object		*selected_object;
-    t_sounds		*sounds;
+	t_sdl_editor    	sdl;
+	char				*map_path;
+    t_map				*map;
+    t_textures      	*textures;
+    t_sounds            *sounds;
+    t_buttons       	buttons;
+    t_i_coords      	text_pos;
+    int             	index;
+    t_fonts				*fonts;
+	t_selected_elements	selected;
+	t_selected_elements	dragged;
 }                       t_editor;
 
 t_map		*create_map(t_textures *textures);
 t_textures	*load_textures(void);
+void		clear_selection(t_selected_elements *selected);
+void		editor_loop(t_editor *ed);
+t_sector    *in_which_sector(t_i_coords pos, t_sectors *sectors);
+int         is_in_sector(t_i_coords pos, t_sector sector);
 
 void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y);
 void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y);

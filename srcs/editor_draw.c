@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "editor_draw.h"
 #include "default.h"
 #include "editor.h"
 #include "map.h"
@@ -36,6 +35,8 @@ void        draw_corners_editor(SDL_Surface *surface, t_segment *s)
     draw_rect(surface, &rect, L_BLUE);
     fill_rect(surface, &rect, L_BLUE);
 }
+
+
 
 void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
 {
@@ -97,7 +98,7 @@ void        draw_background(t_editor *ed)
 {
     t_rect  background;
 
-    background = create_rect(-1, -1, EDITOR_W, EDITOR_H);
+    background = create_rect(-1, -1, EDITOR_W + 1, EDITOR_H + 1);
     fill_rect(ed->sdl.surface, &background, BACKGROUND_COLOR);
 }
 

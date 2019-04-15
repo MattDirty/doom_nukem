@@ -72,8 +72,8 @@ void    choose_texture(t_editor *ed, char **str, SDL_Surface *texture)
     Uint32  color_walls;
 
     color_walls = GREEN;
-    if (ed->selected_wall && ed->selected_wall->texture
-    && !(ft_strcmp(ed->selected_wall->texture->userdata, texture->userdata)))
+    if (ed->selected.wall && ed->selected.wall->texture
+    && !(ft_strcmp(ed->selected.wall->texture->userdata, texture->userdata)))
         color_walls = RED;
     if (!(ft_strcmp(str[1], "walls")) || !(ft_strcmp(str[1], "flats")))
     {
