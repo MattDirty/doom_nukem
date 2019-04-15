@@ -6,7 +6,8 @@
 #include "map.h"
 #include "collision.h"
 
-void    weapon_ray_fire(t_env *e, t_timer_handler *timer_handler) {
+void    weapon_ray_fire(t_env *e, t_timer_handler *timer_handler)
+{
     t_weapon        *weapon;
     t_ray           ray;
     t_collisions    *collisions;
@@ -34,6 +35,8 @@ void    weapon_ray_fire(t_env *e, t_timer_handler *timer_handler) {
             ptr = ptr->next;
         if (ptr && ptr->item.type == ct_enemy)
 			damage_enemy(timer_handler, ptr->item.d.enemy, weapon->damage);
+        else if (ptr && ptr->item.type == ct_object && weapon->ammo == -1)
+            fuck_flower(&e->p, ptr->item.d.object);
         free_collisions(collisions);
     }
 }

@@ -38,20 +38,3 @@ enum e_bool toggle_player_health(double ms_since_update, t_params pointer)
     p->healed = t_false;
     return (t_true);
 }
-
-void    hurt_or_heal(t_player *p, const Uint8 *state)
-{
-    if (state[SDL_SCANCODE_J])
-    {
-        p->health -= DAMAGE;
-        p->hurt = t_true;
-    }
-    if (state[SDL_SCANCODE_K])
-    {
-        p->health += HEAL;
-        if (p->health >= HEALTH_MAX)
-            p->health = HEALTH_MAX;
-        p->healed = t_true;
-    }
-
-}

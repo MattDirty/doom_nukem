@@ -5,6 +5,7 @@
 
 # include "textures.h"
 # include "utils.h"
+# include "e_bool.h"
 
 typedef struct s_object
 {
@@ -15,6 +16,7 @@ typedef struct s_object
     double			vertical_size;
     int             hit_counter;
     SDL_Surface     *sprite;
+    enum e_bool     can_give_bonus;
 }               t_object;
 
 typedef struct  s_objects

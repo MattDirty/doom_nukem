@@ -23,7 +23,7 @@ typedef struct  s_weapon
     Uint32      sprites_fire_count;
     SDL_Surface **sprites_cooldown;
     Uint32      sprites_cooldown_count;
-    Uint32      ammo;
+    int         ammo;
     t_animation main_animation;
     void        (*main)();
     double      main_cooldown;

@@ -3,6 +3,36 @@
 #include "timer_handler.h"
 #include "e_bool.h"
 #include "doom.h"
+#include "default.h"
+
+void    fuck_flower(t_player *p, t_object *object)
+{
+    int ammo_or_health_or_both;
+    int increase;
+
+    if (!object->can_give_bonus)
+        return;
+    ammo_or_health_or_both = rand() % 3;
+    increase = rand() % 20;
+    if (ammo_or_health_or_both == 0)
+        p->weapons->next->item->ammo += increase;
+    else if (ammo_or_health_or_both == 1)
+    {
+        p->health += increase;
+        p->healed = t_true;
+    }
+    else if (ammo_or_health_or_both == 2)
+    {
+        p->weapons->next->item->ammo += increase;
+        p->health += increase;
+        p->healed = t_true;
+    }
+    if (p->health >= HEALTH_MAX)
+        p->health = HEALTH_MAX;
+    if (p->weapons->next->item->ammo >= AMMO_MAX)
+        p->weapons->next->item->ammo = AMMO_MAX;
+    object->can_give_bonus = t_false;
+}
 
 enum e_bool    melee_primary_animation(
         double ms_since_update,

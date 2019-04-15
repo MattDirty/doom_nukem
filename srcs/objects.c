@@ -70,6 +70,8 @@ void write_objects_to_file(int fd, t_objects *objects)
 
 void read_object_from_file(int fd, t_textures *textures, t_object *object)
 {
+    if (read(fd, &object->can_give_bonus, sizeof(object->can_give_bonus)) <= 0)
+        error_doom("couldn't read object bool can_give_bonus");
     if (read(fd, &object->x, sizeof(object->x)) <= 0)
         error_doom("couldn't read object x");
     if (read(fd, &object->y, sizeof(object->y)) <= 0)
@@ -85,6 +87,8 @@ void read_object_from_file(int fd, t_textures *textures, t_object *object)
 
 void write_object_to_file(int fd, t_object object)
 {
+    if (write(fd, &object.can_give_bonus, sizeof(object.can_give_bonus)) <= 0)
+        error_doom("couldn't write object bool can_give_bonus");
     if (write(fd, &object.x, sizeof(object.x)) <= 0)
         error_doom("couldn't write object x");
     if (write(fd, &object.y, sizeof(object.y)) <= 0)

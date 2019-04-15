@@ -21,7 +21,6 @@ void    key_handler(const Uint8 *state, t_player *p, t_timer_handler *timer_hand
     }
     if (state[SDL_SCANCODE_E])
         use_lever_if_available(p, timer_handler);
-    hurt_or_heal(p, state);
     move(p, state, timer_handler->ms_since_update);
     look_around(p, state, timer_handler->ms_since_update);
     if (state[SDL_SCANCODE_1])
