@@ -54,6 +54,7 @@ SRCS_NAMES = vector.c \
 			utils.c \
 			animation.c \
 			melee.c \
+			in_which_sector.c \
 			gun.c \
 			skybox.c \
 			config.c \
@@ -74,7 +75,6 @@ SRC_EDITOR_NAME = editor.c \
 				  editor_move_stuff.c \
 				  create_map.c \
 				  editor_walls_nodes.c \
-				  in_which_sector.c \
 				  $(SRCS_NAMES)
 
 SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))

@@ -75,8 +75,6 @@ t_map		*create_map(t_textures *textures);
 t_textures	*load_textures(void);
 void		clear_selection(t_selected_elements *selected);
 void		editor_loop(t_editor *ed);
-t_sector    *in_which_sector(t_i_coords pos, t_sectors *sectors);
-int         is_in_sector(t_i_coords pos, t_sector sector);
 
 void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y);
 void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y);

@@ -1,8 +1,13 @@
 #include "editor_mouse_clicks.h"
+#include "in_which_sector.h"
 
 enum e_bool		click_on_sector(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 {
-	ed->selected.sector = in_which_sector((t_i_coords){mouse_x, mouse_y}, map->sectors);
+	ed->selected.sector = in_which_sector(
+            (t_coords){
+                    ((double)mouse_x - DRAW_MAP_X) / EDITOR_ZOOM,
+                    ((double)-mouse_y + DRAW_MAP_Y) / EDITOR_ZOOM},
+            map->sectors);
 	if (!ed->selected.sector)
 		return (t_false);
 	deal_with_clicked_sector(ed);
