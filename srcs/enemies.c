@@ -7,7 +7,7 @@
 
 void	remove_and_free_enemy(t_sector *sector, t_enemy *enemy, int i)
 {
-	free(enemy);
+    free(enemy->object);
 	sector->enemies->count--;
 	while (i < sector->enemies->count)
 	{

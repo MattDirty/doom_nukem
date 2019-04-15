@@ -218,14 +218,17 @@ void		loop_doom(t_env *e)
     Mix_PlayMusic(e->music, -1);
     while (!stop)
         update_events(&timer_handler);
-    free(update_logic_params);
-    free(frame_event_params);
+
+    //normnorm
     t_event *n = timer_handler.first;
     t_event *p = NULL;
     while (n)
     {
         p = n;
         n = n->next;
-        remove_event_from_list(&timer_handler, p);
+        p->function(1010000, p->params);
+        free(p);
     }
+    free(update_logic_params);
+    free(frame_event_params);
 }
