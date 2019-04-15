@@ -48,7 +48,9 @@ SRCS_NAMES = vector.c \
 			config.c \
 			textures.c \
 			keyboard.c \
-			font_utils.c
+			font_utils.c \
+			inventory_usable.c \
+			inventory_inert.c
 
 SRC_NAME =	main.c \
 			$(SRCS_NAMES)

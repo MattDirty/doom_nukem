@@ -23,7 +23,7 @@ t_player init_player(t_config *op, t_sector *starting_sector)
     p.jump.duration = 400;
     p.jump.time = 0;
     p.dead = t_false;
-    p.container_bag = init_container_bag(container_bag);
+    p.container_bag = init_container_bag(&container_bag);
     return (p);
 }
 

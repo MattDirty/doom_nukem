@@ -95,6 +95,7 @@ SRC_NAME = ft_putchar.c \
 		   ft_lstradd.c \
 		   ft_lstiter.c \
 		   ft_lstmap.c \
+		   ft_lstcount.c \
 		   get_next_line.c \
 		   get_next_line_from_char.c
 
