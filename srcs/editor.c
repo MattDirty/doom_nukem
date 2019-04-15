@@ -82,7 +82,6 @@ void	reframe_editor(t_editor *ed)
 void	gameloop(t_editor *ed)
 {
     reframe_editor(ed);
-    ed->buttons.count = 1;
     while (1)
 	{
         reframe_editor(ed);
@@ -102,6 +101,20 @@ t_fonts *load_fonts(void)
     if (!fonts->horrendo120 || !fonts->sixty20 || !fonts->sixty40)
         error_doom("Couldn't open fonts");
     return (fonts);
+}
+
+void    init_buttons(t_editor *ed)
+{
+    int i;
+
+    i = 0;
+    ed->buttons.count = 8;
+    while (i < ed->buttons.count)
+    {
+        ed->buttons.items[i].outside_color = GREEN;
+        i++;
+    }
+    ed->buttons.items[0].outside_color = RED;
 }
 
 int		main(int ac, char **av)
@@ -132,6 +145,7 @@ int		main(int ac, char **av)
     ed.selected_player = NULL;
     ed.selected_enemy = NULL;
     ed.selected_object = NULL;
+    init_buttons(&ed);
     gameloop(&ed);
     return (0);
 }

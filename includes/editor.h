@@ -35,13 +35,14 @@ typedef struct			s_sdl_editor
 typedef struct			s_button
 {
 	t_rect				rect;
-	void				(*f)(t_editor *ed, t_rect *rect);
+	Uint32				outside_color;
+	void				(*f)(t_editor *ed, struct s_button *btn);
 }						t_button;
 
 typedef struct			s_buttons
 {
     int                 count;
-	t_button			items[1];
+	t_button			items[8];
 }						t_buttons;
 
 typedef struct          s_editor
@@ -50,6 +51,9 @@ typedef struct          s_editor
 	char			*map_path;
     t_map			*map;
     t_textures      *textures;
+    t_textures		*sky_text;
+	t_textures		*wall_text;
+	t_textures		*sprite_text;
     t_buttons       buttons;
     t_i_coords      text_pos;
     int             index;

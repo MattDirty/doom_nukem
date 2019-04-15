@@ -101,7 +101,7 @@ enum e_bool     click_on_panel(t_editor *ed, t_buttons *buttons, int mouse_x, in
 	{
 		if (is_in_rect(&buttons->items[i].rect, mouse_x, mouse_y))
 		{
-			buttons->items[i].f(ed, &buttons->items[i].rect);
+			buttons->items[i].f(ed, &buttons->items[i]);
 			return (t_true);
 		}
 		i++;
