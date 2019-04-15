@@ -59,6 +59,7 @@ typedef struct          s_editor
     t_wall			*selected_wall;
     t_enemy			*selected_enemy;
     t_object		*selected_object;
+    t_sounds		*sounds;
 }                       t_editor;
 
 t_map		*create_map(t_textures *textures);

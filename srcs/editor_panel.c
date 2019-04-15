@@ -35,7 +35,7 @@ void draw_save_button(TTF_Font *font, SDL_Surface *target, t_buttons *buttons, i
     draw_on_screen(target, save, pos, t_false);
     save_btn.f = &save_editor;
     buttons->items[i] = save_btn;
-    free(save);
+    SDL_FreeSurface(save);
 }
 
 void draw_texture(t_editor *ed, SDL_Surface *texture, Uint32 color)
@@ -127,13 +127,15 @@ void        write_textures_categories(SDL_Surface *target, TTF_Font *font)
     category = write_text(font, "SKY", (SDL_Colour){0,0,0,255});
     draw_on_screen(target, category, pos, t_false);
     pos.y += 70;
+    SDL_FreeSurface(category);
     category = write_text(font, "FLATS", (SDL_Colour){0,0,0,255});
     draw_on_screen(target, category, pos, t_false);
     pos.y += 70;
+    SDL_FreeSurface(category);
     category = write_text(font, "SPRITES", (SDL_Colour){0,0,0,255});
     draw_on_screen(target, category, pos, t_false);
     pos.y += 70;
-    free(category);
+    SDL_FreeSurface(category);
 }
 
 void        draw_panel(t_editor *ed)

@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:44:24 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/12 03:09:11 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/14 18:30:57 by mtorsell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,27 +107,29 @@ t_fonts *load_fonts(void)
 int		main(int ac, char **av)
 {
 	t_editor			ed;
-	t_read_data         read_data;
-	t_sounds            *sounds;
 	struct stat         buf;
+    t_read_data			read_data;
 
 	if (ac != 2)
 	    error_doom("Usage is : ./editor target_map_path");
 	ft_bzero(&ed, sizeof(t_editor));
 	ed.map_path = av[1];
-    ed.textures = load_textures();
     init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
 	if (stat(av[1], &buf) < 0)
+    {
+        ed.textures = load_textures();
 	    ed.map = create_map(ed.textures);
+        ed.fonts = load_fonts();
+        ed.sounds = NULL;
+    }
     else
     {
         read_data.textures = &ed.textures;
         read_data.map = &ed.map;
         read_data.fonts = &ed.fonts;
-        read_data.sounds = &sounds;
-        read_file(av[1], &read_data);
+        read_data.sounds = &ed.sounds;
+        read_file_editor(av[1], &read_data);
     }
-    ed.fonts = load_fonts();
     ed.selected_nodes = NULL;
     ed.selected_player = NULL;
     ed.selected_enemy = NULL;

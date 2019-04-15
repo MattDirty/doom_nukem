@@ -49,6 +49,7 @@ typedef struct  s_weapon_and_timer
 }               t_weapon_and_timer;
 
 t_weapons   *allocate_weapons(t_sounds *sounds, t_map *map);
+void		free_weapons(t_weapons *weapons);
 void        draw_weapon(SDL_Surface *Surface, SDL_Surface *weapon, t_animation *animation, t_config *op);
 t_weapon    *get_weapon(t_weapons *node, Uint32 target);
 enum e_bool unlock(double ms_since_update, t_params ready);

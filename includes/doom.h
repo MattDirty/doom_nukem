@@ -8,8 +8,8 @@
 # include "player.h"
 # include "config.h"
 # include "fonts.h"
-# include "default.h"
-# include "enemies.h"
+# include "textures.h"
+# include "sounds.h"
 
 typedef struct          s_env
 {
@@ -21,6 +21,8 @@ typedef struct          s_env
         t_map			*map;
         Mix_Music 		*music;
         t_fonts			*fonts;
+        t_textures		*textures;
+        t_sounds		*sounds;
 }                       t_env;
 
 void		error_doom(char *err);

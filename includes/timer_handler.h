@@ -31,7 +31,7 @@ typedef struct    s_timer_handler
 } t_timer_handler;
 
 void timer_handler_init(t_timer_handler *timer_handler);
-
+void remove_event_from_list(t_timer_handler *timer_handler, t_event *event);
 void update_events(t_timer_handler *timer_handler);
 void add_event(
         t_timer_handler *timer_handler,

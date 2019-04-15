@@ -12,6 +12,7 @@ typedef struct	s_logic_params
 	t_map			*map;
 	const Uint8		*state;
 	t_timer_handler	*timer_handler;
+    enum e_bool		*stop;
 }				t_logic_params;
 
 typedef struct	s_frame_event_params

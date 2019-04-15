@@ -39,6 +39,7 @@ static int  extract_int_if_line_is_valid(int fd)
         free(line);
         return (value);
     }
+    free(line);
     return (0);
 }
 
