@@ -26,9 +26,9 @@ int		event_editor(t_editor *ed)
 
 	if (ed->dragged.nodes)
 		move_walls_nodes(ed->dragged.nodes, x, y);
-	else if (ed->selected.p_spawn)
+	else if (ed->dragged.p_spawn)
 		move_player_spawn(ed->dragged.p_spawn, x, y);
-	else if (ed->selected.object)
+	else if (ed->dragged.object)
 		move_object(ed->dragged.object, x, y);
 	return (1);
 }
