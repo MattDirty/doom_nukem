@@ -91,7 +91,7 @@ enum e_bool     click_on_walls(t_editor *ed, t_linked_walls *linked_walls, int m
 	{
 		if (is_on_seg(ptr->wall->segment, mouse_x, mouse_y))
 		{
-			ed->selected_wall = ptr->wall;
+			ed->selected.wall = ptr->wall;
 			return (t_true);
 		}
 		ptr = ptr->next;

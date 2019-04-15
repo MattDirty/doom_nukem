@@ -24,6 +24,7 @@ void	clear_selection(t_selected_elements *selected)
 	selected->enemy = NULL;
 	selected->object = NULL;
 	selected->sector = NULL;
+	selected->wall = NULL;
 }
 
 void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
@@ -40,63 +41,6 @@ void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
         error_doom("Could not create surface.");
     if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
         error_doom((char *)Mix_GetError());
-}
-
-int		event_editor(t_editor *ed)
-{
-    double      x;
-    double      y;
-	SDL_Event	ev;
-
-	x = 0;
-	y = 0;
-    while (SDL_PollEvent(&ev))
-    {
-        if (ev.type == SDL_MOUSEMOTION)
-        {
-            x += ev.motion.xrel;
-            y += ev.motion.yrel;
-        }
-        if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE || ev.type == SDL_QUIT)
-            exit(EXIT_SUCCESS);
-        if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
-            mousedown_action(ed, ev.button.x, ev.button.y);
-        if (ev.type == SDL_MOUSEBUTTONUP && ev.button.button == SDL_BUTTON_LEFT)
-            mouseup_action(ed, ev.button.x, ev.button.y);
-    }
-    if (ed->selected_nodes)
-        move_walls_nodes(ed->selected_nodes, x, y);
-    else if (ed->selected_player)
-        move_player_spawn(ed->selected_player, x, y);
-    else if (ed->selected_object)
-    	move_object(ed->selected_object, x, y);
-    return (1);
-}
-
-void	reframe_editor(t_editor *ed)
-{
-	SDL_Texture		*texture;
-
-    draw_background(ed);
-    draw_editor(ed);
-    draw_panel(ed);
-	SDL_RenderClear(ed->sdl.renderer);
-	if (!(texture = SDL_CreateTextureFromSurface(ed->sdl.renderer, ed->sdl.surface)))
-		error_doom("Could not create texture");
-	SDL_RenderCopy(ed->sdl.renderer, texture, 0, 0);
-    SDL_RenderPresent(ed->sdl.renderer);
-    SDL_DestroyTexture(texture);
-}
-
-void	gameloop(t_editor *ed)
-{
-    reframe_editor(ed);
-    ed->buttons.count = 1;
-    while (1)
-	{
-        reframe_editor(ed);
-        event_editor(ed);
-	}
 }
 
 t_fonts *load_fonts(void)

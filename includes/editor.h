@@ -53,6 +53,7 @@ typedef	struct			s_selected_elements
 	t_enemy				*enemy;
 	t_object			*object;
 	t_sector			*sector;
+	t_wall              *wall;
 }						t_selected_elements;
 
 typedef struct          s_editor
@@ -61,6 +62,7 @@ typedef struct          s_editor
 	char				*map_path;
     t_map				*map;
     t_textures      	*textures;
+    t_sounds            *sounds;
     t_buttons       	buttons;
     t_i_coords      	text_pos;
     int             	index;
