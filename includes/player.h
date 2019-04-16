@@ -33,7 +33,6 @@ typedef struct			s_player
     double      health;
     enum e_bool healed;
     enum e_bool hurt;
-
 }						t_player;
 
 t_player    init_player(t_config *op, t_coords spawn, t_sector *starting_sector);

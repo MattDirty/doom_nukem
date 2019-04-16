@@ -23,6 +23,7 @@ typedef struct          s_env
         t_fonts			*fonts;
         t_textures		*textures;
         t_sounds		*sounds;
+        t_timer_handler	timer_handler;
 }                       t_env;
 
 void		error_doom(char *err);

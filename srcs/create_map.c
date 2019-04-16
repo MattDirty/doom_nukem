@@ -70,42 +70,38 @@ t_map		*create_map(t_textures *textures)
         find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[1].sprite);
         find_texture_by_name(textures,"textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[2].sprite);
 
-        map->sectors->items[i].enemies = (t_enemies*)malloc(sizeof(t_enemies));
-        map->sectors->items[i].enemies->count = 1;
-        if (!(map->sectors->items[i].enemies->items = (t_enemy*)malloc(
-                sizeof(t_enemy) * map->sectors->items[i].enemies->count)))
-            error_doom("Couldn't allocate enemies\n");
-
-        if (!(map->sectors->items[i].enemies->items[0].object = (t_object *)
+        map->sectors->items[i].enemies = (t_linked_enemies*)malloc(sizeof(t_linked_enemies));
+        map->sectors->items[i].enemies->next = NULL;
+        if (!(map->sectors->items[i].enemies->item.object = (t_object *)
                 malloc(sizeof(t_object))))
             error_doom("couldn't allocate enemies objects");
-        map->sectors->items[i].enemies->items[0].object->x = 1;
-        map->sectors->items[i].enemies->items[0].object->y = i * 4 + 1;;
-        map->sectors->items[i].enemies->items[0].object->z = 0;
-        map->sectors->items[i].enemies->items[0].object->horizontal_size = 1;
-        map->sectors->items[i].enemies->items[0].object->vertical_size = 1;
-        map->sectors->items[i].enemies->items[0].life_remaining = 100;
-		map->sectors->items[i].enemies->items[0].time_in_death = -1;
-		map->sectors->items[i].enemies->items[0].to_destroy = t_false;
-        map->sectors->items[i].enemies->items[0].heading = 0;
-        map->sectors->items[i].enemies->items[0].death_duration = 0;
-        map->sectors->items[i].enemies->items[0].type = et_brazil;
-        find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->items[0].front);
-        map->sectors->items[i].enemies->items[0].object->sprite =
-                map->sectors->items[i].enemies->items[0].front;
-        find_texture_by_name(textures,"textures/sprites/enemy_side.bmp", &map->sectors->items[i].enemies->items[0].side);
-        find_texture_by_name(textures,"textures/sprites/enemy_back.bmp", &map->sectors->items[i].enemies->items[0].back);
+        map->sectors->items[i].enemies->item.object->x = 1;
+        map->sectors->items[i].enemies->item.object->y = i * 4 + 1;;
+        map->sectors->items[i].enemies->item.object->z = 0;
+        map->sectors->items[i].enemies->item.object->horizontal_size = 1;
+        map->sectors->items[i].enemies->item.object->vertical_size = 1;
+        map->sectors->items[i].enemies->item.life_remaining = 100;
+		map->sectors->items[i].enemies->item.time_in_death = -1;
+		map->sectors->items[i].enemies->item.to_destroy = t_false;
+        map->sectors->items[i].enemies->item.heading = 0;
+        map->sectors->items[i].enemies->item.death_duration = 0;
+        map->sectors->items[i].enemies->item.type = et_brazil;
+        find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->item.front);
+        map->sectors->items[i].enemies->item.object->sprite =
+                map->sectors->items[i].enemies->item.front;
+        find_texture_by_name(textures,"textures/sprites/enemy_side.bmp", &map->sectors->items[i].enemies->item.side);
+        find_texture_by_name(textures,"textures/sprites/enemy_back.bmp", &map->sectors->items[i].enemies->item.back);
         if (i == 1)
-            map->sectors->items[i].enemies->items[0].heading = ft_degtorad(90);
+            map->sectors->items[i].enemies->item.heading = ft_degtorad(90);
         if (i == 2)
         {
-            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].front);
-            map->sectors->items[i].enemies->items[0].object->sprite =
-                    map->sectors->items[i].enemies->items[0].front;
-            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].side);
-            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].back);
-            map->sectors->items[i].enemies->items[0].heading = ft_degtorad(180);
-            map->sectors->items[i].enemies->items[0].type = et_boss;
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.front);
+            map->sectors->items[i].enemies->item.object->sprite =
+                    map->sectors->items[i].enemies->item.front;
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.side);
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.back);
+            map->sectors->items[i].enemies->item.heading = ft_degtorad(180);
+            map->sectors->items[i].enemies->item.type = et_boss;
         }
 
 		walls = map->sectors->items[i].walls;

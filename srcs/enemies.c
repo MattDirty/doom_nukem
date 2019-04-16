@@ -5,15 +5,62 @@
 #include "e_bool.h"
 #include "sectors.h"
 
-void	remove_and_free_enemy(t_sector *sector, t_enemy *enemy, int i)
+void	add_enemy(
+        t_linked_enemies **linked_enemies,
+        t_linked_enemies *enemy)
 {
-    free(enemy->object);
-	sector->enemies->count--;
-	while (i < sector->enemies->count)
+    t_linked_enemies	*node;
+
+    if (!*linked_enemies)
+    {
+        *linked_enemies = enemy;
+        return;
+    }
+    node = *linked_enemies;
+    while (node->next)
+        node = node->next;
+    node->next = enemy;
+}
+
+t_linked_enemies	*extract_enemy(
+        t_linked_enemies **linked_enemies,
+        t_enemy *enemy)
+{
+    t_linked_enemies	*previous;
+    t_linked_enemies	*node;
+
+    if (enemy == &(*linked_enemies)->item)
+    {
+        previous = *linked_enemies;
+        *linked_enemies = previous->next;
+        return (previous);
+    }
+    previous = NULL;
+    node = *linked_enemies;
+	while (node)
 	{
-		sector->enemies->items[i] = sector->enemies->items[i + 1];
-		i++;
+        if (&node->item == enemy)
+        {
+            previous->next = node->next;
+            return (node);
+        }
+        previous = node;
+        node = node->next;
 	}
+    return NULL;
+}
+
+void	delete_enemy(
+        t_linked_enemies **linked_enemies,
+        t_enemy *enemy)
+{
+    t_linked_enemies	*node;
+
+    node = extract_enemy(linked_enemies, enemy);
+    if (!node)
+        return;
+    free(node->item.object);
+    free(node);
 }
 
 enum e_bool enemy_death(double ms_since_update, t_params params)
@@ -47,17 +94,12 @@ void    damage_enemy(t_timer_handler *timer_handler, t_enemy *enemy, Uint32 dama
     }
 }
 
-void	free_enemies(t_enemies *enemies)
+void	free_enemies(t_linked_enemies *enemies)
 {
-    int	i;
-
-    i = 0;
-    while (i < enemies->count)
-    {
-        free(enemies->items[i].object);
-        i++;
-    }
-    free(enemies->items);
+    if (!enemies)
+        return;
+    free_enemies(enemies->next);
+    free(enemies->item.object);
     free(enemies);
 }
 
@@ -122,36 +164,32 @@ void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
     find_texture_from_file(fd, textures, &enemy->back);
 }
 
-void    write_enemies_to_file(int fd, t_enemies *enemies)
+void    write_enemies_to_file(int fd, t_linked_enemies *enemies)
 {
-    int i;
+    enum e_bool	next;
 
-    if (write(fd, &enemies->count, sizeof(enemies->count)) <= 0)
-        error_doom("Problem while writing enemies count to file");
-    i = 0;
-    while (i < enemies->count)
-    {
-        write_enemy_to_file(fd, enemies->items[i]);
-        i++;
-    }
+    next = enemies != NULL;
+    if (write(fd, &next, sizeof(next)) <= 0)
+        error_doom("mabite");
+    if (!next)
+        return;
+    write_enemy_to_file(fd, enemies->item);
+    write_enemies_to_file(fd, enemies->next);
 }
 
-void    read_enemies_from_file(int fd, t_textures *textures, t_enemies **enemies)
+void    read_enemies_from_file(
+        int fd,
+        t_textures *textures,
+        t_linked_enemies **enemies)
 {
-    int count;
-    int i;
+    enum e_bool	next;
 
-    if (!(*enemies = (t_enemies *)malloc(sizeof(t_enemies))))
+    if (read(fd, &next, sizeof(next)) <= 0)
+        error_doom("The shield has gone mad, Quercus!");
+    if (!next)
+        return;
+    if (!(*enemies = (t_linked_enemies*)malloc(sizeof(t_linked_enemies))))
         error_doom("Couldn't allocate enemies struct");
-    if (read(fd, &count, sizeof(count)) <= 0)
-        error_doom("Problem with .roflolilolmao when trying to read enemies");
-    (*enemies)->count = count;
-    if (!(((*enemies)->items = (t_enemy *)malloc(sizeof(t_enemy) * count))))
-        error_doom("Couldn't allocate enemies list");
-    i = 0;
-    while (i < count)
-    {
-        read_enemy_from_file(fd, textures, &(*enemies)->items[i]);
-        i++;
-    }
+    read_enemy_from_file(fd, textures, &(*enemies)->item);
+    read_enemies_from_file(fd, textures, &(*enemies)->next);
 }
