@@ -72,7 +72,8 @@ void		draw_sprites_section(
 		draw_miniature(ed->panel.surface, node->texture,
 				(t_i_coords){PANEL_MINIATURE_MAX_W, PANEL_MINIATURE_MAX_H},
 				pos);
-		if (ft_strcmp(ed->selected_sprite_str, node->texture->userdata) == 0)
+		if (ed->selected_sprite_str
+		    && ft_strcmp(ed->selected_sprite_str, node->texture->userdata) == 0)
 		{
 			rect = create_rect(pos.x, pos.y, PANEL_MINIATURE_MAX_W,
 					PANEL_MINIATURE_MAX_H);
@@ -107,7 +108,14 @@ void        write_panel_state(t_editor *ed, char *state_str)
 void        draw_panel(t_editor *ed)
 {
     draw_panel_back(ed->panel.surface);
-    editor_draw_panel_map(ed);
+    if (ed->selected.wall)
+        editor_draw_panel_walls(ed);
+    else if (ed->selected.object || ed->selected.enemy)
+        editor_draw_panel_sprites(ed);
+    else if (ed->selected.sector)
+        editor_draw_panel_sector(ed);
+    else
+        editor_draw_panel_map(ed);
 	draw_on_screen(ed->sdl.surface, ed->panel.surface,
 				   (t_i_coords){EDITOR_W - PANEL_W, 0}, t_true);
 }

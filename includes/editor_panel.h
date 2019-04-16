@@ -25,5 +25,8 @@ void		editor_draw_panel_map(t_editor *ed);
 void        write_panel_state(t_editor *ed, char *state_str);
 void		draw_sprites_section(
 		t_editor *ed, t_textures *sprites, char *title_str, int *y);
+void		editor_draw_panel_walls(t_editor *ed);
+void        editor_draw_panel_sprites(t_editor *ed);
+void        editor_draw_panel_sector(t_editor *ed);
 
 #endif
