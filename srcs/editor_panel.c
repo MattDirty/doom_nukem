@@ -21,9 +21,7 @@ void    change_selected_texture(t_params params)
     t_btn_params *btn_params;
 
     btn_params = (t_btn_params *)params;
-    printf("%p %p\n", *btn_params->selected, btn_params->target);
     *btn_params->selected = btn_params->target;
-    printf("%p %p\n", *btn_params->selected, btn_params->target);
 }
 
 void	draw_miniature(
@@ -83,7 +81,7 @@ void		draw_sprites_section(
 		draw_miniature(ed->panel.surface, node->texture,
 				(t_i_coords){PANEL_MINIATURE_W, PANEL_MINIATURE_H}, pos);
         btn.rect = create_rect(pos.x, pos.y, PANEL_MINIATURE_W, PANEL_MINIATURE_H);
-		if (*ed->selected_sprite == node->texture)
+		if (ed->selected_sprite && *ed->selected_sprite == node->texture)
 			draw_rect(ed->panel.surface, &btn.rect, RED);
 		btn.rect.pos.x += PANEL_X;
 		btn.f = &change_selected_texture;
