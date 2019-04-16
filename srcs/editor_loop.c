@@ -57,7 +57,6 @@ void	reframe_editor(t_editor *ed)
 void	editor_loop(t_editor *ed)
 {
 	reframe_editor(ed);
-	ed->buttons.count = 1;
 	while (1)
 	{
 		reframe_editor(ed);

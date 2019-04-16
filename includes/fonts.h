@@ -6,8 +6,11 @@
 typedef struct	s_fonts
 {
     TTF_Font	*horrendo120;
-    TTF_Font	*sixty20;
-    TTF_Font	*sixty40;
+	TTF_Font	*sixty20;
+	TTF_Font	*sixty40;
+    TTF_Font	*amazdoom40;
+	TTF_Font	*vcr20;
+	TTF_Font	*vcr40;
 }				t_fonts;
 
 void			read_fonts_from_file(int fd, t_fonts **fonts);

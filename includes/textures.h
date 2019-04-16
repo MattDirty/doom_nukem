@@ -50,4 +50,6 @@ void	write_texture_node_to_file(int fd, t_texture_node *texture_node);
 
 void	find_texture_from_file(int fd, t_textures *textures, SDL_Surface **surface);
 
+void	add_texture(t_textures *textures, t_texture_node *new_node);
+
 #endif
