@@ -73,14 +73,14 @@ enum e_bool		click_on_enemy(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 		while (enemies)
 		{
 			rect = create_rect(
-                    ed->map_offset.x + sector->enemies->item.object->x
+                    ed->map_offset.x + enemies->item.object->x
                             * ed->zoom - 6,
-                    ed->map_offset.y - sector->enemies->item.object->y
+                    ed->map_offset.y - enemies->item.object->y
                             * ed->zoom - 6,
                     12, 12);
 			if (is_in_rect(&rect, mouse_x, mouse_y))
 			{
-				deal_with_clicked_enemy(ed, &sector->enemies->item);
+				deal_with_clicked_enemy(ed, &enemies->item);
 				return (t_true);
 			}
             enemies = enemies->next;

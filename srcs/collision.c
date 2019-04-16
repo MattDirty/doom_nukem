@@ -97,7 +97,7 @@ static void		find_enemies_collisions_in_sector(
     while (enemies)
     {
         s = perpendicular_segment_from_point(
-                sector->enemies->item.object,
+                enemies->item.object,
                 ray->x1,
                 ray->y1);
         if (segments_intersect(ray, &s, &inters))
@@ -109,7 +109,7 @@ static void		find_enemies_collisions_in_sector(
                     inters.y);
             new = insert_collision(collisions, distance, inters);
             new->item.type = ct_enemy;
-            new->item.d.enemy = &sector->enemies->item;
+            new->item.d.enemy = &enemies->item;
             new->item.object_segment = s;
         }
         enemies = enemies->next;
