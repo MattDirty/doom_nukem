@@ -39,6 +39,7 @@ void        split_wall(t_params params)
     wall->segment.x2 = new_wall->segment.x1;
     wall->segment.y2 = new_wall->segment.y1;
     add_wall_to_sector(sector, new_wall);
+    btn_params->ed->map_is_updated = t_false;
 }
 
 void        create_split_wall_button(t_editor *ed, int *y)
@@ -51,7 +52,7 @@ void        create_split_wall_button(t_editor *ed, int *y)
     pos.x = PANEL_PADDING_LEFT + 12;
     pos.y = *y;
     btn.rect = create_rect(pos.x - 12, pos.y - 12, chars->w + 24, chars->h + 24);
-    fill_rect(ed->panel.surface, &btn.rect, 0);
+    fill_rect(ed->panel.surface, &btn.rect, 0, t_true);
     draw_on_screen(ed->panel.surface, chars, pos, t_false);
     SDL_FreeSurface(chars);
     btn.rect.pos.x += PANEL_X;
