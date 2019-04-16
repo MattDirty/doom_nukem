@@ -5,14 +5,34 @@
 #include "e_bool.h"
 #include "sectors.h"
 
-void	remove_and_free_enemy(t_sector *sector, t_enemy *enemy, int i)
+void	delete_enemy(
+        t_linked_enemies **linked_enemies,
+        t_linked_enemies *enemy)
 {
-    free(enemy->object);
-	sector->enemies->count--;
-	while (i < sector->enemies->count)
+    t_linked_enemies	*p;
+    t_linked_enemies	*n;
+
+    if (enemy == *linked_enemies)
+    {
+        p = *linked_enemies;
+        *linked_enemies = p->next;
+        free(p->item.object);
+        free(p);
+        return;
+    }
+    p = NULL;
+    n = *linked_enemies;
+	while (n)
 	{
-		sector->enemies->items[i] = sector->enemies->items[i + 1];
-		i++;
+        if (n == enemy)
+        {
+            p->next = n->next;
+            free(n->item.object);
+            free(n);
+            return;
+        }
+        p = n;
+        n = n->next;
 	}
 }
 
@@ -125,7 +145,7 @@ void    write_enemies_to_file(int fd, t_linked_enemies *enemies)
     if (write(fd, &next, sizeof(next)) <= 0)
         error_doom("mabite");
     if (!next)
-        break;
+        return;
     write_enemy_to_file(fd, enemies->item);
     write_enemies_to_file(fd, enemies->next);
 }

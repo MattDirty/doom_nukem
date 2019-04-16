@@ -71,7 +71,7 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
         node = sector->enemies;
         while  (node)
         {
-            enemy = &node->enemy;
+            enemy = &node->item;
             enemy->act(enemy, sector, e);
         }
         i++;

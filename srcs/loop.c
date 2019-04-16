@@ -62,18 +62,17 @@ static void loop_events(
 static void     update_enemies(t_sectors *sectors, double p_heading)
 {
     int     i;
-    int     j;
+    t_linked_enemies	*enemies;
 
     i = 0;
     while (i < sectors->count)
     {
-        enemies = sectors->items[i]->enemies;
+        enemies = sectors->items[i].enemies;
         while (enemies)
         {
         	if (enemies->item.to_destroy)
 			{
-				remove_and_free_enemy(&sectors->items[i],
-									  &enemies->item, j);
+				delete_enemy(&sectors->items[i].enemies, enemies);
 				continue;
 			}
             if (fabs(enemies->item.heading - p_heading) <= 3.14 + 0.78
