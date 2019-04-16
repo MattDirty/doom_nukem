@@ -87,17 +87,17 @@ static void		find_enemies_collisions_in_sector(
         t_segment *ray,
         t_collisions **collisions)
 {
-    int			    i;
+    t_linked_enemies	*enemies;
     t_coords	    inters;
     double		    distance;
     t_segment       s;
     t_collisions	*new;
 
-    i = 0;
-    while (i < sector->enemies->count)
+    enemies = sector->enemies;
+    while (enemies)
     {
         s = perpendicular_segment_from_point(
-                sector->enemies->items[i].object,
+                sector->enemies->item.object,
                 ray->x1,
                 ray->y1);
         if (segments_intersect(ray, &s, &inters))
@@ -109,10 +109,10 @@ static void		find_enemies_collisions_in_sector(
                     inters.y);
             new = insert_collision(collisions, distance, inters);
             new->item.type = ct_enemy;
-            new->item.d.enemy = &sector->enemies->items[i];
+            new->item.d.enemy = &sector->enemies->item;
             new->item.object_segment = s;
         }
-        i++;
+        enemies = enemies->next;
     }
 }
 

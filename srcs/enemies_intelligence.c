@@ -59,7 +59,7 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
     t_env		*e;
     t_enemy		*enemy;
     int			i;
-    t_linked_enemy	*node;
+    t_linked_enemies	*node;
     t_sector	*sector;
 
     (void)ms_since_update;

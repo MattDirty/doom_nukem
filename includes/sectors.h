@@ -6,7 +6,7 @@
 # include "objects.h"
 # include "enemies.h"
 
-typedef struct s_enemies t_linked_enemies;
+typedef struct s_linked_enemies t_linked_enemies;
 
 typedef	struct			s_sector
 {

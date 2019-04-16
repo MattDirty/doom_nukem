@@ -61,7 +61,7 @@ enum e_bool		click_on_object(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 enum e_bool		click_on_enemy(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 {
 	int			i;
-	int			j;
+    t_linked_enemies	*enemies;
 	t_sector	*sector;
 	t_rect		rect;
 
@@ -69,18 +69,21 @@ enum e_bool		click_on_enemy(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 	while (i < map->sectors->count)
 	{
 		sector = &map->sectors->items[i];
-		j = 0;
-		while (j < sector->enemies->count)
+        enemies = sector->enemies;
+		while (enemies)
 		{
-			rect = create_rect(ed->map_offset.x + sector->enemies->items[j].object->x * ed->zoom - 6,
-								ed->map_offset.y - sector->enemies->items[j].object->y * ed->zoom - 6,
-								12, 12);
+			rect = create_rect(
+                    ed->map_offset.x + sector->enemies->item.object->x
+                            * ed->zoom - 6,
+                    ed->map_offset.y - sector->enemies->item.object->y
+                            * ed->zoom - 6,
+                    12, 12);
 			if (is_in_rect(&rect, mouse_x, mouse_y))
 			{
-				deal_with_clicked_enemy(ed, &sector->enemies->items[j]);
+				deal_with_clicked_enemy(ed, &sector->enemies->item);
 				return (t_true);
 			}
-			j++;
+            enemies = enemies->next;
 		}
 		i++;
 	}
