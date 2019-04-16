@@ -1,4 +1,5 @@
 #include "editor_mouse_clicks.h"
+#include "editor_panel_buttons.h"
 #include "in_which_sector.h"
 
 enum e_bool		click_on_sector(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
@@ -109,8 +110,23 @@ enum e_bool     click_on_walls(t_editor *ed, t_linked_walls *linked_walls, int m
 
 enum e_bool     click_on_panel(t_editor *ed, int mouse_x, int mouse_y)
 {
-    (void)ed; (void)mouse_y;
-	return (mouse_x > PANEL_X);
+    t_buttons    *buttons;
+
+    if (mouse_x < PANEL_X)
+    {
+        return (t_false);
+    }
+    buttons = ed->panel.buttons;
+    while (buttons)
+    {
+        if (is_in_rect(&buttons->item.rect, mouse_x, mouse_y))
+        {
+            buttons->item.f((t_params)buttons->item.params);
+            return (t_true);
+        }
+        buttons = buttons->next;
+    }
+    return (t_false);
 }
 
 enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int x, int y)

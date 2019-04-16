@@ -57,7 +57,7 @@ typedef struct          s_editor
     int             	index;
     int					zoom;
     t_fonts				*fonts;
-    char				*selected_sprite_str;
+    SDL_Surface         **selected_sprite;
 	t_selected_elements	selected;
 	t_selected_elements	dragged;
 }                       t_editor;

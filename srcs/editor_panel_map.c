@@ -4,13 +4,16 @@
 #include "editor_panel_buttons.h"
 #include "ui.h"
 
-void save_editor(t_editor *ed, t_rect *rect)
+void save_editor(t_params params)
 {
-	write_file(ed->map_path, ed->textures, ed->map);
-	draw_rect(ed->sdl.surface, rect, BLACK);
+    t_btn_params *ptr;
+
+    ptr = (t_btn_params *)params;
+	write_file(ptr->ed->map_path, ptr->ed->textures, ptr->ed->map);
 }
 
-void draw_save_button(TTF_Font *font, SDL_Surface *target)
+void create_save_button(TTF_Font *font,
+        SDL_Surface *target, t_panel *panel, t_editor *ed)
 {
 	SDL_Surface *save;
 	t_i_coords  pos;
@@ -26,6 +29,10 @@ void draw_save_button(TTF_Font *font, SDL_Surface *target)
 	fill_rect(target, &save_btn.rect, SAVE_BORDER);
 	fill_rect(target, &center, SAVE_CENTER);
 	draw_on_screen(target, save, pos, t_false);
+	save_btn.rect.pos.x += PANEL_X;
+    save_btn.f = &save_editor;
+    save_btn.params = create_btn_params(NULL, NULL, ed);
+    add_button_to_list(&panel->buttons, save_btn);
 	SDL_FreeSurface(save);
 }
 
@@ -35,10 +42,10 @@ void		editor_draw_panel_map(t_editor *ed)
 
 	write_panel_state(ed, "MAP");
 	y = 60;
-	draw_save_button(ed->fonts->amazdoom40, ed->panel.surface);
-	ed->selected_sprite_str = ed->map->daysky->userdata;
+	create_save_button(ed->fonts->amazdoom40, ed->panel.surface, &ed->panel, ed);
+	ed->selected_sprite = &ed->map->daysky;
 	draw_sprites_section(ed, &ed->panel.skies, "Skybox Day:", &y);
 	y += 20;
-	ed->selected_sprite_str = ed->map->nightsky->userdata;
+	ed->selected_sprite = &ed->map->nightsky;
 	draw_sprites_section(ed, &ed->panel.skies, "Skybox Night:", &y);
 }

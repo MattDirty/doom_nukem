@@ -16,6 +16,7 @@
 #include <sys/stat.h>
 #include "editor_draw.h"
 #include "editor_move_stuff.h"
+#include "editor_panel_buttons.h"
 #include "bitmaps.h"
 #include "textures.h"
 
@@ -118,6 +119,7 @@ void    init_panel(t_panel *panel, t_textures *textures)
 		error_doom("Couldn't create Panel Surface");
 	}
     create_sub_lists(textures, panel);
+	panel->buttons = NULL;
 }
 
 int		main(int ac, char **av)
@@ -152,6 +154,8 @@ int		main(int ac, char **av)
 	ed.fonts = load_fonts();
 	init_panel(&ed.panel, ed.textures);
 	clear_selection(&ed.selected);
+    free_buttons_list(ed.panel.buttons);
+    ed.panel.buttons = NULL;
     clear_selection(&ed.dragged);
     editor_loop(&ed);
     return (0);

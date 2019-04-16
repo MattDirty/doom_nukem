@@ -13,7 +13,18 @@
 #include "editor.h"
 #include "editor_panel.h"
 #include "editor_draw.h"
+#include "editor_panel_buttons.h"
 #include "ui.h"
+
+void    change_selected_texture(t_params params)
+{
+    t_btn_params *btn_params;
+
+    btn_params = (t_btn_params *)params;
+    printf("%p %p\n", *btn_params->selected, btn_params->target);
+    *btn_params->selected = btn_params->target;
+    printf("%p %p\n", *btn_params->selected, btn_params->target);
+}
 
 void	draw_miniature(
 		SDL_Surface *dst, SDL_Surface *src, t_i_coords size, t_i_coords pos)
@@ -57,7 +68,7 @@ void		draw_sprites_section(
 	SDL_Surface		*title;
 	t_texture_node	*node;
 	t_i_coords		pos;
-	t_rect			rect;
+	t_button		btn;
 
 	title = write_text(ed->fonts->vcr20, title_str,
 					   (SDL_Colour){255,255,255,255});
@@ -70,19 +81,18 @@ void		draw_sprites_section(
 	while (node)
 	{
 		draw_miniature(ed->panel.surface, node->texture,
-				(t_i_coords){PANEL_MINIATURE_MAX_W, PANEL_MINIATURE_MAX_H},
-				pos);
-		if (ed->selected_sprite_str
-		    && ft_strcmp(ed->selected_sprite_str, node->texture->userdata) == 0)
-		{
-			rect = create_rect(pos.x, pos.y, PANEL_MINIATURE_MAX_W,
-					PANEL_MINIATURE_MAX_H);
-			draw_rect(ed->panel.surface, &rect, RED);
-		}
-		pos.x += PANEL_MINIATURE_MAX_W + PANEL_PADDING_LEFT;
+				(t_i_coords){PANEL_MINIATURE_W, PANEL_MINIATURE_H}, pos);
+        btn.rect = create_rect(pos.x, pos.y, PANEL_MINIATURE_W, PANEL_MINIATURE_H);
+		if (*ed->selected_sprite == node->texture)
+			draw_rect(ed->panel.surface, &btn.rect, RED);
+		btn.rect.pos.x += PANEL_X;
+		btn.f = &change_selected_texture;
+		btn.params = create_btn_params(ed->selected_sprite, node->texture, ed);
+		add_button_to_list(&ed->panel.buttons, btn);
+		pos.x += PANEL_MINIATURE_W + PANEL_PADDING_LEFT;
 		node = node->next;
 	}
-	*y += 65;
+    *y += 65;
 }
 
 void        draw_panel_back(SDL_Surface *surface)

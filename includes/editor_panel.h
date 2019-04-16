@@ -1,19 +1,21 @@
 #ifndef EDITOR_PANEL_H
 # define EDITOR_PANEL_H
 
-# define PANEL_PADDING_LEFT 20
-# define PANEL_MINIATURE_MAX_W 80
-# define PANEL_MINIATURE_MAX_H 80
 # define PANEL_W EDITOR_W / 3
 # define PANEL_H EDITOR_H
+# define PANEL_X (EDITOR_W - PANEL_W)
+# define PANEL_Y 0
+# define PANEL_PADDING_LEFT 20
+# define PANEL_MINIATURE_W 80
+# define PANEL_MINIATURE_H 80
 # define SAVE_BORDER 0xFF0c5606
 # define SAVE_CENTER 0xFF11d102
 # define PANEL_BACKGROUND 0xFF073784
 
-
 typedef struct          s_panel
 {
     SDL_Surface     	*surface;
+    t_buttons           *buttons;
     t_textures			skies;
     t_textures			walls;
     t_textures			flats;

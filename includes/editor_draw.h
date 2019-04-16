@@ -10,8 +10,6 @@ typedef struct s_buttons t_buttons;
 
 # define DRAW_MAP_X EDITOR_W_H / 3
 # define DRAW_MAP_Y EDITOR_H_H
-# define PANEL_X (EDITOR_W - 2 * DRAW_MAP_X)
-# define PANEL_Y 0
 
 # define WHITE 0xFFFFFFFF
 # define RED 0xFFFF0000
@@ -27,7 +25,6 @@ typedef struct s_buttons t_buttons;
 void draw_background(t_editor *ed);
 void draw_panel_back(SDL_Surface *surface);
 void draw_editor(t_editor *ed);
-void draw_save_button(TTF_Font *font, SDL_Surface *target);
-void        draw_panel(t_editor *ed);
+void draw_panel(t_editor *ed);
 
 #endif

@@ -3,6 +3,7 @@
 #include "editor_draw.h"
 #include "editor_walls_nodes.h"
 #include "editor_mouse_clicks.h"
+#include "editor_panel_buttons.h"
 #include "map.h"
 
 t_segment       transform_seg_in_ed_coords(t_segment seg, t_i_coords map_offset, int zoom)
@@ -65,6 +66,8 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
     if (click_on_panel(ed, mouse_x, mouse_y))
         return ;
     clear_selection(&ed->selected);
+    free_buttons_list(ed->panel.buttons);
+    ed->panel.buttons = NULL;
     clear_selection(&ed->dragged);
     if (click_on_player(ed, ed->map, mouse_x, mouse_y))
         return ;
