@@ -48,6 +48,9 @@ typedef struct			s_linked_walls
     struct s_linked_walls	*next;  // I'm not "fixing" the whole file, fuck the norm
 }						t_linked_walls;
 
+t_wall      *create_wall_copy(t_wall *wall);
+void        add_wall_to_sector(t_sector *sector, t_wall *wall);
+
 void			create_linked_walls_from_sectors(
         t_sectors *sectors,
         t_linked_walls **linked_walls,

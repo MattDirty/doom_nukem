@@ -1,9 +1,26 @@
 #include <unistd.h>
-
 #include "walls.h"
 #include "textures.h"
 #include "doom.h"
 #include "serialisation.h"
+
+t_wall      *create_wall_copy(t_wall *wall)
+{
+    t_wall  *new_wall;
+
+    if (!(new_wall = (t_wall *)malloc(sizeof(t_wall))))
+        error_doom("Couldn't allocate copy of wall");
+    *new_wall = *wall;
+    new_wall->wall_object = NULL;
+    new_wall->lever = NULL;
+    return (new_wall);
+}
+
+void        add_wall_to_sector(t_sector *sector, t_wall *wall)
+{
+    sector->walls->items[sector->walls->count] = wall;
+    sector->walls->count++;
+}
 
 int			wall_index(t_linked_walls *linked_walls, t_wall *wall)
 {
