@@ -67,24 +67,24 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
     i = 0;
     while (i < sectors->count)
     {
-        j = 0;
-        while (j < sectors->items[i].enemies->count)
+        enemies = sectors->items[i]->enemies;
+        while (enemies)
         {
-        	if (sectors->items[i].enemies->items[j].to_destroy)
+        	if (enemies->item.to_destroy)
 			{
 				remove_and_free_enemy(&sectors->items[i],
-									  &sectors->items[i].enemies->items[j], j);
+									  &enemies->item, j);
 				continue;
 			}
-            if (fabs(sectors->items[i].enemies->items[j].heading - p_heading) <= 3.14 + 0.78
-                && fabs(sectors->items[i].enemies->items[j].heading - p_heading) >= 3.14 - 0.78)
-                sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].front;
-            else if (fabs(sectors->items[i].enemies->items[j].heading - p_heading) <= 0.78
-                || fabs(sectors->items[i].enemies->items[j].heading - p_heading) >= 6.28 - 0.78)
-                  sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].back;
+            if (fabs(enemies->item.heading - p_heading) <= 3.14 + 0.78
+                && fabs(enemies->item.heading - p_heading) >= 3.14 - 0.78)
+                enemies->item.object->sprite = enemies->item.front;
+            else if (fabs(enemies->item.heading - p_heading) <= 0.78
+                || fabs(enemies->item.heading - p_heading) >= 6.28 - 0.78)
+                  enemies->item.object->sprite = enemies->item.back;
             else
-                sectors->items[i].enemies->items[j].object->sprite = sectors->items[i].enemies->items[j].side;
-            j++;
+                enemies->item.object->sprite = enemies->item.side;
+            enemies = enemies->next;
         }
         i++;
     }
