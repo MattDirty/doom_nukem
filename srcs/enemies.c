@@ -66,12 +66,17 @@ void	delete_enemy(
 enum e_bool enemy_death(double ms_since_update, t_params params)
 {
     t_enemy *enemy;
+    int     step;
 
     enemy = (t_enemy *)params;
     enemy->time_in_death += ms_since_update;
-	enemy->object->horizontal_size -= 0.1;
-	enemy->object->vertical_size -= 0.1;
-	if (enemy->object->horizontal_size <= 0 || enemy->object->vertical_size <= 0)
+
+    step = (int)(enemy->time_in_death) / (int)(enemy->death_duration / 16);
+    if (step >= 16)
+        step = 15;
+    enemy->object->sprite = enemy->explosion[step];
+
+	if (enemy->time_in_death >= enemy->death_duration)
 	{
 		enemy->to_destroy = t_true;
 		return (t_false);
@@ -84,6 +89,7 @@ void    damage_enemy(t_timer_handler *timer_handler, t_enemy *enemy, Uint32 dama
     enemy->life_remaining -= damage;
     if (enemy->life_remaining <= 0 && (int)enemy->time_in_death <= 0)
     {
+        enemy->death_duration = 1700;
     	enemy->time_in_death = 1;
         add_event(
                 timer_handler,
@@ -121,8 +127,23 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
     write_str_to_file(fd, enemy.front->userdata);
     write_str_to_file(fd, enemy.side->userdata);
     write_str_to_file(fd, enemy.back->userdata);
-
-}
+    write_str_to_file(fd, enemy.explosion[0]->userdata);
+    write_str_to_file(fd, enemy.explosion[1]->userdata);
+    write_str_to_file(fd, enemy.explosion[2]->userdata);
+    write_str_to_file(fd, enemy.explosion[3]->userdata);
+    write_str_to_file(fd, enemy.explosion[4]->userdata);
+    write_str_to_file(fd, enemy.explosion[5]->userdata);
+    write_str_to_file(fd, enemy.explosion[6]->userdata);
+    write_str_to_file(fd, enemy.explosion[7]->userdata);
+    write_str_to_file(fd, enemy.explosion[8]->userdata);
+    write_str_to_file(fd, enemy.explosion[9]->userdata);
+    write_str_to_file(fd, enemy.explosion[10]->userdata);
+    write_str_to_file(fd, enemy.explosion[11]->userdata);
+    write_str_to_file(fd, enemy.explosion[12]->userdata);
+    write_str_to_file(fd, enemy.explosion[13]->userdata);
+    write_str_to_file(fd, enemy.explosion[14]->userdata);
+    write_str_to_file(fd, enemy.explosion[15]->userdata);
+ }
 
 static void	init_enemy_from_type(t_enemy *enemy)
 {
@@ -162,6 +183,22 @@ void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
     enemy->object->sprite = enemy->front;
     find_texture_from_file(fd, textures, &enemy->side);
     find_texture_from_file(fd, textures, &enemy->back);
+    find_texture_from_file(fd, textures, &(enemy->explosion[0]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[1]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[2]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[3]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[4]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[5]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[6]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[7]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[8]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[9]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[10]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[11]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[12]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[13]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[14]));
+    find_texture_from_file(fd, textures, &(enemy->explosion[15]));
 }
 
 void    write_enemies_to_file(int fd, t_linked_enemies *enemies)

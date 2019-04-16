@@ -64,7 +64,6 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
     int     i;
     t_linked_enemies	*enemies;
     t_linked_enemies	*next;
-    int     k;
 
     i = 0;
     while (i < sectors->count)
@@ -87,12 +86,6 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
                   enemies->item.object->sprite = enemies->item.back;
             else
                 enemies->item.object->sprite = enemies->item.side;
-            k = 0;
-            while (/*sectors->items[i].enemies->items[j].time_in_death != 0 && */k < 15)
-            {
-                enemies->item.object->sprite = enemies->item.explosion[k];
-                k++;
-            }
             enemies = enemies->next;
         }
         i++;
