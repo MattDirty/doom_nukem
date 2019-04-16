@@ -63,6 +63,7 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
 {
     int     i;
     t_linked_enemies	*enemies;
+    t_linked_enemies	*next;
 
     i = 0;
     while (i < sectors->count)
@@ -72,7 +73,9 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
         {
         	if (enemies->item.to_destroy)
 			{
-				delete_enemy(&sectors->items[i].enemies, enemies);
+                next = enemies->next;
+				delete_enemy(&sectors->items[i].enemies, &enemies->item);
+                enemies = next;
 				continue;
 			}
             if (fabs(enemies->item.heading - p_heading) <= 3.14 + 0.78

@@ -48,8 +48,14 @@ void read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy);
 void write_enemy_to_file(int fd, t_enemy enemy);
 
 void damage_enemy(t_timer_handler *timer_handler, t_enemy *enemy, Uint32 damage);
-void	delete_enemy(
+void	add_enemy(
         t_linked_enemies **linked_enemies,
         t_linked_enemies *enemy);
+t_linked_enemies	*extract_enemy(
+        t_linked_enemies **linked_enemies,
+        t_enemy *enemy);
+void	delete_enemy(
+        t_linked_enemies **linked_enemies,
+        t_enemy *enemy);
 
 #endif

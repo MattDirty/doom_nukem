@@ -5,35 +5,62 @@
 #include "e_bool.h"
 #include "sectors.h"
 
-void	delete_enemy(
+void	add_enemy(
         t_linked_enemies **linked_enemies,
         t_linked_enemies *enemy)
 {
-    t_linked_enemies	*p;
-    t_linked_enemies	*n;
+    t_linked_enemies	*node;
 
-    if (enemy == *linked_enemies)
+    if (!*linked_enemies)
     {
-        p = *linked_enemies;
-        *linked_enemies = p->next;
-        free(p->item.object);
-        free(p);
+        *linked_enemies = enemy;
         return;
     }
-    p = NULL;
-    n = *linked_enemies;
-	while (n)
+    node = *linked_enemies;
+    while (node->next)
+        node = node->next;
+    node->next = enemy;
+}
+
+t_linked_enemies	*extract_enemy(
+        t_linked_enemies **linked_enemies,
+        t_enemy *enemy)
+{
+    t_linked_enemies	*previous;
+    t_linked_enemies	*node;
+
+    if (enemy == &(*linked_enemies)->item)
+    {
+        previous = *linked_enemies;
+        *linked_enemies = previous->next;
+        return (previous);
+    }
+    previous = NULL;
+    node = *linked_enemies;
+	while (node)
 	{
-        if (n == enemy)
+        if (&node->item == enemy)
         {
-            p->next = n->next;
-            free(n->item.object);
-            free(n);
-            return;
+            previous->next = node->next;
+            return (node);
         }
-        p = n;
-        n = n->next;
+        previous = node;
+        node = node->next;
 	}
+    return NULL;
+}
+
+void	delete_enemy(
+        t_linked_enemies **linked_enemies,
+        t_enemy *enemy)
+{
+    t_linked_enemies	*node;
+
+    node = extract_enemy(linked_enemies, enemy);
+    if (!node)
+        return;
+    free(node->item.object);
+    free(node);
 }
 
 enum e_bool enemy_death(double ms_since_update, t_params params)

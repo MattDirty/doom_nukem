@@ -13,6 +13,8 @@ void			enemy_move(
         t_env *e)
 {
     t_vector	direction;
+    t_linked_enemies	*extracted_node;
+    t_sector	*new_sector;
 
     direction = (t_vector){d.x - enemy->object->x, d.y - enemy->object->y};
     normalize_vector(&direction);
@@ -23,7 +25,13 @@ void			enemy_move(
             (t_coords){enemy->object->x, enemy->object->y},
             enemy_sector))
     {
-        (void)e;
+        new_sector = in_which_sector(
+                (t_coords){enemy->object->x, enemy->object->y},
+                e->map->sectors);
+        if (!new_sector)
+            return;
+        extracted_node = extract_enemy(&enemy_sector->enemies, enemy);
+        add_enemy(&new_sector->enemies, extracted_node);
     }
 }
 
