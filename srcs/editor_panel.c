@@ -175,5 +175,5 @@ void        toggle_lighting(t_params params)
         ptr->ed->selected.sector->light = 0xDD000000;
     else
         ptr->ed->selected.sector->light = 0;
-
+    ptr->ed->map_is_updated = t_false;
 }

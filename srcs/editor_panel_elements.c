@@ -62,6 +62,7 @@ void    create_light_btn(TTF_Font *font, SDL_Surface *target, Uint32 light_color
     fill_rect(target, &light_btn.rect, WHITE, t_false);
     fill_rect(target, &light_btn.rect, light_color, t_true);
     draw_on_screen(target, light, pos, t_false);
+    light_btn.rect.pos.x += PANEL_X;
     light_btn.f = &toggle_lighting;
     light_btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, light_btn);

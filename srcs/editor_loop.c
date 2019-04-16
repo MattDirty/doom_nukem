@@ -1,7 +1,7 @@
 #include "editor.h"
 #include "editor_move_stuff.h"
 
-void    rand_lighting(t_sector *sector)
+void    rand_lighting(t_editor *ed, t_sector *sector)
 {
     Uint8   a;
     Uint8   r;
@@ -15,6 +15,7 @@ void    rand_lighting(t_sector *sector)
     if (!a)
         a = 1;
     sector->light = (a << 24) + (r << 16) + (g << 8) + b;
+    ed->map_is_updated = t_false;
 }
 
 void	event_editor(t_editor *ed)
@@ -49,7 +50,7 @@ void	event_editor(t_editor *ed)
 		    move_map(ed, ev.key.keysym.scancode);
 		    if (ed->selected.sector && ed->selected.sector->light
 		        && ev.key.keysym.scancode == SDL_SCANCODE_R)
-		        rand_lighting(ed->selected.sector);
+		        rand_lighting(ed, ed->selected.sector);
         }
 	}
 	if (ed->dragged.nodes && (x || y))
