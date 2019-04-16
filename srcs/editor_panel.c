@@ -102,7 +102,7 @@ void        draw_panel_back(SDL_Surface *surface)
 
 	panel = create_rect(0, 0, PANEL_W - 1, EDITOR_H - 1);
 	draw_rect(surface, &panel, WHITE);
-	fill_rect(surface, &panel, PANEL_BACKGROUND);
+	fill_rect(surface, &panel, PANEL_BACKGROUND, t_false);
 }
 
 void        write_panel_state(t_editor *ed, char *state_str)
@@ -139,8 +139,8 @@ void create_save_button(TTF_Font *font,
     save_btn.rect = create_rect(
             pos.x - 12, pos.y - 12, save->w + 24, save->h + 8);
     center = create_rect(pos.x - 8, pos.y - 8, save->w + 16, save->h + 0);
-    fill_rect(target, &save_btn.rect, SAVE_BORDER);
-    fill_rect(target, &center, SAVE_CENTER);
+    fill_rect(target, &save_btn.rect, SAVE_BORDER, t_false);
+    fill_rect(target, &center, SAVE_CENTER, t_false);
     draw_on_screen(target, save, pos, t_false);
     save_btn.rect.pos.x += PANEL_X;
     save_btn.f = &save_editor;
@@ -164,4 +164,16 @@ void        draw_panel(t_editor *ed)
         create_save_button(ed->fonts->amazdoom40, ed->panel.surface, &ed->panel, ed);
     draw_on_screen(ed->sdl.surface, ed->panel.surface,
 				   (t_i_coords){EDITOR_W - PANEL_W, 0}, t_true);
+}
+
+void        toggle_lighting(t_params params)
+{
+    t_btn_params *ptr;
+
+    ptr = (t_btn_params *)params;
+    if (!ptr->ed->selected.sector->light)
+        ptr->ed->selected.sector->light = 0xDD000000;
+    else
+        ptr->ed->selected.sector->light = 0;
+
 }

@@ -41,7 +41,7 @@ void        draw_rect(SDL_Surface *surface, t_rect *rect, Uint32 color)
     draw_segment(surface, s2, color);
 }
 
-void        fill_rect(SDL_Surface *surface, t_rect *rect, Uint32 color)
+void        fill_rect(SDL_Surface *surface, t_rect *rect, Uint32 color, enum e_bool alpha)
 {
     int x;
     int y;
@@ -53,7 +53,12 @@ void        fill_rect(SDL_Surface *surface, t_rect *rect, Uint32 color)
         while (x < rect->pos.x + rect->width - 1)
         {
             if (x >= 0 && x < surface->w && y >= 0 && y < surface->h)
-                put_pixel(surface, x, y, color);
+            {
+                if (alpha)
+                    put_pixel_alpha(surface, x, y, color);
+                else
+                    put_pixel(surface, x, y, color);
+            }
             x++;
         }
         y++;

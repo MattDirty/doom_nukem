@@ -71,7 +71,6 @@ SRC_EDITOR_NAME = editor.c \
 				  editor_loop.c \
 				  editor_draw.c \
 				  editor_panel.c \
-				  editor_panel_map.c \
 				  editor_panel_elements.c \
 				  editor_panel_buttons.c \
 				  editor_mouse_clicks.c \
