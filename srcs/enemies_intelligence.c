@@ -48,6 +48,8 @@ void			boss_intelligence(
             enemy->object->x, enemy->object->y);
     ratio = dist / 2;
     e->p.health -= BLACKHOLE_AURA_DAMAGE / 60.0 / ratio;
+    if (e->p.health <= 0)
+        e->p.dead = t_true;
     e->p.hurt = ratio <= 2.5;
     enemy_move(enemy, e->p.pos, enemy_sector, e);
 }
