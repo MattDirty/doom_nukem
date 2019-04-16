@@ -190,6 +190,7 @@ void    read_enemies_from_file(
         return;
     if (!(*enemies = (t_linked_enemies*)malloc(sizeof(t_linked_enemies))))
         error_doom("Couldn't allocate enemies struct");
+    (*enemies)->next = NULL;
     read_enemy_from_file(fd, textures, &(*enemies)->item);
     read_enemies_from_file(fd, textures, &(*enemies)->next);
 }
