@@ -239,6 +239,7 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
 
  static void	init_enemy_from_type(t_enemy *enemy)
 {
+    enemy->animation_time = 0;
     if (enemy->type == et_boss)
     {
         enemy->act = boss_intelligence;
@@ -248,6 +249,8 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
     {
         enemy->act = basic_enemy_intelligence;
         enemy->speed = 0.1;
+        enemy->object->vertical_size = 0.7;
+        enemy->object->horizontal_size = 0.7;
     }
     else
         error_doom("invalid enemy");

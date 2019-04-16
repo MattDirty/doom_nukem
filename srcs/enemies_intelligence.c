@@ -52,6 +52,7 @@ void			boss_intelligence(
         e->p.dead = e_true;
     e->p.hurt = ratio <= 2.5;
     enemy_move(enemy, e->p.pos, enemy_sector, e);
+    enemy->object->z += 0.005 * cos(enemy->animation_time / 1000.);
 }
 
 void			basic_enemy_intelligence(
@@ -61,7 +62,9 @@ void			basic_enemy_intelligence(
 {
     (void)e;
     (void)enemy_sector;
-    enemy->object->z = 0.5;
+    (void)enemy;
+    //todo: erratic move until they see the player
+    //then they shoot and flee and get back to erratic moves
 }
 
 enum e_bool     let_enemies_act(double ms_since_update, t_params params)
@@ -83,6 +86,7 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
         {
             enemy = &node->item;
             enemy->act(enemy, sector, e);
+            enemy->animation_time += ms_since_update;
             node = node->next;
         }
         i++;

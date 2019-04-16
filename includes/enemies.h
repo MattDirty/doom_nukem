@@ -32,6 +32,7 @@ typedef struct s_enemy
     t_enemy_intelligence act;
     double		speed;
     SDL_Surface *explosion[16];
+    double		animation_time;
 }               t_enemy;
 
 typedef struct	s_linked_enemies
