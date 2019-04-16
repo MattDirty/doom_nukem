@@ -107,23 +107,10 @@ enum e_bool     click_on_walls(t_editor *ed, t_linked_walls *linked_walls, int m
 	return (t_false);
 }
 
-enum e_bool     click_on_panel(t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y)
+enum e_bool     click_on_panel(t_editor *ed, int mouse_x, int mouse_y)
 {
-	int i;
-
-	if (mouse_x < PANEL_X)
-		return (t_false);
-	i = 0;
-	while (i < buttons->count)
-	{
-		if (is_in_rect(&buttons->items[i].rect, mouse_x, mouse_y))
-		{
-			buttons->items[i].f(ed, &buttons->items[i].rect);
-			return (t_true);
-		}
-		i++;
-	}
-	return (t_true);
+    (void)ed; (void)mouse_y;
+	return (mouse_x > PANEL_X);
 }
 
 enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int x, int y)

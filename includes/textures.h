@@ -8,12 +8,12 @@
 typedef struct				s_texture_node
 {
     SDL_Surface				*texture;
+    struct s_texture_node	*next;
 }							t_texture_node;
 
 typedef struct				s_textures
 {
-    t_texture_node			*item;
-    t_textures              *next
+    t_texture_node			*first;
 }							t_textures;
 
 /**
@@ -49,5 +49,7 @@ void	read_texture_node_from_file(int fd, t_texture_node **texture_node);
 void	write_texture_node_to_file(int fd, t_texture_node *texture_node);
 
 void	find_texture_from_file(int fd, t_textures *textures, SDL_Surface **surface);
+
+void	add_texture(t_textures *textures, t_texture_node *new_node);
 
 #endif

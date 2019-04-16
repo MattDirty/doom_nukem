@@ -11,160 +11,103 @@
 /* ************************************************************************** */
 
 #include "editor.h"
+#include "editor_panel.h"
 #include "editor_draw.h"
 #include "ui.h"
 
-static void save_editor(t_editor *ed, t_rect *rect)
+void	draw_miniature(
+		SDL_Surface *dst, SDL_Surface *src, t_i_coords size, t_i_coords pos)
 {
-    write_file(ed->map_path, ed->textures, ed->map);
-    draw_rect(ed->sdl.surface, rect, BLACK);
+	t_i_coords	dst_pos;
+	t_i_coords	src_pos;
+	t_i_coords	step;
+
+	if (src->h > src->w)
+	{
+		size.x = size.x * src->w / src->h;
+		pos.x += (size.y - size.x) / 2;
+	}
+	else if (src->h < src->w)
+	{
+		size.y = size.y * src->h / src->w;
+		pos.y += (size.x - size.y) / 2;
+	}
+	dst_pos.y = pos.y;
+	step = (t_i_coords){round(src->w / size.x), round(src->h / size.y)};
+	src_pos.y = 0;
+	while (dst_pos.y < size.y + pos.y && src_pos.y < src->h)
+	{
+		dst_pos.x = pos.x;
+		src_pos.x = 0;
+		while (dst_pos.x < size.x + pos.x && src_pos.x < src->w)
+		{
+			put_pixel(dst, dst_pos.x, dst_pos.y,
+					get_pixel(src, src_pos.x, src_pos.y, t_true));
+			src_pos.x += step.x;
+			dst_pos.x++;
+		}
+		src_pos.y += step.y;
+		dst_pos.y++;
+	}
 }
 
-void draw_save_button(TTF_Font *font, SDL_Surface *target, t_buttons *buttons, int i)
+void		draw_sprites_section(
+		t_editor *ed, t_textures *sprites, char *title_str, int *y)
 {
-    t_button    save_btn;
-    SDL_Surface *save;
-    t_i_coords  pos;
-    t_rect      center;
+	SDL_Surface		*title;
+	t_texture_node	*node;
+	t_i_coords		pos;
+	t_rect			rect;
 
-    save = write_text(font, "SAVE", (SDL_Colour){255,255,255,255});
-    pos.x = PANEL_W - save->w - 100;
-    pos.y = PANEL_H - save->h - 30;
-    save_btn.rect = create_rect(pos.x - 12, pos.y - 12,
-                             save->w + 24, save->h + 24);
-    center = create_rect(pos.x - 8, pos.y - 8, save->w + 16, save->h + 16);
-    fill_rect(target, &save_btn.rect, SAVE_BORDER);
-    fill_rect(target, &center, SAVE_CENTER);
-    draw_on_screen(target, save, pos, t_false);
-    save_btn.f = &save_editor;
-    buttons->items[i] = save_btn;
-    SDL_FreeSurface(save);
-}
-
-void draw_texture(t_editor *ed, SDL_Surface *texture, Uint32 color)
-{
-    t_button    text_btn;
-    t_i_coords  text;
-    t_i_coords  pos;
-    Uint32      color_text;
-
-    text_btn.rect = create_rect(ed->text_pos.x, ed->text_pos.y, 40, 40);
-    draw_rect(ed->panel_surface, &text_btn.rect, color);
-    pos.y = text_btn.rect.pos.y + 1;
-    text.y = 0;
-    while (pos.y < (text_btn.rect.pos.y + text_btn.rect.height))
-    {
-        pos.x = text_btn.rect.pos.x + 1;
-        text.x = 0;
-        while (pos.x < (text_btn.rect.pos.x + text_btn.rect.width - 1))
-        {
-            color_text = get_pixel(texture, text.x, text.y, t_true);
-            put_pixel(ed->panel_surface, pos.x, pos.y, color_text);
-            pos.x++;
-            text.x += texture->w / 40;
-        }
-        pos.y++;
-        text.y += texture->h / 40;
-    }
-    ed->text_pos.x += 43;
-    ed->index++;
-}
-
-void    choose_texture(t_editor *ed, char **str, SDL_Surface *texture)
-{
-    Uint32  color_walls;
-
-    color_walls = GREEN;
-    if (ed->selected.wall && ed->selected.wall->texture
-    && !(ft_strcmp(ed->selected.wall->texture->userdata, texture->userdata)))
-        color_walls = RED;
-    if (!(ft_strcmp(str[1], "walls")) || !(ft_strcmp(str[1], "flats")))
-    {
-        ed->text_pos.y = 200;
-        draw_texture(ed, texture, color_walls);
-        if (ed->index >= 6 && (ed->text_pos.x = 0 + 5))
-            ed->index = 0;
-    }
-    if (!(ft_strcmp(str[1], "skybox")) && (ed->text_pos.y = 55))
-        draw_texture(ed, texture, WHITE);
-    if (!(ft_strcmp(str[1], "sprites")) || !(ft_strcmp(str[2], "flag.bmp")))
-    {
-        ed->text_pos.y = 270;
-        draw_texture(ed, texture, color_walls);
-        if (ed->index >= 4 && (ed->text_pos.x = 0 + 5))
-            ed->index = 0;
-    }
-}
-
-void        draw_all_text(t_editor *ed)
-{
-    t_texture_node *n;
-    t_texture_node *p;
-    char            **path;
-    int             i;
-
-    ed->text_pos.x = 0 + 5;
-    n = ed->textures->first;
-    ed->index = 0;
-    while (n)
-    {
-        p = n;
-        path = ft_strsplit(p->texture->userdata, '/');
-        choose_texture(ed, path, p->texture);
-        n = n->next;
-    }
-    i = -1;
-    while (path[++i])
-        free(path[i]);
-    free(path);
-}
-
-void        write_textures_categories(SDL_Surface *target, TTF_Font *font)
-{
-    SDL_Surface *category;
-    t_i_coords  pos;
-
-    pos.x = 0 + 5;
-    pos.y = 0 + 70;
-    category = write_text(font, "SKY", (SDL_Colour){0,0,0,255});
-    draw_on_screen(target, category, pos, t_false);
-    pos.y += 70;
-    SDL_FreeSurface(category);
-    category = write_text(font, "FLATS", (SDL_Colour){0,0,0,255});
-    draw_on_screen(target, category, pos, t_false);
-    pos.y += 70;
-    SDL_FreeSurface(category);
-    category = write_text(font, "SPRITES", (SDL_Colour){0,0,0,255});
-    draw_on_screen(target, category, pos, t_false);
-    pos.y += 70;
-    SDL_FreeSurface(category);
+	title = write_text(ed->fonts->vcr20, title_str,
+					   (SDL_Colour){255,255,255,255});
+	draw_on_screen(ed->panel.surface, title,
+				   (t_i_coords){PANEL_PADDING_LEFT, *y}, t_false);
+	SDL_FreeSurface(title);
+	node = sprites->first;
+	*y += 25;
+	pos = (t_i_coords){PANEL_PADDING_LEFT, *y};
+	while (node)
+	{
+		draw_miniature(ed->panel.surface, node->texture,
+				(t_i_coords){PANEL_MINIATURE_MAX_W, PANEL_MINIATURE_MAX_H},
+				pos);
+		if (ft_strcmp(ed->selected_sprite_str, node->texture->userdata) == 0)
+		{
+			rect = create_rect(pos.x, pos.y, PANEL_MINIATURE_MAX_W,
+					PANEL_MINIATURE_MAX_H);
+			draw_rect(ed->panel.surface, &rect, RED);
+		}
+		pos.x += PANEL_MINIATURE_MAX_W + PANEL_PADDING_LEFT;
+		node = node->next;
+	}
+	*y += 65;
 }
 
 void        draw_panel_back(SDL_Surface *surface)
 {
     t_rect  panel;
 
-    panel = create_rect(0, 0, PANEL_W - 1, EDITOR_H - 1);
-    draw_rect(surface, &panel, WHITE);
-    fill_rect(surface, &panel, DARK_BLUE);
+	panel = create_rect(0, 0, PANEL_W - 1, EDITOR_H - 1);
+	draw_rect(surface, &panel, WHITE);
+	fill_rect(surface, &panel, PANEL_BACKGROUND);
 }
 
 void        write_panel_state(t_editor *ed, char *state_str)
 {
     SDL_Surface *state;
 
-    state = write_text(ed->fonts->sixty40, state_str,
+    state = write_text(ed->fonts->vcr40, state_str,
             (SDL_Colour){255,255,255,255});
-    draw_on_screen(ed->panel_surface, state,
+    draw_on_screen(ed->panel.surface, state,
                    (t_i_coords){PANEL_W / 2 - state->w / 2, 10}, t_false);
     SDL_FreeSurface(state);
 }
 
 void        draw_panel(t_editor *ed)
 {
-    draw_panel_back(ed->panel_surface);
-    write_panel_state(ed, "MAP");
-    draw_save_button(ed->fonts->sixty40, ed->panel_surface, &ed->buttons, 0);
-    draw_on_screen(ed->sdl.surface, ed->panel_surface,
-                   (t_i_coords){EDITOR_W - PANEL_W, 0}, t_true);
+    draw_panel_back(ed->panel.surface);
+    editor_draw_panel_map(ed);
+	draw_on_screen(ed->sdl.surface, ed->panel.surface,
+				   (t_i_coords){EDITOR_W - PANEL_W, 0}, t_true);
 }

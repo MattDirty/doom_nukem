@@ -17,6 +17,7 @@
 #include "editor_draw.h"
 #include "editor_move_stuff.h"
 #include "bitmaps.h"
+#include "textures.h"
 
 static void    free_editor(t_editor *ed)
 {
@@ -68,34 +69,55 @@ t_fonts *load_fonts(void)
     fonts->horrendo120 = TTF_OpenFont("fonts/horrendo.ttf", 120);
     fonts->sixty20 = TTF_OpenFont("fonts/sixty.ttf", 20);
     fonts->sixty40 = TTF_OpenFont("fonts/sixty.ttf", 40);
+    fonts->amazdoom40 = TTF_OpenFont("fonts/amazdoom.ttf", 40);
+	fonts->vcr20 = TTF_OpenFont("fonts/vcr_mono.ttf", 20);
+	fonts->vcr40 = TTF_OpenFont("fonts/vcr_mono.ttf", 40);
     if (!fonts->horrendo120 || !fonts->sixty20 || !fonts->sixty40)
         error_doom("Couldn't open fonts");
     return (fonts);
 }
 
-void    link_textures(t_textures *textures, t_panel panel, char *chooser)
+void    create_sub_lists(t_textures *textures, t_panel *panel)
 {
-    t_texture_node  *ptr;
+    t_texture_node	*node;
+    t_texture_node	*new_node;
     char            **str;
 
-    ptr = textures->first;
-
-    while (ptr)
+    node = textures->first;
+	panel->skies.first = NULL;
+	panel->walls.first = NULL;
+	panel->flats.first = NULL;
+	panel->sprites.first = NULL;
+	panel->wall_objects.first = NULL;
+    while (node)
     {
-        str = ft_strsplit(ptr->texture->userdata, '/');
-        if (ft_strcmp(str[1], "skybox"))
-            add_texture(panel->skies, ptr);
-        ptr = ptr->next;
+		if (!(new_node = (t_texture_node *)malloc(sizeof(t_texture_node))))
+			error_doom("Couldn't malloc new node");
+		new_node->texture = node->texture;
+		new_node->next = NULL;
+        str = ft_strsplit(node->texture->userdata, '/');
+        if (ft_strcmp(str[1], "skybox") == 0)
+            add_texture(&panel->skies, new_node);
+		else if (ft_strcmp(str[1], "walls") == 0)
+			add_texture(&panel->walls, new_node);
+		else if (ft_strcmp(str[1], "flats") == 0)
+			add_texture(&panel->flats, new_node);
+		else if (ft_strcmp(str[1], "sprites") == 0)
+			add_texture(&panel->sprites, new_node);
+		else if (ft_strcmp(str[1], "wall_objects") == 0)
+			add_texture(&panel->wall_objects, new_node);
+        node = node->next;
     }
 }
 
 void    init_panel(t_panel *panel, t_textures *textures)
 {
-    if (!(panel->surface = SDL_CreateRGBSurface(
+	if (!(panel->surface = SDL_CreateRGBSurface(
             0, PANEL_W, PANEL_H, 32,
-            MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
-        error_doom("Couldn't create Panel Surface");
-    link_textures(textures, panel, "skybox");
+            MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA))) {
+		error_doom("Couldn't create Panel Surface");
+	}
+    create_sub_lists(textures, panel);
 }
 
 int		main(int ac, char **av)
@@ -113,23 +135,23 @@ int		main(int ac, char **av)
     ed.map_offset.x = DRAW_MAP_X;
     ed.map_offset.y = DRAW_MAP_Y;
 	if (stat(av[1], &buf) < 0)
-    {
-        ed.textures = load_textures();
-	    ed.map = create_map(ed.textures);
-        ed.fonts = load_fonts();
-        ed.sounds = NULL;
-    }
+	{
+		ed.textures = load_textures();
+		ed.map = create_map(ed.textures);
+		ed.fonts = load_fonts();
+		ed.sounds = NULL;
+	}
     else
-    {
-        read_data.textures = &ed.textures;
-        read_data.map = &ed.map;
-        read_data.fonts = &ed.fonts;
-        read_data.sounds = &ed.sounds;
-        read_file_editor(av[1], &read_data);
-    }
-    ed.fonts = load_fonts();
-    init_panel(&ed.panel);
-    clear_selection(&ed.selected);
+	{
+		read_data.textures = &ed.textures;
+		read_data.map = &ed.map;
+		read_data.fonts = &ed.fonts;
+		read_data.sounds = &ed.sounds;
+		read_file_editor(av[1], &read_data);
+	}
+	ed.fonts = load_fonts();
+	init_panel(&ed.panel, ed.textures);
+	clear_selection(&ed.selected);
     clear_selection(&ed.dragged);
     editor_loop(&ed);
     return (0);

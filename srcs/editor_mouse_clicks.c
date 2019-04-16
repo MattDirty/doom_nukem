@@ -62,7 +62,7 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
     t_linked_walls *linked_walls;
 
 
-    if (click_on_panel(ed, &ed->buttons, mouse_x, mouse_y))
+    if (click_on_panel(ed, mouse_x, mouse_y))
         return ;
     clear_selection(&ed->selected);
     clear_selection(&ed->dragged);

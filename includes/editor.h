@@ -1,21 +1,22 @@
 #ifndef DOOMNUKEM_EDITOR_H
 # define DOOMNUKEM_EDITOR_H
 
-#include <unistd.h>
-#include <stdio.h> // TO DELETE !!!
-#include <math.h>
+# include <unistd.h>
+# include <stdio.h> // TO DELETE !!!
+# include <math.h>
 
-#include "SDL.h"
-#include "doom.h"
-#include "serialisation.h"
-#include "editor_draw.h"
+# include "SDL.h"
+# include "doom.h"
+# include "serialisation.h"
+# include "editor_draw.h"
 # include "textures.h"
 # include "map.h"
 # include "walls.h"
 # include "collision.h"
-#include "default.h"
-#include "surface_manipulation.h"
-#include "editor_walls_nodes.h"
+# include "default.h"
+# include "surface_manipulation.h"
+# include "editor_walls_nodes.h"
+# include "editor_panel.h"
 
 # define EDITOR_W 1600
 # define EDITOR_H 600
@@ -24,8 +25,7 @@
 # define EDITOR_ZOOM 20
 # define CORNER_SIZE 10
 
-typedef struct          s_editor t_editor;
-typedef struct          s_wall_nodes t_wall_nodes;
+typedef struct  s_wall_nodes t_wall_nodes;
 
 typedef struct			s_sdl_editor
 {
@@ -33,18 +33,6 @@ typedef struct			s_sdl_editor
     SDL_Renderer		*renderer;
     SDL_Surface         *surface;
 }						t_sdl_editor;
-
-typedef struct			s_button
-{
-	t_rect				rect;
-	void				(*f)(t_editor *ed, t_rect *rect);
-}						t_button;
-
-typedef struct			s_buttons
-{
-    int                 count;
-	t_button			items[1];
-}						t_buttons;
 
 typedef	struct			s_selected_elements
 {
@@ -64,13 +52,12 @@ typedef struct          s_editor
     t_textures      	*textures;
     t_sounds            *sounds;
     t_panel             panel;
-    t_buttons       	buttons;
     t_i_coords      	text_pos;
     t_i_coords			map_offset;
-    SDL_Surface         *panel_surface;
     int             	index;
     int					zoom;
     t_fonts				*fonts;
+    char				*selected_sprite_str;
 	t_selected_elements	selected;
 	t_selected_elements	dragged;
 }                       t_editor;
@@ -80,11 +67,9 @@ t_textures	*load_textures(void);
 void		clear_selection(t_selected_elements *selected);
 void		editor_loop(t_editor *ed);
 
-void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y);
-void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y);
-enum e_bool click_on_panel(
-        t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y);
-enum e_bool click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int mouse_x, int mouse_y);
+void    		mousedown_action(t_editor *ed, int mouse_x, int mouse_y);
+void    		mouseup_action(t_editor *ed, int mouse_x, int mouse_y);
+enum e_bool		click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int mouse_x, int mouse_y);
 void            deal_with_clicked_wall(t_editor *ed, t_wall *wall);
 void		quit_editor(t_editor *ed);
 
