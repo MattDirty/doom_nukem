@@ -60,6 +60,7 @@ typedef struct          s_editor
     SDL_Surface         **selected_sprite;
 	t_selected_elements	selected;
 	t_selected_elements	dragged;
+	enum e_bool         map_is_updated;
 }                       t_editor;
 
 t_map		*create_map(t_textures *textures);

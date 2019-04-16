@@ -21,7 +21,10 @@ void    change_selected_texture(t_params params)
     t_btn_params *btn_params;
 
     btn_params = (t_btn_params *)params;
+    if (*btn_params->selected == btn_params->target)
+        return ;
     *btn_params->selected = btn_params->target;
+    btn_params->ed->map_is_updated = t_false;
 }
 
 void	draw_miniature(
@@ -113,6 +116,39 @@ void        write_panel_state(t_editor *ed, char *state_str)
     SDL_FreeSurface(state);
 }
 
+void save_editor(t_params params)
+{
+    t_btn_params *ptr;
+
+    ptr = (t_btn_params *)params;
+    write_file(ptr->ed->map_path, ptr->ed->textures, ptr->ed->map);
+    ptr->ed->map_is_updated = t_true;
+}
+
+void create_save_button(TTF_Font *font,
+                        SDL_Surface *target, t_panel *panel, t_editor *ed)
+{
+    SDL_Surface *save;
+    t_i_coords  pos;
+    t_rect      center;
+    t_button    save_btn;
+
+    save = write_text(font, "SAVE", (SDL_Colour){255,255,255,255});
+    pos.x = PANEL_W - save->w - 100;
+    pos.y = PANEL_H - save->h - 30;
+    save_btn.rect = create_rect(
+            pos.x - 12, pos.y - 12, save->w + 24, save->h + 8);
+    center = create_rect(pos.x - 8, pos.y - 8, save->w + 16, save->h + 0);
+    fill_rect(target, &save_btn.rect, SAVE_BORDER);
+    fill_rect(target, &center, SAVE_CENTER);
+    draw_on_screen(target, save, pos, t_false);
+    save_btn.rect.pos.x += PANEL_X;
+    save_btn.f = &save_editor;
+    save_btn.params = create_btn_params(NULL, NULL, ed);
+    add_button_to_list(&panel->buttons, save_btn);
+    SDL_FreeSurface(save);
+}
+
 void        draw_panel(t_editor *ed)
 {
     draw_panel_back(ed->panel.surface);
@@ -124,6 +160,8 @@ void        draw_panel(t_editor *ed)
         editor_draw_panel_sector(ed);
     else
         editor_draw_panel_map(ed);
-	draw_on_screen(ed->sdl.surface, ed->panel.surface,
+    if (!ed->map_is_updated)
+        create_save_button(ed->fonts->amazdoom40, ed->panel.surface, &ed->panel, ed);
+    draw_on_screen(ed->sdl.surface, ed->panel.surface,
 				   (t_i_coords){EDITOR_W - PANEL_W, 0}, t_true);
 }

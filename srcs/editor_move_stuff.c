@@ -13,27 +13,30 @@ void	move_map(t_editor *ed, SDL_Scancode key)
         ed->map_offset.x -= 0.5 * ed->zoom;;
 }
 
-void    move_walls_nodes(t_wall_nodes *nodes, double x, double y, int zoom)
+void    move_walls_nodes(t_editor *ed, double x, double y)
 {
-    t_wall_nodes *ptr;
+    t_wall_nodes *nodes;
 
-    ptr = nodes;
-    while (ptr)
+    nodes = ed->dragged.nodes;
+    while (nodes)
     {
-        *ptr->item.x += x / zoom;
-        *ptr->item.y -= y / zoom;
-        ptr = ptr->next;
+        *nodes->item.x += x / ed->zoom;
+        *nodes->item.y -= y / ed->zoom;
+        nodes = nodes->next;
     }
+    ed->map_is_updated = t_false;
 }
 
-void    move_player_spawn(t_coords *spawn, double x, double y, int zoom)
+void    move_player_spawn(t_editor *ed, double x, double y)
 {
-    spawn->x += x / zoom;
-    spawn->y -= y / zoom;
+    ed->dragged.p_spawn->x += x / ed->zoom;
+    ed->dragged.p_spawn->y -= y / ed->zoom;
+    ed->map_is_updated = t_false;
 }
 
-void	move_object(t_object *object, double x, double y, int zoom)
+void	move_object(t_editor *ed, double x, double y)
 {
-	object->x += x / zoom;
-	object->y -= y / zoom;
+    ed->dragged.object->x += x / ed->zoom;
+    ed->dragged.object->y -= y / ed->zoom;
+    ed->map_is_updated = t_false;
 }

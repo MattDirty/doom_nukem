@@ -31,12 +31,12 @@ void	event_editor(t_editor *ed)
 		if (ev.type == SDL_KEYDOWN)
 			move_map(ed, ev.key.keysym.scancode);
 	}
-	if (ed->dragged.nodes)
-		move_walls_nodes(ed->dragged.nodes, x, y, ed->zoom);
-	else if (ed->dragged.p_spawn)
-		move_player_spawn(ed->dragged.p_spawn, x, y, ed->zoom);
-	else if (ed->dragged.object)
-		move_object(ed->dragged.object, x, y, ed->zoom);
+	if (ed->dragged.nodes && (x || y))
+		move_walls_nodes(ed, x, y);
+	else if (ed->dragged.p_spawn && (x || y))
+		move_player_spawn(ed, x, y);
+	else if (ed->dragged.object && (x || y))
+		move_object(ed, x, y);
 }
 
 void	reframe_editor(t_editor *ed)
