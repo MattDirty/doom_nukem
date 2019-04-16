@@ -18,10 +18,10 @@
 
 void    change_selected_texture(t_params params)
 {
-    t_btn_params *btn_params;
+    t_btn_params    *btn_params;
 
     btn_params = (t_btn_params *)params;
-    if (*btn_params->selected == btn_params->target)
+    if (!btn_params->selected || *btn_params->selected == btn_params->target)
         return ;
     *btn_params->selected = btn_params->target;
     btn_params->ed->map_is_updated = t_false;
