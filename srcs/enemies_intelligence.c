@@ -59,7 +59,7 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
     t_env		*e;
     t_enemy		*enemy;
     int			i;
-    int			j;
+    t_linked_enemy	*node;
     t_sector	*sector;
 
     (void)ms_since_update;
@@ -68,12 +68,11 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
     while  (i < e->map->sectors->count)
     {
         sector = e->map->sectors->items + i;
-        j = 0;
-        while  (j < sector->enemies->count)
+        node = sector->enemies;
+        while  (node)
         {
-            enemy = sector->enemies->items + j;
+            enemy = &node->enemy;
             enemy->act(enemy, sector, e);
-            j++;
         }
         i++;
     }

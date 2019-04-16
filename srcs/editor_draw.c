@@ -60,18 +60,20 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls, t_i_coords map_off
     }
 }
 
-void        draw_enemies_in_sector_editor(SDL_Surface *target, t_enemies *enemies, t_i_coords map_offset, int zoom)
+void        draw_enemies_in_sector_editor(
+        SDL_Surface *target,
+        t_linked_enemies *enemies,
+        t_i_coords map_offset,
+        int zoom)
 {
-    int         i;
     t_coords    coords;
 
-    i = 0;
-    while (i < enemies->count)
+    while (enemies)
     {
-        coords.x = map_offset.x + enemies->items[i].object->x * zoom;
-        coords.y = map_offset.y - enemies->items[i].object->y * zoom;
+        coords.x = map_offset.x + enemies->item.object->x * zoom;
+        coords.y = map_offset.y - enemies->item.object->y * zoom;
         draw_circle_filled(target, coords, 0.25 * zoom, PINK);
-        i++;
+        enemies = enemies->next;
     }
 }
 
