@@ -63,4 +63,6 @@
 
 # define ACTIVATE_LIGHTING 1
 
+# define BLACKHOLE_LSD
+
 #endif

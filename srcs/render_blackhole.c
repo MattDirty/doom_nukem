@@ -12,9 +12,13 @@ void    put_pixel_blackhole(t_env *e, int x, int y, Uint32 color)
         return;
     if (e->p.health < rand() % 100)
     {
+#ifdef BLACKHOLE_LSD
+        return;
+#else
         pix = e->doom.surface->pixels;
         pix[x + y * e->doom.surface->w] = 0xff000000;
         return;
+#endif
     }
     if (alpha == 0xff)
     {
