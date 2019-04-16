@@ -285,7 +285,7 @@ t_textures	*load_textures(void)
     add_bitmap_file_to_textures(textures, "textures/flats/dirt.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front.bmp");
-    add_bitmap_file_to_textures(textures, "textures/sprites/enemy_side.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/enemy_left.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/enemy_back.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/blackhole.bmp");
     add_bitmap_file_to_textures(textures, "textures/skybox/day.bmp");
