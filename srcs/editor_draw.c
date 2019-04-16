@@ -36,7 +36,7 @@ void        draw_corners_editor(SDL_Surface *surface, t_segment *s)
     fill_rect(surface, &rect, L_BLUE);
 }
 
-void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
+void		draw_walls_editor(SDL_Surface *surface, t_walls *walls, t_i_coords map_offset, int zoom)
 {
     int	i;
     t_segment s;
@@ -45,10 +45,10 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
     while (i < walls->count)
     {
         s = walls->items[i]->segment;
-        s.x1 = DRAW_MAP_X + s.x1 * EDITOR_ZOOM;
-        s.y1 = DRAW_MAP_Y - s.y1 * EDITOR_ZOOM;
-        s.x2 = DRAW_MAP_X + s.x2 * EDITOR_ZOOM;
-        s.y2 = DRAW_MAP_Y - s.y2 * EDITOR_ZOOM;
+        s.x1 = map_offset.x + s.x1 * zoom;
+        s.y1 = map_offset.y - s.y1 * zoom;
+        s.x2 = map_offset.x + s.x2 * zoom;
+        s.y2 = map_offset.y - s.y2 * zoom;
         if (walls->items[i]->type == e_portal)
             draw_segment(surface, s, RED);
         else if (walls->items[i]->type == e_wall)
@@ -60,7 +60,7 @@ void		draw_walls_editor(SDL_Surface *surface, t_walls *walls)
     }
 }
 
-void        draw_enemies_in_sector_editor(SDL_Surface *target, t_enemies *enemies)
+void        draw_enemies_in_sector_editor(SDL_Surface *target, t_enemies *enemies, t_i_coords map_offset, int zoom)
 {
     int         i;
     t_coords    coords;
@@ -68,14 +68,14 @@ void        draw_enemies_in_sector_editor(SDL_Surface *target, t_enemies *enemie
     i = 0;
     while (i < enemies->count)
     {
-        coords.x = DRAW_MAP_X + enemies->items[i].object->x * EDITOR_ZOOM;
-        coords.y = DRAW_MAP_Y - enemies->items[i].object->y * EDITOR_ZOOM;
-        draw_circle_filled(target, coords, 0.25 * EDITOR_ZOOM, PINK);
+        coords.x = map_offset.x + enemies->items[i].object->x * zoom;
+        coords.y = map_offset.y - enemies->items[i].object->y * zoom;
+        draw_circle_filled(target, coords, 0.25 * zoom, PINK);
         i++;
     }
 }
 
-void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *objects)
+void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *objects, t_i_coords map_offset, int zoom)
 {
     int         i;
     t_coords    coords;
@@ -83,9 +83,9 @@ void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *object
     i = 0;
     while (i < objects->count)
     {
-        coords.x = DRAW_MAP_X + objects->items[i].x * EDITOR_ZOOM;
-        coords.y = DRAW_MAP_Y - objects->items[i].y * EDITOR_ZOOM;
-        draw_circle_filled(target, coords, 0.15 * EDITOR_ZOOM, GREEN);
+        coords.x = map_offset.x + objects->items[i].x * zoom;
+        coords.y = map_offset.y - objects->items[i].y * zoom;
+        draw_circle_filled(target, coords, 0.15 * zoom, GREEN);
         i++;
     }
 }
@@ -98,14 +98,14 @@ void        draw_background(t_editor *ed)
     fill_rect(ed->sdl.surface, &background, BACKGROUND_COLOR);
 }
 
-void        draw_player_spawn(SDL_Surface *surface, t_coords spawn)
+void        draw_player_spawn(SDL_Surface *surface, t_coords spawn, t_i_coords map_offset, int zoom)
 {
     t_coords coords;
 
-    coords.x = DRAW_MAP_X + spawn.x * EDITOR_ZOOM;
-    coords.y = DRAW_MAP_Y - spawn.y * EDITOR_ZOOM;
+    coords.x = map_offset.x + spawn.x * zoom;
+    coords.y = map_offset.y - spawn.y * zoom;
 
-    draw_circle_filled(surface, coords, 0.33 * EDITOR_ZOOM, PLAYER_COLOR);
+    draw_circle_filled(surface, coords, 0.33 * zoom, PLAYER_COLOR);
 }
 
 void		draw_editor(t_editor *ed)
@@ -115,10 +115,10 @@ void		draw_editor(t_editor *ed)
     i = 0;
     while (i < ed->map->sectors->count)
     {
-        draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i].walls);
-        draw_objects_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].objects);
-        draw_enemies_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].enemies);
+        draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i].walls, ed->map_offset, ed->zoom);
+        draw_objects_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].objects, ed->map_offset, ed->zoom);
+        draw_enemies_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].enemies, ed->map_offset, ed->zoom);
         i++;
     }
-    draw_player_spawn(ed->sdl.surface, ed->map->spawn);
+    draw_player_spawn(ed->sdl.surface, ed->map->spawn, ed->map_offset, ed->zoom);
 }

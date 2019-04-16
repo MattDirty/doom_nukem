@@ -1,7 +1,7 @@
 #include "editor.h"
 #include "editor_move_stuff.h"
 
-int		event_editor(t_editor *ed)
+void	event_editor(t_editor *ed)
 {
 	double      x;
 	double      y;
@@ -22,15 +22,21 @@ int		event_editor(t_editor *ed)
 			mousedown_action(ed, ev.button.x, ev.button.y);
 		if (ev.type == SDL_MOUSEBUTTONUP && ev.button.button == SDL_BUTTON_LEFT)
 			mouseup_action(ed, ev.button.x, ev.button.y);
+		if (ev.type == SDL_MOUSEWHEEL)
+		{
+			ed->zoom += ev.wheel.y;
+			if (ed->zoom <= 1)
+				ed->zoom = 1;
+		}
+		if (ev.type == SDL_KEYDOWN)
+			move_map(ed, ev.key.keysym.scancode);
 	}
-
 	if (ed->dragged.nodes)
-		move_walls_nodes(ed->dragged.nodes, x, y);
+		move_walls_nodes(ed->dragged.nodes, x, y, ed->zoom);
 	else if (ed->dragged.p_spawn)
-		move_player_spawn(ed->dragged.p_spawn, x, y);
+		move_player_spawn(ed->dragged.p_spawn, x, y, ed->zoom);
 	else if (ed->dragged.object)
-		move_object(ed->dragged.object, x, y);
-	return (1);
+		move_object(ed->dragged.object, x, y, ed->zoom);
 }
 
 void	reframe_editor(t_editor *ed)

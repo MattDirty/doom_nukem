@@ -52,7 +52,8 @@ void        fill_rect(SDL_Surface *surface, t_rect *rect, Uint32 color)
         x = rect->pos.x + 1;
         while (x < rect->pos.x + rect->width - 1)
         {
-            put_pixel(surface, x, y, color);
+            if (x >= 0 && x < surface->w && y >= 0 && y < surface->h)
+                put_pixel(surface, x, y, color);
             x++;
         }
         y++;

@@ -87,6 +87,9 @@ int		main(int ac, char **av)
 	ft_bzero(&ed, sizeof(t_editor));
 	ed.map_path = av[1];
     init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
+    ed.zoom = EDITOR_ZOOM;
+    ed.map_offset.x = DRAW_MAP_X;
+    ed.map_offset.y = DRAW_MAP_Y;
 	if (stat(av[1], &buf) < 0)
     {
         ed.textures = load_textures();

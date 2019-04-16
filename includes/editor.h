@@ -65,7 +65,9 @@ typedef struct          s_editor
     t_sounds            *sounds;
     t_buttons       	buttons;
     t_i_coords      	text_pos;
+    t_i_coords			map_offset;
     int             	index;
+    int					zoom;
     t_fonts				*fonts;
 	t_selected_elements	selected;
 	t_selected_elements	dragged;

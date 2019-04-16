@@ -84,7 +84,9 @@ void draw_circle_filled(SDL_Surface *surface, t_coords center, int r, Uint32 col
 {
     while (r > 0)
     {
-        draw_circle(surface, center, r, color);
+        if ((center.x - r) >= 0 && (center.x + r) < surface->w
+            && (center.y - r) >= 0 && (center.y + r) < surface->h)
+            draw_circle(surface, center, r, color);
         r--;
     }
 }

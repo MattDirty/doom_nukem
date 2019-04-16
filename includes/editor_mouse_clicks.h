@@ -11,7 +11,7 @@ enum e_bool     click_on_walls(t_editor *ed, t_linked_walls *linked_walls, int m
 enum e_bool		click_on_enemy(t_editor *ed, t_map *map, int mouse_x, int mouse_y);
 enum e_bool		click_on_object(t_editor *ed, t_map *map, int mouse_x, int mouse_y);
 enum e_bool		click_on_sector(t_editor *ed, t_map *map, int mouse_x, int mouse_y);
-enum e_bool     is_on_seg(t_segment seg, int mouse_x, int mouse_y);
+enum e_bool     is_on_seg(t_segment seg, t_i_coords mouse, t_i_coords map_offset, int zoom);
 void            deal_with_clicked_player(t_editor *ed, t_coords *spawn);
 void			deal_with_clicked_enemy(t_editor *ed, t_enemy *enemy);
 void			deal_with_clicked_object(t_editor *ed, t_object *object);
