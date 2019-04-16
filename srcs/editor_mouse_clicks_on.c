@@ -1,5 +1,14 @@
 #include "editor_mouse_clicks.h"
 
+enum e_bool		click_on_sector(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
+{
+	ed->selected.sector = in_which_sector((t_i_coords){mouse_x, mouse_y}, map->sectors);
+	if (!ed->selected.sector)
+		return (t_false);
+	deal_with_clicked_sector(ed);
+	return (t_true);
+}
+
 enum e_bool     click_on_player(t_editor *ed, t_map *map, int x, int y)
 {
 	t_rect  rect;
@@ -78,12 +87,11 @@ enum e_bool     click_on_walls(t_editor *ed, t_linked_walls *linked_walls, int m
 	t_linked_walls *ptr;
 
 	ptr = linked_walls;
-	(void)ed;
 	while (ptr->wall)
 	{
 		if (is_on_seg(ptr->wall->segment, mouse_x, mouse_y))
 		{
-			printf("blop\n");
+			ed->selected.wall = ptr->wall;
 			return (t_true);
 		}
 		ptr = ptr->next;
@@ -107,7 +115,7 @@ enum e_bool     click_on_panel(t_editor *ed, t_buttons *buttons, int mouse_x, in
 		}
 		i++;
 	}
-	return (t_false);
+	return (t_true);
 }
 
 enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int x, int y)
@@ -128,8 +136,8 @@ enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int x
 			free_linked_walls_nodes(linked_walls);
 			return (t_true);
 		}
-		rect = create_rect(DRAW_MAP_X + ptr->wall->segment.x2 * EDITOR_ZOOM - CORNER_SIZE / 2, DRAW_MAP_Y
-																							   - ptr->wall->segment.y2 * EDITOR_ZOOM - CORNER_SIZE / 2, CORNER_SIZE, CORNER_SIZE);
+		rect = create_rect(DRAW_MAP_X + ptr->wall->segment.x2 * EDITOR_ZOOM - CORNER_SIZE / 2,
+				DRAW_MAP_Y - ptr->wall->segment.y2 * EDITOR_ZOOM - CORNER_SIZE / 2, CORNER_SIZE, CORNER_SIZE);
 		if (is_in_rect(&rect, x, y))
 		{
 			deal_with_clicked_node(ed, ptr, (t_coords){ptr->wall->segment.x2, ptr->wall->segment.y2});

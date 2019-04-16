@@ -46,25 +46,36 @@ typedef struct			s_buttons
 	t_button			items[1];
 }						t_buttons;
 
+typedef	struct			s_selected_elements
+{
+	t_wall_nodes		*nodes;
+	t_coords			*p_spawn;
+	t_enemy				*enemy;
+	t_object			*object;
+	t_sector			*sector;
+	t_wall              *wall;
+}						t_selected_elements;
+
 typedef struct          s_editor
 {
-	t_sdl_editor    sdl;
-	char			*map_path;
-    t_map			*map;
-    t_textures      *textures;
-    t_buttons       buttons;
-    t_i_coords      text_pos;
-    int             index;
-    t_fonts			*fonts;
-    t_wall_nodes    *selected_nodes;
-    t_coords        *selected_player;
-    t_enemy			*selected_enemy;
-    t_object		*selected_object;
+	t_sdl_editor    	sdl;
+	char				*map_path;
+    t_map				*map;
+    t_textures      	*textures;
+    t_sounds            *sounds;
+    t_buttons       	buttons;
+    t_i_coords      	text_pos;
+    int             	index;
+    t_fonts				*fonts;
+	t_selected_elements	selected;
+	t_selected_elements	dragged;
 }                       t_editor;
 
 t_map		*create_map(t_textures *textures);
 t_textures	*load_textures(void);
-t_sector    *in_which_sector(t_i_coords pos, t_sectors sectors);
+void		clear_selection(t_selected_elements *selected);
+void		editor_loop(t_editor *ed);
+t_sector    *in_which_sector(t_i_coords pos, t_sectors *sectors);
 int         is_in_sector(t_i_coords pos, t_sector sector);
 
 void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y);
@@ -72,5 +83,6 @@ void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y);
 enum e_bool click_on_panel(
         t_editor *ed, t_buttons *buttons, int mouse_x, int mouse_y);
 enum e_bool click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int mouse_x, int mouse_y);
+void            deal_with_clicked_wall(t_editor *ed, t_wall *wall);
 
 #endif

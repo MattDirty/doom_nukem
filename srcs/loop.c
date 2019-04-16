@@ -6,7 +6,7 @@
 /*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 00:45:13 by lfatton           #+#    #+#             */
-/*   Updated: 2019/03/08 13:40:55 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/04/15 01:25:13 by mtorsell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 static void loop_events(
         t_env *e,
         const Uint8 *state,
-        t_timer_handler *timer_handler)
+        t_timer_handler *timer_handler,
+        enum e_bool *stop)
 {
     SDL_Event 	ev;
     double		x;
@@ -39,7 +40,7 @@ static void loop_events(
     while (SDL_PollEvent(&ev))
 	{
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
-			quit_doom(e);
+            *stop = t_true;
         if (!e->p.dead)
         {
             if (ev.type == SDL_MOUSEBUTTONDOWN
@@ -97,7 +98,7 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
 	t_logic_params	*ptr;
 
 	ptr = (t_logic_params *)params;
-	loop_events(ptr->e, ptr->state, ptr->timer_handler);
+	loop_events(ptr->e, ptr->state, ptr->timer_handler, ptr->stop);
 	if (!ptr->e->p.dead)
 	    key_handler(ptr->state, &ptr->e->p, ptr->timer_handler);
     if (ptr->e->p.jump.height > 0)
@@ -110,7 +111,11 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
 	return (t_true);
 }
 
-void		*logic_params_init(t_env *e, const Uint8 *state, t_timer_handler *timer_handler)
+void		*logic_params_init(
+        t_env *e,
+        const Uint8 *state,
+        t_timer_handler *timer_handler,
+        enum e_bool *stop)
 {
 	t_logic_params	*params;
 
@@ -120,6 +125,7 @@ void		*logic_params_init(t_env *e, const Uint8 *state, t_timer_handler *timer_ha
 	params->map = e->map;
 	params->state = state;
 	params->timer_handler = timer_handler;
+	params->stop = stop;
 	return ((void *)params);
 }
 
@@ -189,21 +195,19 @@ void		loop_doom(t_env *e)
     t_timer_handler	   		timer_handler;
     void					*update_logic_params;
     t_frame_event_params	*frame_event_params;
+    enum e_bool				stop;
 
+    stop = t_false;
 	timer_handler_init(&timer_handler);
     state = SDL_GetKeyboardState(NULL);
-
-    update_logic_params = logic_params_init(e, state, &timer_handler);
+    update_logic_params = logic_params_init(e, state, &timer_handler, &stop);
     frame_event_params = frame_event_params_init(e);
 
     e->map->boss.pos.x = 3;
     e->map->boss.pos.y = 10;
 
     add_event(&timer_handler, 1, &update_logic, update_logic_params);
-    add_event(
-            &timer_handler,
-            1000.0 / e->op.fps_max,
-            &frame_event,
+    add_event(&timer_handler, 1000.0 / e->op.fps_max, &frame_event,
             frame_event_params);
     add_event(&timer_handler, 30000, &day_to_night, &e->map->daytime);
     e->map->hud.id = 0;
@@ -212,6 +216,19 @@ void		loop_doom(t_env *e)
     add_event(&timer_handler, 500, &screen_dying, e);
     add_event(&timer_handler, 1000, &toggle_player_health, &e->p);
     Mix_PlayMusic(e->music, -1);
-    while (42)
+    while (!stop)
         update_events(&timer_handler);
+
+    //normnorm
+    t_event *n = timer_handler.first;
+    t_event *p = NULL;
+    while (n)
+    {
+        p = n;
+        n = n->next;
+        p->function(1010000, p->params);
+        free(p);
+    }
+    free(update_logic_params);
+    free(frame_event_params);
 }

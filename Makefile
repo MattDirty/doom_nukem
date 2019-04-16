@@ -6,7 +6,7 @@
 #    By: badhont <badhont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/07 17:35:48 by lfatton           #+#    #+#              #
-#    Updated: 2019/04/14 20:37:38 by badhont          ###   ########.fr        #
+#    Updated: 2019/04/14 20:30:30 by badhont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC_NAME =	main.c \
 			$(SRCS_NAMES)
 
 SRC_EDITOR_NAME = editor.c \
+				  editor_loop.c \
 				  editor_draw.c \
 				  editor_panel.c \
 				  editor_mouse_clicks.c \

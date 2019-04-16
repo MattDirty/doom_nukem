@@ -19,6 +19,8 @@ void	free_textures(t_textures *textures)
     {
         p = n;
         n = n->next;
+        free(p->texture->pixels);
+        free(p->texture->userdata);
         SDL_FreeSurface(p->texture);
         free(p);
     }
@@ -143,7 +145,7 @@ void	read_texture_node_from_file(int fd, t_texture_node **texture_node)
     t_SDL_Surface_info	info;
     void				*pixels;
 
-    if (!(*texture_node = (t_texture_node*)malloc(sizeof(texture_node))))
+    if (!(*texture_node = (t_texture_node*)malloc(sizeof(t_texture_node))))
         error_doom("can't malloc t_texture_node");
     (*texture_node)->next = NULL;
     if (!read(fd, &info.w, sizeof(info.w)))

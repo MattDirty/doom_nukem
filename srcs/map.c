@@ -31,6 +31,7 @@ void		read_map_from_file(int fd, t_textures *textures, t_map **map)
 {
     if (!(*map = (t_map*)malloc(sizeof(t_map))))
         error_doom("couldn't malloc t_map");
+    (*map)->daytime = 0;
     read_sectors_from_file(fd, textures, &(*map)->sectors);
     read_spawn_from_file(fd, &(*map)->spawn);
     find_texture_from_file(fd, textures, &(*map)->daysky);

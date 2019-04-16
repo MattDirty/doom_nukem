@@ -37,10 +37,8 @@ void remove_event_from_list(
 
     if (!timer_handler->first)
         return;
-
     node = timer_handler->first;
     previous = NULL;
-
     while (node)
     {
         if (node == event)
@@ -67,9 +65,7 @@ void update_events(t_timer_handler *timer_handler)
     clock_gettime(CLOCK_MONOTONIC_RAW, &time);
 	timer_handler->ms_since_update = delta_ms(timer_handler->time, time);
     timer_handler->time = time;
-
     node = timer_handler->first;
-
     while (node)
     {
 		node->time_left -= timer_handler->ms_since_update;

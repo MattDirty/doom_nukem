@@ -151,9 +151,11 @@ void		free_linked_walls(t_linked_walls *linked_walls)
         if (linked_walls->wall->wall_object)
             free(linked_walls->wall->wall_object);
         if (linked_walls->wall->lever)
+        {
+            if (linked_walls->wall->lever->wall_object)
+                free(linked_walls->wall->lever->wall_object);
             free(linked_walls->wall->lever);
-        if (linked_walls->wall->lever->wall_object)
-            free(linked_walls->wall->lever->wall_object);
+        }
         free(linked_walls->wall);
     }
     free(linked_walls);

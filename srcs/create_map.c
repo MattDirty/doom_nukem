@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:36:17 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/11 19:45:54 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/14 18:20:34 by mtorsell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,12 @@ t_map		*create_map(t_textures *textures)
 		map->sectors->items[i].enemies->items[0].time_in_death = -1;
 		map->sectors->items[i].enemies->items[0].to_destroy = t_false;
         map->sectors->items[i].enemies->items[0].heading = 0;
+        map->sectors->items[i].enemies->items[0].death_duration = 0;
         find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->items[0].front);
         map->sectors->items[i].enemies->items[0].object->sprite =
                 map->sectors->items[i].enemies->items[0].front;
         find_texture_by_name(textures,"textures/sprites/enemy_side.bmp", &map->sectors->items[i].enemies->items[0].side);
-        find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].back);
+        find_texture_by_name(textures,"textures/sprites/enemy_back.bmp", &map->sectors->items[i].enemies->items[0].back);
         if (i == 1)
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(90);
         if (i == 2)
@@ -99,6 +100,7 @@ t_map		*create_map(t_textures *textures)
             map->sectors->items[i].enemies->items[0].object->sprite =
                     map->sectors->items[i].enemies->items[0].front;
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].side);
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].back);
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(180);
         }
 
@@ -251,6 +253,7 @@ t_textures	*load_textures(void)
     add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/enemy_side.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/enemy_back.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/blackhole.bmp");
     add_bitmap_file_to_textures(textures, "textures/skybox/day.bmp");
     add_bitmap_file_to_textures(textures, "textures/skybox/night.bmp");

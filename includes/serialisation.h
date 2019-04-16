@@ -6,6 +6,7 @@
 # include "map.h"
 # include "fonts.h"
 # include "sounds.h"
+# include "doom.h"
 
 typedef struct		s_read_data
 {
@@ -15,7 +16,8 @@ typedef struct		s_read_data
     t_sounds		**sounds;
 }					t_read_data;
 
-void	read_file(char *filename, t_read_data *read_data);
+void	read_file(char *filename, t_env *e);
+void	read_file_editor(char *filename, t_read_data *e);
 void	write_file(char *filename, t_textures *textures, t_map *map);
 
 void	read_str_from_file(int fd, char **name);
