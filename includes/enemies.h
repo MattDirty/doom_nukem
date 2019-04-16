@@ -31,15 +31,18 @@ typedef struct s_enemy
     double		speed;
 }               t_enemy;
 
-typedef struct  s_enemies
+typedef struct	s_linked_enemies
 {
-    t_enemy     *items;
-    int         count;
-}               t_enemies;
+    t_enemy		item;
+    struct s_linked_enemies	*next;
+}				t_linked_enemies;
 
-void free_enemies(t_enemies *enemies);
-void read_enemies_from_file(int fd, t_textures *textures, t_enemies **enemies);
-void write_enemies_to_file(int fd, t_enemies *enemies);
+void free_enemies(t_linked_enemies *enemies);
+void read_enemies_from_file(
+        int fd,
+        t_textures *textures,
+        t_linked_enemies **enemies);
+void write_enemies_to_file(int fd, t_linked_enemies *enemies);
 
 void read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy);
 void write_enemy_to_file(int fd, t_enemy enemy);
