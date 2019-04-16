@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <SDL_mixer.h>
 #include "enemies.h"
+#include "basic_enemies_intelligence.h"
 #include "doom.h"
 #include "serialisation.h"
 #include "e_bool.h"
@@ -248,7 +249,7 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
     }
     else if (enemy->type == et_brazil)
     {
-        enemy->act = basic_enemy_intelligence;
+        enemy->act = roam;
         enemy->speed = 0.1;
         enemy->object->vertical_size = 0.7;
         enemy->object->horizontal_size = 0.7;

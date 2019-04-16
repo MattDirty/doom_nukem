@@ -56,18 +56,6 @@ void			boss_intelligence(
     enemy->object->z += 0.005 * cos(enemy->animation_time / 1000.);
 }
 
-void			basic_enemy_intelligence(
-        t_enemy *enemy,
-        t_sector *enemy_sector,
-        t_env *e)
-{
-    (void)e;
-    (void)enemy_sector;
-    (void)enemy;
-    //todo: erratic move until they see the player
-    //then they shoot and flee and get back to erratic moves
-}
-
 enum e_bool     let_enemies_act(double ms_since_update, t_params params)
 {
     t_env		*e;

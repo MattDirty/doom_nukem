@@ -6,6 +6,7 @@
 # include "e_bool.h"
 
 # define COS_PI_FOURTH 0.7071
+# define COS_PI_EIGTH 0.9239
 
 typedef struct	s_vector
 {

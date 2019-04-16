@@ -12,6 +12,11 @@ typedef void (*t_enemy_intelligence)(
         t_sector *enemy_sector,
         t_env *e);
 
+void			enemy_move(
+        t_enemy *enemy,
+        t_coords d,
+        t_sector *enemy_sector,
+        t_env *e);
 void			boss_intelligence(
         t_enemy *enemy,
         t_sector *enemy_sector,
