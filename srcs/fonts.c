@@ -11,6 +11,8 @@ void    delete_tmp_files(void)
         error_doom("Couldn't delete tmp_s.ttf");
     if (unlink("roflolilolmao_tmp_a.ttf") < 0)
         error_doom("Couldn't delete tmp_a.ttf");
+    if (unlink("roflolilolmao_tmp_v.ttf") < 0)
+        error_doom("Couldn't delete tmp_a.ttf");
 }
 
 void			read_fonts_from_file(int fd, t_fonts **fonts)
