@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "doom.h"
 #include "editor.h"
 
@@ -19,7 +20,7 @@ int     is_in_sector(t_coords pos, t_sector *sector)
     int         i;
     int         intersections_count;
 
-    segment.x1 = 0;
+    segment.x1 = INT_MIN;
     segment.y1 = pos.y;
     segment.x2 = pos.x;
     segment.y2 = pos.y;
