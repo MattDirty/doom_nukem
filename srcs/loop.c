@@ -59,7 +59,33 @@ static void loop_events(
 			* timer_handler->ms_since_update;
 }
 
-static void     update_enemies(t_sectors *sectors, double p_heading)
+static void		select_enemy_sprite(t_enemy* enemy, t_coords pos)
+{
+    t_vector	view;
+    t_vector	perpendicular_view;
+    double		dot;
+
+    if (enemy->time_in_death >= 0)
+        return;
+    view = (t_vector){enemy->object->x - pos.x, enemy->object->y - pos.y};
+    normalize_vector(&view);
+    dot = dot_product(&view, &enemy->heading);
+    if (dot >= COS_PI_FOURTH)
+        enemy->object->sprite = enemy->front;
+    else if (dot <= -COS_PI_FOURTH)
+        enemy->object->sprite = enemy->back;
+    else
+    {
+        perpendicular_view = (t_vector){view.y, -view.x};
+        dot = dot_product(&perpendicular_view, &enemy->heading);
+        if (dot >= COS_PI_FOURTH)
+            enemy->object->sprite = enemy->left;
+        else if (dot <= -COS_PI_FOURTH)
+            enemy->object->sprite = enemy->right;
+    }
+}
+
+static void     update_enemies(t_sectors *sectors, t_coords camera_pos)
 {
     int     i;
     t_linked_enemies	*enemies;
@@ -78,17 +104,7 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
                 enemies = next;
 				continue;
 			}
-        	if (enemies->item.time_in_death < 0)
-            {
-        	    if (fabs(enemies->item.heading - p_heading) <= 3.14 + 0.78
-                    && fabs(enemies->item.heading - p_heading) >= 3.14 - 0.78)
-                    enemies->item.object->sprite = enemies->item.front;
-                else if (fabs(enemies->item.heading - p_heading) <= 0.78
-                         || fabs(enemies->item.heading - p_heading) >= 6.28 - 0.78)
-                    enemies->item.object->sprite = enemies->item.back;
-                else
-                    enemies->item.object->sprite = enemies->item.side;
-            }
+            select_enemy_sprite(&enemies->item, camera_pos);
             enemies = enemies->next;
         }
         i++;
@@ -108,8 +124,7 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
         ptr->e->p.jump.height -= ptr->e->p.jump.gravity * ms_since_update;
         ptr->e->p.jump.height = (ptr->e->p.jump.height < 1) ? 0 : ptr->e->p.jump.height;
     }
-    update_enemies(ptr->map->sectors, ptr->e->p.heading);
-	//todo : if paused return e_false
+    update_enemies(ptr->map->sectors, ptr->e->p.pos);
 	return (e_true);
 }
 

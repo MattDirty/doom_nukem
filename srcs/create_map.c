@@ -90,7 +90,8 @@ t_map		*create_map(t_textures *textures)
         find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->item.front);
         map->sectors->items[i].enemies->item.object->sprite =
                 map->sectors->items[i].enemies->item.front;
-        find_texture_by_name(textures,"textures/sprites/enemy_left.bmp", &map->sectors->items[i].enemies->item.side);
+        find_texture_by_name(textures,"textures/sprites/enemy_left.bmp", &map->sectors->items[i].enemies->item.left);
+        find_texture_by_name(textures,"textures/sprites/enemy_right.bmp", &map->sectors->items[i].enemies->item.right);
         find_texture_by_name(textures,"textures/sprites/enemy_back.bmp", &map->sectors->items[i].enemies->item.back);
         find_texture_by_name(textures,"textures/explosions/explosion_1.bmp",
                              &map->sectors->items[i].enemies->item.explosion[0]);
@@ -132,7 +133,8 @@ t_map		*create_map(t_textures *textures)
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.front);
             map->sectors->items[i].enemies->item.object->sprite =
                     map->sectors->items[i].enemies->item.front;
-            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.side);
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.left);
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.right);
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.back);
             map->sectors->items[i].enemies->item.heading = (t_vector){-1, 0};
             map->sectors->items[i].enemies->item.type = et_boss;
