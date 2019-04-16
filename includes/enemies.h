@@ -34,6 +34,24 @@ typedef struct s_enemy
     double		speed;
     SDL_Surface *explosion[16];
     double		animation_time;
+    enum		e_ai_state
+    {
+        ais_roaming,
+        ais_firing,
+        ais_fleeing
+    }			ai_state;
+    union		u_ai_data
+    {
+        struct	s_firing_data
+        {
+        }		firing_data;
+        struct	s_roaming_data
+        {
+        }		roaming_data;
+        struct	s_fleeing_data
+        {
+        }		fleeing_data;
+    }			ai_data;
 }               t_enemy;
 
 typedef struct	s_linked_enemies
