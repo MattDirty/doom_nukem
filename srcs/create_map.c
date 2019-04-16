@@ -89,7 +89,7 @@ t_map		*create_map(t_textures *textures)
 		map->sectors->items[i].enemies->items[0].to_destroy = t_false;
         map->sectors->items[i].enemies->items[0].heading = 0;
         map->sectors->items[i].enemies->items[0].death_duration = 0;
-        map->sectors->items[i].enemies->items[0].is_boss = t_false;
+        map->sectors->items[i].enemies->items[0].type = et_brazil;
         find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->items[0].front);
         map->sectors->items[i].enemies->items[0].object->sprite =
                 map->sectors->items[i].enemies->items[0].front;
@@ -105,7 +105,7 @@ t_map		*create_map(t_textures *textures)
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].side);
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->items[0].back);
             map->sectors->items[i].enemies->items[0].heading = ft_degtorad(180);
-            map->sectors->items[i].enemies->items[0].is_boss = t_true;
+            map->sectors->items[i].enemies->items[0].type = et_boss;
         }
 
 		walls = map->sectors->items[i].walls;

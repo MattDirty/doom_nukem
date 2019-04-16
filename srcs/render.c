@@ -183,7 +183,7 @@ static void	draw_enemy(t_env *e, t_render *r, t_collision *collision)
 			  * (collision->d.enemy->object->z + collision->d.enemy->object->vertical_size - 1);
 		if (y >= surface->h || y < 0)
 			continue;
-        if (collision->d.enemy->is_boss)
+        if (collision->d.enemy->type == et_boss)
             put_pixel_alpha(e->doom.surface, r->x, i,
 						get_pixel(surface, x, y, t_false));
         else
