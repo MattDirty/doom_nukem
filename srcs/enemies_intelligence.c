@@ -4,10 +4,14 @@
 #include "doom.h"
 #include "enemies.h"
 #include "utils.h"
+#include "in_which_sector.h"
 
-void			enemy_move(t_enemy *enemy, t_coords d, t_env *e)
+void			enemy_move(
+        t_enemy *enemy,
+        t_coords d,
+        t_sector *enemy_sector,
+        t_env *e)
 {
-    (void)e;
     t_vector	direction;
 
     direction = (t_vector){d.x - enemy->object->x, d.y - enemy->object->y};
@@ -15,9 +19,18 @@ void			enemy_move(t_enemy *enemy, t_coords d, t_env *e)
     scalar_multiply(&direction, enemy->speed);
     enemy->object->x += direction.x;
     enemy->object->y += direction.y;
+    if (!is_in_sector(
+            (t_coords){enemy->object->x, enemy->object->y},
+            enemy_sector))
+    {
+        (void)e;
+    }
 }
 
-void			boss_intelligence(t_enemy *enemy, t_env *e)
+void			boss_intelligence(
+        t_enemy *enemy,
+        t_sector *enemy_sector,
+        t_env *e)
 {
     double		dist;
     double		ratio;
@@ -28,12 +41,16 @@ void			boss_intelligence(t_enemy *enemy, t_env *e)
     ratio = dist / 2;
     e->p.health -= BLACKHOLE_AURA_DAMAGE / 60.0 / ratio;
     e->p.hurt = ratio <= 2.5;
-    enemy_move(enemy, e->p.pos, e);
+    enemy_move(enemy, e->p.pos, enemy_sector, e);
 }
 
-void			basic_enemy_intelligence(t_enemy *enemy, t_env *e)
+void			basic_enemy_intelligence(
+        t_enemy *enemy,
+        t_sector *enemy_sector,
+        t_env *e)
 {
     (void)e;
+    (void)enemy_sector;
     enemy->object->z = 0.5;
 }
 
@@ -43,17 +60,19 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
     t_enemy		*enemy;
     int			i;
     int			j;
+    t_sector	*sector;
 
     (void)ms_since_update;
     e = (t_env*) params;
     i = 0;
     while  (i < e->map->sectors->count)
     {
+        sector = e->map->sectors->items + i;
         j = 0;
-        while  (j < e->map->sectors->items[i].enemies->count)
+        while  (j < sector->enemies->count)
         {
-            enemy = &e->map->sectors->items[i].enemies->items[j];
-            enemy->act(enemy, e);
+            enemy = sector->enemies->items + j;
+            enemy->act(enemy, sector, e);
             j++;
         }
         i++;
