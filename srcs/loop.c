@@ -108,7 +108,7 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
 	return (t_true);
 }
 
-void		*logic_params_init(
+t_logic_params		*logic_params_init(
         t_env *e,
         const Uint8 *state,
         t_timer_handler *timer_handler,
@@ -123,7 +123,7 @@ void		*logic_params_init(
 	params->state = state;
 	params->timer_handler = timer_handler;
 	params->stop = stop;
-	return ((void *)params);
+	return (params);
 }
 
 t_frame_event_params	*frame_event_params_init(t_env *e)
@@ -168,36 +168,42 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     return (t_true);
 }
 
+static void	init_game_loop(
+        t_env *e,
+        t_logic_params *update_logic_params,
+        t_frame_event_params *frame_event_params,
+        enum e_bool *stop)
+{
+    *stop = t_false;
+	timer_handler_init(&e->timer_handler);
+    update_logic_params = logic_params_init(e, SDL_GetKeyboardState(NULL),
+            &e->timer_handler, stop);
+    frame_event_params = frame_event_params_init(e);
+    add_event(&e->timer_handler, 1, &update_logic, update_logic_params);
+    add_event(&e->timer_handler, 1000.0 / e->op.fps_max, &frame_event,
+            frame_event_params);
+    add_event(&e->timer_handler, 30000, &day_to_night, &e->map->daytime);
+    e->map->hud.id = 0;
+    add_event(&e->timer_handler, 1000, &cross_index, &e->map->hud.id);
+    add_event(&e->timer_handler, 5, &gun_idle_anim, get_weapon(e->p.weapons, 1));
+    add_event(&e->timer_handler, 1000.0 / 60.0, &let_enemies_act, e);
+    add_event(&e->timer_handler, 1000, &toggle_player_health, &e->p);
+    Mix_PlayMusic(e->music, -1);
+}
+
 void		loop_doom(t_env *e)
 {
-    const Uint8 			*state;
-    t_timer_handler	   		timer_handler;
-    void					*update_logic_params;
-    t_frame_event_params	*frame_event_params;
+    t_logic_params			update_logic_params;
+    t_frame_event_params	frame_event_params;
     enum e_bool				stop;
+    t_event					*n;
+    t_event					*p;
 
-    stop = t_false;
-	timer_handler_init(&timer_handler);
-    state = SDL_GetKeyboardState(NULL);
-    update_logic_params = logic_params_init(e, state, &timer_handler, &stop);
-    frame_event_params = frame_event_params_init(e);
-
-    add_event(&timer_handler, 1, &update_logic, update_logic_params);
-    add_event(&timer_handler, 1000.0 / e->op.fps_max, &frame_event,
-            frame_event_params);
-    add_event(&timer_handler, 30000, &day_to_night, &e->map->daytime);
-    e->map->hud.id = 0;
-    add_event(&timer_handler, 1000, &cross_index, &e->map->hud.id);
-    add_event(&timer_handler, 5, &gun_idle_anim, get_weapon(e->p.weapons, 1));
-    add_event(&timer_handler, 500, &let_enemies_act, e);
-    add_event(&timer_handler, 1000, &toggle_player_health, &e->p);
-    Mix_PlayMusic(e->music, -1);
+    init_game_loop(e, &update_logic_params, &frame_event_params, &stop);
     while (!stop)
-        update_events(&timer_handler);
-
-    //normnorm
-    t_event *n = timer_handler.first;
-    t_event *p = NULL;
+        update_events(&e->timer_handler);
+    n = e->timer_handler.first;
+    p = NULL;
     while (n)
     {
         p = n;
@@ -205,6 +211,4 @@ void		loop_doom(t_env *e)
         p->function(1010000, p->params);
         free(p);
     }
-    free(update_logic_params);
-    free(frame_event_params);
 }
