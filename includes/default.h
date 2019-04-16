@@ -54,7 +54,7 @@
 # define JUMP_MAX 50
 # define HEALTH_MAX 100
 # define AMMO_MAX 30
-# define DAMAGE 1
+# define BLACKHOLE_AURA_DAMAGE 1
 
 # define RUN 0.001
 # define ROT_X 0.001
@@ -62,5 +62,7 @@
 # define MOUSE_SENSI 0.0001
 
 # define ACTIVATE_LIGHTING 1
+
+# define BLACKHOLE_LSD
 
 #endif

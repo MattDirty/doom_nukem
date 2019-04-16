@@ -17,11 +17,13 @@
 # include "timer_handler.h"
 # include "collision.h"
 # include "SDL.h"
+# include "doom.h"
 
 # define BLACK_MAGIC 3
 
 typedef struct  s_render
 {
+    t_env		*bandaid;
     SDL_Surface *surface;
     Uint32      x;
     double      wall_height;

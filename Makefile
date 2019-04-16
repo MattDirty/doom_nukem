@@ -39,8 +39,10 @@ SRCS_NAMES = vector.c \
 			sounds.c \
 			render_utils.c \
 			bitmaps.c \
-			render.c \
 			objects.c \
+			render.c \
+			render_blackhole.c \
+			enemies_intelligence.c \
 			debug_init.c \
 			debug_draw_tools.c \
 			draw_tools.c \

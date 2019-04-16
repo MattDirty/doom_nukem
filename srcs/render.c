@@ -14,6 +14,7 @@
 #include "doom.h"
 #include "default.h"
 #include "render.h"
+#include "render_blackhole.h"
 #include "surface_manipulation.h"
 #include <math.h>
 
@@ -57,9 +58,10 @@ static void draw_flat(
 				+ (BLACK_MAGIC - weight) * render->p_pos.y)
 				* texture->h) % texture->h;
 		color_text = get_pixel(texture, x, y, t_true);
-		put_pixel(render->surface, render->x, renderer_y, color_text);
+		put_pixel_blackhole(render->bandaid, render->x, renderer_y, color_text);
 		if (render->lights)
-			put_pixel_alpha(render->surface, render->x, renderer_y, render->light_value);
+			put_pixel_blackhole(render->bandaid, render->x, renderer_y,
+                    render->light_value);
 		renderer_y++;
 	}
 }
@@ -110,7 +112,7 @@ static void         draw_object(
         * (collision->d.object->z + collision->d.object->vertical_size - 1);
         if (y >= surface->h || y < 0)
             continue;
-        put_pixel_alpha(render->surface, render->x, i,
+        put_pixel_blackhole(e, render->x, i,
                 get_pixel(surface, (Uint32)x, (Uint32)y, t_false));
 	}
 }
@@ -148,7 +150,7 @@ static void			draw_wall_object(
         * (wall_object->z + wall_object->size - 1);
         if (y >= surface->h || y < 0)
             continue;
-        put_pixel_alpha(render->surface, render->x, i,
+        put_pixel_blackhole(e, render->x, i,
                 get_pixel(surface, (Uint32)x, (Uint32)y, t_false));
 	}
 }
@@ -181,7 +183,11 @@ static void	draw_enemy(t_env *e, t_render *r, t_collision *collision)
 			  * (collision->d.enemy->object->z + collision->d.enemy->object->vertical_size - 1);
 		if (y >= surface->h || y < 0)
 			continue;
-		put_pixel_alpha(r->surface, r->x, i,
+        if (collision->d.enemy->type == et_boss)
+            put_pixel_alpha(e->doom.surface, r->x, i,
+						get_pixel(surface, x, y, t_false));
+        else
+            put_pixel_blackhole(e, r->x, i,
 						get_pixel(surface, x, y, t_false));
 	}
 }
@@ -208,10 +214,10 @@ static void         draw_wall(
 	{
         y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)
         		* wall_text->h / render->wall_height))) % wall_text->h;
-        put_pixel(render->surface, render->x, i,
+        put_pixel_blackhole(render->bandaid, render->x, i,
         		get_pixel(wall_text, x, y, t_true));
         if (render->lights)
-        	put_pixel_alpha(render->surface, render->x, i, render->light_value);
+        	put_pixel_blackhole(e, render->x, i, render->light_value);
 		i++;
 	}
     if (collision->d.wall->wall_object)
@@ -224,6 +230,7 @@ static t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
 {
 	t_render render;
 
+    render.bandaid = e;
 	render.surface = e->doom.surface;
 	render.x = renderer_x;
 	render.vision_height = e->p.vision_height + e->p.jump.height;
@@ -239,6 +246,7 @@ static t_render	fill_render_struct(t_env *e, Uint32 renderer_x)
 }
 
 void         draw_transparent_wall(
+        t_env *e,
         const t_render *render,
         const t_collision *collision,
         const t_u_range range)
@@ -265,10 +273,7 @@ void         draw_transparent_wall(
     {
         y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)
                            * wall_text->h / render->wall_height))) % wall_text->h;
-        put_pixel_alpha(
-                render->surface,
-                render->x,
-                i,
+        put_pixel_blackhole(e, render->x, i,
                 get_pixel(wall_text, x, y, t_false));
         i++;
     }
@@ -287,7 +292,7 @@ static void	draw_transparents(t_env *e, t_render *r, t_collisions *node)
     {
         r->wall_height =
                 e->op.ratio / node->item.distance;
-        draw_transparent_wall(r, &node->item, wall_range(r->wall_height, r->vision_height, r->win_h));
+        draw_transparent_wall(e, r, &node->item, wall_range(r->wall_height, r->vision_height, r->win_h));
     }
 }
 

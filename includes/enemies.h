@@ -8,12 +8,8 @@
 # include "objects.h"
 # include "e_bool.h"
 # include "timer_handler.h"
-#include "sectors.h"
-
-typedef struct  s_enemy_boss
-{
-    t_coords    pos;
-}               t_enemy_boss;
+# include "sectors.h"
+# include "enemies_intelligence.h"
 
 typedef struct s_enemy
 {
@@ -26,6 +22,13 @@ typedef struct s_enemy
     SDL_Surface *front;
     SDL_Surface *side;
     SDL_Surface *back;
+    enum enemy_type
+    {
+        et_boss,
+        et_brazil
+    }			type;
+    t_enemy_intelligence act;
+    double		speed;
 }               t_enemy;
 
 typedef struct  s_enemies

@@ -74,10 +74,28 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
 		error_doom("Problem while reading enemy from file");
     if (write(fd, &enemy.heading, sizeof(enemy.heading)) <= 0)
         error_doom("Problem while reading enemy from file");
+    if (write(fd, &enemy.type, sizeof(enemy.type)) <= 0)
+        error_doom("Problem while type enemy from file");
     write_str_to_file(fd, enemy.front->userdata);
     write_str_to_file(fd, enemy.side->userdata);
     write_str_to_file(fd, enemy.back->userdata);
 
+}
+
+static void	init_enemy_from_type(t_enemy *enemy)
+{
+    if (enemy->type == et_boss)
+    {
+        enemy->act = boss_intelligence;
+        enemy->speed = 0.01;
+    }
+    else if (enemy->type == et_brazil)
+    {
+        enemy->act = basic_enemy_intelligence;
+        enemy->speed = 0.1;
+    }
+    else
+        error_doom("invalid enemy");
 }
 
 void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
@@ -95,6 +113,9 @@ void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
 		error_doom("Problem while reading enemy from file");
     if (read(fd, &enemy->heading, sizeof(enemy->heading)) <= 0)
         error_doom("Problem while reading enemy from file");
+    if (read(fd, &enemy->type, sizeof(enemy->type)) <= 0)
+        error_doom("Problem while reading enemy from file");
+    init_enemy_from_type(enemy);
     find_texture_from_file(fd, textures, &enemy->front);
     enemy->object->sprite = enemy->front;
     find_texture_from_file(fd, textures, &enemy->side);
