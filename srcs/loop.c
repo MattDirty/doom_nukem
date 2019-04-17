@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "doom.h"
 #include "default.h"
 #include "utils.h"
