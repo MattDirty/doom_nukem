@@ -41,7 +41,7 @@ static void loop_events(
     while (SDL_PollEvent(&ev))
 	{
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
-            *stop = t_true;
+            *stop = e_true;
         if (!e->p.dead)
         {
             if (ev.type == SDL_MOUSEBUTTONDOWN
@@ -109,8 +109,8 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
         ptr->e->p.jump.height = (ptr->e->p.jump.height < 1) ? 0 : ptr->e->p.jump.height;
     }
     update_enemies(ptr->map->sectors, ptr->e->p.heading);
-	//todo : if paused return t_false
-	return (t_true);
+	//todo : if paused return e_false
+	return (e_true);
 }
 
 t_logic_params		*logic_params_init(
@@ -170,7 +170,7 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     ui_draw(e->doom.surface, map, frame_event_params->fps, e);
     print_surface(e->doom.renderer, e->doom.surface);
     frame_event_params->time += ms_since_update;
-    return (t_true);
+    return (e_true);
 }
 
 static void	init_game_loop(
@@ -179,7 +179,7 @@ static void	init_game_loop(
         t_frame_event_params *frame_event_params,
         enum e_bool *stop)
 {
-    *stop = t_false;
+    *stop = e_false;
 	timer_handler_init(&e->timer_handler);
     update_logic_params = logic_params_init(e, SDL_GetKeyboardState(NULL),
             &e->timer_handler, stop);

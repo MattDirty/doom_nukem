@@ -8,8 +8,8 @@ enum e_bool is_bresenham_finished(t_segment *seg, t_i_coords *incr)
         || (incr->x < 0 && (int)seg->x1 < (int)seg->x2)
         || (incr->y > 0 && (int)seg->y1 > (int)seg->y2)
         || (incr->y < 0 && (int)seg->y1 < (int)seg->y2))
-        return (t_true);
-    return (t_false);
+        return (e_true);
+    return (e_false);
 }
 
 void draw_segment(SDL_Surface *surface, t_segment s, Uint32 color)

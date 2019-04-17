@@ -57,7 +57,7 @@ static void draw_flat(
 				(weight * collision->inters.y
 				+ (BLACK_MAGIC - weight) * render->p_pos.y)
 				* texture->h) % texture->h;
-		color_text = get_pixel(texture, x, y, t_true);
+		color_text = get_pixel(texture, x, y, e_true);
 		put_pixel_blackhole(render->bandaid, render->x, renderer_y, color_text);
 		if (render->lights)
 			put_pixel_blackhole(render->bandaid, render->x, renderer_y,
@@ -113,7 +113,7 @@ static void         draw_object(
         if (y >= surface->h || y < 0)
             continue;
         put_pixel_blackhole(e, render->x, i,
-                get_pixel(surface, (Uint32)x, (Uint32)y, t_false));
+                get_pixel(surface, (Uint32)x, (Uint32)y, e_false));
 	}
 }
 
@@ -151,7 +151,7 @@ static void			draw_wall_object(
         if (y >= surface->h || y < 0)
             continue;
         put_pixel_blackhole(e, render->x, i,
-                get_pixel(surface, (Uint32)x, (Uint32)y, t_false));
+                get_pixel(surface, (Uint32)x, (Uint32)y, e_false));
 	}
 }
 
@@ -185,10 +185,10 @@ static void	draw_enemy(t_env *e, t_render *r, t_collision *collision)
 			continue;
         if (collision->d.enemy->type == et_boss)
             put_pixel_alpha(e->doom.surface, r->x, i,
-						get_pixel(surface, x, y, t_false));
+						get_pixel(surface, x, y, e_false));
         else
             put_pixel_blackhole(e, r->x, i,
-						get_pixel(surface, x, y, t_false));
+						get_pixel(surface, x, y, e_false));
 	}
 }
 
@@ -215,7 +215,7 @@ static void         draw_wall(
         y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)
         		* wall_text->h / render->wall_height))) % wall_text->h;
         put_pixel_blackhole(render->bandaid, render->x, i,
-        		get_pixel(wall_text, x, y, t_true));
+        		get_pixel(wall_text, x, y, e_true));
         if (render->lights)
         	put_pixel_blackhole(e, render->x, i, render->light_value);
 		i++;
@@ -274,7 +274,7 @@ void         draw_transparent_wall(
         y = (Uint32)(fabs(((i - (render->vision_height) + render->wall_height / 2)
                            * wall_text->h / render->wall_height))) % wall_text->h;
         put_pixel_blackhole(e, render->x, i,
-                get_pixel(wall_text, x, y, t_false));
+                get_pixel(wall_text, x, y, e_false));
         i++;
     }
 }

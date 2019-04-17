@@ -208,7 +208,7 @@ static enum e_bool	find_wall_collisions_in_sector(
 		}
 	}
     if (best_collision.distance >= HORIZON)
-        return (t_false);
+        return (e_false);
     if (best_collision.d.wall->type == e_wall)
         new = insert_collision(
                 collisions,
@@ -226,7 +226,7 @@ static enum e_bool	find_wall_collisions_in_sector(
         free_collisions(new->next);
         new->next = NULL;
     }
-    return (t_true);
+    return (e_true);
 }
 
 void		find_ray_collisions(

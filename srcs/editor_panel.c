@@ -25,7 +25,7 @@ void    change_selected_texture(t_params params)
     if (!btn_params->selected || *btn_params->selected == btn_params->target)
         return ;
     *btn_params->selected = btn_params->target;
-    btn_params->ed->map_is_updated = t_false;
+    btn_params->ed->map_is_updated = e_false;
 }
 
 void	draw_miniature(
@@ -55,7 +55,7 @@ void	draw_miniature(
 		while (dst_pos.x < size.x + pos.x && src_pos.x < src->w)
 		{
 			put_pixel(dst, dst_pos.x, dst_pos.y,
-					get_pixel(src, src_pos.x, src_pos.y, t_true));
+					get_pixel(src, src_pos.x, src_pos.y, e_true));
 			src_pos.x += step.x;
 			dst_pos.x++;
 		}
@@ -75,7 +75,7 @@ void		draw_sprites_section(
 	title = write_text(ed->fonts->vcr20, title_str,
 					   (SDL_Colour){255,255,255,255});
 	draw_on_screen(ed->panel.surface, title,
-				   (t_i_coords){PANEL_PADDING_LEFT, *y}, t_false);
+				   (t_i_coords){PANEL_PADDING_LEFT, *y}, e_false);
 	SDL_FreeSurface(title);
 	node = sprites->first;
 	*y += 25;
@@ -103,7 +103,7 @@ void        draw_panel_back(SDL_Surface *surface)
 
 	panel = create_rect(0, 0, PANEL_W - 1, EDITOR_H - 1);
 	draw_rect(surface, &panel, WHITE);
-	fill_rect(surface, &panel, PANEL_BACKGROUND, t_false);
+	fill_rect(surface, &panel, PANEL_BACKGROUND, e_false);
 }
 
 void        write_panel_state(t_editor *ed, char *state_str)
@@ -113,7 +113,7 @@ void        write_panel_state(t_editor *ed, char *state_str)
     state = write_text(ed->fonts->vcr40, state_str,
             (SDL_Colour){255,255,255,255});
     draw_on_screen(ed->panel.surface, state,
-                   (t_i_coords){PANEL_W / 2 - state->w / 2, 10}, t_false);
+                   (t_i_coords){PANEL_W / 2 - state->w / 2, 10}, e_false);
     SDL_FreeSurface(state);
 }
 
@@ -126,7 +126,7 @@ void save_editor(t_params params)
             ptr->ed->map->sectors,
             in_which_sector(ptr->ed->map->spawn, ptr->ed->map->sectors));
     write_file(ptr->ed->map_path, ptr->ed->textures, ptr->ed->map);
-    ptr->ed->map_is_updated = t_true;
+    ptr->ed->map_is_updated = e_true;
 }
 
 void create_save_button(TTF_Font *font,
@@ -143,9 +143,9 @@ void create_save_button(TTF_Font *font,
     save_btn.rect = create_rect(
             pos.x - 12, pos.y - 12, save->w + 24, save->h + 8);
     center = create_rect(pos.x - 8, pos.y - 8, save->w + 16, save->h + 0);
-    fill_rect(target, &save_btn.rect, SAVE_BORDER, t_false);
-    fill_rect(target, &center, SAVE_CENTER, t_false);
-    draw_on_screen(target, save, pos, t_false);
+    fill_rect(target, &save_btn.rect, SAVE_BORDER, e_false);
+    fill_rect(target, &center, SAVE_CENTER, e_false);
+    draw_on_screen(target, save, pos, e_false);
     save_btn.rect.pos.x += PANEL_X;
     save_btn.f = &save_editor;
     save_btn.params = create_btn_params(NULL, NULL, ed);
@@ -167,7 +167,7 @@ void        draw_panel(t_editor *ed)
     if (!ed->map_is_updated)
         create_save_button(ed->fonts->amazdoom40, ed->panel.surface, &ed->panel, ed);
     draw_on_screen(ed->sdl.surface, ed->panel.surface,
-				   (t_i_coords){EDITOR_W - PANEL_W, 0}, t_true);
+				   (t_i_coords){EDITOR_W - PANEL_W, 0}, e_true);
 }
 
 void        toggle_lighting(t_params params)
@@ -179,7 +179,7 @@ void        toggle_lighting(t_params params)
         ptr->ed->selected.sector->light = 0xDD000000;
     else
         ptr->ed->selected.sector->light = 0;
-    ptr->ed->map_is_updated = t_false;
+    ptr->ed->map_is_updated = e_false;
 }
 
 void		toggle_skybox(t_params params)
@@ -188,11 +188,11 @@ void		toggle_skybox(t_params params)
 
 	ptr = (t_btn_params *)params;
 	if (!ptr->ed->selected.sector->open_sky)
-		ptr->ed->selected.sector->open_sky = t_true;
+		ptr->ed->selected.sector->open_sky = e_true;
 	else
 	{
-		ptr->ed->selected.sector->open_sky = t_false;
+		ptr->ed->selected.sector->open_sky = e_false;
 		ptr->ed->selected.sector->ceil = ptr->ed->selected.sector->floor;
 	}
-	ptr->ed->map_is_updated = t_false;
+	ptr->ed->map_is_updated = e_false;
 }

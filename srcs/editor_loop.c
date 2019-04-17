@@ -15,7 +15,7 @@ void    rand_lighting(t_editor *ed, t_sector *sector)
     if (!a)
         a = 1;
     sector->light = (a << 24) + (r << 16) + (g << 8) + b;
-    ed->map_is_updated = t_false;
+    ed->map_is_updated = e_false;
 }
 
 void	event_editor(t_editor *ed)

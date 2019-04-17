@@ -18,9 +18,9 @@ static enum e_bool	animate_door(double ms_since_update, t_params params)
         if (!animation->door->to_infinity)
             animation->door->type = e_portal;
         free(animation);
-        return (t_false);
+        return (e_false);
     }
-    return (t_true);
+    return (e_true);
 }
 
 static void	use_lever(t_lever *lever, t_timer_handler *timer_handler)
@@ -29,7 +29,7 @@ static void	use_lever(t_lever *lever, t_timer_handler *timer_handler)
 
     if (lever->activated)
         return;
-    lever->activated = t_true;
+    lever->activated = e_true;
     lever->wall_object->texture = lever->down_texture;
     if (!(animation = (t_door_animation*)malloc(sizeof(t_door_animation))))
         error_doom("can't allocate animation");
@@ -76,7 +76,7 @@ void	read_lever_from_file(
         return;
     if (!(*lever = (t_lever*)malloc(sizeof(t_lever))))
         error_doom("cannot allocate t_lever");
-    (*lever)->activated = t_false;
+    (*lever)->activated = e_false;
     read_wall_object_from_file(fd, textures, &(*lever)->wall_object);
     find_texture_from_file(fd, textures, &(*lever)->up_texture);
     find_texture_from_file(fd, textures, &(*lever)->down_texture);

@@ -19,8 +19,8 @@
 enum e_bool	invert_bool(enum e_bool bool)
 {
 	if (bool)
-		return (t_false);
-	return (t_true);
+		return (e_false);
+	return (e_true);
 }
 
 void		normalize_vector(t_vector *vector)

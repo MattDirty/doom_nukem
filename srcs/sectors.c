@@ -27,11 +27,11 @@ enum e_bool	walls_intersection_in_sector(t_sector *sector)
 			if (segments_share_node(&s1, &s2))
 				continue;
 			if (segments_intersect(&s1, &s2, &inter))
-				return (t_true);
+				return (e_true);
 		}
 		i++;
 	}
-	return (t_false);
+	return (e_false);
 }
 
 t_sector	*find_enemy_sector(t_sectors *sectors, t_enemy *enemy)

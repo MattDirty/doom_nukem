@@ -24,7 +24,7 @@ void        split_wall(t_params params)
 			btn_params->ed->map->sectors,
 			&btn_params->ed->linked_walls,
 			&btn_params->ed->linked_walls_count);
-    btn_params->ed->map_is_updated = t_false;
+    btn_params->ed->map_is_updated = e_false;
 }
 
 void        create_split_wall_button(t_editor *ed, int *y)
@@ -38,8 +38,8 @@ void        create_split_wall_button(t_editor *ed, int *y)
     pos.x = PANEL_PADDING_LEFT + 12;
     pos.y = *y;
     btn.rect = create_rect(pos.x - 12, pos.y - 12, chars->w + 24, chars->h + 24);
-    fill_rect(ed->panel.surface, &btn.rect, 0, t_true);
-    draw_on_screen(ed->panel.surface, chars, pos, t_false);
+    fill_rect(ed->panel.surface, &btn.rect, 0, e_true);
+    draw_on_screen(ed->panel.surface, chars, pos, e_false);
     SDL_FreeSurface(chars);
     btn.rect.pos.x += PANEL_X;
     btn.f = &split_wall;
@@ -115,9 +115,9 @@ void    create_light_btn(TTF_Font *font, SDL_Surface *target, Uint32 light_color
     pos.y = PANEL_H - light->h - 50;
     light_btn.rect = create_rect(pos.x - 6, pos.y - 6, light->w + 10, light->h + 10);
     draw_rect(target, &light_btn.rect, YELLOW);
-    fill_rect(target, &light_btn.rect, WHITE, t_false);
-    fill_rect(target, &light_btn.rect, light_color, t_true);
-    draw_on_screen(target, light, pos, t_false);
+    fill_rect(target, &light_btn.rect, WHITE, e_false);
+    fill_rect(target, &light_btn.rect, light_color, e_true);
+    draw_on_screen(target, light, pos, e_false);
     light_btn.rect.pos.x += PANEL_X;
     light_btn.f = &toggle_lighting;
     light_btn.params = create_btn_params(NULL, NULL, ed);
@@ -146,8 +146,8 @@ void    create_sky_toggle_btn(TTF_Font *font, SDL_Surface *target, t_editor *ed,
     pos.y = *y - 35;
     sky_btn.rect = create_rect(pos.x - 6, pos.y - 6, toggle->w + 10, toggle->h + 10);
     draw_rect(target, &sky_btn.rect, outer_color);
-    fill_rect(target, &sky_btn.rect, sky_color, t_true);
-    draw_on_screen(target, toggle, pos, t_false);
+    fill_rect(target, &sky_btn.rect, sky_color, e_true);
+    draw_on_screen(target, toggle, pos, e_false);
     sky_btn.rect.pos.x += PANEL_X;
     sky_btn.f = &toggle_skybox;
     sky_btn.params = create_btn_params(NULL, NULL, ed);

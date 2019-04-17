@@ -69,6 +69,6 @@ enum e_bool is_in_rect(t_rect *rect, int x, int y)
 {
     if (x >= rect->pos.x && x<= rect->pos.x + rect->width
         && y >= rect->pos.y && y <= rect->pos.y + rect->height)
-        return (t_true);
-    return (t_false);
+        return (e_true);
+    return (e_false);
 }

@@ -23,7 +23,7 @@ enum e_bool     check_delta(double delta_x, double delta_y, t_segment seg, t_i_c
     else if (fabs(delta_y) <= 5)
 		return ((fabs(seg.y1 - mouse.y) <= 8) && ((mouse.x <= seg.x1
             && mouse.x >= seg.x2) || (mouse.x <= seg.x2 && mouse.x >= seg.x1)));
-    return (t_false);
+    return (e_false);
 
 }
 
@@ -38,14 +38,14 @@ enum e_bool     is_on_seg(t_segment seg, t_i_coords mouse, t_i_coords map_offset
     delta_x = seg.x2 - seg.x1;
     delta_y = seg.y2 - seg.y1;
     if (check_delta(delta_x, delta_y, seg, mouse))
-            return (t_true);
+            return (e_true);
     if (!delta_x || !delta_y)
-        return (t_false);
+        return (e_false);
     m = delta_y / delta_x;
     d = -(m * seg.x1) + seg.y1;
     if (fabs(mouse.y - (m * mouse.x + d)) <= 5)
-        return (t_true);
-    return (t_false);
+        return (e_true);
+    return (e_false);
 }
 
 void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y)

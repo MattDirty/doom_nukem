@@ -38,8 +38,8 @@ t_map		*create_map(t_textures *textures)
 
         find_texture_by_name(textures, "textures/flats/grass.bmp", &map->sectors->items[i].floor);
         find_texture_by_name(textures, "textures/flats/dirt.bmp", &map->sectors->items[i].ceil);
-        map->sectors->items[i].open_sky = t_false;
-        map->sectors->items[2].open_sky = t_true;
+        map->sectors->items[i].open_sky = e_false;
+        map->sectors->items[2].open_sky = e_true;
         map->sectors->items[i].objects = (t_objects*)malloc(sizeof(t_objects));
         map->sectors->items[i].objects->items = NULL;
        // if (i == 0)
@@ -47,7 +47,7 @@ t_map		*create_map(t_textures *textures)
             map->sectors->items[i].objects->count = 3;
             map->sectors->items[i].objects->items = (t_object*)malloc(
                     sizeof(t_object) * map->sectors->items[i].objects->count);
-            map->sectors->items[i].objects->items[0].can_give_bonus = t_true;
+            map->sectors->items[i].objects->items[0].can_give_bonus = e_true;
             map->sectors->items[i].objects->items[0].x = 1;
             map->sectors->items[i].objects->items[0].y = i * 4 + 2;;
             map->sectors->items[i].objects->items[0].z = 0;
@@ -55,13 +55,13 @@ t_map		*create_map(t_textures *textures)
             map->sectors->items[i].objects->items[0].vertical_size = 0.25;
             find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[0].sprite);
         //}
-        map->sectors->items[i].objects->items[1].can_give_bonus = t_true;
+        map->sectors->items[i].objects->items[1].can_give_bonus = e_true;
         map->sectors->items[i].objects->items[1].x = 2;
         map->sectors->items[i].objects->items[1].y = i * 4 + 2;
         map->sectors->items[i].objects->items[1].z = 0;
         map->sectors->items[i].objects->items[1].horizontal_size = 0.25;
         map->sectors->items[i].objects->items[1].vertical_size = 0.5;
-        map->sectors->items[i].objects->items[2].can_give_bonus = t_true;
+        map->sectors->items[i].objects->items[2].can_give_bonus = e_true;
         map->sectors->items[i].objects->items[2].x = 3;
         map->sectors->items[i].objects->items[2].y = i * 4 + 2;
         map->sectors->items[i].objects->items[2].z = 0;
@@ -82,7 +82,7 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].enemies->item.object->vertical_size = 1;
         map->sectors->items[i].enemies->item.life_remaining = 100;
 		map->sectors->items[i].enemies->item.time_in_death = -1;
-		map->sectors->items[i].enemies->item.to_destroy = t_false;
+		map->sectors->items[i].enemies->item.to_destroy = e_false;
         map->sectors->items[i].enemies->item.heading = 0;
         map->sectors->items[i].enemies->item.death_duration = 0;
         map->sectors->items[i].enemies->item.type = et_brazil;
@@ -167,7 +167,7 @@ t_map		*create_map(t_textures *textures)
             walls->items[j]->wall_object = NULL;
             walls->items[j]->lever = NULL;
 		    walls->items[j]->type = e_wall;
-		    walls->items[j]->to_infinity = t_false;
+		    walls->items[j]->to_infinity = e_false;
             walls->items[j]->wall_offset = 0;
 		    if (i == 1)
                 find_texture_by_name(textures, "textures/walls/stones.bmp", &walls->items[j]->texture);
@@ -194,7 +194,7 @@ t_map		*create_map(t_textures *textures)
             if (!(walls->items[2]->lever->wall_object =
                     malloc(sizeof(t_wall_object))))
                 error_doom("can't alloc wall lever object");
-            walls->items[2]->lever->activated = t_false;
+            walls->items[2]->lever->activated = e_false;
             walls->items[2]->lever->wall_object->offset_on_wall = 2;
             walls->items[2]->lever->wall_object->z = 0.25;
             walls->items[2]->lever->wall_object->size = 0.5;
@@ -232,7 +232,7 @@ t_map		*create_map(t_textures *textures)
 		}
 		else
 		{
-		    walls->items[1]->to_infinity = t_true;
+		    walls->items[1]->to_infinity = e_true;
             walls->items[1]->type = e_transparent_wall;
             walls->items[1]->links.sector1 = &map->sectors->items[2];
             walls->items[1]->links.sector2 = &map->sectors->items[2];
@@ -264,7 +264,7 @@ t_map		*create_map(t_textures *textures)
     find_texture_by_name(textures, "textures/weapons/gun_3.bmp", &map->gun_sprites[2]);
     find_texture_by_name(textures, "textures/weapons/gun_firing.bmp", &map->gun_sprites[3]);
     find_texture_by_name(textures, "textures/weapons/gun_cooldown.bmp", &map->gun_sprites[4]);
-    map->daytime = t_true;
+    map->daytime = e_true;
     map->spawn.x = 1;
     map->spawn.y = 1;
 	return (map);
