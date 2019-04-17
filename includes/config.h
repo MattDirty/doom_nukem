@@ -26,5 +26,6 @@ typedef struct  s_config
 }               t_config;
 
 t_config    load_config();
+t_config    load_default_config();
 
 #endif

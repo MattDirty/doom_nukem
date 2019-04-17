@@ -38,7 +38,7 @@ int		main (int ac, char **av)
     time_t		t;
 
     srand((unsigned) time(&t));
-	e.op = load_config();
+	e.op = load_default_config();
     if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
 		e.debug_mode = t_true;
 	else
