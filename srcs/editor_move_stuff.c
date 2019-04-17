@@ -21,15 +21,16 @@ enum e_bool	move_created_intersections(t_editor *ed)
 	t_coords		inter;
 
 	node = ed->linked_walls;
-	while (node->next)
+	while (node->wall)
 	{
 		walls = node->next;
-		while (walls)
+		while (walls->wall)
 		{
 			if (segments_intersect(
 					&walls->wall->segment, &node->wall->segment, &inter))
 			{
-				if (!segments_share_node(&walls->wall->segment, &node->wall->segment))
+				if (!segments_share_node(&walls->wall->segment,
+				        &node->wall->segment))
 					return (t_true);
 			}
 			walls = walls->next;

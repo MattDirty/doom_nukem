@@ -52,8 +52,6 @@ void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y)
 {
     (void)mouse_x;
     (void)mouse_y;
-    if (ed->selected.nodes)
-        free_walls_nodes(ed->dragged.nodes);
     clear_selection(&ed->dragged);
 }
 
