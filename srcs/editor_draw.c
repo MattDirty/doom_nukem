@@ -72,7 +72,7 @@ void        draw_enemies_in_sector_editor(
     {
         coords.x = map_offset.x + enemies->item.object->x * zoom;
         coords.y = map_offset.y - enemies->item.object->y * zoom;
-        draw_circle_filled(target, coords, 0.25 * EDITOR_ZOOM, PINK);
+        draw_circle_filled(target, coords, 5, ENEMY_COLOR);
         enemies = enemies->next;
     }
 }
@@ -87,7 +87,7 @@ void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *object
     {
         coords.x = map_offset.x + objects->items[i].x * zoom;
         coords.y = map_offset.y - objects->items[i].y * zoom;
-        draw_circle_filled(target, coords, 0.15 * EDITOR_ZOOM, GREEN);
+        draw_circle_filled(target, coords, 3, OBJECT_COLOR);
         i++;
     }
 }
@@ -107,7 +107,7 @@ void        draw_player_spawn(SDL_Surface *surface, t_coords spawn, t_i_coords m
     coords.x = map_offset.x + spawn.x * zoom;
     coords.y = map_offset.y - spawn.y * zoom;
 
-    draw_circle_filled(surface, coords, 0.33 * EDITOR_ZOOM, PLAYER_COLOR);
+    draw_circle_filled(surface, coords, 6.6, PLAYER_COLOR);
 }
 
 void		draw_editor(t_editor *ed)

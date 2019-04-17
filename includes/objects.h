@@ -21,7 +21,7 @@ typedef struct s_object
 
 typedef struct  s_objects
 {
-    t_object*   items;
+    t_object    *items;
     int         count;
 }               t_objects;
 

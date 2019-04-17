@@ -13,7 +13,8 @@ typedef struct s_buttons t_buttons;
 
 # define WHITE 0xFFFFFFFF
 # define RED 0xFFFF0000
-# define PINK 0xFFFFAAAA
+# define ENEMY_COLOR 0xFFFFAAAA
+# define OBJECT_COLOR 0xFFF49242
 # define GREEN 0xFF00FF00
 # define BLUE 0xFF0000FF
 # define L_BLUE 0xFF8888FF
@@ -21,6 +22,7 @@ typedef struct s_buttons t_buttons;
 # define BACKGROUND_COLOR 0xFF756F68
 # define YELLOW 0xFFF4EE42
 # define PLAYER_COLOR WHITE
+# define WEAPON_COLOR 0xFFC68FF7
 
 void draw_background(t_editor *ed);
 void draw_panel_back(SDL_Surface *surface);

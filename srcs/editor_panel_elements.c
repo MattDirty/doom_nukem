@@ -47,18 +47,6 @@ void        create_split_wall_button(t_editor *ed, int *y)
     add_button_to_list(&ed->panel.buttons, btn);
 }
 
-void		editor_draw_panel_map(t_editor *ed)
-{
-    int		y;
-
-    write_panel_state(ed, "MAP");
-    y = 60;
-    ed->selected_sprite = &ed->map->daysky;
-    draw_sprites_section(ed, &ed->panel.skies, "Skybox Day:", &y);
-    y += 20;
-    ed->selected_sprite = &ed->map->nightsky;
-    draw_sprites_section(ed, &ed->panel.skies, "Skybox Night:", &y);
-}
 
 void		editor_draw_panel_walls(t_editor *ed)
 {
@@ -86,6 +74,85 @@ void		editor_draw_panel_walls(t_editor *ed)
     if (wall->type == e_wall && get_segment_length(&wall->segment) >= 1
     && sector->walls->count < 15)
         create_split_wall_button(ed, &y);
+}
+
+void        add_object_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
+{
+    SDL_Surface *add_object;
+    t_i_coords  pos;
+    t_button    object_btn;
+
+    add_object = write_text(font, "Add object", (SDL_Colour){255, 0, 0, 255});
+    pos.x = PANEL_PADDING_LEFT + 8;
+    pos.y = *y - 35;
+    object_btn.rect = create_rect(pos.x - 6, pos.y - 6, add_object->w + 10, add_object->h + 10);
+    draw_rect(target, &object_btn.rect, BLACK);
+    fill_rect(target, &object_btn.rect, OBJECT_COLOR, t_true);
+    draw_on_screen(target, add_object, pos, t_false);
+    object_btn.rect.pos.x += PANEL_X;
+    object_btn.f = &add_object_in_sector;
+    object_btn.params = create_btn_params(NULL, NULL, ed);
+    add_button_to_list(&ed->panel.buttons, object_btn);
+    SDL_FreeSurface(add_object);
+}
+
+void        add_enemy_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
+{
+    SDL_Surface *add_enemy;
+    t_i_coords  pos;
+    t_button    enemy_btn;
+
+    add_enemy = write_text(font, "Add enemy ", (SDL_Colour){255, 0, 0, 255});
+    pos.x = PANEL_PADDING_LEFT + 8;
+    pos.y = *y - 35;
+    enemy_btn.rect = create_rect(pos.x - 6, pos.y - 6, add_enemy->w + 10, add_enemy->h + 10);
+    draw_rect(target, &enemy_btn.rect, BLACK);
+    fill_rect(target, &enemy_btn.rect, ENEMY_COLOR, t_true);
+    draw_on_screen(target, add_enemy, pos, t_false);
+    enemy_btn.rect.pos.x += PANEL_X;
+    enemy_btn.f = &add_object_in_sector;
+    enemy_btn.params = create_btn_params(NULL, NULL, ed);
+    add_button_to_list(&ed->panel.buttons, enemy_btn);
+    SDL_FreeSurface(add_enemy);
+}
+
+void        add_weapon_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
+{
+    SDL_Surface *add_weapon;
+    t_i_coords  pos;
+    t_button    weapon_btn;
+
+    add_weapon = write_text(font, "Add weapon", (SDL_Colour){255, 0, 0, 255});
+    pos.x = PANEL_PADDING_LEFT + 8;
+    pos.y = *y - 35;
+    weapon_btn.rect = create_rect(pos.x - 6, pos.y - 6, add_weapon->w + 10, add_weapon->h + 10);
+    draw_rect(target, &weapon_btn.rect, BLACK);
+    fill_rect(target, &weapon_btn.rect, WEAPON_COLOR, t_true);
+    draw_on_screen(target, add_weapon, pos, t_false);
+    weapon_btn.rect.pos.x += PANEL_X;
+    weapon_btn.f = &add_object_in_sector;
+    weapon_btn.params = create_btn_params(NULL, NULL, ed);
+    add_button_to_list(&ed->panel.buttons, weapon_btn);
+    SDL_FreeSurface(add_weapon);
+}
+
+void		editor_draw_panel_map(t_editor *ed)
+{
+    int		y;
+
+    write_panel_state(ed, "MAP");
+    y = 60;
+    ed->selected_sprite = &ed->map->daysky;
+    draw_sprites_section(ed, &ed->panel.skies, "Skybox Day:", &y);
+    y += 20;
+    ed->selected_sprite = &ed->map->nightsky;
+    draw_sprites_section(ed, &ed->panel.skies, "Skybox Night:", &y);
+    y += 100;
+    add_enemy_btn(ed, ed->fonts->vcr40, ed->panel.surface, &y);
+    y += 70;
+    add_object_btn(ed, ed->fonts->vcr40, ed->panel.surface, &y);
+    y += 70;
+    add_weapon_btn(ed, ed->fonts->vcr40, ed->panel.surface, &y);
 }
 
 void		editor_draw_panel_sprites(t_editor *ed)
