@@ -84,7 +84,8 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
         while  (node)
         {
             enemy = &node->item;
-            enemy->act(enemy, sector, e, ms_since_update);
+            if (enemy->time_in_death <= 0)
+                enemy->act(enemy, sector, e, ms_since_update);
             enemy->animation_time += ms_since_update;
             node = node->next;
         }
