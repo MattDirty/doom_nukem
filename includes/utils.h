@@ -89,5 +89,6 @@ t_rect      create_rect(int x, int y, int width, int height);
 void        draw_rect(SDL_Surface *surface, t_rect *rect, Uint32 color);
 void        fill_rect(SDL_Surface *surface, t_rect *rect, Uint32 color, enum e_bool alpha);
 enum e_bool is_in_rect(t_rect *rect, int x, int y);
+int         is_close_to(t_coords target, t_coords point, double dist);
 
 #endif

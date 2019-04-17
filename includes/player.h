@@ -26,6 +26,7 @@ typedef struct			s_player
     double		vision_height;
     t_weapons   *weapons;
     t_weapon    *weapon;
+    
     t_jump      jump;
     enum e_bool dead;
     double      health;

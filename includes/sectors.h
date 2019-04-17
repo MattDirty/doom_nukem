@@ -19,6 +19,7 @@ typedef	struct			s_sector
     enum e_bool         open_sky;
     Uint32				light;
     t_objects           *objects;
+    t_pickables         *pickables;
     t_linked_enemies    *enemies;
 }						t_sector;
 
