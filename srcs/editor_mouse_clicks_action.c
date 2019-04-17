@@ -8,6 +8,7 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 	t_coords	pos;
 	t_wall		*wall;
 	t_sector	*new_sector;
+	t_sector	*linked_sector;
 
 	ed->state = e_null;
 	pos.x = (double)(mouse_x - ed->map_offset.x) / ed->zoom;
@@ -15,6 +16,7 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 	if (in_which_sector(pos, ed->map->sectors))
 		return ;
 	new_sector = create_new_sector(ed->map->sectors);
+	linked_sector = find_wall_sector(ed->map->sectors, ed->selected.wall);
 	add_wall_to_sector(new_sector, ed->selected.wall);
 	wall = create_wall_copy(ed->selected.wall);
 	wall->segment.x1 = pos.x;
@@ -26,6 +28,8 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 	add_wall_to_sector(new_sector, wall);
 	ed->selected.wall->type = e_portal;
 	ed->selected.wall->texture = NULL;
+	ed->selected.wall->links.sector2 = linked_sector;
+	ed->selected.wall->links.sector1 = new_sector;
 	free_linked_walls_nodes(ed->linked_walls);
 	create_linked_walls_from_sectors(
 			ed->map->sectors, &ed->linked_walls, &ed->linked_walls_count);
