@@ -1,3 +1,4 @@
+#include <math.h>
 #include "default.h"
 #include "player.h"
 #include "enemies_intelligence.h"

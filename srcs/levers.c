@@ -1,3 +1,4 @@
+#include <math.h>
 #include "levers.h"
 #include "serialisation.h"
 #include "doom.h"
