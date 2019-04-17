@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "SDL.h"
+#include <SDL.h>
 #include "player.h"
 #include "levers.h"
 

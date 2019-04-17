@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "SDL_ttf.h"
+#include <SDL.h>
 #include "doom.h"
 
 enum e_bool cross_index(double ms_since_update, t_params i)

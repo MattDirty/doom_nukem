@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "config.h"
-#include "SDL.h"
+#include <SDL.h>
 #include "default.h"
 #include "player.h"
 

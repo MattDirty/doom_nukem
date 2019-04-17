@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include "SDL.h"
+#include <SDL.h>
 #include "libft.h"
 
 #include "textures.h"

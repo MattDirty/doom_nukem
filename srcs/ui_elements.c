@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "SDL.h"
+#include <SDL.h>
 #include "libft.h"
 #include "default.h"
 #include "utils.h"

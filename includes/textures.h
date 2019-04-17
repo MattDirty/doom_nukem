@@ -1,7 +1,7 @@
 #ifndef TEXTURES_H
 # define TEXTURES_H
 
-# include "SDL.h"
+# include <SDL.h>
 
 # define BITMAP_DEPTH 32
 
