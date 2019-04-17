@@ -118,6 +118,7 @@ void    move_walls_nodes(t_editor *ed, double x, double y)
     		*nodes->item.y -= delta_y;
     		nodes = nodes->next;
 		}
+        Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
     	return;
 	}
     ed->map_is_updated = e_false;
@@ -132,7 +133,10 @@ void    move_player_spawn(t_editor *ed, double x, double y)
     new_x = (x - ed->map_offset.x) / ed->zoom;
     new_y = (ed->map_offset.y - y) / ed->zoom;
     if (!(sector = in_which_sector((t_coords){new_x, new_y},ed->map->sectors)))
+    {
+        Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
         return;
+    }
     ed->map->spawn.x = new_x;
     ed->map->spawn.y = new_y;
     ed->map_is_updated = e_false;
@@ -148,7 +152,10 @@ void	move_enemy(t_editor *ed, double x, double y)
 	new_x = (x - ed->map_offset.x) / ed->zoom;
 	new_y = (ed->map_offset.y - y) / ed->zoom;
 	if (!is_in_sector((t_coords){new_x, new_y}, sector))
-		return ;
+    {
+        Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
+	    return ;
+    }
 	ed->dragged.enemy->object->x = new_x;
 	ed->dragged.enemy->object->y = new_y;
 	ed->map_is_updated = e_false;
@@ -164,7 +171,10 @@ void	move_object(t_editor *ed, double x, double y)
 	new_x = (x - ed->map_offset.x) / ed->zoom;
 	new_y = (ed->map_offset.y - y) / ed->zoom;
 	if (!is_in_sector((t_coords){new_x, new_y}, sector))
-		return ;
+    {
+        Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
+	    return ;
+    }
     ed->dragged.object->x = new_x;
     ed->dragged.object->y = new_y;
     ed->map_is_updated = e_false;

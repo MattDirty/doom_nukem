@@ -16,11 +16,12 @@
 #include "utils.h"
 #include "ui.h"
 
-void    game_over(TTF_Font *font, SDL_Surface *surface, t_config *op)
+void    game_over(t_env *e, TTF_Font *font, SDL_Surface *surface, t_config *op)
 {
     SDL_Surface *game_over;
     t_i_coords  pos;
 
+    Mix_PlayChannel(-1, e->sounds->mwiiicrkk, 0);
     game_over = write_text(font, "GAME OVER!", (SDL_Colour){255,0,0,255});
     pos.x = op->half_w - game_over->w / 2;
     pos.y = op->half_h - game_over->h / 2;

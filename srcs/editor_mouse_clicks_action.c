@@ -14,6 +14,8 @@ void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y)
     if (sector)
         ed->selected.object = add_new_object_to_sector_at_pos(
                 sector, pos, ed->textures);
+    if (!ed->selected.object)
+        Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
     ed->state = e_null;
 }
 
@@ -34,6 +36,8 @@ void        create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y)
         else
             ed->selected.enemy = &enemy->item;
     }
+    if (!ed->selected.enemy)
+        Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
     ed->state = e_null;
 }
 

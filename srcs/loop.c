@@ -161,7 +161,7 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
             &e->p.weapon->main_animation,
             &e->op);
     if (e->p.dead)
-        game_over(e->fonts->horrendo120, e->doom.surface, &e->op);
+        game_over(e, e->fonts->horrendo120, e->doom.surface, &e->op);
     if (frame_event_params->time >= 500 || !frame_event_params->time)
     {
         frame_event_params->fps = floor(1 / ms_since_update * 1000);
