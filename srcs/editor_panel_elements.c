@@ -87,8 +87,8 @@ void        add_object_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, in
     pos.y = *y - 35;
     object_btn.rect = create_rect(pos.x - 6, pos.y - 6, add_object->w + 10, add_object->h + 10);
     draw_rect(target, &object_btn.rect, BLACK);
-    fill_rect(target, &object_btn.rect, OBJECT_COLOR, t_true);
-    draw_on_screen(target, add_object, pos, t_false);
+    fill_rect(target, &object_btn.rect, OBJECT_COLOR, e_true);
+    draw_on_screen(target, add_object, pos, e_false);
     object_btn.rect.pos.x += PANEL_X;
     object_btn.f = &add_object_in_sector;
     object_btn.params = create_btn_params(NULL, NULL, ed);
@@ -107,8 +107,8 @@ void        add_enemy_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int
     pos.y = *y - 35;
     enemy_btn.rect = create_rect(pos.x - 6, pos.y - 6, add_enemy->w + 10, add_enemy->h + 10);
     draw_rect(target, &enemy_btn.rect, BLACK);
-    fill_rect(target, &enemy_btn.rect, ENEMY_COLOR, t_true);
-    draw_on_screen(target, add_enemy, pos, t_false);
+    fill_rect(target, &enemy_btn.rect, ENEMY_COLOR, e_true);
+    draw_on_screen(target, add_enemy, pos, e_false);
     enemy_btn.rect.pos.x += PANEL_X;
     enemy_btn.f = &add_object_in_sector;
     enemy_btn.params = create_btn_params(NULL, NULL, ed);
@@ -127,8 +127,8 @@ void        add_weapon_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, in
     pos.y = *y - 35;
     weapon_btn.rect = create_rect(pos.x - 6, pos.y - 6, add_weapon->w + 10, add_weapon->h + 10);
     draw_rect(target, &weapon_btn.rect, BLACK);
-    fill_rect(target, &weapon_btn.rect, WEAPON_COLOR, t_true);
-    draw_on_screen(target, add_weapon, pos, t_false);
+    fill_rect(target, &weapon_btn.rect, WEAPON_COLOR, e_true);
+    draw_on_screen(target, add_weapon, pos, e_false);
     weapon_btn.rect.pos.x += PANEL_X;
     weapon_btn.f = &add_object_in_sector;
     weapon_btn.params = create_btn_params(NULL, NULL, ed);
