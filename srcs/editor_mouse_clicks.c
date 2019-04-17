@@ -52,17 +52,11 @@ void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y)
 {
     (void)mouse_x;
     (void)mouse_y;
-    if (ed->selected.nodes)
-        free_walls_nodes(ed->dragged.nodes);
     clear_selection(&ed->dragged);
 }
 
 void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
 {
-    int count;
-    t_linked_walls *linked_walls;
-
-
     if (click_on_panel(ed, mouse_x, mouse_y))
         return ;
     clear_selection(&ed->selected);
@@ -75,12 +69,10 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
         return ;
     if (click_on_object(ed, ed->map, mouse_x, mouse_y))
     	return ;
-    create_linked_walls_from_sectors(ed->map->sectors, &linked_walls, &count);
-    if (click_on_nodes(ed, linked_walls, mouse_x, mouse_y))
+    if (click_on_nodes(ed, ed->linked_walls, mouse_x, mouse_y))
         return ;
-    if (click_on_walls(ed, linked_walls, mouse_x, mouse_y))
+    if (click_on_walls(ed, ed->linked_walls, mouse_x, mouse_y))
         return ;
 	if (click_on_sector(ed, ed->map, mouse_x, mouse_y))
 		return ;
-    free_linked_walls_nodes(linked_walls);
 }

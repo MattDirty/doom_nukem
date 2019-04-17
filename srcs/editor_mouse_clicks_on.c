@@ -142,7 +142,6 @@ enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int x
 		if (is_in_rect(&rect, x, y))
 		{
 			deal_with_clicked_node(ed, ptr, (t_coords){ptr->wall->segment.x1, ptr->wall->segment.y1});
-			free_linked_walls_nodes(linked_walls);
 			return (t_true);
 		}
 		rect = create_rect(ed->map_offset.x + ptr->wall->segment.x2 * ed->zoom - CORNER_SIZE / 2,
@@ -151,7 +150,6 @@ enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int x
 		if (is_in_rect(&rect, x, y))
 		{
 			deal_with_clicked_node(ed, ptr, (t_coords){ptr->wall->segment.x2, ptr->wall->segment.y2});
-			free_linked_walls_nodes(linked_walls);
 			return (t_true);
 		}
 		ptr = ptr->next;

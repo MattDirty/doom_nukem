@@ -19,6 +19,11 @@ void        split_wall(t_params params)
     wall->segment.x2 = new_wall->segment.x1;
     wall->segment.y2 = new_wall->segment.y1;
 	add_wall_to_sector(sector, new_wall);
+	free_linked_walls_nodes(btn_params->ed->linked_walls);
+	create_linked_walls_from_sectors(
+			btn_params->ed->map->sectors,
+			&btn_params->ed->linked_walls,
+			&btn_params->ed->linked_walls_count);
     btn_params->ed->map_is_updated = t_false;
 }
 
