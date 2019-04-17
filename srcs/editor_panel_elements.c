@@ -110,7 +110,7 @@ void        add_enemy_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int
     fill_rect(target, &enemy_btn.rect, ENEMY_COLOR, e_true);
     draw_on_screen(target, add_enemy, pos, e_false);
     enemy_btn.rect.pos.x += PANEL_X;
-    enemy_btn.f = &create_object_in_map;
+    enemy_btn.f = &create_enemy_in_map;
     enemy_btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, enemy_btn);
     SDL_FreeSurface(add_enemy);

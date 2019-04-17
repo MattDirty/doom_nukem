@@ -62,4 +62,8 @@ void	delete_enemy(
         t_linked_enemies **linked_enemies,
         t_enemy *enemy);
 
+t_linked_enemies    *add_new_enemy_to_sector_at_pos(t_sector *sector,
+                                    t_coords pos, t_textures *textures);
+t_enemy create_default_enemy(t_textures *textures);
+
 #endif

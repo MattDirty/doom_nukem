@@ -39,5 +39,6 @@ void write_object_to_file(int fd, t_object object);
 
 t_object    *add_new_object_to_sector_at_pos(
         t_sector *sector, t_coords pos, t_textures *textures);
+t_object    create_default_object(t_textures *textures);
 
 #endif
