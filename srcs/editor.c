@@ -159,6 +159,8 @@ int		main(int ac, char **av)
     free_buttons_list(ed.panel.buttons);
     ed.panel.buttons = NULL;
     clear_selection(&ed.dragged);
+    ed.state = e_null;
+    ed.state_func[e_add_object] = &create_object_in_sector;
     editor_loop(&ed);
     return (0);
 }

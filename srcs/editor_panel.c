@@ -196,27 +196,3 @@ void		toggle_skybox(t_params params)
 	}
 	ptr->ed->map_is_updated = e_false;
 }
-
-void        add_object_in_sector(t_params params)
-{
-    t_btn_params *ptr;
-	int     count;
-	t_object  *items;
-	int 	i;
-
-    ptr = (t_btn_params *)params;
-	count = ptr->ed->selected.sector->objects->count + 1;
-    if (count > 6)
-    	return ;
-	if (!(items = (t_object *)malloc(sizeof(t_object ) * count)))
-		error_doom("Couldn't add an object to sector(malloc)");
-	i = 0;
-	while (i < ptr->ed->selected.sector->objects->count)
-	{
-		*(items + i) = *(ptr->ed->selected.sector->objects->items + i);
-		i++;
-	}
-	*(items + i) = *ptr->object;
-	ptr->ed->selected.sector->objects->items = items;
-	ptr->ed->selected.sector->objects->count = count;
-}

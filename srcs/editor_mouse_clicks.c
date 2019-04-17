@@ -59,6 +59,11 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
 {
     if (click_on_panel(ed, mouse_x, mouse_y))
         return ;
+    if (ed->state)
+    {
+        ed->state_func[ed->state](ed, mouse_x, mouse_y);
+        return ;
+    }
     clear_selection(&ed->selected);
     free_buttons_list(ed->panel.buttons);
     ed->panel.buttons = NULL;

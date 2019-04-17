@@ -31,6 +31,7 @@ t_btn_params    *create_btn_params(
         SDL_Surface **selected, SDL_Surface *target, t_editor *ed);
 void        toggle_lighting(t_params params);
 void		toggle_skybox(t_params params);
-void        add_object_in_sector(t_params params);
+void        create_object_in_map(t_params params);
+void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y);
 
 #endif
