@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "doom.h"
 #include "default.h"
 #include "utils.h"
@@ -59,7 +60,33 @@ static void loop_events(
 			* timer_handler->ms_since_update;
 }
 
-static void     update_enemies(t_sectors *sectors, double p_heading)
+static void		select_enemy_sprite(t_enemy* enemy, t_coords pos)
+{
+    t_vector	view;
+    t_vector	perpendicular_view;
+    double		dot;
+
+    if (enemy->time_in_death >= 0)
+        return;
+    view = (t_vector){enemy->object->x - pos.x, enemy->object->y - pos.y};
+    normalize_vector(&view);
+    dot = dot_product(&view, &enemy->heading);
+    if (dot >= COS_PI_FOURTH)
+        enemy->object->sprite = enemy->back;
+    else if (dot <= -COS_PI_FOURTH)
+        enemy->object->sprite = enemy->front;
+    else
+    {
+        perpendicular_view = (t_vector){view.y, -view.x};
+        dot = dot_product(&perpendicular_view, &enemy->heading);
+        if (dot >= COS_PI_FOURTH)
+            enemy->object->sprite = enemy->right;
+        else if (dot <= -COS_PI_FOURTH)
+            enemy->object->sprite = enemy->left;
+    }
+}
+
+static void     update_enemies(t_sectors *sectors, t_coords camera_pos)
 {
     int     i;
     t_linked_enemies	*enemies;
@@ -78,17 +105,7 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
                 enemies = next;
 				continue;
 			}
-        	if (enemies->item.time_in_death < 0)
-            {
-        	    if (fabs(enemies->item.heading - p_heading) <= 3.14 + 0.78
-                    && fabs(enemies->item.heading - p_heading) >= 3.14 - 0.78)
-                    enemies->item.object->sprite = enemies->item.front;
-                else if (fabs(enemies->item.heading - p_heading) <= 0.78
-                         || fabs(enemies->item.heading - p_heading) >= 6.28 - 0.78)
-                    enemies->item.object->sprite = enemies->item.back;
-                else
-                    enemies->item.object->sprite = enemies->item.side;
-            }
+            select_enemy_sprite(&enemies->item, camera_pos);
             enemies = enemies->next;
         }
         i++;
@@ -108,38 +125,33 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
         ptr->e->p.jump.height -= ptr->e->p.jump.gravity * ms_since_update;
         ptr->e->p.jump.height = (ptr->e->p.jump.height < 1) ? 0 : ptr->e->p.jump.height;
     }
-    update_enemies(ptr->map->sectors, ptr->e->p.heading);
-	//todo : if paused return e_false
+    update_enemies(ptr->map->sectors, ptr->e->p.pos);
 	return (e_true);
 }
 
-t_logic_params		*logic_params_init(
+t_logic_params		logic_params_init(
         t_env *e,
         const Uint8 *state,
         t_timer_handler *timer_handler,
         enum e_bool *stop)
 {
-	t_logic_params	*params;
+	t_logic_params	params;
 
-	if (!(params = (t_logic_params *)malloc(sizeof(t_logic_params))))
-		error_doom("Couldn't malloc t_logic_params struct");
-	params->e = e;
-	params->map = e->map;
-	params->state = state;
-	params->timer_handler = timer_handler;
-	params->stop = stop;
+	params.e = e;
+	params.map = e->map;
+	params.state = state;
+	params.timer_handler = timer_handler;
+	params.stop = stop;
 	return (params);
 }
 
-t_frame_event_params	*frame_event_params_init(t_env *e)
+t_frame_event_params	frame_event_params_init(t_env *e)
 {
-    t_frame_event_params	*params;
+    t_frame_event_params	params;
 
-    if (!(params = (t_frame_event_params*)malloc(sizeof(t_frame_event_params))))
-        error_doom("Couldn't allocate memory for t_frame_event_params");
-    params->e = e;
-    params->map = e->map;
-    params->time = 0;
+    params.e = e;
+    params.map = e->map;
+    params.time = 0;
     return (params);
 }
 
@@ -183,9 +195,9 @@ static void	init_game_loop(
 {
     *stop = e_false;
 	timer_handler_init(&e->timer_handler);
-    update_logic_params = logic_params_init(e, SDL_GetKeyboardState(NULL),
+    *update_logic_params = logic_params_init(e, SDL_GetKeyboardState(NULL),
             &e->timer_handler, stop);
-    frame_event_params = frame_event_params_init(e);
+    *frame_event_params = frame_event_params_init(e);
     add_event(&e->timer_handler, 1, &update_logic, update_logic_params);
     add_event(&e->timer_handler, 1000.0 / e->op.fps_max, &frame_event,
             frame_event_params);

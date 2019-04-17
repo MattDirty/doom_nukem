@@ -5,6 +5,8 @@
 # include <SDL.h>
 # include "e_bool.h"
 
+# define COS_PI_FOURTH 0.7071
+
 typedef struct	s_vector
 {
     double x;

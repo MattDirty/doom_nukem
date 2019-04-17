@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <SDL_mixer.h>
 #include "enemies.h"
+#include "basic_enemies_intelligence.h"
 #include "doom.h"
 #include "serialisation.h"
 #include "e_bool.h"
@@ -120,6 +121,7 @@ t_linked_enemies	*extract_enemy(
     {
         previous = *linked_enemies;
         *linked_enemies = previous->next;
+        previous->next = NULL;
         return (previous);
     }
     previous = NULL;
@@ -129,6 +131,7 @@ t_linked_enemies	*extract_enemy(
         if (&node->item == enemy)
         {
             previous->next = node->next;
+            node->next = NULL;
             return (node);
         }
         previous = node;
@@ -217,7 +220,8 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
     if (write(fd, &enemy.type, sizeof(enemy.type)) <= 0)
         error_doom("Problem while type enemy from file");
     write_str_to_file(fd, enemy.front->userdata);
-    write_str_to_file(fd, enemy.side->userdata);
+    write_str_to_file(fd, enemy.right->userdata);
+    write_str_to_file(fd, enemy.left->userdata);
     write_str_to_file(fd, enemy.back->userdata);
     write_str_to_file(fd, enemy.explosion[0]->userdata);
     write_str_to_file(fd, enemy.explosion[1]->userdata);
@@ -239,15 +243,18 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
 
  static void	init_enemy_from_type(t_enemy *enemy)
 {
+    enemy->animation_time = 0;
     if (enemy->type == et_boss)
     {
         enemy->act = boss_intelligence;
-        enemy->speed = 0.01;
+        enemy->speed = BASE_BLACKHOLE_SPEED;
     }
     else if (enemy->type == et_brazil)
     {
-        enemy->act = basic_enemy_intelligence;
-        enemy->speed = 0.1;
+        enemy->act = roam;
+        enemy->speed = BASE_SCOOTER_SPEED;
+        enemy->object->vertical_size = 0.7;
+        enemy->object->horizontal_size = 0.7;
     }
     else
         error_doom("invalid enemy");
@@ -273,7 +280,8 @@ void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
     init_enemy_from_type(enemy);
     find_texture_from_file(fd, textures, &enemy->front);
     enemy->object->sprite = enemy->front;
-    find_texture_from_file(fd, textures, &enemy->side);
+    find_texture_from_file(fd, textures, &enemy->right);
+    find_texture_from_file(fd, textures, &enemy->left);
     find_texture_from_file(fd, textures, &enemy->back);
     find_texture_from_file(fd, textures, &(enemy->explosion[0]));
     find_texture_from_file(fd, textures, &(enemy->explosion[1]));
