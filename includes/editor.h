@@ -44,6 +44,14 @@ typedef	struct			s_selected_elements
 	t_wall              *wall;
 }						t_selected_elements;
 
+enum    e_editor_state
+{
+    e_null = 0,
+    e_add_object,
+    e_add_enemy,
+    e_add_weapon
+};
+
 typedef struct          s_editor
 {
 	t_sdl_editor    	sdl;
@@ -58,6 +66,9 @@ typedef struct          s_editor
     int					zoom;
     t_fonts				*fonts;
     SDL_Surface         **selected_sprite;
+    enum e_editor_state state;
+    void                (*state_func[3])
+    (t_editor *ed, int mouse_x, int mouse_y);
 	t_selected_elements	selected;
 	t_selected_elements	dragged;
 	t_linked_walls		*linked_walls;

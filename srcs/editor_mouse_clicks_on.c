@@ -124,7 +124,9 @@ enum e_bool     click_on_panel(t_editor *ed, int mouse_x, int mouse_y)
         }
         buttons = buttons->next;
     }
-    return (e_false);
+    clear_selection(&ed->dragged);
+    ed->state = e_null;
+    return (e_true);
 }
 
 enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int x, int y)

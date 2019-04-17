@@ -1,5 +1,51 @@
 #include "editor_mouse_clicks.h"
 #include "editor_walls_nodes.h"
+#include "in_which_sector.h"
+#include "editor_panel_buttons.h"
+
+void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y)
+{
+    t_coords    pos;
+    t_sector    *sector;
+
+    pos.x = (double)(mouse_x - ed->map_offset.x) / ed->zoom;
+    pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
+    sector = in_which_sector(pos, ed->map->sectors);
+    if (sector)
+        ed->selected.object = add_new_object_to_sector_at_pos(
+                sector, pos, ed->textures);
+    ed->state = e_null;
+}
+
+void        create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y)
+{
+    t_coords    pos;
+    t_sector    *sector;
+    t_linked_enemies    *enemy;
+
+    pos.x = (double)(mouse_x - ed->map_offset.x) / ed->zoom;
+    pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
+    sector = in_which_sector(pos, ed->map->sectors);
+    if (sector)
+    {
+        enemy = add_new_enemy_to_sector_at_pos(sector, pos, ed->textures);
+        if (!enemy)
+            ed->selected.enemy = NULL;
+        else
+            ed->selected.enemy = &enemy->item;
+    }
+    ed->state = e_null;
+}
+
+void        create_enemy_in_map(t_params params)
+{
+    ((t_btn_params *)params)->ed->state = e_add_enemy;
+}
+
+void        create_object_in_map(t_params params)
+{
+    ((t_btn_params *)params)->ed->state = e_add_object;
+}
 
 void			deal_with_clicked_sector(t_editor *ed)
 {
