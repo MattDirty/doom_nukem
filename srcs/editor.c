@@ -12,6 +12,7 @@
 
 #include "SDL.h"
 #include "SDL_ttf.h"
+#include <SDL_mixer.h>
 #include "editor.h"
 #include <sys/stat.h>
 #include "editor_draw.h"
@@ -73,7 +74,8 @@ t_fonts *load_fonts(void)
     fonts->amazdoom40 = TTF_OpenFont("fonts/amazdoom.ttf", 40);
 	fonts->vcr20 = TTF_OpenFont("fonts/vcr_mono.ttf", 20);
 	fonts->vcr40 = TTF_OpenFont("fonts/vcr_mono.ttf", 40);
-    if (!fonts->horrendo120 || !fonts->sixty20 || !fonts->sixty40)
+    if (!fonts->horrendo120 || !fonts->sixty20 || !fonts->sixty40
+        || !fonts->amazdoom40 || !fonts->vcr20 || !fonts->vcr40)
         error_doom("Couldn't open fonts");
     return (fonts);
 }
@@ -122,6 +124,35 @@ void    init_panel(t_panel *panel, t_textures *textures)
 	panel->buttons = NULL;
 }
 
+t_sounds *load_sounds(void)
+{
+    t_sounds    *sounds;
+
+    if (!(sounds = (t_sounds *)malloc(sizeof(t_sounds))))
+        error_doom("cannot alloc sounds");
+    if (!(sounds->lamerde = Mix_LoadMUS("sounds/lamerde.wav")))
+        error_doom("error: cannot load lamerde.wav");
+    if (!(sounds->zap = Mix_LoadWAV("sounds/zap.wav")))
+        error_doom("error: cannot load zap.wav");
+    if (!(sounds->fu_bitch = Mix_LoadWAV("sounds/fu_bitch.wav")))
+        error_doom("error: cannot load fu_bitch.wav");
+    if (!(sounds->xplosion = Mix_LoadWAV("sounds/xplosion.wav")))
+        error_doom("error: cannot load xplosion.wav");
+    if (!(sounds->mwiiicrkk = Mix_LoadWAV("sounds/mwiiicrkk.wav")))
+        error_doom("error: cannot load mmwiiicrkk.wav");
+    if (!(sounds->mip_mep = Mix_LoadWAV("sounds/mip_mep.wav")))
+        error_doom("error: cannot load mip_mep.wav");
+    if (!(sounds->meeeh = Mix_LoadWAV("sounds/meeeh.wav")))
+        error_doom("error: cannot load meeeh.wav");
+    if (!(sounds->pew = Mix_LoadWAV("sounds/pew_crk_crk.wav")))
+        error_doom("error: cannot load pew.wav");
+    if (!(sounds->slurp = Mix_LoadWAV("sounds/slurp_vrrrr_krrkrkrkrkrkr.wav")))
+        error_doom("error: cannot load surlp.wav");
+    if (!(sounds->yeee = Mix_LoadWAV("sounds/yeee.wav")))
+        error_doom("error: cannot load yeee.wav");
+    return (sounds);
+}
+
 int		main(int ac, char **av)
 {
 	t_editor			ed;
@@ -141,8 +172,8 @@ int		main(int ac, char **av)
 		ed.textures = load_textures();
 		ed.map = create_map(ed.textures);
 		ed.fonts = load_fonts();
-		ed.sounds = NULL;
-        ed.map_is_updated = e_false;
+		ed.sounds = load_sounds();
+        ed.map_is_updated = t_false;
     }
     else
 	{
@@ -153,7 +184,6 @@ int		main(int ac, char **av)
 		read_file_editor(av[1], &read_data);
         ed.map_is_updated = e_true;
     }
-	ed.fonts = load_fonts();
 	init_panel(&ed.panel, ed.textures);
 	clear_selection(&ed.selected);
     free_buttons_list(ed.panel.buttons);

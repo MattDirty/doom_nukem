@@ -16,6 +16,7 @@
 #include "editor_panel_buttons.h"
 #include "in_which_sector.h"
 #include "ui.h"
+#include "sounds.h"
 
 void    change_selected_texture(t_params params)
 {
@@ -125,6 +126,7 @@ void save_editor(t_params params)
     ptr->ed->map->player_spawn_index = sector_index(
             ptr->ed->map->sectors,
             in_which_sector(ptr->ed->map->spawn, ptr->ed->map->sectors));
+    Mix_PlayChannel(-1, ptr->ed->sounds->mip_mep, 0);
     write_file(ptr->ed->map_path, ptr->ed->textures, ptr->ed->map);
     ptr->ed->map_is_updated = e_true;
 }
