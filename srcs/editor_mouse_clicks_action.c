@@ -8,8 +8,8 @@ void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y)
     t_coords    pos;
     t_sector    *sector;
 
-    pos.x = (mouse_x - ed->map_offset.x) / ed->zoom;
-    pos.y = (ed->map_offset.y - mouse_y) / ed->zoom;
+    pos.x = (double)(mouse_x - ed->map_offset.x) / ed->zoom;
+    pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
     sector = in_which_sector(pos, ed->map->sectors);
     if (sector)
         add_new_object_to_sector_at_pos(sector, pos, ed->textures);
