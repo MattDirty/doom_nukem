@@ -18,8 +18,23 @@ t_wall      *create_wall_copy(t_wall *wall)
 
 void        add_wall_to_sector(t_sector *sector, t_wall *wall)
 {
-    sector->walls->items[sector->walls->count] = wall;
-    sector->walls->count++;
+    int     count;
+    t_wall  **items;
+    int 	i;
+
+    count = sector->walls->count + 1;
+    if (!(items = (t_wall **)malloc(sizeof(t_wall *) * count)))
+        error_doom("Couldn't add a wall to sector(malloc)");
+    i = 0;
+    while (i < sector->walls->count)
+	{
+		*(items + i) = *(sector->walls->items + i);
+		i++;
+	}
+    free(sector->walls->items);
+    *(items + i) = wall;
+    sector->walls->items = items;
+    sector->walls->count = count;
 }
 
 int			wall_index(t_linked_walls *linked_walls, t_wall *wall)

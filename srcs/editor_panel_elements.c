@@ -38,7 +38,7 @@ void        split_wall(t_params params)
     new_wall->segment.y1 += (new_wall->segment.y2 - new_wall->segment.y1) / 2;
     wall->segment.x2 = new_wall->segment.x1;
     wall->segment.y2 = new_wall->segment.y1;
-    add_wall_to_sector(sector, new_wall);
+	add_wall_to_sector(sector, new_wall);
     btn_params->ed->map_is_updated = t_false;
 }
 
@@ -78,7 +78,7 @@ void		editor_draw_panel_walls(t_editor *ed)
 {
     int		y;
 
-    write_panel_state(ed, "WALLS");
+    write_panel_state(ed, "WALL");
     y = 60;
     if (ed->selected.wall->type == e_portal)
         ed->selected_sprite = NULL;
@@ -93,7 +93,8 @@ void		editor_draw_panel_walls(t_editor *ed)
         ed->selected_sprite = &ed->selected.wall->lever->wall_object->texture;
     draw_sprites_section(ed, &ed->panel.wall_objects, "Wall objects:", &y);
     y += 40;
-    create_split_wall_button(ed, &y);
+    if (ed->selected.wall->type == e_wall)
+        create_split_wall_button(ed, &y);
 }
 
 void		editor_draw_panel_sprites(t_editor *ed)
