@@ -78,14 +78,17 @@ static void     update_enemies(t_sectors *sectors, double p_heading)
                 enemies = next;
 				continue;
 			}
-            if (fabs(enemies->item.heading - p_heading) <= 3.14 + 0.78
-                && fabs(enemies->item.heading - p_heading) >= 3.14 - 0.78)
-                enemies->item.object->sprite = enemies->item.front;
-            else if (fabs(enemies->item.heading - p_heading) <= 0.78
-                || fabs(enemies->item.heading - p_heading) >= 6.28 - 0.78)
-                  enemies->item.object->sprite = enemies->item.back;
-            else
-                enemies->item.object->sprite = enemies->item.side;
+        	if (enemies->item.time_in_death < 0)
+            {
+        	    if (fabs(enemies->item.heading - p_heading) <= 3.14 + 0.78
+                    && fabs(enemies->item.heading - p_heading) >= 3.14 - 0.78)
+                    enemies->item.object->sprite = enemies->item.front;
+                else if (fabs(enemies->item.heading - p_heading) <= 0.78
+                         || fabs(enemies->item.heading - p_heading) >= 6.28 - 0.78)
+                    enemies->item.object->sprite = enemies->item.back;
+                else
+                    enemies->item.object->sprite = enemies->item.side;
+            }
             enemies = enemies->next;
         }
         i++;

@@ -75,7 +75,6 @@ enum e_bool enemy_death(double ms_since_update, t_params params)
     if (step >= 16)
         step = 15;
     enemy->object->sprite = enemy->explosion[step];
-
 	if (enemy->time_in_death >= enemy->death_duration)
 	{
 		enemy->to_destroy = t_true;
