@@ -1,4 +1,5 @@
 #include <math.h>
+#include "horizontal_motion.h"
 #include "default.h"
 #include "player.h"
 #include "enemies_intelligence.h"
@@ -9,28 +10,28 @@
 
 void			enemy_move(
         t_enemy *enemy,
-        t_coords d,
         t_sector *enemy_sector,
-        t_env *e)
+        t_env *e,
+        double ms_since_update)
 {
     t_vector	direction;
     t_linked_enemies	*extracted_node;
     t_sector	*new_sector;
+    t_coords	new_position;
 
-    direction = (t_vector){d.x - enemy->object->x, d.y - enemy->object->y};
-    normalize_vector(&direction);
-    scalar_multiply(&direction, enemy->speed);
-    enemy->object->x += direction.x;
-    enemy->object->y += direction.y;
-    if (!is_in_sector(
+    (void)e;
+    direction = (t_vector){
+            enemy->heading.x * enemy->speed * MS_TO_S * ms_since_update,
+            enemy->heading.y * enemy->speed * MS_TO_S * ms_since_update};
+    new_sector = enemy_sector;
+    new_position = allowed_move(
+            direction,
             (t_coords){enemy->object->x, enemy->object->y},
-            enemy_sector))
+            &new_sector);
+    enemy->object->x = new_position.x;
+    enemy->object->y = new_position.y;
+    if (new_sector != enemy_sector)
     {
-        new_sector = in_which_sector(
-                (t_coords){enemy->object->x, enemy->object->y},
-                e->map->sectors);
-        if (!new_sector)
-            return;
         extracted_node = extract_enemy(&enemy_sector->enemies, enemy);
         add_enemy(&new_sector->enemies, extracted_node);
     }
@@ -39,10 +40,12 @@ void			enemy_move(
 void			boss_intelligence(
         t_enemy *enemy,
         t_sector *enemy_sector,
-        t_env *e)
+        t_env *e,
+        double ms_since_update)
 {
     double		dist;
     double		ratio;
+    t_vector	to_player;
 
     dist = get_distance_between_points(
             e->p.pos.x, e->p.pos.y,
@@ -52,7 +55,12 @@ void			boss_intelligence(
     if (e->p.health <= 0)
         e->p.dead = e_true;
     e->p.hurt = ratio <= 2.5;
-    enemy_move(enemy, e->p.pos, enemy_sector, e);
+    to_player = (t_vector){
+            e->p.pos.x - enemy->object->x,
+            e->p.pos.y - enemy->object->y};
+    normalize_vector(&to_player);
+    enemy->heading = to_player;
+    enemy_move(enemy, enemy_sector, e, ms_since_update);
     enemy->object->z += 0.005 * cos(enemy->animation_time / 1000.);
 }
 
@@ -74,7 +82,7 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
         while  (node)
         {
             enemy = &node->item;
-            enemy->act(enemy, sector, e);
+            enemy->act(enemy, sector, e, ms_since_update);
             enemy->animation_time += ms_since_update;
             node = node->next;
         }
