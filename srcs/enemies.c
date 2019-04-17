@@ -61,11 +61,26 @@ t_enemy create_default_enemy(t_textures *textures)
     return (new_enemy);
 }
 
+int count_enemies(t_linked_enemies *enemies)
+{
+    int i;
+
+    i = 0;
+    while (enemies)
+    {
+        enemies = enemies->next;
+        i++;
+    }
+    return (i);
+}
+
 t_linked_enemies    *add_new_enemy_to_sector_at_pos(t_sector *sector,
         t_coords pos, t_textures *textures)
 {
     t_linked_enemies *new_enemy;
 
+    if (count_enemies(sector->enemies) >= 6)
+        return (NULL);
     if (!(new_enemy = (t_linked_enemies *)malloc(sizeof(t_linked_enemies))))
         error_doom("couldn't allocate new enemy");
     new_enemy->next = NULL;
@@ -218,7 +233,7 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
     write_str_to_file(fd, enemy.explosion[15]->userdata);
  }
 
-static void	init_enemy_from_type(t_enemy *enemy)
+ static void	init_enemy_from_type(t_enemy *enemy)
 {
     if (enemy->type == et_boss)
     {
