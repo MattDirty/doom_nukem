@@ -79,7 +79,7 @@ t_linked_enemies    *add_new_enemy_to_sector_at_pos(t_sector *sector,
 {
     t_linked_enemies *new_enemy;
 
-    if (count_enemies(sector->enemies) >= 6)
+    if (count_enemies(sector->enemies) > 208)
         return (NULL);
     if (!(new_enemy = (t_linked_enemies *)malloc(sizeof(t_linked_enemies))))
         error_doom("couldn't allocate new enemy");
