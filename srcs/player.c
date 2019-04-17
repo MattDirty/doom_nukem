@@ -36,6 +36,7 @@ t_player init_player(t_config *op, t_coords spawn, t_sector *starting_sector)
     p.health = 100;
     p.healed = e_false;
     p.hurt = e_false;
+    p.success = e_false;
     return (p);
 }
 
@@ -80,4 +81,6 @@ void    draw_face(SDL_Surface *surface, t_hud *hud, t_player *p, t_config *op)
         draw_on_screen(surface, hud->sad_face, pos, e_true);
     else if (p->dead)
         draw_on_screen(surface, hud->dead_face, pos, e_true);
+    if (p->success)
+        draw_on_screen(surface, hud->sehr_happy_face, pos, e_true);
 }

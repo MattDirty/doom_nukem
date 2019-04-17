@@ -42,7 +42,7 @@ static void loop_events(
 	{
 		if (ev.type == SDL_QUIT || state[SDL_SCANCODE_ESCAPE])
             *stop = e_true;
-        if (!e->p.dead)
+        if (!e->p.dead && !e->p.success)
         {
             if (ev.type == SDL_MOUSEBUTTONDOWN
             && ev.button.button == SDL_BUTTON_LEFT)
@@ -101,7 +101,7 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
 
 	ptr = (t_logic_params *)params;
 	loop_events(ptr->e, ptr->state, ptr->timer_handler, ptr->stop);
-	if (!ptr->e->p.dead)
+	if (!ptr->e->p.dead && !ptr->e->p.success)
 	    key_handler(ptr->state, &ptr->e->p, ptr->timer_handler);
     if (ptr->e->p.jump.height > 0)
     {
@@ -162,6 +162,8 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
             &e->op);
     if (e->p.dead)
         game_over(e, e->fonts->horrendo120, e->doom.surface, &e->op);
+    if (e->p.success)
+        game_victory(e->fonts->horrendo120, e->doom.surface, &e->op);
     if (frame_event_params->time >= 500 || !frame_event_params->time)
     {
         frame_event_params->fps = floor(1 / ms_since_update * 1000);

@@ -176,15 +176,19 @@ void    damage_enemy(t_env *e,
     enemy->life_remaining -= damage;
     if (enemy->life_remaining <= 0 && (int)enemy->time_in_death <= 0)
     {
-        Mix_PlayChannel(-1, e->sounds->xplosion, 0);
-        enemy->death_duration = 1700;
-    	enemy->time_in_death = 1;
-        add_event(
-                timer_handler,
-                1,
-                &enemy_death,
-                enemy
-        );
+        if (enemy->type == et_boss)
+        {
+            Mix_PlayChannel(-1, e->sounds->yeee, 0);
+            e->p.success = e_true;
+            enemy->to_destroy = e_true;
+        }
+        else
+            {
+            Mix_PlayChannel(-1, e->sounds->xplosion, 0);
+            enemy->death_duration = 1700;
+            enemy->time_in_death = 1;
+            add_event(timer_handler, 1, &enemy_death, enemy);
+        }
     }
 }
 

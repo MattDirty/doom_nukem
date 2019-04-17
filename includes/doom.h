@@ -29,6 +29,9 @@ typedef struct          s_env
 void		error_doom(char *err);
 void		quit_doom(t_env *e);
 
+void        game_over(t_env *e, TTF_Font *font, SDL_Surface *surface, t_config *op);
+void		game_victory(TTF_Font *font, SDL_Surface *surface, t_config *op);
+
 void		loop_doom(t_env *e);
 
 #endif
