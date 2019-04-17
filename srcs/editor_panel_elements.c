@@ -102,11 +102,14 @@ void    create_light_btn(TTF_Font *font, SDL_Surface *target, Uint32 light_color
     t_i_coords pos;
     t_button    light_btn;
 
-    light = write_text(font, "Light", (SDL_Colour) {255, 255, 255, 255});
+    if (!ed->selected.sector->light)
+        light = write_text(font, "Lights off", (SDL_Colour) {0, 0, 0, 255});
+    else
+        light = write_text(font, "Lights on ", (SDL_Colour) {255, 255, 255, 255});
     pos.x = PANEL_PADDING_LEFT + 10;
     pos.y = PANEL_H - light->h - 50;
     light_btn.rect = create_rect(pos.x - 6, pos.y - 6, light->w + 10, light->h + 10);
-    draw_rect(target, &light_btn.rect, WHITE);
+    draw_rect(target, &light_btn.rect, YELLOW);
     fill_rect(target, &light_btn.rect, WHITE, t_false);
     fill_rect(target, &light_btn.rect, light_color, t_true);
     draw_on_screen(target, light, pos, t_false);
