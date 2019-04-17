@@ -35,7 +35,8 @@ void	shoot_player(t_env *e, t_enemy *enemy)
         i = 0;
         while (i < sector.walls->count)
         {
-            if (segments_intersect(
+            if (sector.walls->items[i]->type == e_wall &&
+                segments_intersect(
                     &segment,
                     &sector.walls->items[i]->segment,
                     &(t_coords){0, 0}))
@@ -92,7 +93,6 @@ void	roam(
         double ms_since_update)
 {
     t_vector	to_player;
-    t_pew_data	*data;
 
     (void)enemy_sector;
     if (enemy->animation_time > 1000)
@@ -107,8 +107,6 @@ void	roam(
     normalize_vector(&to_player);
     if (dot_product(&enemy->heading, &to_player) < COS_PI_FOURTH)
         return;
-    if (!(data = (t_pew_data*)malloc(sizeof(t_pew_data))))
-        error_doom("pewpewpew");
     enemy->animation_time = 0;
     enemy->step = 0;
     enemy->act = &fire;

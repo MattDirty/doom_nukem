@@ -121,6 +121,7 @@ t_linked_enemies	*extract_enemy(
     {
         previous = *linked_enemies;
         *linked_enemies = previous->next;
+        previous->next = NULL;
         return (previous);
     }
     previous = NULL;
@@ -130,6 +131,7 @@ t_linked_enemies	*extract_enemy(
         if (&node->item == enemy)
         {
             previous->next = node->next;
+            node->next = NULL;
             return (node);
         }
         previous = node;
