@@ -14,13 +14,13 @@ void	move_map(t_editor *ed, SDL_Scancode key)
         ed->map_offset.x -= 0.5 * ed->zoom;;
 }
 
-enum e_bool	move_created_intersections(t_editor *ed)
+enum e_bool	walls_intersect_on_map(t_linked_walls *linked_walls)
 {
 	t_linked_walls	*node;
 	t_linked_walls	*walls;
 	t_coords		inter;
 
-	node = ed->linked_walls;
+	node = linked_walls;
 	while (node->wall)
 	{
 		walls = node->next;
@@ -40,6 +40,60 @@ enum e_bool	move_created_intersections(t_editor *ed)
 	return (t_false);
 }
 
+enum e_bool is_object_in_sector(t_sector *sector, t_object *object)
+{
+    return (is_in_sector((t_coords){object->x, object->y}, sector));
+}
+
+enum e_bool are_objects_in_sector_valid(t_sector *sector)
+{
+    int j;
+
+    j = 0;
+    while (j < sector->objects->count)
+    {
+        if (!is_object_in_sector(sector, &sector->objects->items[j]))
+            return (t_false);
+        j++;
+    }
+    return (t_true);
+}
+
+enum e_bool are_enemies_in_sector_valid(t_sector *sector)
+{
+    t_linked_enemies    *e_node;
+
+    e_node = sector->enemies;
+    while (e_node)
+    {
+        if (!is_object_in_sector(sector, e_node->item.object))
+            return (t_false);
+        e_node = e_node->next;
+    }
+    return (t_true);
+}
+
+enum e_bool is_map_valid(t_linked_walls *walls, t_map *map)
+{
+    int                 i;
+    t_sector            *sector;
+
+    if (walls_intersect_on_map(walls))
+        return (t_false);
+    if (!in_which_sector(map->spawn, map->sectors))
+        return (t_false);
+    i = 0;
+    while (i < map->sectors->count)
+    {
+        sector = &map->sectors->items[i];
+        if (!are_objects_in_sector_valid(sector)
+        || !are_enemies_in_sector_valid(sector))
+            return (t_false);
+        i++;
+    }
+    return (t_true);
+}
+
 void    move_walls_nodes(t_editor *ed, double x, double y)
 {
     t_wall_nodes	*nodes;
@@ -56,7 +110,7 @@ void    move_walls_nodes(t_editor *ed, double x, double y)
         nodes = nodes->next;
     }
     nodes = ed->dragged.nodes;
-    if (move_created_intersections(ed))
+    if (!is_map_valid(ed->linked_walls, ed->map))
 	{
     	while (nodes)
 		{
@@ -81,7 +135,6 @@ void    move_player_spawn(t_editor *ed, double x, double y)
         return;
     ed->map->spawn.x = new_x;
     ed->map->spawn.y = new_y;
-    ed->map->player_spawn_index = sector_index(ed->map->sectors, sector);
     ed->map_is_updated = t_false;
 }
 
