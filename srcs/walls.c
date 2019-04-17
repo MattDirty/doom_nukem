@@ -31,7 +31,8 @@ void        add_wall_to_sector(t_sector *sector, t_wall *wall)
 		*(items + i) = *(sector->walls->items + i);
 		i++;
 	}
-    free(sector->walls->items);
+    if (sector->walls->count > 0)
+	    free(sector->walls->items);
     *(items + i) = wall;
     sector->walls->items = items;
     sector->walls->count = count;

@@ -26,6 +26,9 @@ t_sector	*create_new_sector(t_sectors *sectors)
 	free(sectors->items);
 	sectors->items = items;
 	sectors->count++;
+	if (!(items[i].walls = (t_walls *)malloc(sizeof(t_walls))))
+		error_doom("couldn't allocate walls");
+	items[i].walls->count = 0;
 	return (&items[i]);
 }
 

@@ -9,11 +9,11 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 	t_wall		*wall;
 	t_sector	*new_sector;
 
+	ed->state = e_null;
 	pos.x = (double)(mouse_x - ed->map_offset.x) / ed->zoom;
 	pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
 	if (in_which_sector(pos, ed->map->sectors))
 		return ;
-	printf("salut\n");
 	new_sector = create_new_sector(ed->map->sectors);
 	add_wall_to_sector(new_sector, ed->selected.wall);
 	wall = create_wall_copy(ed->selected.wall);
@@ -26,7 +26,9 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 	add_wall_to_sector(new_sector, wall);
 	ed->selected.wall->type = e_portal;
 	ed->selected.wall->texture = NULL;
-
+	free_linked_walls_nodes(ed->linked_walls);
+	create_linked_walls_from_sectors(
+			ed->map->sectors, &ed->linked_walls, &ed->linked_walls_count);
 }
 
 void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y)
