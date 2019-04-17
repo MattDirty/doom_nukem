@@ -35,8 +35,7 @@ t_sector	*create_new_sector(t_sectors *sectors)
 	if (!(items[i].objects = (t_objects *)malloc(sizeof(t_objects))))
 		error_doom("Couldn't allocate objects");
 	items[i].objects->count = 0;
-	if (!(items[i].enemies = (t_linked_enemies *)malloc(sizeof(t_linked_enemies))))
-		error_doom("Couldn't allocate enemies");
+	items[i].enemies = NULL;
 	return (&items[i]);
 }
 
