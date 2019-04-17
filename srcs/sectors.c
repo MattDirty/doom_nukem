@@ -8,6 +8,27 @@
 #include "enemies.h"
 #include "utils.h"
 
+t_sector	*create_new_sector(t_sectors *sectors)
+{
+	t_sector	*items;
+	int			count;
+	int			i;
+
+	count = sectors->count + 1;
+	if (!(items = (t_sector *)malloc(sizeof(t_sector) * count)))
+		error_doom("Couldn't allocate new sector");
+	i = 0;
+	while (i < sectors->count)
+	{
+		items[i] = sectors->items[i];
+		i++;
+	}
+	free(sectors->items);
+	sectors->items = items;
+	sectors->count++;
+	return (&items[i]);
+}
+
 enum e_bool	walls_intersection_in_sector(t_sector *sector)
 {
 	int			i;

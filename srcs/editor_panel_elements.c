@@ -47,6 +47,11 @@ void        create_split_wall_button(t_editor *ed, int *y)
     add_button_to_list(&ed->panel.buttons, btn);
 }
 
+void        new_sector(t_params params)
+{
+    ((t_btn_params *)params)->ed->state = e_add_sector;
+}
+
 void        create_new_sector_button(t_editor *ed, int *y)
 {
     SDL_Surface *chars;
@@ -61,7 +66,7 @@ void        create_new_sector_button(t_editor *ed, int *y)
     draw_on_screen(ed->panel.surface, chars, pos, e_false);
     SDL_FreeSurface(chars);
     btn.rect.pos.x += PANEL_X;
-    btn.f = &split_wall;
+    btn.f = &new_sector;
     btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, btn);
 }

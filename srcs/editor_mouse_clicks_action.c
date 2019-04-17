@@ -3,6 +3,32 @@
 #include "in_which_sector.h"
 #include "editor_panel_buttons.h"
 
+void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
+{
+	t_coords	pos;
+	t_wall		*wall;
+	t_sector	*new_sector;
+
+	pos.x = (double)(mouse_x - ed->map_offset.x) / ed->zoom;
+	pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
+	if (in_which_sector(pos, ed->map->sectors))
+		return ;
+	printf("salut\n");
+	new_sector = create_new_sector(ed->map->sectors);
+	add_wall_to_sector(new_sector, ed->selected.wall);
+	wall = create_wall_copy(ed->selected.wall);
+	wall->segment.x1 = pos.x;
+	wall->segment.y1 = pos.y;
+	add_wall_to_sector(new_sector, wall);
+	wall = create_wall_copy(ed->selected.wall);
+	wall->segment.x2 = pos.x;
+	wall->segment.y2 = pos.y;
+	add_wall_to_sector(new_sector, wall);
+	ed->selected.wall->type = e_portal;
+	ed->selected.wall->texture = NULL;
+
+}
+
 void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y)
 {
     t_coords    pos;
