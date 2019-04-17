@@ -107,7 +107,7 @@ void        draw_player_spawn(SDL_Surface *surface, t_coords spawn, t_i_coords m
     coords.x = map_offset.x + spawn.x * zoom;
     coords.y = map_offset.y - spawn.y * zoom;
 
-    draw_circle_filled(surface, coords, 6.6, PLAYER_COLOR);
+    draw_circle_filled(surface, coords, 6, PLAYER_COLOR);
 }
 
 void		draw_editor(t_editor *ed)
