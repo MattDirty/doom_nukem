@@ -1,7 +1,7 @@
 #ifndef SURFACE_MANIPULATION_H
 # define SURFACE_MANIPULATION_H
 
-# include "SDL.h"
+# include <SDL.h>
 # include "e_bool.h"
 # include "utils.h"
 

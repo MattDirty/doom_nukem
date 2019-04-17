@@ -1,7 +1,7 @@
 #ifndef DOOMNUKEM_ANIMATION_H
 # define DOOMNUKEM_ANIMATION_H
 
-# include "SDL.h"
+# include <SDL.h>
 
 typedef struct  s_animation
 {

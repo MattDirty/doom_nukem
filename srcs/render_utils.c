@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "default.h"
-#include "SDL.h"
+#include <SDL.h>
 #include "e_bool.h"
 #include "doom.h"
 

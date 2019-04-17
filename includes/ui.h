@@ -1,7 +1,7 @@
 #ifndef UI_H
 # define UI_H
 
-# include "SDL_ttf.h"
+# include <SDL_ttf.h>
 # include "struct_sdl.h"
 # include "config.h"
 # include "utils.h"

@@ -1,7 +1,7 @@
 #ifndef DOOMNUKEM_LEVERS_H
 # define DOOMNUKEM_LEVERS_H
 
-# include "SDL.h"
+# include <SDL.h>
 
 # include "wall_objects.h"
 # include "e_bool.h"

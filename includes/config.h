@@ -2,7 +2,7 @@
 # define CONFIG_H
 
 # include "e_bool.h"
-# include "SDL.h"
+# include <SDL.h>
 
 typedef struct  s_config
 {

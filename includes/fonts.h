@@ -1,7 +1,7 @@
 #ifndef DOOMNUKEM_FONTS_H
 # define DOOMNUKEM_FONTS_H
 
-#include "SDL_ttf.h"
+#include <SDL_ttf.h>
 
 typedef struct	s_fonts
 {

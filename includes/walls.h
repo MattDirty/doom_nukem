@@ -1,7 +1,7 @@
 #ifndef DOOMNUKEM_WALLS_H
 # define DOOMNUKEM_WALLS_H
 
-# include "SDL.h"
+# include <SDL.h>
 # include "utils.h"
 # include "e_bool.h"
 # include "textures.h"

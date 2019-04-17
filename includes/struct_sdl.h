@@ -1,7 +1,7 @@
 #ifndef DOOMNUKEM_STRUCT_SDL_H
 # define DOOMNUKEM_STRUCT_SDL_H
 
-# include "SDL.h"
+# include <SDL.h>
 
 typedef struct			s_sdl
 {

@@ -3,7 +3,7 @@
 
 # include <SDL_mixer.h>
 # include "e_bool.h"
-# include "SDL.h"
+# include <SDL.h>
 # include "animation.h"
 # include "config.h"
 # include "timer_handler.h"

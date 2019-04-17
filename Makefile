@@ -115,14 +115,7 @@ EXTRACT = tar -xzf $(SDL_PATH)/$(SDL2).tar.gz -C $(SDL_PATH) && tar -xzf \
             $(SDL_PATH)/$(SDL2_MIXER).tar.gz -C $(SDL_PATH) && tar -xzf \
                 $(SDL_PATH)/$(SDL2_TTF).tar.gz -C $(SDL_PATH)
 
-SDL2_INCL_PATH = ./$(SDL_PATH)/$(SDL2)/include
-
-SDL2_MIXER_INCL_PATH = ./$(SDL_PATH)/$(SDL2_MIXER)
-
-SDL2_TTF_INCL_PATH = ./$(SDL_PATH)/$(SDL2_TTF)
-
-IFLAGS = -I $(INCL) -I $(LIBFT_INCL_PATH) -I $(SDL2_INCL_PATH) \
-            -I $(SDL2_MIXER_INCL_PATH) -I $(SDL2_TTF_INCL_PATH)
+IFLAGS = -I $(INCL) -I $(LIBFT_INCL_PATH)
 
 USER = $(shell whoami)
 

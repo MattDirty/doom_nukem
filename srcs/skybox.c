@@ -12,7 +12,7 @@
 
 #include "doom.h"
 #include "timer_handler.h"
-#include "SDL.h"
+#include <SDL.h>
 #include "default.h"
 #include "render.h"
 #include "render_blackhole.h"

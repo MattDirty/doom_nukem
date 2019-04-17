@@ -1,11 +1,11 @@
 #ifndef DOOMNUKEM_PLAYER_H
 # define DOOMNUKEM_PLAYER_H
 
-# include "SDL_ttf.h"
+# include <SDL_ttf.h>
 # include "weapon.h"
 # include "utils.h"
 # include "map.h"
-# include "SDL.h"
+# include <SDL.h>
 # include "config.h"
 # include "timer_handler.h"
 

@@ -1,7 +1,7 @@
 #ifndef DOOMNUKEM_BITMAPS_H
 # define DOOMNUKEM_BITMAPS_H
 
-# include "SDL.h"
+# include <SDL.h>
 
 # define TARGET_AMASK 0x000000ff
 # define TARGET_RMASK 0xff000000

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "SDL.h"
+#include <SDL.h>
 #include "map.h"
 #include "doom.h"
 #include "ui.h"

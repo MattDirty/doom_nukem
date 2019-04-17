@@ -1,7 +1,7 @@
 #ifndef DOOMNUKEM_DEBUG_H
 #define DOOMNUKEM_DEBUG_H
 
-#include "SDL.h"
+#include <SDL.h>
 #include "walls.h"
 #include "player.h"
 #include "struct_sdl.h"

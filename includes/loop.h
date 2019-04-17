@@ -3,7 +3,7 @@
 
 # include "doom.h"
 # include "map.h"
-# include "SDL.h"
+# include <SDL.h>
 # include "timer_handler.h"
 
 typedef struct	s_logic_params

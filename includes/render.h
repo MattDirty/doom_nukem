@@ -16,7 +16,7 @@
 # include "doom.h"
 # include "timer_handler.h"
 # include "collision.h"
-# include "SDL.h"
+# include <SDL.h>
 # include "doom.h"
 
 # define BLACK_MAGIC 3
