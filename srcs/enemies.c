@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <SDL_mixer.h>
 #include "enemies.h"
 #include "doom.h"
 #include "serialisation.h"
@@ -83,11 +84,13 @@ enum e_bool enemy_death(double ms_since_update, t_params params)
 	return (t_true);
 }
 
-void    damage_enemy(t_timer_handler *timer_handler, t_enemy *enemy, Uint32 damage)
+void    damage_enemy(t_env *e,
+        t_timer_handler *timer_handler, t_enemy *enemy, Uint32 damage)
 {
     enemy->life_remaining -= damage;
     if (enemy->life_remaining <= 0 && (int)enemy->time_in_death <= 0)
     {
+        Mix_PlayChannel(-1, e->sounds->xplosion, 0);
         enemy->death_duration = 1700;
     	enemy->time_in_death = 1;
         add_event(

@@ -8,6 +8,7 @@ typedef struct	s_sounds
     Mix_Music	*lamerde;
     Mix_Chunk	*zap;
     Mix_Chunk	*fu_bitch;
+    Mix_Chunk   *xplosion;
 }				t_sounds;
 
 void			read_sounds_from_file(int fd, t_sounds **sounds);
