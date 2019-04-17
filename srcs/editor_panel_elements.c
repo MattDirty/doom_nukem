@@ -48,7 +48,8 @@ void        create_split_wall_button(t_editor *ed, int *y)
     t_i_coords  pos;
     t_button    btn;
 
-    chars = write_text(ed->fonts->vcr20, "Split wall", (SDL_Colour){255, 255, 255, 255});
+    chars = write_text(ed->fonts->vcr20, "Split wall",
+            (SDL_Colour){255, 255, 255, 255});
     pos.x = PANEL_PADDING_LEFT + 12;
     pos.y = *y;
     btn.rect = create_rect(pos.x - 12, pos.y - 12, chars->w + 24, chars->h + 24);
@@ -76,24 +77,29 @@ void		editor_draw_panel_map(t_editor *ed)
 
 void		editor_draw_panel_walls(t_editor *ed)
 {
-    int		y;
+    int		    y;
+    t_wall      *wall;
+    t_sector    *sector;
 
+    wall = ed->selected.wall;
     write_panel_state(ed, "WALL");
     y = 60;
-    if (ed->selected.wall->type == e_portal)
+    if (wall->type == e_portal)
         ed->selected_sprite = NULL;
     else
-        ed->selected_sprite = &ed->selected.wall->texture;
+        ed->selected_sprite = &wall->texture;
     draw_sprites_section(ed, &ed->panel.walls, "Walls:", &y);
     draw_sprites_section(ed, &ed->panel.flats, " ", &y);
     y += 20;
-    if (ed->selected.wall->wall_object)
-        ed->selected_sprite = &ed->selected.wall->wall_object->texture;
-    else if (ed->selected.wall->lever)
-        ed->selected_sprite = &ed->selected.wall->lever->wall_object->texture;
+    if (wall->wall_object)
+        ed->selected_sprite = &wall->wall_object->texture;
+    else if (wall->lever)
+        ed->selected_sprite = &wall->lever->wall_object->texture;
     draw_sprites_section(ed, &ed->panel.wall_objects, "Wall objects:", &y);
     y += 40;
-    if (ed->selected.wall->type == e_wall)
+    sector = find_wall_sector(ed->map->sectors, wall);
+    if (wall->type == e_wall && get_segment_length(&wall->segment) >= 1
+    && sector->walls->count < 15)
         create_split_wall_button(ed, &y);
 }
 
