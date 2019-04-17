@@ -11,20 +11,24 @@ void		free_map(t_map *map)
     free(map);
 }
 
-void        read_spawn_from_file(int fd, t_coords *spawn)
+void        read_spawn_from_file(int fd, t_coords *spawn, int *index)
 {
     if (read(fd, &(spawn->x), sizeof(spawn->x)) <= 0)
         error_doom("couldn't read player spawn coords");
     if (read(fd, &(spawn->y), sizeof(spawn->y)) <= 0)
         error_doom("couldn't read player spawn coords");
+    if (read(fd, index, sizeof(*index)) <= 0)
+        error_doom("Couldn't read player spawn index");
 }
 
-void        write_spawn_to_file(int fd, t_coords spawn)
+void        write_spawn_to_file(int fd, t_coords spawn, int index)
 {
     if (write(fd, &(spawn.x), sizeof(spawn.x)) <= 0)
         error_doom("couldn't write player spawn coords");
     if (write(fd, &(spawn.y), sizeof(spawn.y)) <= 0)
         error_doom("couldn't write player spawn coords");
+    if (write(fd, &(index), sizeof(index)) <= 0)
+        error_doom("Couldn't write player spawn index");
 }
 
 void		read_map_from_file(int fd, t_textures *textures, t_map **map)
@@ -33,8 +37,7 @@ void		read_map_from_file(int fd, t_textures *textures, t_map **map)
         error_doom("couldn't malloc t_map");
     (*map)->daytime = 0;
     read_sectors_from_file(fd, textures, &(*map)->sectors);
-    read_spawn_from_file(fd, &(*map)->spawn);
-
+    read_spawn_from_file(fd, &(*map)->spawn, &(*map)->player_spawn_index);
     find_texture_from_file(fd, textures, &(*map)->daysky);
     find_texture_from_file(fd, textures, &(*map)->nightsky);
     find_texture_from_file(fd, textures, &(*map)->hud.sun);
@@ -61,7 +64,7 @@ void		read_map_from_file(int fd, t_textures *textures, t_map **map)
 void		write_map_to_file(int fd, t_map *map)
 {
     write_sectors_to_file(fd, map->sectors);
-    write_spawn_to_file(fd, map->spawn);
+    write_spawn_to_file(fd, map->spawn, map->player_spawn_index);
     write_str_to_file(fd, map->daysky->userdata);
     write_str_to_file(fd, map->nightsky->userdata);
     write_str_to_file(fd, map->hud.sun->userdata);

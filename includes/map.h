@@ -23,7 +23,7 @@ typedef struct			s_map
 {
     t_sectors			*sectors;
     t_coords            spawn;
-    t_sector			*spawn_sector;
+    int     			player_spawn_index;
     SDL_Surface         *daysky;
     SDL_Surface         *nightsky;
     enum e_bool         daytime;

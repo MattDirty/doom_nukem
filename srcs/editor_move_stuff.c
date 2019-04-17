@@ -81,7 +81,7 @@ void    move_player_spawn(t_editor *ed, double x, double y)
         return;
     ed->map->spawn.x = new_x;
     ed->map->spawn.y = new_y;
-    ed->map->spawn_sector = sector;
+    ed->map->player_spawn_index = sector_index(ed->map->sectors, sector);
     ed->map_is_updated = t_false;
 }
 
