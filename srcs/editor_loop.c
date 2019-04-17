@@ -23,6 +23,8 @@ void	event_editor(t_editor *ed)
 	double      x;
 	double      y;
 	SDL_Event	ev;
+	int			mouse_x;
+	int			mouse_y;
 
 	x = 0;
 	y = 0;
@@ -53,12 +55,18 @@ void	event_editor(t_editor *ed)
 		        rand_lighting(ed, ed->selected.sector);
         }
 	}
-	if (ed->dragged.nodes && (x || y))
-		move_walls_nodes(ed, x, y);
-	else if (ed->dragged.p_spawn && (x || y))
-		move_player_spawn(ed, x, y);
-	else if (ed->dragged.object && (x || y))
-		move_object(ed, x, y);
+	if (x || y)
+	{
+		SDL_GetMouseState(&mouse_x, &mouse_y);
+		if (ed->dragged.nodes)
+			move_walls_nodes(ed, mouse_x, mouse_y);
+		else if (ed->dragged.p_spawn)
+			move_player_spawn(ed, mouse_x, mouse_y);
+		else if (ed->dragged.enemy)
+			move_enemy(ed, mouse_x, mouse_y);
+		else if (ed->dragged.object)
+			move_object(ed, mouse_x, mouse_y);
+	}
 }
 
 void	reframe_editor(t_editor *ed)
@@ -79,6 +87,8 @@ void	reframe_editor(t_editor *ed)
 void	editor_loop(t_editor *ed)
 {
 	reframe_editor(ed);
+	create_linked_walls_from_sectors(
+			ed->map->sectors, &ed->linked_walls, &ed->linked_walls_count);
 	while (1)
 	{
 		reframe_editor(ed);

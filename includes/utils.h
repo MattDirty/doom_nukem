@@ -74,6 +74,8 @@ double      get_segment_length(t_segment *segment);
 void		move_segment_at(t_segment *segment, double x, double y);
 void		change_segment_length(t_segment *s, double length);
 void		print_segment(t_segment *segment, char *str);
+enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inters);
+enum e_bool	segments_share_node(t_segment *s1, t_segment *s2);
 
 double      delta_ms(struct timespec start, struct timespec end);
 double      get_distance_between_points(double x1, double y1, double x2, double y2);

@@ -5,6 +5,74 @@
 #include "sectors.h"
 #include "objects.h"
 #include "doom.h"
+#include "enemies.h"
+#include "utils.h"
+
+enum e_bool	walls_intersection_in_sector(t_sector *sector)
+{
+	int			i;
+	int			j;
+	t_coords	inter;
+	t_segment	s1;
+	t_segment	s2;
+
+	i = 0;
+	while (i < sector->walls->count)
+	{
+		j = i;
+		s1 = sector->walls->items[i]->segment;
+		while (++j < sector->walls->count)
+		{
+			s2 = sector->walls->items[j]->segment;
+			if (segments_share_node(&s1, &s2))
+				continue;
+			if (segments_intersect(&s1, &s2, &inter))
+				return (t_true);
+		}
+		i++;
+	}
+	return (t_false);
+}
+
+t_sector	*find_enemy_sector(t_sectors *sectors, t_enemy *enemy)
+{
+	int					i;
+	t_linked_enemies	*node;
+
+	i = 0;
+	while (i < sectors->count)
+	{
+		node = sectors->items[i].enemies;
+		while (node)
+		{
+			if (enemy == &node->item)
+				return (&sectors->items[i]);
+			node = node->next;
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+t_sector    *find_object_sector(t_sectors *sectors, t_object *object)
+{
+    int         i;
+    int         j;
+
+    i = 0;
+    while (i < sectors->count)
+    {
+        j = 0;
+        while (j < sectors->items[i].objects->count)
+        {
+            if (sectors->items[i].objects->items + j == object)
+                return (&sectors->items[i]);
+            j++;
+        }
+        i++;
+    }
+    return (NULL);
+}
 
 t_sector    *find_wall_sector(t_sectors *sectors, t_wall *wall)
 {
