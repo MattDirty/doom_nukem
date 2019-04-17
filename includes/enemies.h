@@ -11,6 +11,8 @@
 # include "sectors.h"
 # include "enemies_intelligence.h"
 
+typedef struct s_object t_object;
+
 typedef struct s_enemy
 {
     t_object    *object;

@@ -11,10 +11,8 @@ void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y)
     pos.x = (mouse_x - ed->map_offset.x) / ed->zoom;
     pos.y = (ed->map_offset.y - mouse_y) / ed->zoom;
     sector = in_which_sector(pos, ed->map->sectors);
-    if (!sector)
-        printf("oups\n");
-    else
-        printf("yup\n");
+    if (sector)
+        add_new_object_to_sector_at_pos(sector, pos, ed->textures);
     ed->state = e_null;
 }
 
