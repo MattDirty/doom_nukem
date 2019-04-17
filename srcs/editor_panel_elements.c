@@ -87,7 +87,7 @@ void		editor_draw_panel_sprites(t_editor *ed)
 {
     int		y;
 
-    write_panel_state(ed, "SPRITES");
+    write_panel_state(ed, "SPRITE");
     y = 60;
     if (ed->selected.object)
         ed->selected_sprite = &ed->selected.object->sprite;
@@ -119,6 +119,37 @@ void    create_light_btn(TTF_Font *font, SDL_Surface *target, Uint32 light_color
     add_button_to_list(&ed->panel.buttons, light_btn);
     SDL_FreeSurface(light);
 }
+
+void    create_sky_toggle_btn(TTF_Font *font, SDL_Surface *target, t_editor *ed, int *y)
+{
+    SDL_Surface *toggle;
+    t_i_coords  pos;
+    t_button    sky_btn;
+    Uint32      sky_color;
+    Uint32      outer_color;
+
+    toggle = write_text(font, "Ceiling ", (SDL_Colour) {0, 0, 0, 255});
+    sky_color = SKY_OFF;
+    outer_color = BLACK;
+    if (ed->selected.sector->open_sky)
+    {
+        toggle = write_text(font, "Open sky", (SDL_Colour) {0, 0, 0, 255});
+        sky_color = SKY_ON;
+        outer_color = RED;
+    }
+    pos.x = PANEL_PADDING_LEFT + 205;
+    pos.y = *y - 35;
+    sky_btn.rect = create_rect(pos.x - 6, pos.y - 6, toggle->w + 10, toggle->h + 10);
+    draw_rect(target, &sky_btn.rect, outer_color);
+    fill_rect(target, &sky_btn.rect, sky_color, t_true);
+    draw_on_screen(target, toggle, pos, t_false);
+    sky_btn.rect.pos.x += PANEL_X;
+    sky_btn.f = &toggle_skybox;
+    sky_btn.params = create_btn_params(NULL, NULL, ed);
+    add_button_to_list(&ed->panel.buttons, sky_btn);
+    SDL_FreeSurface(toggle);
+}
+
 void        editor_draw_panel_sector(t_editor *ed)
 {
     int     y;
@@ -136,4 +167,5 @@ void        editor_draw_panel_sector(t_editor *ed)
     draw_sprites_section(ed, &ed->panel.walls, "Ceiling:", &y);
     draw_sprites_section(ed, &ed->panel.flats, " ", &y);
     create_light_btn(ed->fonts->vcr40, ed->panel.surface, ed->selected.sector->light, ed);
+    create_sky_toggle_btn(ed->fonts->vcr20, ed->panel.surface, ed, &y);
 }

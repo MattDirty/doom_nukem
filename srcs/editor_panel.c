@@ -177,3 +177,18 @@ void        toggle_lighting(t_params params)
         ptr->ed->selected.sector->light = 0;
     ptr->ed->map_is_updated = t_false;
 }
+
+void		toggle_skybox(t_params params)
+{
+	t_btn_params *ptr;
+
+	ptr = (t_btn_params *)params;
+	if (!ptr->ed->selected.sector->open_sky)
+		ptr->ed->selected.sector->open_sky = t_true;
+	else
+	{
+		ptr->ed->selected.sector->open_sky = t_false;
+		ptr->ed->selected.sector->ceil = ptr->ed->selected.sector->floor;
+	}
+	ptr->ed->map_is_updated = t_false;
+}

@@ -11,6 +11,8 @@
 # define SAVE_BORDER 0xFF0c5606
 # define SAVE_CENTER 0xFF11d102
 # define PANEL_BACKGROUND 0xFF073784
+# define SKY_ON 0xFF42c2f4
+# define SKY_OFF 0xFF683903
 
 typedef struct          s_panel
 {
