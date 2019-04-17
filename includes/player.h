@@ -24,8 +24,6 @@ typedef struct			s_player
     t_coords	pos;
     double		heading;
     double		vision_height;
-    double		speed_factor;
-    t_vector    speed;
     t_weapons   *weapons;
     t_weapon    *weapon;
     t_jump      jump;

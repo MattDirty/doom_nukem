@@ -24,10 +24,8 @@ t_player init_player(t_config *op, t_coords spawn, t_sector *starting_sector)
     p.current_sector = starting_sector;
     p.pos.x = spawn.x;
     p.pos.y = spawn.y;
-    p.speed.x = 0;
-    p.speed.y = 0;
-    p.speed_factor = 1;
     p.jump.ready = e_true;
+    p.jump.ready = t_true;
     p.jump.height = 0;
     p.jump.gravity = 0.1;
     p.jump.duration = 400;

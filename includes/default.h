@@ -56,7 +56,7 @@
 # define AMMO_MAX 30
 # define BLACKHOLE_AURA_DAMAGE 1
 
-# define RUN 0.001
+# define MS_TO_S 0.001
 # define ROT_X 0.001
 # define ROT_Y 1
 # define MOUSE_SENSI 0.0001
