@@ -173,7 +173,7 @@ int		main(int ac, char **av)
 		ed.map = create_map(ed.textures);
 		ed.fonts = load_fonts();
 		ed.sounds = load_sounds();
-        ed.map_is_updated = t_false;
+        ed.map_is_updated = e_false;
     }
     else
 	{
