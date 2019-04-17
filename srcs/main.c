@@ -40,9 +40,9 @@ int		main (int ac, char **av)
     srand((unsigned) time(&t));
 	e.op = load_default_config();
     if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
-		e.debug_mode = t_true;
+		e.debug_mode = e_true;
 	else
-		e.debug_mode = t_false;
+		e.debug_mode = e_false;
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 || TTF_Init() < 0)
 		error_doom("error: cannot run SDL");
 	e.doom = init_sdl(e.op.win_w, e.op.win_h, e.op.fullscreen, "Doom_Nukem");

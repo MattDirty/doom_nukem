@@ -27,7 +27,7 @@
 # define HALF_W ((double)WIN_W / 2)
 # define HALF_H ((double)WIN_H / 2)
 
-# define FULLSCREEN t_false
+# define FULLSCREEN e_false
 
 # define FOV 90.0
 # define HALF_FOV (FOV / 2)

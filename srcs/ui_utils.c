@@ -17,7 +17,7 @@ enum e_bool cross_index(double ms_since_update, t_params i)
 {
     (void)ms_since_update;
     (*(int*)i)++;
-    return (t_true);
+    return (e_true);
 }
 
 SDL_Surface *write_text(TTF_Font *font, char *str, SDL_Colour color)

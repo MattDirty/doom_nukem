@@ -78,10 +78,10 @@ enum e_bool enemy_death(double ms_since_update, t_params params)
     enemy->object->sprite = enemy->explosion[step];
 	if (enemy->time_in_death >= enemy->death_duration)
 	{
-		enemy->to_destroy = t_true;
-		return (t_false);
+		enemy->to_destroy = e_true;
+		return (e_false);
 	}
-	return (t_true);
+	return (e_true);
 }
 
 void    damage_enemy(t_env *e,

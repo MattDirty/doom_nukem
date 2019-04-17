@@ -10,9 +10,9 @@ enum e_bool		click_on_sector(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
                     ((double)-mouse_y + ed->map_offset.y) / ed->zoom},
             map->sectors);
 	if (!ed->selected.sector)
-		return (t_false);
+		return (e_false);
 	deal_with_clicked_sector(ed);
-	return (t_true);
+	return (e_true);
 }
 
 enum e_bool     click_on_player(t_editor *ed, t_map *map, int x, int y)
@@ -25,9 +25,9 @@ enum e_bool     click_on_player(t_editor *ed, t_map *map, int x, int y)
 	if (is_in_rect(&rect, x, y))
 	{
 		deal_with_clicked_player(ed, &map->spawn);
-		return (t_true);
+		return (e_true);
 	}
-	return (t_false);
+	return (e_false);
 }
 
 enum e_bool		click_on_object(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
@@ -50,13 +50,13 @@ enum e_bool		click_on_object(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 			if (is_in_rect(&rect, mouse_x, mouse_y))
 			{
 				deal_with_clicked_object(ed, &sector->objects->items[j]);
-				return (t_true);
+				return (e_true);
 			}
 			j++;
 		}
 		i++;
 	}
-	return (t_false);
+	return (e_false);
 }
 
 enum e_bool		click_on_enemy(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
@@ -82,13 +82,13 @@ enum e_bool		click_on_enemy(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 			if (is_in_rect(&rect, mouse_x, mouse_y))
 			{
 				deal_with_clicked_enemy(ed, &enemies->item);
-				return (t_true);
+				return (e_true);
 			}
             enemies = enemies->next;
 		}
 		i++;
 	}
-	return (t_false);
+	return (e_false);
 }
 
 enum e_bool     click_on_walls(t_editor *ed, t_linked_walls *linked_walls, int mouse_x, int mouse_y)
@@ -101,11 +101,11 @@ enum e_bool     click_on_walls(t_editor *ed, t_linked_walls *linked_walls, int m
 		if (is_on_seg(ptr->wall->segment, (t_i_coords){mouse_x, mouse_y}, ed->map_offset, ed->zoom))
 		{
 			ed->selected.wall = ptr->wall;
-			return (t_true);
+			return (e_true);
 		}
 		ptr = ptr->next;
 	}
-	return (t_false);
+	return (e_false);
 }
 
 enum e_bool     click_on_panel(t_editor *ed, int mouse_x, int mouse_y)
@@ -113,18 +113,18 @@ enum e_bool     click_on_panel(t_editor *ed, int mouse_x, int mouse_y)
     t_buttons    *buttons;
 
     if (mouse_x < PANEL_X)
-        return (t_false);
+        return (e_false);
     buttons = ed->panel.buttons;
     while (buttons)
     {
         if (is_in_rect(&buttons->item.rect, mouse_x, mouse_y))
         {
             buttons->item.f((t_params)buttons->item.params);
-            return (t_true);
+            return (e_true);
         }
         buttons = buttons->next;
     }
-    return (t_false);
+    return (e_false);
 }
 
 enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int x, int y)
@@ -142,7 +142,7 @@ enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int x
 		if (is_in_rect(&rect, x, y))
 		{
 			deal_with_clicked_node(ed, ptr, (t_coords){ptr->wall->segment.x1, ptr->wall->segment.y1});
-			return (t_true);
+			return (e_true);
 		}
 		rect = create_rect(ed->map_offset.x + ptr->wall->segment.x2 * ed->zoom - CORNER_SIZE / 2,
 				ed->map_offset.y - ptr->wall->segment.y2 * ed->zoom
@@ -150,9 +150,9 @@ enum e_bool     click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int x
 		if (is_in_rect(&rect, x, y))
 		{
 			deal_with_clicked_node(ed, ptr, (t_coords){ptr->wall->segment.x2, ptr->wall->segment.y2});
-			return (t_true);
+			return (e_true);
 		}
 		ptr = ptr->next;
 	}
-	return (t_false);
+	return (e_false);
 }

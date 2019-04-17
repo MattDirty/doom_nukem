@@ -49,7 +49,7 @@ void			boss_intelligence(
     ratio = dist / 2;
     e->p.health -= BLACKHOLE_AURA_DAMAGE / 60.0 / ratio;
     if (e->p.health <= 0)
-        e->p.dead = t_true;
+        e->p.dead = e_true;
     e->p.hurt = ratio <= 2.5;
     enemy_move(enemy, e->p.pos, enemy_sector, e);
 }
@@ -87,5 +87,5 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
         }
         i++;
     }
-    return (t_true);
+    return (e_true);
 }

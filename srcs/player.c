@@ -27,15 +27,15 @@ t_player init_player(t_config *op, t_coords spawn, t_sector *starting_sector)
     p.speed.x = 0;
     p.speed.y = 0;
     p.speed_factor = 1;
-    p.jump.ready = t_true;
+    p.jump.ready = e_true;
     p.jump.height = 0;
     p.jump.gravity = 0.1;
     p.jump.duration = 400;
     p.jump.time = 0;
-    p.dead = t_false;
+    p.dead = e_false;
     p.health = 100;
-    p.healed = t_false;
-    p.hurt = t_false;
+    p.healed = e_false;
+    p.hurt = e_false;
     return (p);
 }
 
@@ -48,12 +48,12 @@ void	clamp_player_values(t_player *p, t_config op)
     p->vision_height > op.win_h ? p->vision_height = op.win_h : 0;
     p->vision_height < 0 ? p->vision_height = 0 : p->vision_height;
     if (p->health <= 0)
-        p->dead = t_true;
+        p->dead = e_true;
     if (p->dead)
     {
         p->health = 0;
-        p->hurt = t_false;
-        p->healed = t_false;
+        p->hurt = e_false;
+        p->healed = e_false;
     }
 }
 
@@ -65,19 +65,19 @@ void    draw_face(SDL_Surface *surface, t_hud *hud, t_player *p, t_config *op)
     pos.y = op->win_h - 75;
     if (!p->weapon->main_ready)
     {
-        draw_on_screen(surface, hud->badass_face, pos, t_true);
+        draw_on_screen(surface, hud->badass_face, pos, e_true);
         if (p->healed)
-            draw_on_screen(surface, hud->sehr_happy_face, pos, t_true);
+            draw_on_screen(surface, hud->sehr_happy_face, pos, e_true);
         return ;
     }
     if (p->hurt)
-        draw_on_screen(surface, hud->hurt_face, pos, t_true);
+        draw_on_screen(surface, hud->hurt_face, pos, e_true);
     else if (p->health > 75)
-        draw_on_screen(surface, hud->happy_face, pos, t_true);
+        draw_on_screen(surface, hud->happy_face, pos, e_true);
     else if (p->health <= 75 && p->health >= 50)
-        draw_on_screen(surface, hud->meh_face, pos, t_true);
+        draw_on_screen(surface, hud->meh_face, pos, e_true);
     else if (p->health < 50 && p->health >= 1)
-        draw_on_screen(surface, hud->sad_face, pos, t_true);
+        draw_on_screen(surface, hud->sad_face, pos, e_true);
     else if (p->dead)
-        draw_on_screen(surface, hud->dead_face, pos, t_true);
+        draw_on_screen(surface, hud->dead_face, pos, e_true);
 }

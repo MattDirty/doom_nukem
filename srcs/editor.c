@@ -142,7 +142,7 @@ int		main(int ac, char **av)
 		ed.map = create_map(ed.textures);
 		ed.fonts = load_fonts();
 		ed.sounds = NULL;
-        ed.map_is_updated = t_false;
+        ed.map_is_updated = e_false;
     }
     else
 	{
@@ -151,7 +151,7 @@ int		main(int ac, char **av)
 		read_data.fonts = &ed.fonts;
 		read_data.sounds = &ed.sounds;
 		read_file_editor(av[1], &read_data);
-        ed.map_is_updated = t_true;
+        ed.map_is_updated = e_true;
     }
 	ed.fonts = load_fonts();
 	init_panel(&ed.panel, ed.textures);

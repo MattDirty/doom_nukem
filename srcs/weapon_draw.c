@@ -16,7 +16,7 @@ void    draw_weapon(SDL_Surface *surface, SDL_Surface *weapon, t_animation *anim
             put_pixel_alpha(surface,
                     (op->half_w - (weapon->w / 2)) + x + animation->x_offset,
                     (op->win_h - weapon->h) + y + animation->y_offset,
-                    get_pixel(weapon, x, y, t_false));
+                    get_pixel(weapon, x, y, e_false));
             x++;
         }
         y++;

@@ -32,9 +32,9 @@ enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inters)
 	{
 		inters->x = a->x1 + (t * delta_a.x);
 		inters->y = a->y1 + (t * delta_a.y);
-		return (t_true);
+		return (e_true);
 	}
-	return (t_false);
+	return (e_false);
 }
 
 void print_segment(t_segment *s, char *str)

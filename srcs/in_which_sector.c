@@ -38,13 +38,13 @@ static enum e_bool	line_through_segment_intersects_a_wall_extremity(
                 segment,
                 wall->segment.x1,
                 wall->segment.y1))
-        return (t_true);
+        return (e_true);
     if (line_through_segment_intersects_point(
                 segment,
                 wall->segment.x2,
                 wall->segment.y2))
-        return (t_true);
-    return (t_false);
+        return (e_true);
+    return (e_false);
 }
 
 static enum e_bool	line_through_segment_intersects_a_sector_vertex(
@@ -56,12 +56,14 @@ static enum e_bool	line_through_segment_intersects_a_sector_vertex(
     i = 0;
     while (i < sector->walls->count)
     {
+        if (segments_share_node(&segment, &sector->walls->items[i]->segment))
+            return (e_false);
         if (line_through_segment_intersects_a_wall_extremity(
                     segment, sector->walls->items[i]))
-            return (t_true);
+            return (e_true);
         i++;
     }
-    return (t_false);
+    return (e_false);
 }
 
 static void	rotate_segment_around_first_extremity(t_segment *segment, const double angle)
@@ -82,9 +84,9 @@ static void	rotate_segment_around_first_extremity(t_segment *segment, const doub
 int     is_in_sector(t_coords pos, t_sector *sector)
 {
     t_segment   segment;
-    int         i;
-    int         intersections_count;
-    static const double	some_coprime_to_pi_angle = 1.0;
+    int             i;
+    int             intersections_count;
+    const double	some_coprime_to_pi_angle = 1.0;
 
     segment.x1 = pos.x;
     segment.y1 = pos.y;

@@ -9,7 +9,7 @@ enum e_bool gun_idle_anim(double ms_since_update, t_params params)
 
     gun = (t_weapon *)params;
     if (!gun->main_ready)
-        return (t_false);
+        return (e_false);
     gun->animation.time += ms_since_update;
     if (gun->animation.time >= gun->animation.duration)
         gun->animation.time = 0;
@@ -17,7 +17,7 @@ enum e_bool gun_idle_anim(double ms_since_update, t_params params)
     if (step >= 3)
         step = 2;
     gun->sprite_current = gun->sprites[step];
-    return (t_true);
+    return (e_true);
 }
 
 enum e_bool gun_firing(double ms_since_update, t_params params)
@@ -30,13 +30,13 @@ enum e_bool gun_firing(double ms_since_update, t_params params)
     {
         add_event(ptr->timer_handler, 5, &gun_idle_anim, ptr->weapon);
         free (ptr);
-        return (t_false);
+        return (e_false);
     }
     if (ptr->weapon->main_animation.time <= 200)
         ptr->weapon->sprite_current = ptr->weapon->sprites_fire[0];
     else
         ptr->weapon->sprite_current = ptr->weapon->sprites_cooldown[0];
-    return (t_true);
+    return (e_true);
 }
 
 void    gun_primary(t_env *e, t_timer_handler *timer_handler)
@@ -48,7 +48,7 @@ void    gun_primary(t_env *e, t_timer_handler *timer_handler)
     if (!weapon->main_ready || !weapon->ammo)
         return;
     Mix_PlayChannel(-1, weapon->main_sound, 0);
-    weapon->main_ready = t_false;
+    weapon->main_ready = e_false;
     weapon->ammo--;
     reset_animation(&weapon->main_animation);
     weapon->main_animation.duration = weapon->main_cooldown;
@@ -97,13 +97,13 @@ t_weapon    *load_gun(t_sounds *sounds, t_map *map)
     load_gun_sprites(gun, map);
     gun->ammo = 10;
     gun->main = NULL;
-    gun->usable = t_true;
+    gun->usable = e_true;
     reset_animation(&gun->animation);
     gun->animation.duration = 500;
     gun->main = gun_primary;
     gun->main_cooldown = 500;
     reset_animation(&gun->main_animation);
-    gun->main_ready = t_true;
+    gun->main_ready = e_true;
     if (!(gun->main_sound = sounds->zap))
         error_doom("Can't load gun sound ...");
     gun->range = HORIZON;

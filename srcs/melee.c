@@ -19,19 +19,19 @@ void    fuck_flower(t_player *p, t_object *object)
     else if (ammo_or_health_or_both == 1)
     {
         p->health += increase;
-        p->healed = t_true;
+        p->healed = e_true;
     }
     else if (ammo_or_health_or_both == 2)
     {
         p->weapons->next->item->ammo += increase;
         p->health += increase;
-        p->healed = t_true;
+        p->healed = e_true;
     }
     if (p->health >= HEALTH_MAX)
         p->health = HEALTH_MAX;
     if (p->weapons->next->item->ammo >= AMMO_MAX)
         p->weapons->next->item->ammo = AMMO_MAX;
-    object->can_give_bonus = t_false;
+    object->can_give_bonus = e_false;
 }
 
 enum e_bool    melee_primary_animation(
@@ -73,7 +73,7 @@ void    melee_primary(t_env *e, t_timer_handler *timer_handler)
     add_event(timer_handler, 5,&melee_primary_animation,
             &weapon->main_animation);
     Mix_PlayChannel(-1, weapon->main_sound, 0);
-    weapon->main_ready = t_false;
+    weapon->main_ready = e_false;
     add_event(timer_handler, weapon->main_cooldown,
             &unlock,&weapon->main_ready);
     weapon_ray_fire(e, timer_handler);
@@ -95,7 +95,7 @@ t_weapon    *load_melee(t_sounds *sounds, t_map *map)
     weapon->sprite_current = weapon->sprites[0];
     weapon->ammo = -1;
     weapon->main = NULL;
-    weapon->usable = t_true;
+    weapon->usable = e_true;
     weapon->damage = 99;
     weapon->range = 0.5;
     weapon->scatter = 1;
@@ -103,7 +103,7 @@ t_weapon    *load_melee(t_sounds *sounds, t_map *map)
     reset_animation(&weapon->main_animation);
     weapon->main = melee_primary;
     weapon->main_cooldown = 2000;
-    weapon->main_ready = t_true;
+    weapon->main_ready = e_true;
     if (!(weapon->main_sound = sounds->fu_bitch))
         error_doom("Can't load weapon sound ...");
     return (weapon);

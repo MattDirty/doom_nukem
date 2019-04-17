@@ -10,8 +10,8 @@ typedef const void *t_params;
  * t_event_func returns a boolean that tells the
  * handler if the event must be destroyed or if it
  * needs to keep calling it.
- * Return t_false to destroy the event.
- * Return t_true to recall the event after interval ms.
+ * Return e_false to destroy the event.
+ * Return e_true to recall the event after interval ms.
  */
 typedef enum e_bool (*t_event_func)(double ms_since_update, t_params);
 

@@ -44,8 +44,8 @@ void    weapon_ray_fire(t_env *e, t_timer_handler *timer_handler)
 enum e_bool    unlock(double ms_since_update, t_params ready)
 {
     (void)ms_since_update;
-    *(enum e_bool*)ready = t_true;
-    return (t_false);
+    *(enum e_bool*)ready = e_true;
+    return (e_false);
 }
 
 t_weapon    *get_weapon(t_weapons *node, Uint32 target)

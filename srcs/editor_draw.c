@@ -28,12 +28,12 @@ void        draw_corners_editor(SDL_Surface *surface, t_segment *s)
     rect.pos.x = s->x1 - CORNER_SIZE / 2;
     rect.pos.y = s->y1 - CORNER_SIZE / 2;
     draw_rect(surface, &rect, L_BLUE);
-    fill_rect(surface, &rect, L_BLUE, t_false);
+    fill_rect(surface, &rect, L_BLUE, e_false);
 
     rect.pos.x = s->x2 - CORNER_SIZE / 2;
     rect.pos.y = s->y2 - CORNER_SIZE / 2;
     draw_rect(surface, &rect, L_BLUE);
-    fill_rect(surface, &rect, L_BLUE, t_false);
+    fill_rect(surface, &rect, L_BLUE, e_false);
 }
 
 void		draw_walls_editor(SDL_Surface *surface, t_walls *walls, t_i_coords map_offset, int zoom)
@@ -97,7 +97,7 @@ void        draw_background(t_editor *ed)
     t_rect  background;
 
     background = create_rect(-1, -1, EDITOR_W + 1, EDITOR_H + 1);
-    fill_rect(ed->sdl.surface, &background, BACKGROUND_COLOR, t_false);
+    fill_rect(ed->sdl.surface, &background, BACKGROUND_COLOR, e_false);
 }
 
 void        draw_player_spawn(SDL_Surface *surface, t_coords spawn, t_i_coords map_offset, int zoom)

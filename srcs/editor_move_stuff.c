@@ -31,13 +31,13 @@ enum e_bool	walls_intersect_on_map(t_linked_walls *linked_walls)
 			{
 				if (!segments_share_node(&walls->wall->segment,
 				        &node->wall->segment))
-					return (t_true);
+					return (e_true);
 			}
 			walls = walls->next;
 		}
 		node = node->next;
 	}
-	return (t_false);
+	return (e_false);
 }
 
 enum e_bool is_object_in_sector(t_sector *sector, t_object *object)
@@ -53,10 +53,10 @@ enum e_bool are_objects_in_sector_valid(t_sector *sector)
     while (j < sector->objects->count)
     {
         if (!is_object_in_sector(sector, &sector->objects->items[j]))
-            return (t_false);
+            return (e_false);
         j++;
     }
-    return (t_true);
+    return (e_true);
 }
 
 enum e_bool are_enemies_in_sector_valid(t_sector *sector)
@@ -67,10 +67,10 @@ enum e_bool are_enemies_in_sector_valid(t_sector *sector)
     while (e_node)
     {
         if (!is_object_in_sector(sector, e_node->item.object))
-            return (t_false);
+            return (e_false);
         e_node = e_node->next;
     }
-    return (t_true);
+    return (e_true);
 }
 
 enum e_bool is_map_valid(t_linked_walls *walls, t_map *map)
@@ -79,19 +79,19 @@ enum e_bool is_map_valid(t_linked_walls *walls, t_map *map)
     t_sector            *sector;
 
     if (walls_intersect_on_map(walls))
-        return (t_false);
+        return (e_false);
     if (!in_which_sector(map->spawn, map->sectors))
-        return (t_false);
+        return (e_false);
     i = 0;
     while (i < map->sectors->count)
     {
         sector = &map->sectors->items[i];
         if (!are_objects_in_sector_valid(sector)
         || !are_enemies_in_sector_valid(sector))
-            return (t_false);
+            return (e_false);
         i++;
     }
-    return (t_true);
+    return (e_true);
 }
 
 void    move_walls_nodes(t_editor *ed, double x, double y)
@@ -120,7 +120,7 @@ void    move_walls_nodes(t_editor *ed, double x, double y)
 		}
     	return;
 	}
-    ed->map_is_updated = t_false;
+    ed->map_is_updated = e_false;
 }
 
 void    move_player_spawn(t_editor *ed, double x, double y)
@@ -135,7 +135,7 @@ void    move_player_spawn(t_editor *ed, double x, double y)
         return;
     ed->map->spawn.x = new_x;
     ed->map->spawn.y = new_y;
-    ed->map_is_updated = t_false;
+    ed->map_is_updated = e_false;
 }
 
 void	move_enemy(t_editor *ed, double x, double y)
@@ -151,7 +151,7 @@ void	move_enemy(t_editor *ed, double x, double y)
 		return ;
 	ed->dragged.enemy->object->x = new_x;
 	ed->dragged.enemy->object->y = new_y;
-	ed->map_is_updated = t_false;
+	ed->map_is_updated = e_false;
 }
 
 void	move_object(t_editor *ed, double x, double y)
@@ -167,5 +167,5 @@ void	move_object(t_editor *ed, double x, double y)
 		return ;
     ed->dragged.object->x = new_x;
     ed->dragged.object->y = new_y;
-    ed->map_is_updated = t_false;
+    ed->map_is_updated = e_false;
 }
