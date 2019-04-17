@@ -3,26 +3,6 @@
 #include "ui.h"
 #include "walls.h"
 
-t_sector    *find_wall_sector(t_sectors *sectors, t_wall *wall)
-{
-    int     i;
-    int     j;
-
-    i = 0;
-    while (i < sectors->count)
-    {
-        j = 0;
-        while (j < sectors->items[i].walls->count)
-        {
-            if (sectors->items[i].walls->items[j] == wall)
-                return (&sectors->items[i]);
-            j++;
-        }
-        i++;
-    }
-    return (NULL);
-}
-
 void        split_wall(t_params params)
 {
     t_btn_params    *btn_params;

@@ -33,5 +33,6 @@ void		read_sectors_from_file(
 void		write_sectors_to_file(int fd, t_sectors *sectors);
 
 int		sector_index(t_sectors *sectors, t_sector *sector);
+t_sector    *find_wall_sector(t_sectors *sectors, t_wall *wall);
 
 #endif
