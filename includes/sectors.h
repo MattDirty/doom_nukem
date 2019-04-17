@@ -5,6 +5,7 @@
 # include "walls.h"
 # include "objects.h"
 # include "enemies.h"
+# include "pickables.h"
 
 typedef struct s_linked_enemies t_linked_enemies;
 typedef struct s_enemy t_enemy;

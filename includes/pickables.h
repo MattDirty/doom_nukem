@@ -10,6 +10,8 @@
 # include "timer_handler.h"
 # include "sectors.h"
 
+typedef struct s_weapon t_weapon;
+
 typedef struct s_pickable
 {
     t_object    *object;
