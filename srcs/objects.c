@@ -7,6 +7,21 @@
 #include "doom.h"
 #include "sectors.h"
 
+t_object    create_default_object(t_textures *textures)
+{
+    t_object    new_object;
+
+    new_object.x = 0;
+    new_object.y = 0;
+    new_object.z = 0;
+    new_object.horizontal_size = 1;
+    new_object.vertical_size = 1;
+    find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp",
+                         &new_object.sprite);
+    new_object.can_give_bonus = e_true;
+    return (new_object);
+}
+
 t_object    *add_new_object_to_sector_at_pos(
         t_sector *sector, t_coords pos, t_textures *textures)
 {
@@ -15,14 +30,11 @@ t_object    *add_new_object_to_sector_at_pos(
     int         i;
     int         count;
 
+    if (sector->objects->count >= 12)
+        return (NULL);
+    object = create_default_object(textures);
     object.x = pos.x;
     object.y = pos.y;
-    object.z = 0;
-    object.horizontal_size = 1;
-    object.vertical_size = 1;
-    find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp",
-            &object.sprite);
-    object.can_give_bonus = e_true;
     count = sector->objects->count + 1;
     if (!(items = (t_object *)malloc(sizeof(t_object) * count)))
         error_doom("couldn't reallocate objects");
