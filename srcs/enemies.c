@@ -245,12 +245,12 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
     if (enemy->type == et_boss)
     {
         enemy->act = boss_intelligence;
-        enemy->speed = 0.01;
+        enemy->speed = BASE_BLACKHOLE_SPEED;
     }
     else if (enemy->type == et_brazil)
     {
         enemy->act = roam;
-        enemy->speed = 0.1;
+        enemy->speed = BASE_SCOOTER_SPEED;
         enemy->object->vertical_size = 0.7;
         enemy->object->horizontal_size = 0.7;
     }

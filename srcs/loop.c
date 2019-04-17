@@ -72,17 +72,17 @@ static void		select_enemy_sprite(t_enemy* enemy, t_coords pos)
     normalize_vector(&view);
     dot = dot_product(&view, &enemy->heading);
     if (dot >= COS_PI_FOURTH)
-        enemy->object->sprite = enemy->front;
-    else if (dot <= -COS_PI_FOURTH)
         enemy->object->sprite = enemy->back;
+    else if (dot <= -COS_PI_FOURTH)
+        enemy->object->sprite = enemy->front;
     else
     {
         perpendicular_view = (t_vector){view.y, -view.x};
         dot = dot_product(&perpendicular_view, &enemy->heading);
         if (dot >= COS_PI_FOURTH)
-            enemy->object->sprite = enemy->left;
-        else if (dot <= -COS_PI_FOURTH)
             enemy->object->sprite = enemy->right;
+        else if (dot <= -COS_PI_FOURTH)
+            enemy->object->sprite = enemy->left;
     }
 }
 

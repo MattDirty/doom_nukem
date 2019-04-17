@@ -11,6 +11,11 @@
 # include "sectors.h"
 # include "enemies_intelligence.h"
 
+# define BASE_SCOOTER_SPEED 1
+# define FAST_SCOOTER_SPEED 5
+# define BASE_BLACKHOLE_SPEED 0.5
+# define BRAZILIAN_HANDGUN_DAMAGE 5
+
 typedef struct s_object t_object;
 
 typedef struct s_enemy
@@ -34,24 +39,7 @@ typedef struct s_enemy
     double		speed;
     SDL_Surface *explosion[16];
     double		animation_time;
-    enum		e_ai_state
-    {
-        ais_roaming,
-        ais_firing,
-        ais_fleeing
-    }			ai_state;
-    union		u_ai_data
-    {
-        struct	s_firing_data
-        {
-        }		firing_data;
-        struct	s_roaming_data
-        {
-        }		roaming_data;
-        struct	s_fleeing_data
-        {
-        }		fleeing_data;
-    }			ai_data;
+    int			step;
 }               t_enemy;
 
 typedef struct	s_linked_enemies
