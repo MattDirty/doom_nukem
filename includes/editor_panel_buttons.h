@@ -27,4 +27,6 @@ void            add_button_to_list(t_buttons **list, t_button button);
 void            free_buttons_list(t_buttons *list);
 t_btn_params    *create_btn_params(
         SDL_Surface **selected, SDL_Surface *target, t_editor *ed);
+void        toggle_lighting(t_params params);
+
 #endif

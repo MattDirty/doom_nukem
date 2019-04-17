@@ -113,9 +113,7 @@ enum e_bool     click_on_panel(t_editor *ed, int mouse_x, int mouse_y)
     t_buttons    *buttons;
 
     if (mouse_x < PANEL_X)
-    {
         return (t_false);
-    }
     buttons = ed->panel.buttons;
     while (buttons)
     {

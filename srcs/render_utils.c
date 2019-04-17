@@ -120,7 +120,7 @@ void        rotate_and_draw(SDL_Surface *surface, SDL_Surface *text, t_i_coords 
                     && x < text->w && y < text->h
                     && x >= 0 && y >= 0)
                 put_pixel_alpha(surface, pos.x + y, pos.y + x,
-                            get_pixel(text, x, y, force_alpha));
+                        get_pixel_for_runtime_generated(text, x, y, force_alpha));
             y--;
         }
         x++;

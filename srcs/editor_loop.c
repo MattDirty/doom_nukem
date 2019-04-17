@@ -1,6 +1,23 @@
 #include "editor.h"
 #include "editor_move_stuff.h"
 
+void    rand_lighting(t_editor *ed, t_sector *sector)
+{
+    Uint8   a;
+    Uint8   r;
+    Uint8   g;
+    Uint8   b;
+
+    a = rand() % 100;
+    r = rand() % 255;
+    g = rand() % 255;
+    b = rand() % 255;
+    if (!a)
+        a = 1;
+    sector->light = (a << 24) + (r << 16) + (g << 8) + b;
+    ed->map_is_updated = t_false;
+}
+
 void	event_editor(t_editor *ed)
 {
 	double      x;
@@ -29,7 +46,12 @@ void	event_editor(t_editor *ed)
 				ed->zoom = 1;
 		}
 		if (ev.type == SDL_KEYDOWN)
-			move_map(ed, ev.key.keysym.scancode);
+        {
+		    move_map(ed, ev.key.keysym.scancode);
+		    if (ed->selected.sector && ed->selected.sector->light
+		        && ev.key.keysym.scancode == SDL_SCANCODE_R)
+		        rand_lighting(ed, ed->selected.sector);
+        }
 	}
 	if (ed->dragged.nodes && (x || y))
 		move_walls_nodes(ed, x, y);
