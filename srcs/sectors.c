@@ -23,7 +23,7 @@ void        set_default_sector(t_sector **sector)
     (*sector)->objects->items = NULL;
     (*sector)->objects->count = 0;
     (*sector)->enemies = NULL;
-    items[i]->pickables = NULL;
+    (*sector)->pickables = NULL;
 }
 
 t_sector	*create_new_sector(t_sectors *sectors)
