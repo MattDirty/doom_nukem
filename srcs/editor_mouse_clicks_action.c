@@ -4,6 +4,21 @@
 #include "editor_panel_buttons.h"
 #include "editor_checks.h"
 
+void		copy_sector_floor_ceil(t_sector *target, t_sector *source)
+{
+	target->ceil = source->ceil;
+	target->floor = source->floor;
+	target->open_sky = source->open_sky;
+}
+
+void		transform_wall_to_portal(t_wall *wall, t_sector *s1, t_sector *s2)
+{
+	wall->type = e_portal;
+	wall->texture = NULL;
+	wall->links.sector1 = s1;
+	wall->links.sector2 = s2;
+}
+
 void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 {
 	t_coords	pos;
@@ -18,8 +33,7 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 		return ;
 	new_sector = create_new_sector(ed->map->sectors);
 	linked_sector = find_wall_sector(ed->map->sectors, ed->selected.wall);
-    new_sector->ceil = linked_sector->ceil;
-    new_sector->floor = linked_sector->floor;
+	copy_sector_floor_ceil(new_sector, linked_sector);
 	wall = create_wall_copy(ed->selected.wall);
 	wall->segment.x1 = pos.x;
 	wall->segment.y1 = pos.y;
@@ -28,10 +42,7 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 	wall->segment.x2 = pos.x;
 	wall->segment.y2 = pos.y;
 	add_wall_to_sector(new_sector, wall);
-	ed->selected.wall->type = e_portal;
-	ed->selected.wall->texture = NULL;
-	ed->selected.wall->links.sector2 = linked_sector;
-	ed->selected.wall->links.sector1 = new_sector;
+	transform_wall_to_portal(ed->selected.wall, linked_sector, new_sector);
 	add_wall_to_sector(new_sector, ed->selected.wall);
 	free_linked_walls_nodes(ed->linked_walls);
 	create_linked_walls_from_sectors(
