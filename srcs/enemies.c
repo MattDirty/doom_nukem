@@ -217,7 +217,8 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
     if (write(fd, &enemy.type, sizeof(enemy.type)) <= 0)
         error_doom("Problem while type enemy from file");
     write_str_to_file(fd, enemy.front->userdata);
-    write_str_to_file(fd, enemy.side->userdata);
+    write_str_to_file(fd, enemy.right->userdata);
+    write_str_to_file(fd, enemy.left->userdata);
     write_str_to_file(fd, enemy.back->userdata);
     write_str_to_file(fd, enemy.explosion[0]->userdata);
     write_str_to_file(fd, enemy.explosion[1]->userdata);
@@ -276,7 +277,8 @@ void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
     init_enemy_from_type(enemy);
     find_texture_from_file(fd, textures, &enemy->front);
     enemy->object->sprite = enemy->front;
-    find_texture_from_file(fd, textures, &enemy->side);
+    find_texture_from_file(fd, textures, &enemy->right);
+    find_texture_from_file(fd, textures, &enemy->left);
     find_texture_from_file(fd, textures, &enemy->back);
     find_texture_from_file(fd, textures, &(enemy->explosion[0]));
     find_texture_from_file(fd, textures, &(enemy->explosion[1]));

@@ -84,12 +84,14 @@ t_map		*create_map(t_textures *textures)
 		map->sectors->items[i].enemies->item.time_in_death = -1;
 		map->sectors->items[i].enemies->item.to_destroy = e_false;
         map->sectors->items[i].enemies->item.heading = 0;
-        map->sectors->items[i].enemies->item.death_duration = 0;
+        map->sectors->items[i].enemies->item.heading = (t_vector){1, 0};
+        nap->sectors->items[i].enemies->item.death_duration = 0;
         map->sectors->items[i].enemies->item.type = et_brazil;
         find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->item.front);
         map->sectors->items[i].enemies->item.object->sprite =
                 map->sectors->items[i].enemies->item.front;
-        find_texture_by_name(textures,"textures/sprites/enemy_side.bmp", &map->sectors->items[i].enemies->item.side);
+        find_texture_by_name(textures,"textures/sprites/enemy_left.bmp", &map->sectors->items[i].enemies->item.left);
+        find_texture_by_name(textures,"textures/sprites/enemy_right.bmp", &map->sectors->items[i].enemies->item.right);
         find_texture_by_name(textures,"textures/sprites/enemy_back.bmp", &map->sectors->items[i].enemies->item.back);
         find_texture_by_name(textures,"textures/explosions/explosion_1.bmp",
                              &map->sectors->items[i].enemies->item.explosion[0]);
@@ -125,15 +127,16 @@ t_map		*create_map(t_textures *textures)
                              &map->sectors->items[i].enemies->item.explosion[15]);
 
         if (i == 1)
-            map->sectors->items[i].enemies->item.heading = ft_degtorad(90);
+            map->sectors->items[i].enemies->item.heading = (t_vector){0, 1};
         if (i == 2)
         {
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.front);
             map->sectors->items[i].enemies->item.object->sprite =
                     map->sectors->items[i].enemies->item.front;
-            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.side);
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.left);
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.right);
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.back);
-            map->sectors->items[i].enemies->item.heading = ft_degtorad(180);
+            map->sectors->items[i].enemies->item.heading = (t_vector){-1, 0};
             map->sectors->items[i].enemies->item.type = et_boss;
         }
 
@@ -285,7 +288,12 @@ t_textures	*load_textures(void)
     add_bitmap_file_to_textures(textures, "textures/flats/dirt.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/voilaunefleur.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front_firing_0.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front_firing_1.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front_firing_2.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/enemy_front_firing_3.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/enemy_left.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/enemy_right.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/enemy_back.bmp");
     add_bitmap_file_to_textures(textures, "textures/sprites/blackhole.bmp");
     add_bitmap_file_to_textures(textures, "textures/skybox/day.bmp");

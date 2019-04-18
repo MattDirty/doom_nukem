@@ -20,9 +20,10 @@ typedef struct s_enemy
     double		death_duration;
     double		time_in_death;
     enum e_bool	to_destroy;
-    double      heading;
+    t_vector    heading;
     SDL_Surface *front;
-    SDL_Surface *side;
+    SDL_Surface *left;
+    SDL_Surface *right;
     SDL_Surface *back;
     enum enemy_type
     {
