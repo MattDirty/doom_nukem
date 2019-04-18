@@ -57,6 +57,13 @@ typedef struct			s_collisions
 	struct s_collisions	*next;
 }						t_collisions;
 
+typedef struct			s_raycasting_args
+{
+    int					start;
+    int					inc;
+    t_env		    	*e;
+}						t_raycasting_args;
+
 enum e_bool	segments_intersect(t_segment *a, t_segment *b, t_coords *inters);
 void		find_ray_collisions(
         t_sector *sector,

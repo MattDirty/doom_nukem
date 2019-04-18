@@ -113,7 +113,7 @@ INCL = includes
 
 LIBFT_INCL_PATH = ./libft/includes
 
-LDLIBFT = -L ./libft -lft
+LDLIBFT = -L ./libft -lft -lpthread
 
 LIBS = -lm
 
