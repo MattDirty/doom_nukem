@@ -31,7 +31,7 @@ void	shoot_player(t_env *e, t_enemy *enemy)
     j = 0;
     while (j < e->map->sectors->count)
     {
-        sector = e->map->sectors->items[j];
+        sector = *e->map->sectors->items[j];
         i = 0;
         while (i < sector.walls->count)
         {
