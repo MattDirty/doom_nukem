@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 00:45:13 by lfatton           #+#    #+#             */
-/*   Updated: 2019/04/18 08:23:20 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/18 10:35:10 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,11 +125,11 @@ enum e_bool		update_logic(double ms_since_update, t_params params)
         ptr->e->p.jump.height -= ptr->e->p.jump.gravity * ms_since_update;
         ptr->e->p.jump.height = (ptr->e->p.jump.height < 1) ? 0 : ptr->e->p.jump.height;
     }
-    update_enemies(ptr->map->sectors, ptr->e->p.heading);
+    update_enemies(ptr->map->sectors, ptr->e->p.pos);
 
     pick_objects(&ptr->e->p);
 	//todo : if paused return t_false
-	return (t_true);
+	return (e_true);
 }
 
 t_logic_params		logic_params_init(

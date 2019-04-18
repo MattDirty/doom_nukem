@@ -12,14 +12,16 @@
 
 typedef struct s_weapon t_weapon;
 typedef struct s_player t_player;
+typedef struct s_object t_object;
 
 typedef struct s_pickable
 {
     t_object    *object;
     enum pickable_type
     {
-        basic_gun,
-        shotgun
+        gun,
+        shotgun,
+        vacuum
     }			type;
 }               t_pickable;
 

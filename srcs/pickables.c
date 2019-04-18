@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/17 04:22:46 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/18 07:52:57 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/18 10:32:48 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "doom.h"
 #include "serialisation.h"
 #include "e_bool.h"
+#include "utils.h"
 #include "sectors.h"
 
 
@@ -28,7 +29,7 @@ static  void    make_weapon_usable(t_weapons *node, Uint32 target)
         node = node->next;
         i++;
     }
-    node->item->usable = t_true;
+    node->item->usable = e_true;
 }
 
 
@@ -60,16 +61,23 @@ void	delete_pickable(t_pickables *pickables, t_pickable *to_delete)
 
 static void     do_stuff(t_player *player, t_pickables *pickables)
 {
-    //if ()
-    //    player->weapons->next->item = pickables->item.weapon;
-
-    if (pickables->item->type == basic_gun)
+    if (pickables->item->type == gun)
         make_weapon_usable(player->weapons, 1);
     else if (pickables->item->type == shotgun)
+        make_weapon_usable(player->weapons, 2);
+    else if (pickables->item->type == vacuum)
         make_weapon_usable(player->weapons, 2);
     else
         error_doom("invalid pickable");
     delete_pickable(pickables, pickables->item);
+}
+
+int         is_close_to(t_coords target, t_coords pos, double dist)
+{
+    if (fabs(pos.x) - fabs(target.x) < dist 
+        && fabs(pos.y) - fabs(target.y) < dist)
+        return (1);
+    return (0);
 }
 
 void     pick_objects(t_player *player)
@@ -93,31 +101,19 @@ void     pick_objects(t_player *player)
 **  {.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}
 */
 
-void    read_pickables_from_file(
-        int fd,
-        t_textures *textures,
-        t_pickables **pickables)
+void    write_pickable_to_file(int fd, t_pickable pickable)
 {
-    enum e_bool	next;
-
-    if (read(fd, &next, sizeof(next)) <= 0)
-        error_doom("The shield has gone mad, Quercus!");
-    if (!next)
-        return;
-    if (!(*pickables = (t_pickables*)malloc(sizeof(t_pickables))))
-        error_doom("Couldn't allocate pickables struct");
-    (*pickables)->next = NULL;
-    read_pickable_from_file(fd, textures, (*pickables)->item);
-    read_pickables_from_file(fd, textures, &(*pickables)->next);
+    write_object_to_file(fd, *pickable.object);
+    if (write(fd, &pickable.type, sizeof(pickable.type)) <= 0)
+        error_doom("Problem while type pickable from file");
 }
 
 void    read_pickable_from_file(int fd, t_textures *textures, t_pickable *pickable)
 {
+    pickable = (t_pickable *)malloc(sizeof(t_pickable));
     if (!(pickable->object = (t_object *)malloc(sizeof(t_object))))
         error_doom("Couldn't allocate object in pickable");
-
     read_object_from_file(fd, textures, pickable->object);
-
     if (read(fd, &pickable->type, sizeof(pickable->type)) <= 0)
         error_doom("Problem while reading pickable from file");
 }
@@ -135,12 +131,22 @@ void    write_pickables_to_file(int fd, t_pickables *pickables)
     write_pickables_to_file(fd, pickables->next);
 }
 
-void    write_pickable_to_file(int fd, t_pickable pickable)
+void    read_pickables_from_file(
+        int fd,
+        t_textures *textures,
+        t_pickables **pickables)
 {
-    write_object_to_file(fd, *pickable.object);
-        error_doom("Problem while reading pickable from file");
-    if (write(fd, &pickable.type, sizeof(pickable.type)) <= 0)
-        error_doom("Problem while type pickable from file");
+    enum e_bool	next;
+
+    if (read(fd, &next, sizeof(next)) <= 0)
+        error_doom("The shield has gone mad, Detroudbalus!");
+    if (!next)
+        return;
+    if (!(*pickables = (t_pickables*)malloc(sizeof(t_pickables))))
+        error_doom("Couldn't allocate pickables struct");
+    (*pickables)->next = NULL;
+    read_pickable_from_file(fd, textures, (*pickables)->item);
+    read_pickables_from_file(fd, textures, &(*pickables)->next);
 }
 
 /*

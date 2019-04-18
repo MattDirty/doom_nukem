@@ -190,6 +190,7 @@ void			read_sectors_from_file(
             error_doom("couldn't read sector light");
         read_objects_from_file(fd, textures, &sector->objects);
         read_enemies_from_file(fd, textures, &sector->enemies);
+        read_pickables_from_file(fd, textures, &sector->pickables);
         i++;
     }
     free_linked_walls_nodes(linked_walls);

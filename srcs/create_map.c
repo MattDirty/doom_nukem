@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:36:17 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/18 08:21:15 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/18 10:12:35 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,21 @@ t_map		*create_map(t_textures *textures)
         find_texture_by_name(textures,"textures/explosions/explosion_16.bmp",
                              &map->sectors->items[i]->enemies->item.explosion[15]);
 
+        map->sectors->items[i].pickables = (t_pickables *)malloc(sizeof(t_pickables));
+        map->sectors->items[i].pickables->item = (t_pickable *)malloc(sizeof(t_pickable));
+        map->sectors->items[i].pickables->next = NULL;
+        t_pickable *pickable = map->sectors->items[i].pickables->item;
+
+        pickable->type = gun;
+        pickable->object = (t_object *)malloc(sizeof(t_object));
+        find_texture_by_name(textures, "textures/sprites/gun.bmp",
+            &map->sectors->items[i].pickables->item->object->sprite);
+        pickable->object->x = i * 4 + 1;
+        pickable->object->y = i * 4 + 1;
+        pickable->object->horizontal_size = 1;
+        pickable->object->vertical_size = 1;
+        pickable->object->z = 0;
+        pickable->object->can_give_bonus = 0;
         if (i == 1)
             map->sectors->items[i]->enemies->item.heading = (t_vector){0, 1};
         if (i == 2)

@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 17:49:26 by mtorsell          #+#    #+#             */
-/*   Updated: 2019/04/17 06:08:48 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/18 08:39:47 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ double  get_distance_between_points(double x1, double y1, double x2, double y2)
     return (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 }
 
-void			read_segment_from_file(int fd, t_segment *segment)
+/*void			read_segment_from_file(int fd, t_segment *segment)
 {
     if (read(fd, &(segment->x1), sizeof(segment->x1)) <= 0)
         error_doom("couldn't read segment x1");
@@ -60,4 +60,4 @@ void			write_segment_to_file(int fd, t_segment *segment)
         error_doom("couldn't write segment x2");
     if (write(fd, &(segment->y2), sizeof(segment->y2)) <= 0)
         error_doom("couldn't write segment y2");
-}
+}*/
