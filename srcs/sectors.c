@@ -144,6 +144,7 @@ void			free_sectors(t_sectors *sectors)
         free(sector->walls);
         free_objects(sector->objects);
         free_enemies(sector->enemies);
+        free_pickables(sector->pickables);
         free(sector);
         i++;
     }

@@ -139,7 +139,7 @@ t_linked_enemies	*extract_enemy(
         previous = node;
         node = node->next;
 	}
-    return NULL;
+    return (NULL);
 }
 
 void	delete_enemy(

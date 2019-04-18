@@ -18,7 +18,6 @@
 #include "utils.h"
 #include "sectors.h"
 
-
 static  void    make_weapon_usable(t_weapons *node, Uint32 target)
 {
     Uint32  i;
@@ -59,7 +58,7 @@ t_pickables	*extract_pickable(
         previous = node;
         node = node->next;
     }
-    return NULL;
+    return (NULL);
 }
 
 void	delete_pickable(t_pickables **pickables, t_pickable *to_delete)
@@ -68,9 +67,9 @@ void	delete_pickable(t_pickables **pickables, t_pickable *to_delete)
 
     node = extract_pickable(pickables, to_delete);
     if (!node)
-        return;
-    //free(node->item.object);
-    //free(node);
+        return ;
+    free(node->item.object);
+    free(node);
 }
 
 void     do_stuff(t_player *player, t_pickables *pickables)
@@ -83,13 +82,12 @@ void     do_stuff(t_player *player, t_pickables *pickables)
         make_weapon_usable(player->weapons, 3);
     else
         error_doom("invalid pickable");
-    delete_pickable(&pickables, &pickables->item);
 }
 
 int         is_close_to(t_coords target, t_coords pos, double dist)
 {
-    if (fabs(pos.x) - fabs(target.x) < dist 
-        && fabs(pos.y) - fabs(target.y) < dist)
+    if ((fabs(pos.x - target.x) < dist)
+        && (fabs(pos.y - target.y) < dist))
         return (1);
     return (0);
 }
@@ -106,14 +104,13 @@ void     pick_objects(t_player *player)
     while (pickables)
     {
         if (is_close_to(pick_pos, player->pos, 0.2))
+        {
             do_stuff(player, pickables);
+            delete_pickable(&player->current_sector->pickables, &pickables->item);
+        }
         pickables = pickables->next;
     }
 }
-
-/*
-**  {.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}-{.=.}
-*/
 
 void    write_pickable_to_file(int fd, t_pickable pickable)
 {
@@ -168,13 +165,7 @@ void    read_pickables_from_file(
     read_pickables_from_file(fd, textures, &(*pickables)->next);
 }
 
-/*
-**  {*+*}-{*+*}-{*+*}-{*+*}-{*+*}-{*+*}-{*+*}-{*+*}-{*+*}-{*+*}-{*+*}
-*/
-
-/*void	add_pickable(
-        t_pickables **pickables,
-        t_pickables *pickable)
+void	add_pickable(t_pickables **pickables, t_pickables *pickable)
 {
     t_pickables	*node;
 
@@ -187,46 +178,7 @@ void    read_pickables_from_file(
     while (node->next)
         node = node->next;
     node->next = pickable;
-}*/
-
-/*t_pickables	*extract_pickable(
-        t_pickables **pickables,
-        t_pickable *pickable)
-{
-    t_pickables	*previous;
-    t_pickables	*node;
-
-    if (pickable == (*pickables)->item)
-    {
-        previous = *pickables;
-        *pickables = previous->next;
-        return (previous);
-    }
-    previous = NULL;
-    node = *pickables;
-	while (node)
-	{
-        if (node->item == pickable)
-        {
-            previous->next = node->next;
-            return (node);
-        }
-        previous = node;
-        node = node->next;
-	}
-    return NULL;
-}*/
-
-/*void	delete_pickable(t_pickables **pickables, t_pickable *pickable)
-{
-    t_pickables	*node;
-
-    node = extract_pickable(pickables, pickable);
-    if (!node)
-        return;
-    free(node->item.object);
-    free(node);
-}*/
+}
 
 void	free_pickables(t_pickables *pickables)
 {

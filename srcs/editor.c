@@ -24,8 +24,8 @@
 static void    free_editor(t_editor *ed)
 {
     SDL_FreeSurface(ed->sdl.surface);
-    SDL_DestroyWindow(ed->sdl.window);
     SDL_DestroyRenderer(ed->sdl.renderer);
+    SDL_DestroyWindow(ed->sdl.window);
 }
 
 void    quit_editor(t_editor *ed)

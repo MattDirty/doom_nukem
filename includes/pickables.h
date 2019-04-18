@@ -33,7 +33,7 @@ typedef struct	        s_pickables
 }		        t_pickables;
 
 void    pick_objects(t_player *player);
-//void free_pickables(t_pickables *pickables);
+void free_pickables(t_pickables *pickables);
 
 void write_pickables_to_file(int fd, t_pickables *pickables);
 void write_pickable_to_file(int fd, t_pickable pickable);
@@ -41,12 +41,7 @@ void write_pickable_to_file(int fd, t_pickable pickable);
 void read_pickables_from_file(int fd, t_textures *textures, t_pickables **pickables);
 void read_pickable_from_file(int fd, t_textures *textures, t_pickable *pickable);
 
-/*void	add_pickable(
-        t_pickables **pickables,
-        t_pickables *pickable);*/
-/*t_pickables	*extract_pickable(
-        t_pickables **pickables,
-        t_pickable *pickable);*/
+void	add_pickable(t_pickables **pickables, t_pickables *pickable);
 void	delete_pickable(t_pickables **pickables, t_pickable *to_delete);
 
 #endif
