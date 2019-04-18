@@ -116,15 +116,14 @@ void        add_object_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, in
     SDL_FreeSurface(add_object);
 }
 
-//void		remove_selected_enemy(t_editor *ed)
-//{
-//	t_linked_enemies	**node;
-//	t_sector			*sector;
-//
-//	sector = find_enemy_sector(ed->map->sectors, ed->selected.enemy);
-//	node = &sector->enemies;
-//	delete_enemy(node, ed->selected.enemy);
-//}
+void		remove_selected_enemy(t_editor *ed)
+{
+	t_sector			*sector;
+
+	sector = find_enemy_sector(ed->map->sectors, ed->selected.enemy);
+	delete_enemy(&sector->enemies, ed->selected.enemy);
+    clear_selection(&ed->selected);
+}
 
 void		remove_selected_object(t_params params)
 {
@@ -135,12 +134,13 @@ void		remove_selected_object(t_params params)
 	ed = ((t_btn_params *)params)->ed;
 	if (ed->selected.enemy)
 	{
-		//remove_selected_enemy(ed);
+		remove_selected_enemy(ed);
 		return ;
 	}
-	object = ed->selected.object;
-	sector = find_object_sector(ed->map->sectors, object);
-	remove_object(object, sector->objects);
+    object = ed->selected.object;
+    sector = find_object_sector(ed->map->sectors, object);
+    remove_object(object, sector->objects);
+    clear_selection(&ed->selected);
 }
 
 void		remove_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
