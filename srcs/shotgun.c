@@ -90,7 +90,7 @@ t_weapon    *load_shotgun(t_sounds *sounds, t_map *map)
         error_doom("Couldn't malloc shotgun");
     load_shotgun_sprites(shotgun, map);
     shotgun->ammo = 15;
-    shotgun->usable = e_true;
+    shotgun->usable = e_false;
     reset_animation(&shotgun->animation);
     shotgun->animation.duration = 500;
     shotgun->main = shotgun_primary;

@@ -41,7 +41,7 @@ t_weapon    *load_vacuum(t_sounds *sounds, t_map *map)
     vacuum->sprites_fire = NULL;
     vacuum->sprite_current = vacuum->sprites[0];
     vacuum->ammo = -1;
-    vacuum->usable = e_true;
+    vacuum->usable = e_false;
     vacuum->main = vacuum_primary;
     vacuum->main_cooldown = 60000;
     vacuum->main_ready = e_true;

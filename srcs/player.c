@@ -64,7 +64,7 @@ void    draw_face(SDL_Surface *surface, t_hud *hud, t_player *p, t_config *op)
     if (!p->weapon->main_ready)
     {
         draw_on_screen(surface, hud->badass_face, pos, e_true);
-        if (p->healed)
+        if (p->healed || p->success)
             draw_on_screen(surface, hud->sehr_happy_face, pos, e_true);
         return ;
     }

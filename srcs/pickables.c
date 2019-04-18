@@ -80,7 +80,7 @@ void     do_stuff(t_player *player, t_pickables *pickables)
     else if (pickables->item.type == shotgun)
         make_weapon_usable(player->weapons, 2);
     else if (pickables->item.type == vacuum)
-        make_weapon_usable(player->weapons, 2);
+        make_weapon_usable(player->weapons, 3);
     else
         error_doom("invalid pickable");
     delete_pickable(&pickables, &pickables->item);

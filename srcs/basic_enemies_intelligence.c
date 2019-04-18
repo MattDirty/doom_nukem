@@ -45,7 +45,8 @@ void	shoot_player(t_env *e, t_enemy *enemy)
         }
         j++;
     }
-    e->p.health -= BRAZILIAN_HANDGUN_DAMAGE;
+    if (!e->p.success)
+        e->p.health -= BRAZILIAN_HANDGUN_DAMAGE;
 }
 
 void	pew_part_two_yay_to_the_norm(t_enemy *enemy, t_env *e)
