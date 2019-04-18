@@ -52,7 +52,7 @@ int		main (int ac, char **av)
 	if (!(e.music = e.sounds->lamerde))
 		error_doom("Couldn't open lamerde.wav");
 	e.p = init_player(&e.op, e.map->spawn,
-	        &e.map->sectors->items[e.map->player_spawn_index]);
+	        e.map->sectors->items[e.map->player_spawn_index]);
     e.p.weapons = allocate_weapons(e.sounds, e.map);
     e.p.weapon = e.p.weapons->item;
     if (e.debug_mode)
