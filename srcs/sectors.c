@@ -11,7 +11,7 @@
 void        set_default_sector(t_sector **sector)
 {
     if (!(*sector = (t_sector*)malloc(sizeof(t_sector))))
-        error_doom("ABORT TRAP SECTOR");
+        error_doom("Couldn't allocate sector");
     if (!((*sector)->walls = (t_walls *)malloc(sizeof(t_walls))))
         error_doom("couldn't allocate walls");
     (*sector)->walls->count = 0;
