@@ -35,11 +35,11 @@ void        create_split_wall_button(t_editor *ed, int *y)
     t_button    btn;
 
     chars = write_text(ed->fonts->vcr20, "Split wall",
-            (SDL_Colour){255, 255, 255, 255});
+            (SDL_Colour){0x88, 0x88, 0xFF, 0});
     pos.x = PANEL_PADDING_LEFT + 12;
     pos.y = *y;
     btn.rect = create_rect(pos.x - 12, pos.y - 12, chars->w + 24, chars->h + 24);
-    fill_rect(ed->panel.surface, &btn.rect, 0, e_true);
+    fill_rect(ed->panel.surface, &btn.rect, WHITE, e_true);
     draw_on_screen(ed->panel.surface, chars, pos, e_false);
     SDL_FreeSurface(chars);
     btn.rect.pos.x += PANEL_X;
@@ -48,17 +48,67 @@ void        create_split_wall_button(t_editor *ed, int *y)
     add_button_to_list(&ed->panel.buttons, btn);
 }
 
+void		change_wall_in_window(t_params params)
+{
+	t_editor *ed;
+
+	ed = ((t_btn_params *)params)->ed;
+	if (ed->selected.wall->type == e_wall)
+		transform_wall_to_window(ed->selected.wall, ed->map->sectors->items[0]);
+	else
+		transform_window_to_wall(ed->selected.wall);
+	ed->map_is_updated = e_false;
+}
+
+void		change_window_in_wall_button(t_editor *ed, int *y)
+{
+	SDL_Surface *chars;
+	t_i_coords  pos;
+	t_button    btn;
+	chars = write_text(ed->fonts->vcr20, "Transform in wall",
+					   (SDL_Colour){255, 0, 0, 0});
+	pos.x = PANEL_PADDING_LEFT + 12;
+	pos.y = *y;
+	btn.rect = create_rect(pos.x - 12, pos.y - 12, chars->w + 24, chars->h + 24);
+	fill_rect(ed->panel.surface, &btn.rect, WHITE, e_true);
+	draw_on_screen(ed->panel.surface, chars, pos, e_false);
+	SDL_FreeSurface(chars);
+	btn.rect.pos.x += PANEL_X;
+	btn.f = &change_wall_in_window;
+	btn.params = create_btn_params(NULL, NULL, ed);
+	add_button_to_list(&ed->panel.buttons, btn);
+}
+
+void		change_wall_in_window_button(t_editor *ed, int *y)
+{
+	SDL_Surface *chars;
+	t_i_coords  pos;
+	t_button    btn;
+	chars = write_text(ed->fonts->vcr20, "Transform in window",
+					   (SDL_Colour){255, 0, 0, 0});
+	pos.x = PANEL_PADDING_LEFT + 12;
+	pos.y = *y;
+	btn.rect = create_rect(pos.x - 12, pos.y - 12, chars->w + 24, chars->h + 24);
+	fill_rect(ed->panel.surface, &btn.rect, WHITE, e_true);
+	draw_on_screen(ed->panel.surface, chars, pos, e_false);
+	SDL_FreeSurface(chars);
+	btn.rect.pos.x += PANEL_X;
+	btn.f = &change_wall_in_window;
+	btn.params = create_btn_params(NULL, NULL, ed);
+	add_button_to_list(&ed->panel.buttons, btn);
+}
+
 void        create_new_sector_button(t_editor *ed, int *y)
 {
     SDL_Surface *chars;
     t_i_coords  pos;
     t_button    btn;
     chars = write_text(ed->fonts->vcr20, "New Sector",
-            (SDL_Colour){255, 255, 255, 255});
+            (SDL_Colour){0, 0, 0, 0});
     pos.x = PANEL_PADDING_LEFT + 172;
     pos.y = *y;
     btn.rect = create_rect(pos.x - 12, pos.y - 12, chars->w + 24, chars->h + 24);
-    fill_rect(ed->panel.surface, &btn.rect, 0, e_true);
+    fill_rect(ed->panel.surface, &btn.rect, WHITE, e_true);
     draw_on_screen(ed->panel.surface, chars, pos, e_false);
     SDL_FreeSurface(chars);
     btn.rect.pos.x += PANEL_X;
@@ -82,33 +132,63 @@ void        highlight_selected_wall(t_editor *ed)
         draw_segment(ed->sdl.surface, s, GREEN);
 }
 
+void		draw_panel_wall_buttons(t_editor *ed, t_wall *wall, int *y)
+{
+	t_sector	*sector;
+
+	sector = find_wall_sector(ed->map->sectors, wall);
+	if (wall->type == e_wall
+	|| (wall->type == e_transparent_wall && wall->to_infinity))
+	{
+		if (get_segment_length(&wall->segment) >= 1
+		&& sector->walls->count < 15)
+			create_split_wall_button(ed, y);
+		create_new_sector_button(ed, y);
+		*y += 50;
+		if (wall->type == e_wall)
+			change_wall_in_window_button(ed, y);
+		else
+			change_window_in_wall_button(ed, y);
+	}
+
+}
+
+void		write_panel_wall_state(t_editor *ed, t_wall *wall)
+{
+	if (wall->type == e_wall)
+		write_panel_state(ed, "Wall");
+	else if (wall->type == e_transparent_wall && wall->to_infinity)
+		write_panel_state(ed, "Window");
+	else if (wall->type == e_transparent_wall && !wall->to_infinity)
+		write_panel_state(ed, "Door");
+	else
+		write_panel_state(ed, "Portal");
+}
+
 void		editor_draw_panel_walls(t_editor *ed)
 {
     int		    y;
     t_wall      *wall;
-    t_sector    *sector;
 
     wall = ed->selected.wall;
-    write_panel_state(ed, "WALL");
-    y = 60;
+    write_panel_wall_state(ed, wall);
+	y = 60;
     if (wall->type == e_portal)
-        ed->selected_sprite = NULL;
+		ed->selected_sprite = NULL;
     else
-        ed->selected_sprite = &wall->texture;
-    draw_sprites_section(ed, &ed->panel.walls, "Walls:", &y);
-    draw_sprites_section(ed, &ed->panel.flats, " ", &y);
-    y += 20;
-    if (wall->wall_object)
-        ed->selected_sprite = &wall->wall_object->texture;
-    else if (wall->lever)
-        ed->selected_sprite = &wall->lever->wall_object->texture;
-    draw_sprites_section(ed, &ed->panel.wall_objects, "Wall objects:", &y);
-    y += 40;
-    sector = find_wall_sector(ed->map->sectors, wall);
-    if (wall->type == e_wall && get_segment_length(&wall->segment) >= 1
-    && sector->walls->count < 15)
-        create_split_wall_button(ed, &y);
-    create_new_sector_button(ed, &y);
+	{
+		ed->selected_sprite = &wall->texture;
+		draw_sprites_section(ed, &ed->panel.walls, "Walls:", &y);
+		draw_sprites_section(ed, &ed->panel.flats, " ", &y);
+		y += 20;
+		if (wall->wall_object)
+			ed->selected_sprite = &wall->wall_object->texture;
+		else if (wall->lever)
+			ed->selected_sprite = &wall->lever->wall_object->texture;
+		draw_sprites_section(ed, &ed->panel.wall_objects, "Wall objects:", &y);
+		y += 40;
+	}
+    draw_panel_wall_buttons(ed, wall, &y);
     highlight_selected_wall(ed);
 }
 
