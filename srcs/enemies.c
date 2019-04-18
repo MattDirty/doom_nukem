@@ -248,6 +248,7 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
     enemy->animation_time = 0;
     if (enemy->type == et_boss)
     {
+        enemy->life_remaining = 50000;
         enemy->act = boss_intelligence;
         enemy->speed = BASE_BLACKHOLE_SPEED;
     }

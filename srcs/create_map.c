@@ -42,8 +42,6 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[2].open_sky = e_true;
         map->sectors->items[i].objects = (t_objects*)malloc(sizeof(t_objects));
         map->sectors->items[i].objects->items = NULL;
-       // if (i == 0)
-        //{
             map->sectors->items[i].objects->count = 3;
             map->sectors->items[i].objects->items = (t_object*)malloc(
                     sizeof(t_object) * map->sectors->items[i].objects->count);
@@ -54,7 +52,6 @@ t_map		*create_map(t_textures *textures)
             map->sectors->items[i].objects->items[0].horizontal_size = 0.25;
             map->sectors->items[i].objects->items[0].vertical_size = 0.25;
             find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[0].sprite);
-        //}
         map->sectors->items[i].objects->items[1].can_give_bonus = e_true;
         map->sectors->items[i].objects->items[1].x = 2;
         map->sectors->items[i].objects->items[1].y = i * 4 + 2;

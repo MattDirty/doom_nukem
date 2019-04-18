@@ -94,7 +94,6 @@ t_weapon    *load_melee(t_sounds *sounds, t_map *map)
     weapon->sprites_fire = NULL;
     weapon->sprite_current = weapon->sprites[0];
     weapon->ammo = -1;
-    weapon->main = NULL;
     weapon->usable = e_true;
     weapon->damage = 99;
     weapon->range = 0.5;

@@ -75,6 +75,16 @@ t_weapons   *allocate_weapons(t_sounds *sounds, t_map *map)
     node = node->next;
     node->next = NULL;
     node->item = load_gun(sounds, map);
+    if (!(node->next = (t_weapons *)malloc(sizeof(t_weapons))))
+        error_doom("Couldn't allocate weapons");
+    node = node->next;
+    node->next = NULL;
+    node->item = load_shotgun(sounds, map);
+    if (!(node->next = (t_weapons *)malloc(sizeof(t_weapons))))
+        error_doom("Couldn't allocate weapons");
+    node = node->next;
+    node->next = NULL;
+    node->item = load_vacuum(sounds, map);
     return (first);
 }
 

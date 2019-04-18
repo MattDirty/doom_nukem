@@ -107,8 +107,8 @@ t_weapon    *load_gun(t_sounds *sounds, t_map *map)
     if (!(gun->main_sound = sounds->zap))
         error_doom("Can't load gun sound ...");
     gun->range = HORIZON;
-    gun->scatter = 30;
-    gun->scatter_angle = 0.785398;
-    gun->damage = 90;
+    gun->scatter = 2;
+    gun->scatter_angle = 2;
+    gun->damage = 30;
     return (gun);
 }

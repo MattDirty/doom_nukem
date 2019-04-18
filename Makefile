@@ -60,6 +60,8 @@ SRCS_NAMES = vector.c \
 			melee.c \
 			in_which_sector.c \
 			gun.c \
+			shotgun.c \
+			vacuum.c \
 			skybox.c \
 			config.c \
 			textures.c \

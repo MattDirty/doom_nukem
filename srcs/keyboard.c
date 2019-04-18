@@ -27,4 +27,8 @@ void    key_handler(const Uint8 *state, t_player *p, t_timer_handler *timer_hand
         p->weapon = get_weapon(p->weapons, 0);
     else if (state[SDL_SCANCODE_2])
         p->weapon = get_weapon(p->weapons, 1);
+    else if (state[SDL_SCANCODE_3])
+        p->weapon = get_weapon(p->weapons, 2);
+    else if (state[SDL_SCANCODE_4])
+        p->weapon = get_weapon(p->weapons, 3);
 }
