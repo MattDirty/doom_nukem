@@ -156,13 +156,13 @@ t_map		*create_map(t_textures *textures)
         }
         if (i == 2)
         {
-            map->sectors->items[i]->pickables->item.type = vacuum;
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.front);
             map->sectors->items[i]->enemies->item.object->sprite =
-                    map->sectors->items[i].enemies->item.front;
+                    map->sectors->items[i]->enemies->item.front;
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.back);
             map->sectors->items[i]->enemies->item.heading = (t_vector){-1, 0};
             map->sectors->items[i]->enemies->item.type = et_boss;
+            map->sectors->items[i]->pickables->item.type = vacuum;
             map->sectors->items[i]->pickables->item.object->sprite =
                     map->sectors->items[i]->pickables->item.sprite_to_pick[2];
         }

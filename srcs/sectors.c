@@ -38,6 +38,7 @@ t_sector	*create_new_sector(t_sectors *sectors)
 		error_doom("Couldn't allocate objects");
 	items[i]->objects->count = 0;
 	items[i]->enemies = NULL;
+    items[i]->pickables = NULL;
 	return (items[i]);
 }
 
