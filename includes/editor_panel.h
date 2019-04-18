@@ -32,5 +32,6 @@ void		draw_sprites_section(
 void		editor_draw_panel_walls(t_editor *ed);
 void        editor_draw_panel_sprites(t_editor *ed);
 void        editor_draw_panel_sector(t_editor *ed);
+void        editor_draw_panel_enemy(t_editor *ed);
 
 #endif
