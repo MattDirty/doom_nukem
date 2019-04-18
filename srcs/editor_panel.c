@@ -163,7 +163,7 @@ void        draw_panel(t_editor *ed)
     else if (ed->selected.enemy)
     	editor_draw_panel_enemy(ed);
     else if (ed->selected.object)
-        editor_draw_panel_sprites(ed);
+        editor_draw_panel_object(ed);
     else if (ed->selected.sector)
         editor_draw_panel_sector(ed);
     else

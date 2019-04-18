@@ -7,6 +7,36 @@
 #include "doom.h"
 #include "sectors.h"
 
+void        remove_object(t_object *object, t_objects *objects)
+{
+    int     i;
+    int     j;
+    int     k;
+    t_object    *items;
+
+    i = 0;
+    while (object != objects->items + i)
+        i++;
+    if (!(items = (t_object *)malloc(sizeof(t_object) * objects->count - 1)))
+        error_doom("Couldn't alloc new objects list");
+    j = 0;
+    k = 0;
+    while (k < objects->count - 1)
+    {
+        if (j == i)
+        {
+            j++;
+            continue;
+        }
+        items[k] = objects->items[j];
+        k++;
+        j++;
+    }
+    free(objects->items);
+    objects->items = items;
+    objects->count--;
+}
+
 t_object    create_default_object(t_textures *textures)
 {
     t_object    new_object;

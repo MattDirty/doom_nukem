@@ -256,8 +256,6 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
     {
         enemy->act = roam;
         enemy->speed = BASE_SCOOTER_SPEED;
-        enemy->object->vertical_size = 0.7;
-        enemy->object->horizontal_size = 0.7;
     }
     else
         error_doom("invalid enemy");
