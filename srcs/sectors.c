@@ -168,13 +168,19 @@ void			read_sectors_from_file(
     (*sectors)->count = count;
     if (!((*sectors)->items = (t_sector**)malloc(sizeof(t_sector*) * count)))
         error_doom("this malloc hasn't been protected since april eighteenth");
-    read_linked_walls_from_file(fd, *sectors, textures, &linked_walls);
     i = 0;
     while (i < count)
     {
         if (!(sector = (t_sector*)malloc(sizeof(t_sector))))
             error_doom("yet another error");
         (*sectors)->items[i] = sector;
+        i++;
+    }
+    read_linked_walls_from_file(fd, *sectors, textures, &linked_walls);
+    i = 0;
+    while (i < count)
+    {
+        sector = (*sectors)->items[i];
         find_texture_from_file(fd, textures, &sector->floor);
         find_texture_from_file(fd, textures, &sector->ceil);
         read_walls_from_file(fd, linked_walls, &sector->walls);

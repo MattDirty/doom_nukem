@@ -285,10 +285,10 @@ void			read_wall_from_file(
     {
         if (read(fd, &index, sizeof(index)) <= 0)
             error_doom("couldn't read first sector index");
-        (*wall)->links.sector1 = (t_sector*)sectors->items + index;
+        (*wall)->links.sector1 = sectors->items[index];
         if (read(fd, &index, sizeof(index)) <= 0)
             error_doom("couldn't read second sector index");
-        (*wall)->links.sector2 = (t_sector*)sectors->items + index;
+        (*wall)->links.sector2 = sectors->items[index];
     }
     if (read(fd, &(*wall)->to_infinity, sizeof((*wall)->to_infinity)) <= 0)
         error_doom("Couldn't read wall->to_infinity");
@@ -312,7 +312,6 @@ void			write_wall_to_file(
     if (wall->type == e_portal || wall->type == e_transparent_wall)
     {
         index = sector_index(sectors, wall->links.sector1);
-        printf("%i\n", index);
         if (index < 0)
             error_doom("index is stupid");
         if (write(fd, &index, sizeof(index)) <= 0)

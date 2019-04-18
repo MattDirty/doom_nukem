@@ -32,7 +32,6 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 	ed->selected.wall->links.sector2 = linked_sector;
 	ed->selected.wall->links.sector1 = new_sector;
 	add_wall_to_sector(new_sector, ed->selected.wall);
-	printf("%i %i\n", sector_index(ed->map->sectors, ed->selected.wall->links.sector2), sector_index(ed->map->sectors, ed->selected.wall->links.sector1));
 	free_linked_walls_nodes(ed->linked_walls);
 	create_linked_walls_from_sectors(
 			ed->map->sectors, &ed->linked_walls, &ed->linked_walls_count);
