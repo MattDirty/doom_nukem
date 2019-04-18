@@ -11,6 +11,7 @@ typedef struct s_linked_enemies t_linked_enemies;
 typedef struct s_enemy t_enemy;
 typedef struct s_objects t_objects;
 typedef struct s_object t_object;
+typedef struct s_pickables t_pickables;
 
 typedef	struct			s_sector
 {

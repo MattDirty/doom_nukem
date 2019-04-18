@@ -61,6 +61,19 @@ t_weapon    *get_weapon(t_weapons *node, Uint32 target)
     return (node->item);
 }
 
+void    put_weapon(t_weapons *node, t_weapon *weapon, Uint32 target)
+{
+    Uint32  i;
+
+    i = 0;
+    while (node && i < target)
+    {
+        node = node->next;
+        i++;
+    }
+    node->item = weapon;
+}
+
 t_weapons   *allocate_weapons(t_sounds *sounds, t_map *map)
 {
     t_weapons   *node;

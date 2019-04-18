@@ -6,7 +6,7 @@
 #    By: badhont <badhont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/07 17:35:48 by lfatton           #+#    #+#              #
-#    Updated: 2019/04/18 00:21:10 by badhont          ###   ########.fr        #
+#    Updated: 2019/04/18 05:10:27 by badhont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,8 @@ SRCS_NAMES = vector.c \
 			config.c \
 			textures.c \
 			keyboard.c \
-			enemies.c
+			enemies.c \
+			pickables.c
 
 SRC_NAME =	main.c \
 			$(SRCS_NAMES)

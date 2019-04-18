@@ -217,6 +217,7 @@ void			write_sectors_to_file(int fd, t_sectors *sectors)
             error_doom("couldn't write sector light");
         write_objects_to_file(fd, sector->objects);
         write_enemies_to_file(fd, sector->enemies);
+        write_pickables_to_file(fd, sector->pickables);
         i++;
     }
     free_linked_walls_nodes(linked_walls);
