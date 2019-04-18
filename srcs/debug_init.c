@@ -15,7 +15,7 @@ void		debug_draw(t_sdl *debug, t_map *map, t_player *p, t_config *op)
 	i = 0;
 	while (i < map->sectors->count)
 	{
-		debug_draw_walls(debug->surface, map->sectors->items[i].walls);
+		debug_draw_walls(debug->surface, map->sectors->items[i]->walls);
 		i++;
 	}
 	debug_draw_player(debug->surface, p, op);

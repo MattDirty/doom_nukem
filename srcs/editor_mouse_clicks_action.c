@@ -2,6 +2,41 @@
 #include "editor_walls_nodes.h"
 #include "in_which_sector.h"
 #include "editor_panel_buttons.h"
+#include "editor_checks.h"
+
+void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
+{
+	t_coords	pos;
+	t_wall		*wall;
+	t_sector	*new_sector;
+	t_sector	*linked_sector;
+
+	ed->state = e_null;
+	pos.x = (double)(mouse_x - ed->map_offset.x) / ed->zoom;
+	pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
+	if (new_node_pos_valid(ed, pos))
+		return ;
+	new_sector = create_new_sector(ed->map->sectors);
+	linked_sector = find_wall_sector(ed->map->sectors, ed->selected.wall);
+    new_sector->ceil = linked_sector->ceil;
+    new_sector->floor = linked_sector->floor;
+	wall = create_wall_copy(ed->selected.wall);
+	wall->segment.x1 = pos.x;
+	wall->segment.y1 = pos.y;
+	add_wall_to_sector(new_sector, wall);
+	wall = create_wall_copy(ed->selected.wall);
+	wall->segment.x2 = pos.x;
+	wall->segment.y2 = pos.y;
+	add_wall_to_sector(new_sector, wall);
+	ed->selected.wall->type = e_portal;
+	ed->selected.wall->texture = NULL;
+	ed->selected.wall->links.sector2 = linked_sector;
+	ed->selected.wall->links.sector1 = new_sector;
+	add_wall_to_sector(new_sector, ed->selected.wall);
+	free_linked_walls_nodes(ed->linked_walls);
+	create_linked_walls_from_sectors(
+			ed->map->sectors, &ed->linked_walls, &ed->linked_walls_count);
+}
 
 void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y)
 {

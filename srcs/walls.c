@@ -31,7 +31,8 @@ void        add_wall_to_sector(t_sector *sector, t_wall *wall)
 		*(items + i) = *(sector->walls->items + i);
 		i++;
 	}
-    free(sector->walls->items);
+    if (sector->walls->count > 0)
+	    free(sector->walls->items);
     *(items + i) = wall;
     sector->walls->items = items;
     sector->walls->count = count;
@@ -153,10 +154,10 @@ void			create_linked_walls_from_sectors(
     while (i < sectors->count)
     {
         j = 0;
-        while (j < sectors->items[i].walls->count)
+        while (j < sectors->items[i]->walls->count)
         {
             index = add_wall_to_serialiser(*linked_walls,
-                    sectors->items[i].walls->items[j]);
+                    sectors->items[i]->walls->items[j]);
             if (index >= *count)
                 *count = index + 1;
             j++;
@@ -284,10 +285,10 @@ void			read_wall_from_file(
     {
         if (read(fd, &index, sizeof(index)) <= 0)
             error_doom("couldn't read first sector index");
-        (*wall)->links.sector1 = (t_sector*)sectors->items + index;
+        (*wall)->links.sector1 = sectors->items[index];
         if (read(fd, &index, sizeof(index)) <= 0)
             error_doom("couldn't read second sector index");
-        (*wall)->links.sector2 = (t_sector*)sectors->items + index;
+        (*wall)->links.sector2 = sectors->items[index];
     }
     if (read(fd, &(*wall)->to_infinity, sizeof((*wall)->to_infinity)) <= 0)
         error_doom("Couldn't read wall->to_infinity");

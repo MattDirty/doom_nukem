@@ -95,13 +95,13 @@ static void     update_enemies(t_sectors *sectors, t_coords camera_pos)
     i = 0;
     while (i < sectors->count)
     {
-        enemies = sectors->items[i].enemies;
+        enemies = sectors->items[i]->enemies;
         while (enemies)
         {
         	if (enemies->item.to_destroy)
 			{
                 next = enemies->next;
-				delete_enemy(&sectors->items[i].enemies, &enemies->item);
+				delete_enemy(&sectors->items[i]->enemies, &enemies->item);
                 enemies = next;
 				continue;
 			}

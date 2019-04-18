@@ -40,7 +40,7 @@ enum e_bool		click_on_object(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 	i = 0;
 	while (i < map->sectors->count)
 	{
-		sector = &map->sectors->items[i];
+		sector = map->sectors->items[i];
 		j = 0;
 		while (j < sector->objects->count)
 		{
@@ -69,7 +69,7 @@ enum e_bool		click_on_enemy(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 	i = 0;
 	while (i < map->sectors->count)
 	{
-		sector = &map->sectors->items[i];
+		sector = map->sectors->items[i];
         enemies = sector->enemies;
 		while (enemies)
 		{

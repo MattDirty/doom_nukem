@@ -47,6 +47,29 @@ void        create_split_wall_button(t_editor *ed, int *y)
     add_button_to_list(&ed->panel.buttons, btn);
 }
 
+void        new_sector(t_params params)
+{
+    ((t_btn_params *)params)->ed->state = e_add_sector;
+}
+
+void        create_new_sector_button(t_editor *ed, int *y)
+{
+    SDL_Surface *chars;
+    t_i_coords  pos;
+    t_button    btn;
+    chars = write_text(ed->fonts->vcr20, "New Sector",
+            (SDL_Colour){255, 255, 255, 255});
+    pos.x = PANEL_PADDING_LEFT + 172;
+    pos.y = *y;
+    btn.rect = create_rect(pos.x - 12, pos.y - 12, chars->w + 24, chars->h + 24);
+    fill_rect(ed->panel.surface, &btn.rect, 0, e_true);
+    draw_on_screen(ed->panel.surface, chars, pos, e_false);
+    SDL_FreeSurface(chars);
+    btn.rect.pos.x += PANEL_X;
+    btn.f = &new_sector;
+    btn.params = create_btn_params(NULL, NULL, ed);
+    add_button_to_list(&ed->panel.buttons, btn);
+}
 
 void		editor_draw_panel_walls(t_editor *ed)
 {
@@ -74,6 +97,7 @@ void		editor_draw_panel_walls(t_editor *ed)
     if (wall->type == e_wall && get_segment_length(&wall->segment) >= 1
     && sector->walls->count < 15)
         create_split_wall_button(ed, &y);
+    create_new_sector_button(ed, &y);
 }
 
 void        add_object_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)

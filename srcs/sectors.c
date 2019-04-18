@@ -8,6 +8,39 @@
 #include "enemies.h"
 #include "utils.h"
 
+t_sector	*create_new_sector(t_sectors *sectors)
+{
+	t_sector	**items;
+	int			count;
+	int			i;
+
+	count = sectors->count + 1;
+	if (!(items = (t_sector**)malloc(sizeof(t_sector*) * count)))
+		error_doom("Couldn't allocate new sector");
+	i = 0;
+	while (i < sectors->count)
+	{
+		items[i] = sectors->items[i];
+		i++;
+	}
+	free(sectors->items);
+	sectors->items = items;
+	sectors->count++;
+    if (!(items[i] = (t_sector*)malloc(sizeof(t_sector))))
+        error_doom("ABORT TRAP SECTOR");
+	if (!(items[i]->walls = (t_walls *)malloc(sizeof(t_walls))))
+		error_doom("couldn't allocate walls");
+	items[i]->walls->count = 0;
+	items[i]->floor = NULL;
+	items[i]->ceil = NULL;
+	items[i]->light = 0;
+	if (!(items[i]->objects = (t_objects *)malloc(sizeof(t_objects))))
+		error_doom("Couldn't allocate objects");
+	items[i]->objects->count = 0;
+	items[i]->enemies = NULL;
+	return (items[i]);
+}
+
 enum e_bool	walls_intersection_in_sector(t_sector *sector)
 {
 	int			i;
@@ -42,11 +75,11 @@ t_sector	*find_enemy_sector(t_sectors *sectors, t_enemy *enemy)
 	i = 0;
 	while (i < sectors->count)
 	{
-		node = sectors->items[i].enemies;
+		node = sectors->items[i]->enemies;
 		while (node)
 		{
 			if (enemy == &node->item)
-				return (&sectors->items[i]);
+				return (sectors->items[i]);
 			node = node->next;
 		}
 		i++;
@@ -63,10 +96,10 @@ t_sector    *find_object_sector(t_sectors *sectors, t_object *object)
     while (i < sectors->count)
     {
         j = 0;
-        while (j < sectors->items[i].objects->count)
+        while (j < sectors->items[i]->objects->count)
         {
-            if (sectors->items[i].objects->items + j == object)
-                return (&sectors->items[i]);
+            if (sectors->items[i]->objects->items + j == object)
+                return (sectors->items[i]);
             j++;
         }
         i++;
@@ -83,10 +116,10 @@ t_sector    *find_wall_sector(t_sectors *sectors, t_wall *wall)
     while (i < sectors->count)
     {
         j = 0;
-        while (j < sectors->items[i].walls->count)
+        while (j < sectors->items[i]->walls->count)
         {
-            if (sectors->items[i].walls->items[j] == wall)
-                return (&sectors->items[i]);
+            if (sectors->items[i]->walls->items[j] == wall)
+                return (sectors->items[i]);
             j++;
         }
         i++;
@@ -97,7 +130,7 @@ t_sector    *find_wall_sector(t_sectors *sectors, t_wall *wall)
 void			free_sectors(t_sectors *sectors)
 {
     int		i;
-    t_sector	sector;
+    t_sector	*sector;
     t_linked_walls *linked_walls;
     int		count;
 
@@ -107,10 +140,11 @@ void			free_sectors(t_sectors *sectors)
     while (i < sectors->count)
     {
         sector = sectors->items[i];
-        free(sector.walls->items);
-        free(sector.walls);
-        free_objects(sector.objects);
-        free_enemies(sector.enemies);
+        free(sector->walls->items);
+        free(sector->walls);
+        free_objects(sector->objects);
+        free_enemies(sector->enemies);
+        free(sector);
         i++;
     }
     free(sectors->items);
@@ -132,12 +166,21 @@ void			read_sectors_from_file(
     if (read(fd, &count, sizeof(count)) <= 0)
         error_doom("couldn't read sectors count");
     (*sectors)->count = count;
-    (*sectors)->items = (t_sector*)malloc(sizeof(t_sector) * count);
+    if (!((*sectors)->items = (t_sector**)malloc(sizeof(t_sector*) * count)))
+        error_doom("this malloc hasn't been protected since april eighteenth");
+    i = 0;
+    while (i < count)
+    {
+        if (!(sector = (t_sector*)malloc(sizeof(t_sector))))
+            error_doom("yet another error");
+        (*sectors)->items[i] = sector;
+        i++;
+    }
     read_linked_walls_from_file(fd, *sectors, textures, &linked_walls);
     i = 0;
     while (i < count)
     {
-        sector = &((*sectors)->items[i]);
+        sector = (*sectors)->items[i];
         find_texture_from_file(fd, textures, &sector->floor);
         find_texture_from_file(fd, textures, &sector->ceil);
         read_walls_from_file(fd, linked_walls, &sector->walls);
@@ -155,7 +198,7 @@ void			read_sectors_from_file(
 void			write_sectors_to_file(int fd, t_sectors *sectors)
 {
     int		i;
-    t_sector	sector;
+    t_sector	*sector;
     t_linked_walls*	linked_walls;
 
     if (write(fd, &sectors->count, sizeof(sectors->count)) <= 0)
@@ -165,15 +208,15 @@ void			write_sectors_to_file(int fd, t_sectors *sectors)
     while (i < sectors->count)
     {
         sector = sectors->items[i];
-        write_str_to_file(fd, sector.floor->userdata);
-        write_str_to_file(fd, sector.ceil->userdata);
-        write_walls_to_file(fd, linked_walls, sector.walls);
-        if (write(fd, &sector.open_sky, sizeof(sector.open_sky)) <= 0)
+        write_str_to_file(fd, sector->floor->userdata);
+        write_str_to_file(fd, sector->ceil->userdata);
+        write_walls_to_file(fd, linked_walls, sector->walls);
+        if (write(fd, &sector->open_sky, sizeof(sector->open_sky)) <= 0)
             error_doom("couldn't write sector open_sky");
-        if (write(fd, &sector.light, sizeof(sector.light)) <= 0)
+        if (write(fd, &sector->light, sizeof(sector->light)) <= 0)
             error_doom("couldn't write sector light");
-        write_objects_to_file(fd, sector.objects);
-        write_enemies_to_file(fd, sector.enemies);
+        write_objects_to_file(fd, sector->objects);
+        write_enemies_to_file(fd, sector->enemies);
         i++;
     }
     free_linked_walls_nodes(linked_walls);
@@ -186,7 +229,7 @@ int     sector_index(t_sectors *sectors, t_sector *sector)
     i = 0;
     while(i < sectors->count)
     {
-        if (sector == sectors->items + i)
+        if (sector == sectors->items[i])
             return (i);
         i++;
     }

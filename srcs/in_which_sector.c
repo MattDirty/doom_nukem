@@ -116,8 +116,8 @@ t_sector	*in_which_sector(t_coords pos, t_sectors *sectors)
     i = 0;
     while (i < sectors->count)
     {
-        if (is_in_sector(pos, &sectors->items[i]))
-            return (&sectors->items[i]);
+        if (is_in_sector(pos, sectors->items[i]))
+            return (sectors->items[i]);
         i++;
     }
     return (NULL);

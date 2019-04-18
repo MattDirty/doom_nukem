@@ -72,6 +72,7 @@ SRC_NAME =	main.c \
 			$(SRCS_NAMES)
 
 SRC_EDITOR_NAME = editor.c \
+				  editor_checks.c \
 				  editor_loop.c \
 				  editor_draw.c \
 				  editor_panel.c \

@@ -27,124 +27,132 @@ t_map		*create_map(t_textures *textures)
 
 	map->sectors->count = 3;
 	if (!(map->sectors->items =
-				(t_sector*)malloc(map->sectors->count * sizeof(t_sector))))
+				(t_sector**)malloc(map->sectors->count * sizeof(t_sector*))))
 		error_doom("Can't allocate sectors");
 
 	i = 0;
 	while (i < map->sectors->count)
 	{
-		if (!(map->sectors->items[i].walls = (t_walls*)malloc(sizeof(t_walls))))
+        if (!(map->sectors->items[i] = (t_sector*)malloc(sizeof(t_sector))))
+            error_doom("BUS ERROR !!!11");
+        i++;
+    }
+	i = 0;
+	while (i < map->sectors->count)
+	{
+		if (!(map->sectors->items[i]->walls = (t_walls*)malloc(sizeof(t_walls))))
 			error_doom("t_walls");
 
-        find_texture_by_name(textures, "textures/flats/grass.bmp", &map->sectors->items[i].floor);
-        find_texture_by_name(textures, "textures/flats/dirt.bmp", &map->sectors->items[i].ceil);
-        map->sectors->items[i].open_sky = e_false;
-        map->sectors->items[2].open_sky = e_true;
-        map->sectors->items[i].objects = (t_objects*)malloc(sizeof(t_objects));
-        map->sectors->items[i].objects->items = NULL;
-            map->sectors->items[i].objects->count = 3;
-            map->sectors->items[i].objects->items = (t_object*)malloc(
-                    sizeof(t_object) * map->sectors->items[i].objects->count);
-            map->sectors->items[i].objects->items[0].can_give_bonus = e_true;
-            map->sectors->items[i].objects->items[0].x = 1;
-            map->sectors->items[i].objects->items[0].y = i * 4 + 2;;
-            map->sectors->items[i].objects->items[0].z = 0;
-            map->sectors->items[i].objects->items[0].horizontal_size = 0.25;
-            map->sectors->items[i].objects->items[0].vertical_size = 0.25;
-            find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[0].sprite);
-        map->sectors->items[i].objects->items[1].can_give_bonus = e_true;
-        map->sectors->items[i].objects->items[1].x = 2;
-        map->sectors->items[i].objects->items[1].y = i * 4 + 2;
-        map->sectors->items[i].objects->items[1].z = 0;
-        map->sectors->items[i].objects->items[1].horizontal_size = 0.25;
-        map->sectors->items[i].objects->items[1].vertical_size = 0.5;
-        map->sectors->items[i].objects->items[2].can_give_bonus = e_true;
-        map->sectors->items[i].objects->items[2].x = 3;
-        map->sectors->items[i].objects->items[2].y = i * 4 + 2;
-        map->sectors->items[i].objects->items[2].z = 0;
-        map->sectors->items[i].objects->items[2].horizontal_size = 0.25;
-        map->sectors->items[i].objects->items[2].vertical_size = 1;
-        find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[1].sprite);
-        find_texture_by_name(textures,"textures/sprites/voilaunefleur.bmp", &map->sectors->items[i].objects->items[2].sprite);
+        find_texture_by_name(textures, "textures/flats/grass.bmp", &map->sectors->items[i]->floor);
+        find_texture_by_name(textures, "textures/flats/dirt.bmp", &map->sectors->items[i]->ceil);
+        map->sectors->items[i]->open_sky = e_false;
+        map->sectors->items[2]->open_sky = e_true;
+        map->sectors->items[i]->objects = (t_objects*)malloc(sizeof(t_objects));
+        map->sectors->items[i]->objects->items = NULL;
+       // if (i == 0)
+        //{
+            map->sectors->items[i]->objects->count = 3;
+            map->sectors->items[i]->objects->items = (t_object*)malloc(
+                    sizeof(t_object) * map->sectors->items[i]->objects->count);
+            map->sectors->items[i]->objects->items[0].can_give_bonus = e_true;
+            map->sectors->items[i]->objects->items[0].x = 1;
+            map->sectors->items[i]->objects->items[0].y = i * 4 + 2;;
+            map->sectors->items[i]->objects->items[0].z = 0;
+            map->sectors->items[i]->objects->items[0].horizontal_size = 0.25;
+            map->sectors->items[i]->objects->items[0].vertical_size = 0.25;
+            find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i]->objects->items[0].sprite);
+        //}
+        map->sectors->items[i]->objects->items[1].can_give_bonus = e_true;
+        map->sectors->items[i]->objects->items[1].x = 2;
+        map->sectors->items[i]->objects->items[1].y = i * 4 + 2;
+        map->sectors->items[i]->objects->items[1].z = 0;
+        map->sectors->items[i]->objects->items[1].horizontal_size = 0.25;
+        map->sectors->items[i]->objects->items[1].vertical_size = 0.5;
+        map->sectors->items[i]->objects->items[2].can_give_bonus = e_true;
+        map->sectors->items[i]->objects->items[2].x = 3;
+        map->sectors->items[i]->objects->items[2].y = i * 4 + 2;
+        map->sectors->items[i]->objects->items[2].z = 0;
+        map->sectors->items[i]->objects->items[2].horizontal_size = 0.25;
+        map->sectors->items[i]->objects->items[2].vertical_size = 1;
+        find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp", &map->sectors->items[i]->objects->items[1].sprite);
+        find_texture_by_name(textures,"textures/sprites/voilaunefleur.bmp", &map->sectors->items[i]->objects->items[2].sprite);
 
-        map->sectors->items[i].enemies = (t_linked_enemies*)malloc(sizeof(t_linked_enemies));
-        map->sectors->items[i].enemies->next = NULL;
-        if (!(map->sectors->items[i].enemies->item.object = (t_object *)
+        map->sectors->items[i]->enemies = (t_linked_enemies*)malloc(sizeof(t_linked_enemies));
+        map->sectors->items[i]->enemies->next = NULL;
+        if (!(map->sectors->items[i]->enemies->item.object = (t_object *)
                 malloc(sizeof(t_object))))
             error_doom("couldn't allocate enemies objects");
-        map->sectors->items[i].enemies->item.object->x = 1;
-        map->sectors->items[i].enemies->item.object->y = i * 4 + 1;;
-        map->sectors->items[i].enemies->item.object->z = 0;
-        map->sectors->items[i].enemies->item.object->horizontal_size = 1;
-        map->sectors->items[i].enemies->item.object->vertical_size = 1;
-        map->sectors->items[i].enemies->item.life_remaining = 100;
-		map->sectors->items[i].enemies->item.time_in_death = -1;
-		map->sectors->items[i].enemies->item.to_destroy = e_false;
-        map->sectors->items[i].enemies->item.heading = (t_vector){1, 0};
-        map->sectors->items[i].enemies->item.death_duration = 0;
-        map->sectors->items[i].enemies->item.type = et_brazil;
-        find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->item.front);
-        map->sectors->items[i].enemies->item.object->sprite =
-                map->sectors->items[i].enemies->item.front;
-        find_texture_by_name(textures,"textures/sprites/enemy_left.bmp", &map->sectors->items[i].enemies->item.left);
-        find_texture_by_name(textures,"textures/sprites/enemy_right.bmp", &map->sectors->items[i].enemies->item.right);
-        find_texture_by_name(textures,"textures/sprites/enemy_back.bmp", &map->sectors->items[i].enemies->item.back);
+        map->sectors->items[i]->enemies->item.object->x = 1;
+        map->sectors->items[i]->enemies->item.object->y = i * 4 + 1;;
+        map->sectors->items[i]->enemies->item.object->z = 0;
+        map->sectors->items[i]->enemies->item.object->horizontal_size = 1;
+        map->sectors->items[i]->enemies->item.object->vertical_size = 1;
+        map->sectors->items[i]->enemies->item.life_remaining = 100;
+		map->sectors->items[i]->enemies->item.time_in_death = -1;
+		map->sectors->items[i]->enemies->item.to_destroy = e_false;
+        map->sectors->items[i]->enemies->item.heading = (t_vector){0, 1};
+        map->sectors->items[i]->enemies->item.death_duration = 0;
+        map->sectors->items[i]->enemies->item.type = et_brazil;
+        find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i]->enemies->item.front);
+        map->sectors->items[i]->enemies->item.object->sprite =
+                map->sectors->items[i]->enemies->item.front;
+        find_texture_by_name(textures,"textures/sprites/enemy_left.bmp", &map->sectors->items[i]->enemies->item.left);
+        find_texture_by_name(textures,"textures/sprites/enemy_right.bmp", &map->sectors->items[i]->enemies->item.right);
+        find_texture_by_name(textures,"textures/sprites/enemy_back.bmp", &map->sectors->items[i]->enemies->item.back);
         find_texture_by_name(textures,"textures/explosions/explosion_1.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[0]);
+                             &map->sectors->items[i]->enemies->item.explosion[0]);
         find_texture_by_name(textures,"textures/explosions/explosion_2.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[1]);
+                             &map->sectors->items[i]->enemies->item.explosion[1]);
         find_texture_by_name(textures,"textures/explosions/explosion_3.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[2]);
+                             &map->sectors->items[i]->enemies->item.explosion[2]);
         find_texture_by_name(textures,"textures/explosions/explosion_4.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[3]);
+                             &map->sectors->items[i]->enemies->item.explosion[3]);
         find_texture_by_name(textures,"textures/explosions/explosion_5.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[4]);
+                             &map->sectors->items[i]->enemies->item.explosion[4]);
         find_texture_by_name(textures,"textures/explosions/explosion_6.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[5]);
+                             &map->sectors->items[i]->enemies->item.explosion[5]);
         find_texture_by_name(textures,"textures/explosions/explosion_7.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[6]);
+                             &map->sectors->items[i]->enemies->item.explosion[6]);
         find_texture_by_name(textures,"textures/explosions/explosion_8.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[7]);
+                             &map->sectors->items[i]->enemies->item.explosion[7]);
         find_texture_by_name(textures,"textures/explosions/explosion_9.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[8]);
+                             &map->sectors->items[i]->enemies->item.explosion[8]);
         find_texture_by_name(textures,"textures/explosions/explosion_10.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[9]);
+                             &map->sectors->items[i]->enemies->item.explosion[9]);
         find_texture_by_name(textures,"textures/explosions/explosion_11.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[10]);
+                             &map->sectors->items[i]->enemies->item.explosion[10]);
         find_texture_by_name(textures,"textures/explosions/explosion_12.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[11]);
+                             &map->sectors->items[i]->enemies->item.explosion[11]);
         find_texture_by_name(textures,"textures/explosions/explosion_13.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[12]);
+                             &map->sectors->items[i]->enemies->item.explosion[12]);
         find_texture_by_name(textures,"textures/explosions/explosion_14.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[13]);
+                             &map->sectors->items[i]->enemies->item.explosion[13]);
         find_texture_by_name(textures,"textures/explosions/explosion_15.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[14]);
+                             &map->sectors->items[i]->enemies->item.explosion[14]);
         find_texture_by_name(textures,"textures/explosions/explosion_16.bmp",
-                             &map->sectors->items[i].enemies->item.explosion[15]);
+                             &map->sectors->items[i]->enemies->item.explosion[15]);
 
         if (i == 1)
-            map->sectors->items[i].enemies->item.heading = (t_vector){0, 1};
+            map->sectors->items[i]->enemies->item.heading = (t_vector){0, 1};
         if (i == 2)
         {
-            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.front);
-            map->sectors->items[i].enemies->item.object->sprite =
-                    map->sectors->items[i].enemies->item.front;
-            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.left);
-            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.right);
-            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i].enemies->item.back);
-            map->sectors->items[i].enemies->item.heading = (t_vector){-1, 0};
-            map->sectors->items[i].enemies->item.type = et_boss;
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.front);
+            map->sectors->items[i]->enemies->item.object->sprite =
+                    map->sectors->items[i]->enemies->item.front;
+            find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.back);
+            map->sectors->items[i]->enemies->item.heading = (t_vector){0, 1};
+            map->sectors->items[i]->enemies->item.type = et_boss;
         }
 
-		walls = map->sectors->items[i].walls;
+		walls = map->sectors->items[i]->walls;
 		find_texture_by_name(
 				textures,
 				"textures/walls/stones.bmp",
-				&map->sectors->items[1].floor);
+				&map->sectors->items[1]->floor);
 		find_texture_by_name(
 				textures,
 				"textures/flats/dirt.bmp",
-				&map->sectors->items[2].floor);
+				&map->sectors->items[2]->floor);
 		walls->count = 4;
 
 		if (!(walls->items = (t_wall**)malloc(walls->count * sizeof(t_wall*))))
@@ -214,31 +222,31 @@ t_map		*create_map(t_textures *textures)
 		if (i == 0)
 		{
 			walls->items[1]->type = e_portal;
-			walls->items[1]->links.sector1 = &map->sectors->items[0];
-			walls->items[1]->links.sector2 = &map->sectors->items[1];
-			map->sectors->items[i].light = 0x32FF0000;
+			walls->items[1]->links.sector1 = map->sectors->items[0];
+			walls->items[1]->links.sector2 = map->sectors->items[1];
+			map->sectors->items[i]->light = 0x32FF0000;
 		}
 		else if (i == 1)
         {
 			walls->items[1]->type = e_transparent_wall;
-			walls->items[1]->links.sector1 = &map->sectors->items[1];
-			walls->items[1]->links.sector2 = &map->sectors->items[2];
+			walls->items[1]->links.sector1 = map->sectors->items[1];
+			walls->items[1]->links.sector2 = map->sectors->items[2];
             find_texture_by_name(textures, "textures/walls/window.bmp",
                     &walls->items[1]->texture);
             free(walls->items[3]);
-			walls->items[3] = map->sectors->items[0].walls->items[1];
-			map->sectors->items[i].light = 0x64000000;
+			walls->items[3] = map->sectors->items[0]->walls->items[1];
+			map->sectors->items[i]->light = 0x64000000;
 		}
 		else
 		{
 		    walls->items[1]->to_infinity = e_true;
             walls->items[1]->type = e_transparent_wall;
-            walls->items[1]->links.sector1 = &map->sectors->items[2];
-            walls->items[1]->links.sector2 = &map->sectors->items[2];
+            walls->items[1]->links.sector1 = map->sectors->items[2];
+            walls->items[1]->links.sector2 = map->sectors->items[2];
             find_texture_by_name(textures, "textures/walls/fence.bmp", &walls->items[1]->texture);
             free(walls->items[3]);
-			walls->items[3] = map->sectors->items[1].walls->items[1];
-			map->sectors->items[i].light = 0x96000000;
+			walls->items[3] = map->sectors->items[1]->walls->items[1];
+			map->sectors->items[i]->light = 0x96000000;
 		}
 		i++;
 	}

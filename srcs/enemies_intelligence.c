@@ -79,7 +79,7 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
     i = 0;
     while  (i < e->map->sectors->count)
     {
-        sector = e->map->sectors->items + i;
+        sector = e->map->sectors->items[i];
         node = sector->enemies;
         while  (node)
         {
