@@ -67,6 +67,21 @@ void        create_new_sector_button(t_editor *ed, int *y)
     add_button_to_list(&ed->panel.buttons, btn);
 }
 
+void        highlight_selected_wall(t_editor *ed)
+{
+    t_segment   s;
+
+    s = ed->selected.wall->segment;
+    s.x1 = ed->map_offset.x + s.x1 * ed->zoom;
+    s.y1 = ed->map_offset.y - s.y1 * ed->zoom;
+    s.x2 = ed->map_offset.x + s.x2 * ed->zoom;
+    s.y2 = ed->map_offset.y - s.y2 * ed->zoom;
+    if (ed->selected.wall->type == e_wall)
+        draw_segment(ed->sdl.surface, s, YELLOW);
+    else
+        draw_segment(ed->sdl.surface, s, GREEN);
+}
+
 void		editor_draw_panel_walls(t_editor *ed)
 {
     int		    y;
@@ -94,6 +109,7 @@ void		editor_draw_panel_walls(t_editor *ed)
     && sector->walls->count < 15)
         create_split_wall_button(ed, &y);
     create_new_sector_button(ed, &y);
+    highlight_selected_wall(ed);
 }
 
 void        add_object_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
