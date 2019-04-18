@@ -83,6 +83,7 @@ SRC_EDITOR_NAME = editor.c \
 				  editor_mouse_clicks_on.c \
 				  editor_mouse_clicks_action.c \
 				  editor_move_stuff.c \
+				  editor_states.c \
 				  create_map.c \
 				  editor_walls_nodes.c \
 				  $(SRCS_NAMES)

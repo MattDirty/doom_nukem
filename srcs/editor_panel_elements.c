@@ -2,6 +2,7 @@
 #include "editor_panel_buttons.h"
 #include "ui.h"
 #include "walls.h"
+#include "editor_states.h"
 
 void        split_wall(t_params params)
 {
@@ -47,11 +48,6 @@ void        create_split_wall_button(t_editor *ed, int *y)
     add_button_to_list(&ed->panel.buttons, btn);
 }
 
-void        new_sector(t_params params)
-{
-    ((t_btn_params *)params)->ed->state = e_add_sector;
-}
-
 void        create_new_sector_button(t_editor *ed, int *y)
 {
     SDL_Surface *chars;
@@ -66,7 +62,7 @@ void        create_new_sector_button(t_editor *ed, int *y)
     draw_on_screen(ed->panel.surface, chars, pos, e_false);
     SDL_FreeSurface(chars);
     btn.rect.pos.x += PANEL_X;
-    btn.f = &new_sector;
+    btn.f = &new_sector_state;
     btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, btn);
 }
@@ -114,7 +110,7 @@ void        add_object_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, in
     fill_rect(target, &object_btn.rect, OBJECT_COLOR, e_true);
     draw_on_screen(target, add_object, pos, e_false);
     object_btn.rect.pos.x += PANEL_X;
-    object_btn.f = &create_object_in_map;
+    object_btn.f = &create_object_in_map_state;
     object_btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, object_btn);
     SDL_FreeSurface(add_object);
@@ -134,7 +130,7 @@ void        add_enemy_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int
     fill_rect(target, &enemy_btn.rect, ENEMY_COLOR, e_true);
     draw_on_screen(target, add_enemy, pos, e_false);
     enemy_btn.rect.pos.x += PANEL_X;
-    enemy_btn.f = &create_enemy_in_map;
+    enemy_btn.f = &create_enemy_in_map_state;
     enemy_btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, enemy_btn);
     SDL_FreeSurface(add_enemy);
@@ -154,7 +150,7 @@ void        add_weapon_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, in
     fill_rect(target, &weapon_btn.rect, PICKABLE_COLOR, e_true);
     draw_on_screen(target, add_weapon, pos, e_false);
     weapon_btn.rect.pos.x += PANEL_X;
-    weapon_btn.f = &create_object_in_map;
+    weapon_btn.f = &create_object_in_map_state;
     weapon_btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, weapon_btn);
     SDL_FreeSurface(add_weapon);

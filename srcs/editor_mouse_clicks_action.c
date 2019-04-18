@@ -11,14 +11,6 @@ void		copy_sector_floor_ceil(t_sector *target, t_sector *source)
 	target->open_sky = source->open_sky;
 }
 
-void		transform_wall_to_portal(t_wall *wall, t_sector *s1, t_sector *s2)
-{
-	wall->type = e_portal;
-	wall->texture = NULL;
-	wall->links.sector1 = s1;
-	wall->links.sector2 = s2;
-}
-
 void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 {
 	t_coords	pos;
@@ -85,16 +77,6 @@ void        create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y)
     if (!ed->selected.enemy)
         Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
     ed->state = e_null;
-}
-
-void        create_enemy_in_map(t_params params)
-{
-    ((t_btn_params *)params)->ed->state = e_add_enemy;
-}
-
-void        create_object_in_map(t_params params)
-{
-    ((t_btn_params *)params)->ed->state = e_add_object;
 }
 
 void			deal_with_clicked_sector(t_editor *ed)
