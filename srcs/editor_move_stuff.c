@@ -161,6 +161,25 @@ void	move_enemy(t_editor *ed, double x, double y)
 	ed->map_is_updated = e_false;
 }
 
+void	move_pickable(t_editor *ed, double x, double y)
+{
+    t_sector	*sector;
+    double		new_x;
+    double		new_y;
+
+    sector = find_pickable_sector(ed->map->sectors, ed->dragged.pickable);
+    new_x = (x - ed->map_offset.x) / ed->zoom;
+    new_y = (ed->map_offset.y - y) / ed->zoom;
+    if (!is_in_sector((t_coords){new_x, new_y}, sector))
+    {
+        Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
+        return ;
+    }
+    ed->dragged.pickable->object->x = new_x;
+    ed->dragged.pickable->object->y = new_y;
+    ed->map_is_updated = e_false;
+}
+
 void	move_object(t_editor *ed, double x, double y)
 {
 	t_sector	*sector;
