@@ -325,7 +325,10 @@ void    read_enemies_from_file(
     if (read(fd, &next, sizeof(next)) <= 0)
         error_doom("The shield has gone mad, Quercus!");
     if (!next)
+    {
+        *enemies = NULL;
         return;
+    }
     if (!(*enemies = (t_linked_enemies*)malloc(sizeof(t_linked_enemies))))
         error_doom("Couldn't allocate enemies struct");
     (*enemies)->next = NULL;
