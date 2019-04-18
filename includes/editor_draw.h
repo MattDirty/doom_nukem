@@ -22,7 +22,7 @@ typedef struct s_buttons t_buttons;
 # define BACKGROUND_COLOR 0xFF756F68
 # define YELLOW 0xFFF4EE42
 # define PLAYER_COLOR WHITE
-# define WEAPON_COLOR 0xFFC68FF7
+# define PICKABLE_COLOR 0xFFC68FF7
 
 void draw_background(t_editor *ed);
 void draw_panel_back(SDL_Surface *surface);

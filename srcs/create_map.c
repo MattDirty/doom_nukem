@@ -142,7 +142,7 @@ t_map		*create_map(t_textures *textures)
                              &map->sectors->items[i]->pickables->item.sprite_to_pick[2]);
         map->sectors->items[i]->pickables->item.object->sprite =
                 map->sectors->items[i]->pickables->item.sprite_to_pick[0];
-        map->sectors->items[i]->pickables->item.object->x = i * 4 + 1;
+        map->sectors->items[i]->pickables->item.object->x = 3;
         map->sectors->items[i]->pickables->item.object->y = i * 4 + 1;
         map->sectors->items[i]->pickables->item.object->horizontal_size = 1;
         map->sectors->items[i]->pickables->item.object->vertical_size = 1;

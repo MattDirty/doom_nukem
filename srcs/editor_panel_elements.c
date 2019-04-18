@@ -151,7 +151,7 @@ void        add_weapon_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, in
     pos.y = *y - 35;
     weapon_btn.rect = create_rect(pos.x - 6, pos.y - 6, add_weapon->w + 10, add_weapon->h + 10);
     draw_rect(target, &weapon_btn.rect, BLACK);
-    fill_rect(target, &weapon_btn.rect, WEAPON_COLOR, e_true);
+    fill_rect(target, &weapon_btn.rect, PICKABLE_COLOR, e_true);
     draw_on_screen(target, add_weapon, pos, e_false);
     weapon_btn.rect.pos.x += PANEL_X;
     weapon_btn.f = &create_object_in_map;

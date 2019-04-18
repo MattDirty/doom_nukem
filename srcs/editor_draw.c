@@ -92,6 +92,19 @@ void        draw_objects_in_sector_editor(SDL_Surface *target, t_objects *object
     }
 }
 
+void        draw_pickables_in_sector_editor(SDL_Surface *target, t_pickables *pickables, t_i_coords map_offset, int zoom)
+{
+    t_coords    coords;
+
+    while (pickables)
+    {
+        coords.x = map_offset.x + pickables->item.object->x * zoom;
+        coords.y = map_offset.y - pickables->item.object->y * zoom;
+        draw_circle_filled(target, coords, 4, PICKABLE_COLOR);
+        pickables = pickables->next;
+    }
+}
+
 void        draw_background(t_editor *ed)
 {
     t_rect  background;
@@ -120,6 +133,7 @@ void		draw_editor(t_editor *ed)
         draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i]->walls, ed->map_offset, ed->zoom);
         draw_objects_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i]->objects, ed->map_offset, ed->zoom);
         draw_enemies_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i]->enemies, ed->map_offset, ed->zoom);
+        draw_pickables_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i]->pickables, ed->map_offset, ed->zoom);
         i++;
     }
     draw_player_spawn(ed->sdl.surface, ed->map->spawn, ed->map_offset, ed->zoom);
