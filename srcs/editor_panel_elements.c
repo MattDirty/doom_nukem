@@ -2,6 +2,7 @@
 #include "editor_panel_buttons.h"
 #include "ui.h"
 #include "walls.h"
+#include "editor_states.h"
 
 void        split_wall(t_params params)
 {
@@ -47,11 +48,6 @@ void        create_split_wall_button(t_editor *ed, int *y)
     add_button_to_list(&ed->panel.buttons, btn);
 }
 
-void        new_sector(t_params params)
-{
-    ((t_btn_params *)params)->ed->state = e_add_sector;
-}
-
 void        create_new_sector_button(t_editor *ed, int *y)
 {
     SDL_Surface *chars;
@@ -66,9 +62,24 @@ void        create_new_sector_button(t_editor *ed, int *y)
     draw_on_screen(ed->panel.surface, chars, pos, e_false);
     SDL_FreeSurface(chars);
     btn.rect.pos.x += PANEL_X;
-    btn.f = &new_sector;
+    btn.f = &new_sector_state;
     btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, btn);
+}
+
+void        highlight_selected_wall(t_editor *ed)
+{
+    t_segment   s;
+
+    s = ed->selected.wall->segment;
+    s.x1 = ed->map_offset.x + s.x1 * ed->zoom;
+    s.y1 = ed->map_offset.y - s.y1 * ed->zoom;
+    s.x2 = ed->map_offset.x + s.x2 * ed->zoom;
+    s.y2 = ed->map_offset.y - s.y2 * ed->zoom;
+    if (ed->selected.wall->type == e_wall)
+        draw_segment(ed->sdl.surface, s, YELLOW);
+    else
+        draw_segment(ed->sdl.surface, s, GREEN);
 }
 
 void		editor_draw_panel_walls(t_editor *ed)
@@ -98,6 +109,7 @@ void		editor_draw_panel_walls(t_editor *ed)
     && sector->walls->count < 15)
         create_split_wall_button(ed, &y);
     create_new_sector_button(ed, &y);
+    highlight_selected_wall(ed);
 }
 
 void        add_object_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
@@ -114,10 +126,57 @@ void        add_object_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, in
     fill_rect(target, &object_btn.rect, OBJECT_COLOR, e_true);
     draw_on_screen(target, add_object, pos, e_false);
     object_btn.rect.pos.x += PANEL_X;
-    object_btn.f = &create_object_in_map;
+    object_btn.f = &create_object_in_map_state;
     object_btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, object_btn);
     SDL_FreeSurface(add_object);
+}
+
+void		remove_selected_enemy(t_editor *ed)
+{
+	t_sector			*sector;
+
+	sector = find_enemy_sector(ed->map->sectors, ed->selected.enemy);
+	delete_enemy(&sector->enemies, ed->selected.enemy);
+    clear_selection(&ed->selected);
+}
+
+void		remove_selected_object(t_params params)
+{
+	t_object	*object;
+	t_sector	*sector;
+	t_editor	*ed;
+
+	ed = ((t_btn_params *)params)->ed;
+	if (ed->selected.enemy)
+	{
+		remove_selected_enemy(ed);
+		return ;
+	}
+    object = ed->selected.object;
+    sector = find_object_sector(ed->map->sectors, object);
+    remove_object(object, sector->objects);
+    clear_selection(&ed->selected);
+}
+
+void		remove_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
+{
+	SDL_Surface *add_enemy;
+	t_i_coords  pos;
+	t_button    enemy_btn;
+
+	add_enemy = write_text(font, "Remove", (SDL_Colour){255, 0, 0, 255});
+	pos.x = PANEL_PADDING_LEFT + 8;
+	pos.y = *y - 35;
+	enemy_btn.rect = create_rect(pos.x - 6, pos.y - 6, add_enemy->w + 10, add_enemy->h + 10);
+	draw_rect(target, &enemy_btn.rect, BLACK);
+	fill_rect(target, &enemy_btn.rect, ENEMY_COLOR, e_true);
+	draw_on_screen(target, add_enemy, pos, e_false);
+	enemy_btn.rect.pos.x += PANEL_X;
+	enemy_btn.f = &remove_selected_object;
+	enemy_btn.params = create_btn_params(NULL, NULL, ed);
+	add_button_to_list(&ed->panel.buttons, enemy_btn);
+	SDL_FreeSurface(add_enemy);
 }
 
 void        add_enemy_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
@@ -134,10 +193,30 @@ void        add_enemy_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int
     fill_rect(target, &enemy_btn.rect, ENEMY_COLOR, e_true);
     draw_on_screen(target, add_enemy, pos, e_false);
     enemy_btn.rect.pos.x += PANEL_X;
-    enemy_btn.f = &create_enemy_in_map;
+    enemy_btn.f = &create_enemy_in_map_state;
     enemy_btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, enemy_btn);
     SDL_FreeSurface(add_enemy);
+}
+
+void		remove_weapon_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
+{
+	SDL_Surface *add_weapon;
+	t_i_coords  pos;
+	t_button    weapon_btn;
+
+	add_weapon = write_text(font, "Remove Weapon", (SDL_Colour){255, 0, 0, 255});
+	pos.x = PANEL_PADDING_LEFT + 8;
+	pos.y = *y - 35;
+	weapon_btn.rect = create_rect(pos.x - 6, pos.y - 6, add_weapon->w + 10, add_weapon->h + 10);
+	draw_rect(target, &weapon_btn.rect, BLACK);
+	fill_rect(target, &weapon_btn.rect, PICKABLE_COLOR, e_true);
+	draw_on_screen(target, add_weapon, pos, e_false);
+	weapon_btn.rect.pos.x += PANEL_X;
+	weapon_btn.f = &create_object_in_map_state;
+	weapon_btn.params = create_btn_params(NULL, NULL, ed);
+	add_button_to_list(&ed->panel.buttons, weapon_btn);
+	SDL_FreeSurface(add_weapon);
 }
 
 void        add_weapon_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
@@ -154,7 +233,7 @@ void        add_weapon_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, in
     fill_rect(target, &weapon_btn.rect, PICKABLE_COLOR, e_true);
     draw_on_screen(target, add_weapon, pos, e_false);
     weapon_btn.rect.pos.x += PANEL_X;
-    weapon_btn.f = &create_object_in_map;
+    weapon_btn.f = &create_object_in_map_state;
     weapon_btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, weapon_btn);
     SDL_FreeSurface(add_weapon);
@@ -179,17 +258,216 @@ void		editor_draw_panel_map(t_editor *ed)
     add_weapon_btn(ed, ed->fonts->vcr40, ed->panel.surface, &y);
 }
 
-void		editor_draw_panel_sprites(t_editor *ed)
+void		change_enemy_hp(t_params params)
+{
+	t_enemy *enemy;
+
+	enemy = ((t_btn_params *)params)->ed->selected.enemy;
+	enemy->life_remaining += ((t_btn_params *)params)->ed->multi_purpose_int;
+	if (enemy->life_remaining < 5)
+		enemy->life_remaining = 5;
+	else
+		((t_btn_params *)params)->ed->map_is_updated = e_false;
+}
+
+void		change_object_width(t_params params)
+{
+	double		*target;
+	t_editor	*ed;
+
+	ed = ((t_btn_params *)params)->ed;
+	if (ed->selected.enemy)
+		target = &ed->selected.enemy->object->horizontal_size;
+	else
+		target = &ed->selected.object->horizontal_size;
+	*target += (ed->multi_purpose_int / 100.0);
+	if (*target < 0.05)
+		*target = 0.05;
+	else if (*target > 1)
+		*target = 1;
+	else
+		ed->map_is_updated = e_false;
+}
+
+void		change_object_z(t_params params)
+{
+	double		*target;
+	t_editor	*ed;
+
+	ed = ((t_btn_params *)params)->ed;
+	if (ed->selected.enemy)
+		target = &ed->selected.enemy->object->z;
+	else
+		target = &ed->selected.object->z;
+	*target += (ed->multi_purpose_int / 100.0);
+	if (*target < 0)
+		*target = 0;
+	else if (*target > 0.95)
+		*target = 0.95;
+	else
+		ed->map_is_updated = e_false;
+}
+
+void		change_object_height(t_params params)
+{
+	double		*target;
+	t_editor	*ed;
+
+	ed = ((t_btn_params *)params)->ed;
+	if (ed->selected.enemy)
+		target = &ed->selected.enemy->object->vertical_size;
+	else
+		target = &ed->selected.object->horizontal_size;
+	*target += (ed->multi_purpose_int / 100.0);
+	if (*target < 0.05)
+		*target = 0.05;
+	else if (*target > 1)
+		*target = 1;
+	else
+		ed->map_is_updated = e_false;
+}
+
+void		hp_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
+{
+	SDL_Surface *chars;
+	t_i_coords  pos;
+	t_button    btn;
+	char 		*str;
+
+	str = ft_strjoinfree("HP : ",
+			ft_itoa(ed->selected.enemy->life_remaining), 2);
+	chars = write_text(font, str, (SDL_Colour){255, 255, 255, 255});
+	free(str);
+	pos.x = PANEL_PADDING_LEFT + 8;
+	pos.y = *y - 35;
+	btn.rect = create_rect(pos.x - 6, pos.y - 6, chars->w + 10, chars->h);
+	draw_rect(target, &btn.rect, BLACK);
+	fill_rect(target, &btn.rect, RED, e_true);
+	draw_on_screen(target, chars, pos, e_false);
+	btn.rect.pos.x += PANEL_X;
+	btn.f = &change_enemy_hp;
+	btn.params = create_btn_params(NULL, NULL, ed);
+	add_button_to_list(&ed->panel.buttons, btn);
+	SDL_FreeSurface(chars);
+}
+
+void		width_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
+{
+	SDL_Surface *chars;
+	t_i_coords  pos;
+	t_button    btn;
+	char 		*str;
+
+	if (ed->selected.enemy)
+		str = ft_strjoinfree("Width : ",
+				ft_itoa(round(ed->selected.enemy->object->horizontal_size * 100)),
+				2);
+	else
+		str = ft_strjoinfree("Width : ",
+				ft_itoa(round(ed->selected.object->horizontal_size * 100)), 2);
+	chars = write_text(font, str, (SDL_Colour){255, 255, 255, 255});
+	free(str);
+	pos.x = PANEL_PADDING_LEFT + 8;
+	pos.y = *y - 35;
+	btn.rect = create_rect(pos.x - 6, pos.y - 6, chars->w + 12, chars->h + 12);
+	draw_rect(target, &btn.rect, BLACK);
+	fill_rect(target, &btn.rect, 0xFF00AA00, e_true);
+	draw_on_screen(target, chars, pos, e_false);
+	btn.rect.pos.x += PANEL_X;
+	btn.f = &change_object_width;
+	btn.params = create_btn_params(NULL, NULL, ed);
+	add_button_to_list(&ed->panel.buttons, btn);
+	SDL_FreeSurface(chars);
+}
+
+void		height_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
+{
+	SDL_Surface *chars;
+	t_i_coords  pos;
+	t_button    btn;
+	char 		*str;
+
+	if (ed->selected.enemy)
+		str = ft_strjoinfree("Height : ",
+				ft_itoa(round(ed->selected.enemy->object->vertical_size * 100)),
+				2);
+	else
+		str = ft_strjoinfree("Height : ",
+				ft_itoa(round(ed->selected.object->vertical_size * 100)), 2);
+	chars = write_text(font, str, (SDL_Colour){255, 255, 255, 255});
+	free(str);
+	pos.x = PANEL_PADDING_LEFT + 8;
+	pos.y = *y - 35;
+	btn.rect = create_rect(pos.x - 6, pos.y - 6, chars->w + 12, chars->h + 12);
+	draw_rect(target, &btn.rect, BLACK);
+	fill_rect(target, &btn.rect, 0xFF00AA00, e_true);
+	draw_on_screen(target, chars, pos, e_false);
+	btn.rect.pos.x += PANEL_X;
+	btn.f = &change_object_height;
+	btn.params = create_btn_params(NULL, NULL, ed);
+	add_button_to_list(&ed->panel.buttons, btn);
+	SDL_FreeSurface(chars);
+}
+
+void		z_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
+{
+	SDL_Surface *chars;
+	t_i_coords  pos;
+	t_button    btn;
+	char 		*str;
+
+	if (ed->selected.enemy)
+		str = ft_strjoinfree("Z axis : ",
+							 ft_itoa(round(ed->selected.enemy->object->z * 100)),
+							 2);
+	else
+		str = ft_strjoinfree("Z axis : ",
+							 ft_itoa(round(ed->selected.object->z * 100)), 2);
+	chars = write_text(font, str, (SDL_Colour){255, 255, 255, 255});
+	free(str);
+	pos.x = PANEL_PADDING_LEFT + 8;
+	pos.y = *y - 35;
+	btn.rect = create_rect(pos.x - 6, pos.y - 6, chars->w + 12, chars->h + 12);
+	draw_rect(target, &btn.rect, BLACK);
+	fill_rect(target, &btn.rect, 0xFF00AA00, e_true);
+	draw_on_screen(target, chars, pos, e_false);
+	btn.rect.pos.x += PANEL_X;
+	btn.f = &change_object_z;
+	btn.params = create_btn_params(NULL, NULL, ed);
+	add_button_to_list(&ed->panel.buttons, btn);
+	SDL_FreeSurface(chars);
+}
+
+void        editor_draw_panel_enemy(t_editor *ed)
+{
+    int     y;
+
+    write_panel_state(ed, "Baddy");
+    y = 120;
+    remove_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
+    y += 70;
+    hp_btn(ed, ed->fonts->amazdoom40, ed->panel.surface, &y);
+	y += 70;
+	width_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
+	y += 50;
+	height_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
+	y += 50;
+	z_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
+}
+
+void		editor_draw_panel_object(t_editor *ed)
 {
     int		y;
 
-    write_panel_state(ed, "SPRITE");
-    y = 60;
-    if (ed->selected.object)
-        ed->selected_sprite = &ed->selected.object->sprite;
-    else if (ed->selected.enemy)
-        ed->selected_sprite = &ed->selected.enemy->front;
-    draw_sprites_section(ed, &ed->panel.sprites, "Sprites:", &y);
+	write_panel_state(ed, "Flower");
+	y = 120;
+	remove_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
+	y += 50;
+	width_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
+	y += 50;
+	height_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
+	y += 50;
+	z_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
 }
 
 void    create_light_btn(TTF_Font *font, SDL_Surface *target, Uint32 light_color, t_editor *ed)

@@ -65,6 +65,7 @@ typedef struct          s_editor
     t_i_coords			map_offset;
     int             	index;
     int					zoom;
+    int 				multi_purpose_int;
     t_fonts				*fonts;
     SDL_Surface         **selected_sprite;
     enum e_editor_state state;

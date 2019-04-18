@@ -4,6 +4,14 @@
 #include "doom.h"
 #include "serialisation.h"
 
+void		transform_wall_to_portal(t_wall *wall, t_sector *s1, t_sector *s2)
+{
+	wall->type = e_portal;
+	wall->texture = NULL;
+	wall->links.sector1 = s1;
+	wall->links.sector2 = s2;
+}
+
 t_wall      *create_wall_copy(t_wall *wall)
 {
     t_wall  *new_wall;

@@ -37,9 +37,15 @@ void	event_editor(t_editor *ed)
 		}
 		if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE || ev.type == SDL_QUIT)
 			quit_editor(ed);
-		if (ev.type == SDL_MOUSEBUTTONDOWN && ev.button.button == SDL_BUTTON_LEFT)
+		if (ev.type == SDL_MOUSEBUTTONDOWN)
+		{
+			if (ev.button.button == SDL_BUTTON_LEFT)
+				ed->multi_purpose_int = 5;
+			else if (ev.button.button == SDL_BUTTON_RIGHT)
+				ed->multi_purpose_int = -5;
 			mousedown_action(ed, ev.button.x, ev.button.y);
-		if (ev.type == SDL_MOUSEBUTTONUP && ev.button.button == SDL_BUTTON_LEFT)
+		}
+		if (ev.type == SDL_MOUSEBUTTONUP)
 			mouseup_action(ed, ev.button.x, ev.button.y);
 		if (ev.type == SDL_MOUSEWHEEL)
 		{

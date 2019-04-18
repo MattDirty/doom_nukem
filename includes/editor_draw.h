@@ -24,6 +24,7 @@ typedef struct s_buttons t_buttons;
 # define PLAYER_COLOR WHITE
 # define PICKABLE_COLOR 0xFFC68FF7
 
+void show_possible_new_sector(t_editor *ed, int x, int y);
 void draw_background(t_editor *ed);
 void draw_panel_back(SDL_Surface *surface);
 void draw_editor(t_editor *ed);
