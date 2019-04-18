@@ -154,10 +154,10 @@ void			create_linked_walls_from_sectors(
     while (i < sectors->count)
     {
         j = 0;
-        while (j < sectors->items[i].walls->count)
+        while (j < sectors->items[i]->walls->count)
         {
             index = add_wall_to_serialiser(*linked_walls,
-                    sectors->items[i].walls->items[j]);
+                    sectors->items[i]->walls->items[j]);
             if (index >= *count)
                 *count = index + 1;
             j++;

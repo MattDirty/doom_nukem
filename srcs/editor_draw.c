@@ -117,9 +117,9 @@ void		draw_editor(t_editor *ed)
     i = 0;
     while (i < ed->map->sectors->count)
     {
-        draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i].walls, ed->map_offset, ed->zoom);
-        draw_objects_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].objects, ed->map_offset, ed->zoom);
-        draw_enemies_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i].enemies, ed->map_offset, ed->zoom);
+        draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i]->walls, ed->map_offset, ed->zoom);
+        draw_objects_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i]->objects, ed->map_offset, ed->zoom);
+        draw_enemies_in_sector_editor(ed->sdl.surface, ed->map->sectors->items[i]->enemies, ed->map_offset, ed->zoom);
         i++;
     }
     draw_player_spawn(ed->sdl.surface, ed->map->spawn, ed->map_offset, ed->zoom);

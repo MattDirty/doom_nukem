@@ -25,7 +25,7 @@ typedef	struct			s_sector
 typedef struct			s_sectors
 {
     int					count;
-    t_sector			 *items;
+    t_sector			**items;
 }						t_sectors;
 
 t_sector	*create_new_sector(t_sectors *sectors);
