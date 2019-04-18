@@ -18,11 +18,13 @@ t_enemy create_default_enemy(t_textures *textures)
     new_enemy.death_duration = 1700;
     new_enemy.time_in_death = -1;
     new_enemy.to_destroy = e_false;
-    new_enemy.heading = 0;
+    new_enemy.heading = (t_vector){1, 0};
     find_texture_by_name(textures, "textures/sprites/enemy_front.bmp",
                          &new_enemy.front);
-    find_texture_by_name(textures, "textures/sprites/enemy_side.bmp",
-                         &new_enemy.side);
+    find_texture_by_name(textures, "textures/sprites/enemy_left.bmp",
+                         &new_enemy.left);
+    find_texture_by_name(textures, "textures/sprites/enemy_right.bmp",
+                         &new_enemy.right);
     find_texture_by_name(textures, "textures/sprites/enemy_back.bmp",
                          &new_enemy.back);
     new_enemy.type = et_brazil;

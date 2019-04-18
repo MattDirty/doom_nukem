@@ -83,9 +83,8 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i].enemies->item.life_remaining = 100;
 		map->sectors->items[i].enemies->item.time_in_death = -1;
 		map->sectors->items[i].enemies->item.to_destroy = e_false;
-        map->sectors->items[i].enemies->item.heading = 0;
         map->sectors->items[i].enemies->item.heading = (t_vector){1, 0};
-        nap->sectors->items[i].enemies->item.death_duration = 0;
+        map->sectors->items[i].enemies->item.death_duration = 0;
         map->sectors->items[i].enemies->item.type = et_brazil;
         find_texture_by_name(textures,"textures/sprites/enemy_front.bmp", &map->sectors->items[i].enemies->item.front);
         map->sectors->items[i].enemies->item.object->sprite =

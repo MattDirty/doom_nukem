@@ -73,7 +73,7 @@ enum e_bool     let_enemies_act(double ms_since_update, t_params params)
     t_sector	*sector;
 
     if (ms_since_update > 10000)
-        return (t_true);
+        return (e_true);
     (void)ms_since_update;
     e = (t_env*) params;
     i = 0;
