@@ -17,6 +17,8 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 		return ;
 	new_sector = create_new_sector(ed->map->sectors);
 	linked_sector = find_wall_sector(ed->map->sectors, ed->selected.wall);
+    new_sector->ceil = linked_sector->ceil;
+    new_sector->floor = linked_sector->floor;
 	wall = create_wall_copy(ed->selected.wall);
 	wall->segment.x1 = pos.x;
 	wall->segment.y1 = pos.y;

@@ -35,6 +35,11 @@ t_map		*create_map(t_textures *textures)
 	{
         if (!(map->sectors->items[i] = (t_sector*)malloc(sizeof(t_sector))))
             error_doom("BUS ERROR !!!11");
+        i++;
+    }
+	i = 0;
+	while (i < map->sectors->count)
+	{
 		if (!(map->sectors->items[i]->walls = (t_walls*)malloc(sizeof(t_walls))))
 			error_doom("t_walls");
 
