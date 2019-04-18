@@ -2,6 +2,7 @@
 #include "editor_walls_nodes.h"
 #include "in_which_sector.h"
 #include "editor_panel_buttons.h"
+#include "editor_checks.h"
 
 void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 {
@@ -13,7 +14,7 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 	ed->state = e_null;
 	pos.x = (double)(mouse_x - ed->map_offset.x) / ed->zoom;
 	pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
-	if (in_which_sector(pos, ed->map->sectors))
+	if (new_node_pos_valid(ed, pos))
 		return ;
 	new_sector = create_new_sector(ed->map->sectors);
 	linked_sector = find_wall_sector(ed->map->sectors, ed->selected.wall);
