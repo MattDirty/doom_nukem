@@ -17,7 +17,6 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 		return ;
 	new_sector = create_new_sector(ed->map->sectors);
 	linked_sector = find_wall_sector(ed->map->sectors, ed->selected.wall);
-	add_wall_to_sector(new_sector, ed->selected.wall);
 	wall = create_wall_copy(ed->selected.wall);
 	wall->segment.x1 = pos.x;
 	wall->segment.y1 = pos.y;
@@ -30,6 +29,8 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 	ed->selected.wall->texture = NULL;
 	ed->selected.wall->links.sector2 = linked_sector;
 	ed->selected.wall->links.sector1 = new_sector;
+	add_wall_to_sector(new_sector, ed->selected.wall);
+	printf("%i %i\n", sector_index(ed->map->sectors, ed->selected.wall->links.sector2), sector_index(ed->map->sectors, ed->selected.wall->links.sector1));
 	free_linked_walls_nodes(ed->linked_walls);
 	create_linked_walls_from_sectors(
 			ed->map->sectors, &ed->linked_walls, &ed->linked_walls_count);

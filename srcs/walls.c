@@ -312,6 +312,7 @@ void			write_wall_to_file(
     if (wall->type == e_portal || wall->type == e_transparent_wall)
     {
         index = sector_index(sectors, wall->links.sector1);
+        printf("%i\n", index);
         if (index < 0)
             error_doom("index is stupid");
         if (write(fd, &index, sizeof(index)) <= 0)
