@@ -137,24 +137,20 @@ void		draw_panel_wall_buttons(t_editor *ed, t_wall *wall, int *y)
 	t_sector	*sector;
 
 	sector = find_wall_sector(ed->map->sectors, wall);
-	if (wall->type == e_wall)
+	if (wall->type == e_wall
+	|| (wall->type == e_transparent_wall && wall->to_infinity))
 	{
 		if (get_segment_length(&wall->segment) >= 1
 		&& sector->walls->count < 15)
 			create_split_wall_button(ed, y);
 		create_new_sector_button(ed, y);
 		*y += 50;
-		change_wall_in_window_button(ed, y);
+		if (wall->type == e_wall)
+			change_wall_in_window_button(ed, y);
+		else
+			change_window_in_wall_button(ed, y);
 	}
-	else if (wall->type == e_transparent_wall && wall->to_infinity)
-	{
-		if (get_segment_length(&wall->segment) >= 1
-			&& sector->walls->count < 15)
-			create_split_wall_button(ed, y);
-		create_new_sector_button(ed, y);
-		*y += 50;
-		change_window_in_wall_button(ed, y);
-	}
+
 }
 
 void		write_panel_wall_state(t_editor *ed, t_wall *wall)
