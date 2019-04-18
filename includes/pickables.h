@@ -23,7 +23,7 @@ typedef struct s_pickable
         shotgun,
         vacuum
     }			type;
-    SDL_Surface *sprite_to_pick;
+    SDL_Surface *sprite_to_pick[3];
 }               t_pickable;
 
 typedef struct	        s_pickables

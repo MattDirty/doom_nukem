@@ -69,7 +69,7 @@ void	delete_pickable(t_pickables **pickables, t_pickable *to_delete)
     node = extract_pickable(pickables, to_delete);
     if (!node)
         return;
-    free(node->item.object);
+    //free(node->item.object);
     //free(node);
 }
 
@@ -105,7 +105,6 @@ void     pick_objects(t_player *player)
         pickables->item.object->y};
     while (pickables)
     {
-        //printf("%f %f %f %f\n", pick_pos.x, pick_pos.y, player->pos.x, player->pos.y);
         if (is_close_to(pick_pos, player->pos, 0.2))
             do_stuff(player, pickables);
         pickables = pickables->next;
@@ -121,7 +120,9 @@ void    write_pickable_to_file(int fd, t_pickable pickable)
     write_object_to_file(fd, *pickable.object);
     if (write(fd, &pickable.type, sizeof(pickable.type)) <= 0)
         error_doom("Problem while type pickable from file");
-    write_str_to_file(fd, pickable.sprite_to_pick->userdata);
+    write_str_to_file(fd, pickable.sprite_to_pick[0]->userdata);
+    write_str_to_file(fd, pickable.sprite_to_pick[1]->userdata);
+    write_str_to_file(fd, pickable.sprite_to_pick[2]->userdata);
 }
 
 void    read_pickable_from_file(int fd, t_textures *textures, t_pickable *pickable)
@@ -131,8 +132,9 @@ void    read_pickable_from_file(int fd, t_textures *textures, t_pickable *pickab
     read_object_from_file(fd, textures, pickable->object);
     if (read(fd, &pickable->type, sizeof(pickable->type)) <= 0)
         error_doom("Problem while reading pickable from file");
-    find_texture_from_file(fd, textures, &pickable->sprite_to_pick);
-    pickable->object->sprite = pickable->sprite_to_pick;
+    find_texture_from_file(fd, textures, &pickable->sprite_to_pick[0]);
+    find_texture_from_file(fd, textures, &pickable->sprite_to_pick[1]);
+    find_texture_from_file(fd, textures, &pickable->sprite_to_pick[2]);
 }
 
 void    write_pickables_to_file(int fd, t_pickables *pickables)

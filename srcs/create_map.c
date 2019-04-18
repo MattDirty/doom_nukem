@@ -132,31 +132,42 @@ t_map		*create_map(t_textures *textures)
         find_texture_by_name(textures,"textures/explosions/explosion_16.bmp",
                              &map->sectors->items[i]->enemies->item.explosion[15]);
 
-        map->sectors->items[i].pickables = (t_pickables *)malloc(sizeof(t_pickables));
-        map->sectors->items[i].pickables->next = NULL;
+        map->sectors->items[i]->pickables = (t_pickables *)malloc(sizeof(t_pickables));
+        map->sectors->items[i]->pickables->next = NULL;
 
-        map->sectors->items[i].pickables->item.type = gun;
-        map->sectors->items[i].pickables->item.object = (t_object *)malloc(sizeof(t_object));
+        map->sectors->items[i]->pickables->item.type = gun;
+        map->sectors->items[i]->pickables->item.object = (t_object *)malloc(sizeof(t_object));
         find_texture_by_name(textures, "textures/sprites/gun.bmp",
-            &map->sectors->items[i].pickables->item.sprite_to_pick);
-        map->sectors->items[i].pickables->item.object->sprite =
-                map->sectors->items[i].pickables->item.sprite_to_pick;
-        map->sectors->items[i].pickables->item.object->x = i * 4 + 1;
-        map->sectors->items[i].pickables->item.object->y = i * 4 + 1;
-        map->sectors->items[i].pickables->item.object->horizontal_size = 1;
-        map->sectors->items[i].pickables->item.object->vertical_size = 1;
-        map->sectors->items[i].pickables->item.object->z = 0;
-        map->sectors->items[i].pickables->item.object->can_give_bonus = 0;
-        if (i == 1)
-            map->sectors->items[i]->enemies->item.heading = (t_vector){0, 1};
+            &map->sectors->items[i]->pickables->item.sprite_to_pick[0]);
+        find_texture_by_name(textures, "textures/sprites/shotgun.bmp",
+                             &map->sectors->items[i]->pickables->item.sprite_to_pick[1]);
+        find_texture_by_name(textures, "textures/sprites/vacuum.bmp",
+                             &map->sectors->items[i]->pickables->item.sprite_to_pick[2]);
+        map->sectors->items[i]->pickables->item.object->sprite =
+                map->sectors->items[i]->pickables->item.sprite_to_pick[0];
+        map->sectors->items[i]->pickables->item.object->x = i * 4 + 1;
+        map->sectors->items[i]->pickables->item.object->y = i * 4 + 1;
+        map->sectors->items[i]->pickables->item.object->horizontal_size = 1;
+        map->sectors->items[i]->pickables->item.object->vertical_size = 1;
+        map->sectors->items[i]->pickables->item.object->z = 0;
+        map->sectors->items[i]->pickables->item.object->can_give_bonus = 0;
+        if (i == 1) {
+            map->sectors->items[i]->enemies->item.heading = (t_vector) {0, 1};
+            map->sectors->items[i]->pickables->item.type = shotgun;
+            map->sectors->items[i]->pickables->item.object->sprite =
+                    map->sectors->items[i]->pickables->item.sprite_to_pick[1];
+        }
         if (i == 2)
         {
+            map->sectors->items[i]->pickables->item.type = vacuum;
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.front);
             map->sectors->items[i]->enemies->item.object->sprite =
-                    map->sectors->items[i]->enemies->item.front;
+                    map->sectors->items[i].enemies->item.front;
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.back);
-            map->sectors->items[i]->enemies->item.heading = (t_vector){0, 1};
+            map->sectors->items[i]->enemies->item.heading = (t_vector){-1, 0};
             map->sectors->items[i]->enemies->item.type = et_boss;
+            map->sectors->items[i]->pickables->item.object->sprite =
+                    map->sectors->items[i]->pickables->item.sprite_to_pick[2];
         }
 
 		walls = map->sectors->items[i]->walls;
@@ -290,9 +301,6 @@ t_map		*create_map(t_textures *textures)
     find_texture_by_name(textures, "textures/weapons/shotgun_cooldown.bmp", &map->shotgun_sprites[1]);
     find_texture_by_name(textures, "textures/weapons/shotgun_firing.bmp", &map->shotgun_sprites[2]);
     find_texture_by_name(textures, "textures/weapons/blackhole_destroyer.bmp", &map->vacuum_sprite);
-    //find_texture_by_name(textures, "textures/sprites/gun.bmp", &map->gun_to_pick);
-    //find_texture_by_name(textures, "textures/sprites/shotgun.bmp", &map->shotgun_to_pick);
-    //find_texture_by_name(textures, "textures/sprites/vacuum.bmp", &map->vacuum_to_pick);
     map->daytime = e_true;
     map->spawn.x = 1;
     map->spawn.y = 1;

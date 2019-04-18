@@ -63,9 +63,6 @@ void		read_map_from_file(int fd, t_textures *textures, t_map **map)
     find_texture_from_file(fd, textures, &(*map)->shotgun_sprites[1]);
     find_texture_from_file(fd, textures, &(*map)->shotgun_sprites[2]);
     find_texture_from_file(fd, textures, &(*map)->vacuum_sprite);
-    //find_texture_from_file(fd, textures, &(*map)->gun_to_pick);
-    //find_texture_from_file(fd, textures, &(*map)->shotgun_to_pick);
-    //find_texture_from_file(fd, textures, &(*map)->vacuum_to_pick);
 }
 
 void		write_map_to_file(int fd, t_map *map)
@@ -97,7 +94,4 @@ void		write_map_to_file(int fd, t_map *map)
     write_str_to_file(fd, map->shotgun_sprites[1]->userdata);
     write_str_to_file(fd, map->shotgun_sprites[2]->userdata);
     write_str_to_file(fd, map->vacuum_sprite->userdata);
-    //write_str_to_file(fd, map->gun_to_pick->userdata);
-    //write_str_to_file(fd, map->shotgun_to_pick->userdata);
-    //write_str_to_file(fd, map->vacuum_to_pick->userdata);
 }
