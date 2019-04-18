@@ -135,7 +135,7 @@ void		remove_selected_object(t_params params)
 	ed = ((t_btn_params *)params)->ed;
 	if (ed->selected.enemy)
 	{
-		remove_selected_enemy(ed);
+		//remove_selected_enemy(ed);
 		return ;
 	}
 	object = ed->selected.object;
