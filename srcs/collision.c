@@ -116,6 +116,37 @@ static void		find_enemies_collisions_in_sector(
     }
 }
 
+static void		find_pickables_collisions_in_sector(
+        t_sector *sector,
+        t_segment *ray,
+        t_collisions **collisions) {
+    t_pickables *pickables;
+    t_coords inters;
+    double distance;
+    t_segment s;
+    t_collisions *new;
+
+    pickables = sector->pickables;
+    while (pickables) {
+        s = perpendicular_segment_from_point(
+                pickables->item.object,
+                ray->x1,
+                ray->y1);
+        if (segments_intersect(ray, &s, &inters)) {
+            distance = get_distance_between_points(
+                    ray->x1,
+                    ray->y1,
+                    inters.x,
+                    inters.y);
+            new = insert_collision(collisions, distance, inters);
+            new->item.type = ct_pickable;
+            new->item.d.pickable = &pickables->item;
+            new->item.object_segment = s;
+        }
+        pickables = pickables->next;
+    }
+}
+
 static void		find_objects_collisions_in_sector(
         t_sector *sector,
         t_segment *ray,
@@ -244,6 +275,7 @@ void		find_ray_collisions(
 	{
         find_enemies_collisions_in_sector(sector, ray, node);
         find_objects_collisions_in_sector(sector, ray, node);
+        find_pickables_collisions_in_sector(sector, ray, node);
         if (!find_wall_collisions_in_sector(sector, ray, node, last_portal))
             break;
         while ((*node)->next)

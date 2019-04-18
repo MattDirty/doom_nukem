@@ -155,6 +155,37 @@ static void			draw_wall_object(
 	}
 }
 
+static void	draw_pickable(t_env *e, t_render *r, t_collision *collision)
+{
+    Uint32		x;
+    int			y;
+    Uint32		i;
+    SDL_Surface *surface;
+    t_u_range	range;
+    double 		dist_ratio;
+
+    if (collision->type != ct_pickable)
+        return;
+    surface = collision->d.pickable->object->sprite;
+    x = (Uint32)(get_distance_between_points(collision->inters.x,
+                                             collision->inters.y, collision->object_segment.x1,
+                                             collision->object_segment.y1)
+                 * surface->w / collision->d.pickable->object->horizontal_size) % surface->w;
+    dist_ratio = e->op.ratio / collision->distance;
+    range = wall_range(dist_ratio, r->vision_height, r->win_h);
+    i = range.start - 1;
+    while (++i < range.end)
+    {
+        y = (Uint32)(fabs(((i - r->vision_height + dist_ratio / 2)
+                           * surface->h / dist_ratio))) / collision->d.pickable->object->vertical_size
+            + surface->h / collision->d.enemy->object->vertical_size
+              * (collision->d.pickable->object->z + collision->d.pickable->object->vertical_size - 1);
+        if (y >= surface->h || y < 0)
+            continue;
+        put_pixel_alpha(e->doom.surface, r->x, i,
+                            get_pixel(surface, x, y, e_false));
+    }
+}
 
 static void	draw_enemy(t_env *e, t_render *r, t_collision *collision)
 {
@@ -288,6 +319,8 @@ static void	draw_transparents(t_env *e, t_render *r, t_collisions *node)
         draw_object(e, r, &node->item);
     else if (node->item.type == ct_enemy)
     	draw_enemy(e, r, &node->item);
+    else if (node->item.type == ct_pickable)
+        draw_pickable(e, r, &node->item);
     else if (node->item.d.wall->type == e_transparent_wall)
     {
         r->wall_height =

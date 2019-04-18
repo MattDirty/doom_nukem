@@ -23,11 +23,12 @@ typedef struct s_pickable
         shotgun,
         vacuum
     }			type;
+    SDL_Surface *sprite_to_pick;
 }               t_pickable;
 
 typedef struct	        s_pickables
 {
-    t_pickable           *item;
+    t_pickable           item;
     struct s_pickables   *next;                                 
 }		        t_pickables;
 
@@ -46,6 +47,6 @@ void read_pickable_from_file(int fd, t_textures *textures, t_pickable *pickable)
 /*t_pickables	*extract_pickable(
         t_pickables **pickables,
         t_pickable *pickable);*/
-void	delete_pickable(t_pickables *pickables, t_pickable *to_delete);
+void	delete_pickable(t_pickables **pickables, t_pickable *to_delete);
 
 #endif

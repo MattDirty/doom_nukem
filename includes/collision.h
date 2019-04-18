@@ -37,7 +37,8 @@ typedef struct			s_collision
 	    ct_wall,
 	    ct_enemy,
 		ct_lever,
-	    ct_object
+	    ct_object,
+	    ct_pickable
 	} type;
 	union u_type_data
 	{
@@ -45,6 +46,7 @@ typedef struct			s_collision
         t_object		*object;
         t_lever			*lever;
 		t_enemy			*enemy;
+		t_pickable      *pickable;
 	} d;
     t_segment			object_segment;
 }						t_collision;
