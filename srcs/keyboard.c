@@ -15,6 +15,8 @@
 #include "levers.h"
 
 void    key_handler(const Uint8 *state, t_player *p, t_timer_handler *timer_handler) {
+    t_weapon    *new_weapon;
+
     if (state[SDL_SCANCODE_SPACE] && !p->jump.height) {
         p->jump.time = 0;
         add_event(timer_handler, 5, &jumping, p);
@@ -26,9 +28,21 @@ void    key_handler(const Uint8 *state, t_player *p, t_timer_handler *timer_hand
     if (state[SDL_SCANCODE_1])
         p->weapon = get_weapon(p->weapons, 0);
     else if (state[SDL_SCANCODE_2])
-        p->weapon = get_weapon(p->weapons, 1);
+    {
+        new_weapon = get_weapon(p->weapons, 1);
+        if (new_weapon->usable)
+            p->weapon = new_weapon;
+    }
     else if (state[SDL_SCANCODE_3])
-        p->weapon = get_weapon(p->weapons, 2);
+    {
+        new_weapon = get_weapon(p->weapons, 2);
+        if (new_weapon->usable)
+            p->weapon = new_weapon;
+    }
     else if (state[SDL_SCANCODE_4])
-        p->weapon = get_weapon(p->weapons, 3);
+    {
+        new_weapon = get_weapon(p->weapons, 3);
+        if (new_weapon->usable)
+            p->weapon = new_weapon;
+    }
 }

@@ -97,7 +97,7 @@ t_weapon    *load_gun(t_sounds *sounds, t_map *map)
     load_gun_sprites(gun, map);
     gun->ammo = 10;
     gun->main = NULL;
-    gun->usable = e_true;
+    gun->usable = e_false;
     reset_animation(&gun->animation);
     gun->animation.duration = 500;
     gun->main = gun_primary;
