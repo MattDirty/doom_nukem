@@ -72,6 +72,8 @@ void    mousedown_action(t_editor *ed, int mouse_x, int mouse_y)
         return ;
     if (click_on_enemy(ed, ed->map, mouse_x, mouse_y))
         return ;
+    if (click_on_pickable(ed, ed->map, mouse_x, mouse_y))
+        return ;
     if (click_on_object(ed, ed->map, mouse_x, mouse_y))
     	return ;
     if (click_on_nodes(ed, ed->linked_walls, mouse_x, mouse_y))

@@ -41,6 +41,7 @@ typedef	struct			s_selected_elements
 	t_enemy				*enemy;
 	t_object			*object;
 	t_sector			*sector;
+    t_pickable			*pickable;
 	t_wall              *wall;
 }						t_selected_elements;
 

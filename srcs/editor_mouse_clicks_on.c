@@ -91,6 +91,38 @@ enum e_bool		click_on_enemy(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
 	return (e_false);
 }
 
+enum e_bool		click_on_pickable(t_editor *ed, t_map *map, int mouse_x, int mouse_y)
+{
+    int			i;
+    t_pickables	*pickables;
+    t_sector	*sector;
+    t_rect		rect;
+
+    i = 0;
+    while (i < map->sectors->count)
+    {
+        sector = map->sectors->items[i];
+        pickables = sector->pickables;
+        while (pickables)
+        {
+            rect = create_rect(
+                    ed->map_offset.x + pickables->item.object->x
+                                       * ed->zoom - 6,
+                    ed->map_offset.y - pickables->item.object->y
+                                       * ed->zoom - 6,
+                    12, 12);
+            if (is_in_rect(&rect, mouse_x, mouse_y))
+            {
+                deal_with_clicked_pickable(ed, &pickables->item);
+                return (e_true);
+            }
+            pickables = pickables->next;
+        }
+        i++;
+    }
+    return (e_false);
+}
+
 enum e_bool     click_on_walls(t_editor *ed, t_linked_walls *linked_walls, int mouse_x, int mouse_y)
 {
 	t_linked_walls *ptr;

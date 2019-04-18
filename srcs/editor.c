@@ -44,6 +44,7 @@ void	clear_selection(t_selected_elements *selected)
 	selected->object = NULL;
 	selected->sector = NULL;
 	selected->wall = NULL;
+    selected->pickable = NULL;
 }
 
 void    init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
@@ -90,7 +91,7 @@ void    create_sub_lists(t_textures *textures, t_panel *panel)
 	panel->skies.first = NULL;
 	panel->walls.first = NULL;
 	panel->flats.first = NULL;
-	panel->sprites.first = NULL;
+	panel->weapons.first = NULL;
 	panel->wall_objects.first = NULL;
     while (node)
     {
@@ -105,10 +106,11 @@ void    create_sub_lists(t_textures *textures, t_panel *panel)
 			add_texture(&panel->walls, new_node);
 		else if (ft_strcmp(str[1], "flats") == 0)
 			add_texture(&panel->flats, new_node);
-		else if (ft_strcmp(str[1], "sprites") == 0)
-			add_texture(&panel->sprites, new_node);
 		else if (ft_strcmp(str[1], "wall_objects") == 0)
 			add_texture(&panel->wall_objects, new_node);
+        else if (!ft_strcmp(str[2], "gun.bmp") || !ft_strcmp(str[2],
+                "shotgun.bmp") || !ft_strcmp(str[2], "vacuum.bmp"))
+            add_texture(&panel->weapons, new_node);
         node = node->next;
     }
 }

@@ -70,6 +70,8 @@ void	event_editor(t_editor *ed)
 			move_player_spawn(ed, mouse_x, mouse_y);
 		else if (ed->dragged.enemy)
 			move_enemy(ed, mouse_x, mouse_y);
+        else if (ed->dragged.pickable)
+            move_pickable(ed, mouse_x, mouse_y);
 		else if (ed->dragged.object)
 			move_object(ed, mouse_x, mouse_y);
 	}

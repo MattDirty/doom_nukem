@@ -98,6 +98,12 @@ void			deal_with_clicked_enemy(t_editor *ed, t_enemy *enemy)
 	ed->dragged.enemy = enemy;
 }
 
+void			deal_with_clicked_pickable(t_editor *ed, t_pickable *pickable)
+{
+    ed->selected.pickable = pickable;
+    ed->dragged.pickable = pickable;
+}
+
 void			deal_with_clicked_object(t_editor *ed, t_object *object)
 {
 	ed->selected.object = object;

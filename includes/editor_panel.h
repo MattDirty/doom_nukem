@@ -21,7 +21,7 @@ typedef struct          s_panel
     t_textures			skies;
     t_textures			walls;
     t_textures			flats;
-    t_textures			sprites;
+    t_textures			weapons;
     t_textures			wall_objects;
 }						t_panel;
 

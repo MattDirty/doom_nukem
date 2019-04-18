@@ -74,6 +74,26 @@ enum e_bool	walls_intersection_in_sector(t_sector *sector)
 	return (e_false);
 }
 
+t_sector	*find_pickable_sector(t_sectors *sectors, t_pickable *pickable)
+{
+    int					i;
+    t_pickables     	*node;
+
+    i = 0;
+    while (i < sectors->count)
+    {
+        node = sectors->items[i]->pickables;
+        while (node)
+        {
+            if (pickable == &node->item)
+                return (sectors->items[i]);
+            node = node->next;
+        }
+        i++;
+    }
+    return (NULL);
+}
+
 t_sector	*find_enemy_sector(t_sectors *sectors, t_enemy *enemy)
 {
 	int					i;
