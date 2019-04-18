@@ -18,6 +18,7 @@
 #include "ui.h"
 #include "utils.h"
 #include "editor_checks.h"
+
 void        draw_corners_editor(SDL_Surface *surface, t_segment *s)
 {
     t_rect  rect;

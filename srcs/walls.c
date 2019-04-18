@@ -4,9 +4,25 @@
 #include "doom.h"
 #include "serialisation.h"
 
+void		transform_window_to_wall(t_wall *wall)
+{
+	wall->type = e_wall;
+	wall->links.sector1 = NULL;
+	wall->links.sector2 = NULL;
+}
+
+void		transform_wall_to_window(t_wall *wall, t_sector *sector)
+{
+	wall->type = e_transparent_wall;
+	wall->links.sector1 = sector;
+	wall->links.sector2 = sector;
+	wall->to_infinity = e_true;
+}
+
 void		transform_wall_to_portal(t_wall *wall, t_sector *s1, t_sector *s2)
 {
 	wall->type = e_portal;
+	wall->to_infinity = e_false;
 	wall->texture = NULL;
 	wall->links.sector1 = s1;
 	wall->links.sector2 = s2;
