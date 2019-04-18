@@ -8,6 +8,24 @@
 #include "enemies.h"
 #include "utils.h"
 
+void        set_default_sector(t_sector **sector)
+{
+    if (!(*sector = (t_sector*)malloc(sizeof(t_sector))))
+        error_doom("ABORT TRAP SECTOR");
+    if (!((*sector)->walls = (t_walls *)malloc(sizeof(t_walls))))
+        error_doom("couldn't allocate walls");
+    (*sector)->walls->count = 0;
+    (*sector)->floor = NULL;
+    (*sector)->ceil = NULL;
+    (*sector)->light = 0;
+    if (!((*sector)->objects = (t_objects *)malloc(sizeof(t_objects))))
+        error_doom("Couldn't allocate objects");
+    (*sector)->objects->items = NULL;
+    (*sector)->objects->count = 0;
+    (*sector)->enemies = NULL;
+    items[i]->pickables = NULL;
+}
+
 t_sector	*create_new_sector(t_sectors *sectors)
 {
 	t_sector	**items;
@@ -26,19 +44,7 @@ t_sector	*create_new_sector(t_sectors *sectors)
 	free(sectors->items);
 	sectors->items = items;
 	sectors->count++;
-    if (!(items[i] = (t_sector*)malloc(sizeof(t_sector))))
-        error_doom("ABORT TRAP SECTOR");
-	if (!(items[i]->walls = (t_walls *)malloc(sizeof(t_walls))))
-		error_doom("couldn't allocate walls");
-	items[i]->walls->count = 0;
-	items[i]->floor = NULL;
-	items[i]->ceil = NULL;
-	items[i]->light = 0;
-	if (!(items[i]->objects = (t_objects *)malloc(sizeof(t_objects))))
-		error_doom("Couldn't allocate objects");
-	items[i]->objects->count = 0;
-	items[i]->enemies = NULL;
-    items[i]->pickables = NULL;
+    set_default_sector(&items[i]);
 	return (items[i]);
 }
 
