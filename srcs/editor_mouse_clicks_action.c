@@ -55,6 +55,7 @@ void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y)
     if (!ed->selected.object)
         Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
     ed->state = e_null;
+    ed->map_is_updated = e_false;
 }
 
 void        create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y)
@@ -77,6 +78,7 @@ void        create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y)
     if (!ed->selected.enemy)
         Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
     ed->state = e_null;
+	ed->map_is_updated = e_false;
 }
 
 void			deal_with_clicked_sector(t_editor *ed)
