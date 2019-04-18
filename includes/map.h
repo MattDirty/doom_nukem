@@ -30,6 +30,11 @@ typedef struct			s_map
     t_hud               hud;
     SDL_Surface         *melee_sprite;
     SDL_Surface         *gun_sprites[5];
+    SDL_Surface         *shotgun_sprites[3];
+    SDL_Surface         *vacuum_sprite;
+    SDL_Surface         *gun_to_pick;
+    SDL_Surface         *shotgun_to_pick;
+    SDL_Surface         *vacuum_to_pick;
 }						t_map;
 
 void		free_map(t_map *map);

@@ -266,6 +266,13 @@ t_map		*create_map(t_textures *textures)
     find_texture_by_name(textures, "textures/weapons/gun_3.bmp", &map->gun_sprites[2]);
     find_texture_by_name(textures, "textures/weapons/gun_firing.bmp", &map->gun_sprites[3]);
     find_texture_by_name(textures, "textures/weapons/gun_cooldown.bmp", &map->gun_sprites[4]);
+    find_texture_by_name(textures, "textures/weapons/shotgun_1.bmp", &map->shotgun_sprites[0]);
+    find_texture_by_name(textures, "textures/weapons/shotgun_cooldown.bmp", &map->shotgun_sprites[1]);
+    find_texture_by_name(textures, "textures/weapons/shotgun_firing.bmp", &map->shotgun_sprites[2]);
+    find_texture_by_name(textures, "textures/weapons/blackhole_destroyer.bmp", &map->vacuum_sprite);
+    find_texture_by_name(textures, "textures/sprites/gun.bmp", &map->gun_to_pick);
+    find_texture_by_name(textures, "textures/sprites/shotgun.bmp", &map->shotgun_to_pick);
+    find_texture_by_name(textures, "textures/sprites/vacuum.bmp", &map->vacuum_to_pick);
     map->daytime = e_true;
     map->spawn.x = 1;
     map->spawn.y = 1;
@@ -319,6 +326,13 @@ t_textures	*load_textures(void)
     add_bitmap_file_to_textures(textures, "textures/weapons/gun_3.bmp");
     add_bitmap_file_to_textures(textures, "textures/weapons/gun_firing.bmp");
     add_bitmap_file_to_textures(textures, "textures/weapons/gun_cooldown.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/shotgun_1.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/shotgun_cooldown.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/shotgun_firing.bmp");
+    add_bitmap_file_to_textures(textures, "textures/weapons/blackhole_destroyer.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/gun.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/shotgun.bmp");
+    add_bitmap_file_to_textures(textures, "textures/sprites/vacuum.bmp");
 
     add_bitmap_file_to_textures(textures, "textures/explosions/explosion_1.bmp");
     add_bitmap_file_to_textures(textures, "textures/explosions/explosion_2.bmp");
