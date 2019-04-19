@@ -95,7 +95,7 @@ t_weapon    *load_gun(t_sounds *sounds, t_map *map)
     if (!(gun = (t_weapon *)malloc(sizeof(t_weapon))))
         error_doom("Couldn't malloc gun");
     load_gun_sprites(gun, map);
-    gun->ammo = 10;
+    gun->ammo = 0;
     gun->main = NULL;
     gun->usable = e_false;
     reset_animation(&gun->animation);

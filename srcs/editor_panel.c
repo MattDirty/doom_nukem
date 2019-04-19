@@ -25,6 +25,15 @@ void    change_selected_texture(t_params params)
     btn_params = (t_btn_params *)params;
     if (!btn_params->selected || *btn_params->selected == btn_params->target)
         return ;
+    if (btn_params->ed->selected.pickable)
+	{
+    	if (ft_strstr(btn_params->target->userdata, "shotgun"))
+    		btn_params->ed->selected.pickable->type = et_shotgun;
+		else if (ft_strstr(btn_params->target->userdata, "gun"))
+			btn_params->ed->selected.pickable->type = et_gun;
+		else if (ft_strstr(btn_params->target->userdata, "vacuum"))
+			btn_params->ed->selected.pickable->type = et_vacuum;
+	}
     *btn_params->selected = btn_params->target;
     btn_params->ed->map_is_updated = e_false;
 }
