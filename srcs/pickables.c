@@ -29,6 +29,7 @@ static  void    make_weapon_usable(t_weapons *node, Uint32 target)
         i++;
     }
     node->item->usable = e_true;
+    node->item->ammo += 10;
 }
 
 t_pickables	*extract_pickable(
@@ -98,11 +99,11 @@ void     pick_objects(t_player *player)
     t_coords    pick_pos;
 
     pickables = player->current_sector->pickables;
-    pick_pos = (t_coords){
-        pickables->item.object->x,
-        pickables->item.object->y};
     while (pickables)
     {
+        pick_pos = (t_coords){
+                pickables->item.object->x,
+                pickables->item.object->y};
         if (is_close_to(pick_pos, player->pos, 0.2))
         {
             do_stuff(player, pickables);
