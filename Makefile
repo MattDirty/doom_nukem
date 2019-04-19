@@ -202,7 +202,7 @@ $(NAME): $(OBJS)
 	@if [ ! -e $(SDL_PATH)/$(SDL2_TTF)/config.status ]; \
 	    then $(CONFIGURE_SDL2_TTF); fi
 	@$(MAKE) -j -C libft
-	$(CC) -g3 -fsanitize=address $(OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
+	$(CC) $(OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
 
 $(NAME_EDITOR): $(OBJS_EDITOR)
 	@if [ ! -d $(SDL_PATH)/$(SDL2) ] || [ ! -d $(SDL_PATH)/$(SDL2_MIXER) ] \
@@ -227,10 +227,10 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 	$(CC) $(CFLAGS) $(IFLAGS) $(SDL_CFLAGS) -o $@ -c $<
 
 run: $(NAME)
-	./$(NAME) blop
+	./$(NAME) mabite.roflolilolmao
 
 redit: $(NAME_EDITOR)
-	./$(NAME_EDITOR) blop
+	./$(NAME_EDITOR) mabite.roflolilolmao
 
 norm:
 	norminette $(SRCS) $(INCL)
@@ -243,6 +243,7 @@ git: fclean
 clean:
 	$(RM) $(OBJS)
 	$(RM) $(OBJS_EDITOR)
+	$(RM) mabite.roflolilolmao
 	rmdir $(OBJ_PATH) 2> /dev/null || true
 
 fclean: clean
