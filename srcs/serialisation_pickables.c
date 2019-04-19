@@ -58,7 +58,10 @@ void    read_pickables_from_file(
 	if (read(fd, &next, sizeof(next)) <= 0)
 		error_doom("The shield has gone mad, Detroudbalus!");
 	if (!next)
+	{
+		*pickables = NULL;
 		return;
+	}
 	if (!(*pickables = (t_pickables*)malloc(sizeof(t_pickables))))
 		error_doom("Couldn't allocate pickables struct");
 	(*pickables)->next = NULL;
