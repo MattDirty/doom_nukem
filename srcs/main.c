@@ -2,6 +2,7 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include "doom.h"
+#include "collision.h"
 #include "map.h"
 #include "debug.h"
 #include "config.h"
@@ -35,10 +36,9 @@ t_sdl       init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
 int		main (int ac, char **av)
 {
 	t_env		e;
-    time_t		t;
 
-    srand((unsigned) time(&t));
 	e.op = load_default_config();
+    start_generating_blackhole_buffer(&e);
     if (ac > 1 && ft_strcmp(av[1], "debug") == 0)
 		e.debug_mode = e_true;
 	else

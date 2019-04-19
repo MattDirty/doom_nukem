@@ -57,6 +57,13 @@ typedef struct			s_collisions
 	struct s_collisions	*next;
 }						t_collisions;
 
+typedef struct			s_raycasting_args
+{
+    int					start;
+    int					inc;
+    t_env		    	*e;
+}						t_raycasting_args;
+
 enum e_bool	segments_intersect(t_segment *a, t_segment *b, t_coords *inters);
 void		find_ray_collisions(
         t_sector *sector,
@@ -65,5 +72,6 @@ void		find_ray_collisions(
 t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall);
 void		raycasting(t_env *e);
 void		free_collisions(t_collisions *collisions);
+void			start_generating_blackhole_buffer(t_env *e);
 
 #endif

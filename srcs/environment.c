@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <pthread.h>
 #include "libft.h"
 #include "doom.h"
 #include "default.h"
@@ -29,6 +30,9 @@ void        error_doom(char *err)
 
 static void	free_env(t_env *e)
 {
+    e->blackhole_thread_stop = e_true;
+    pthread_join(e->blackhole_thread, NULL);
+    free(e->blackhole_buffer);
     free_weapons(e->p.weapons);
     free_map(e->map);
     free_textures(e->textures);
