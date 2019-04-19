@@ -10,7 +10,7 @@ void    free_walls_nodes(t_wall_nodes *nodes)
     {
         next = nodes->next;
         free(nodes);
-        nodes = nodes->next;
+        nodes = next;
     }
 }
 
