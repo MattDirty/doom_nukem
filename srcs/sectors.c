@@ -48,6 +48,28 @@ t_sector	*create_new_sector(t_sectors *sectors)
 	return (items[i]);
 }
 
+void        add_wall_to_sector(t_sector *sector, t_wall *wall)
+{
+	int     count;
+	t_wall  **items;
+	int 	i;
+
+	count = sector->walls->count + 1;
+	if (!(items = (t_wall **)malloc(sizeof(t_wall *) * count)))
+		error_doom("Couldn't add a wall to sector(malloc)");
+	i = 0;
+	while (i < sector->walls->count)
+	{
+		*(items + i) = *(sector->walls->items + i);
+		i++;
+	}
+	if (sector->walls->count > 0)
+		free(sector->walls->items);
+	*(items + i) = wall;
+	sector->walls->items = items;
+	sector->walls->count = count;
+}
+
 enum e_bool	walls_intersection_in_sector(t_sector *sector)
 {
 	int			i;
