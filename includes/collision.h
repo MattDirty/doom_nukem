@@ -72,6 +72,14 @@ void		find_ray_collisions(
 t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall);
 void		raycasting(t_env *e);
 void		free_collisions(t_collisions *collisions);
+t_collisions	*add_collision(t_collisions **collisions, double distance,
+					t_coords inters);
+t_collisions	*insert_collision(t_collisions **collisions, double distance,
+					t_coords inters);
+void			find_enemies_collisions_in_sector(t_sector *sector, t_segment
+					*ray, t_collisions **collisions);
+void			find_pickables_collisions_in_sector(t_sector *sector,
+					t_segment *ray, t_collisions **collisions);
 void			start_generating_blackhole_buffer(t_env *e);
 
 #endif
