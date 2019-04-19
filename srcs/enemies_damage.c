@@ -77,7 +77,7 @@ enum e_bool enemy_death(double ms_since_update, t_params params)
 	return (e_true);
 }
 
-void    damage_enemy(t_env *e,
+void    dmg_enemy(t_env *e,
 					 t_timer_handler *timer_handler, t_enemy *enemy, Uint32 damage)
 {
 	enemy->life_remaining -= damage;

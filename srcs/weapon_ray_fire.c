@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   weapon_ray_fire.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtorsell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/20 00:39:07 by mtorsell          #+#    #+#             */
+/*   Updated: 2019/04/20 00:39:09 by mtorsell         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "doom.h"
 #include "collision.h"
 #include "weapon.h"
@@ -6,13 +18,14 @@
 
 static t_collisions	*skip_portals(t_collisions *ptr)
 {
-	while (ptr && ptr->item.type == ct_wall
-		   && ptr->item.d.wall->type == e_portal)
+	while (ptr
+		&& ptr->item.type == ct_wall
+		&& ptr->item.d.wall->type == e_portal)
 		ptr = ptr->next;
 	return (ptr);
 }
 
-void		weapon_ray_fire(t_env *e, t_timer_handler *timer_handler)
+void				weapon_ray_fire(t_env *e, t_timer_handler *timer_handler)
 {
 	t_ray			ray;
 	t_collisions	*collisions;
@@ -34,7 +47,7 @@ void		weapon_ray_fire(t_env *e, t_timer_handler *timer_handler)
 		ptr = collisions;
 		ptr = skip_portals(ptr);
 		if (ptr && ptr->item.type == ct_enemy)
-			damage_enemy(e, timer_handler, ptr->item.d.enemy, e->p.weapon->damage);
+			dmg_enemy(e, timer_handler, ptr->item.d.enemy, e->p.weapon->damage);
 		else if (ptr && ptr->item.type == ct_object && e->p.weapon->ammo == -1)
 			fuck_flower(&e->p, ptr->item.d.object);
 		free_collisions(collisions);
