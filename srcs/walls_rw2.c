@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   walls_rw2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtorsell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/20 01:18:05 by mtorsell          #+#    #+#             */
+/*   Updated: 2019/04/20 01:18:12 by mtorsell         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include "doom.h"
 #include "walls.h"
@@ -14,14 +26,11 @@ void			read_walls_from_file(
 
 	if (!(*walls = (t_walls*)malloc(sizeof(t_walls))))
 		error_doom("couldn't alloc t_walls");
-
 	if (read(fd, &count, sizeof(count)) <= 0)
 		error_doom("couldn't read walls count");
-
 	(*walls)->count = count;
-	if(!((*walls)->items = (t_wall**)malloc(sizeof(t_wall*) * count)))
+	if (!((*walls)->items = (t_wall**)malloc(sizeof(t_wall*) * count)))
 		error_doom("error: cannot malloc wall");
-
 	i = 0;
 	while (i < count)
 	{
@@ -42,7 +51,6 @@ void			write_walls_to_file(
 
 	if (write(fd, &walls->count, sizeof(walls->count)) <= 0)
 		error_doom("couldn't write walls count");
-
 	i = 0;
 	while (i < walls->count)
 	{
@@ -53,11 +61,8 @@ void			write_walls_to_file(
 	}
 }
 
-void			read_wall_from_file(
-		int fd,
-		t_sectors *sectors,
-		t_textures *textures,
-		t_wall **wall)
+void			read_wall_from_file(int fd, t_sectors *sectors,
+		t_textures *textures, t_wall **wall)
 {
 	int		index;
 
@@ -70,8 +75,7 @@ void			read_wall_from_file(
 	(*wall)->texture = NULL;
 	if ((*wall)->type == e_wall || (*wall)->type == e_transparent_wall)
 		find_texture_from_file(fd, textures, &((*wall)->texture));
-	(*wall)->links.sector1 = NULL;
-	(*wall)->links.sector2 = NULL;
+	(*wall)->links = (t_link){NULL, NULL};
 	if ((*wall)->type == e_portal || (*wall)->type == e_transparent_wall)
 	{
 		if (read(fd, &index, sizeof(index)) <= 0)
