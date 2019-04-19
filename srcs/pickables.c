@@ -94,6 +94,7 @@ int         is_close_to(t_coords target, t_coords pos, double dist)
 void     pick_objects(t_player *player)
 {
     t_pickables *pickables;
+    t_pickables *next;
     t_coords    pick_pos;
 
     pickables = player->current_sector->pickables;
@@ -105,7 +106,10 @@ void     pick_objects(t_player *player)
         if (is_close_to(pick_pos, player->pos, 0.2))
         {
             do_stuff(player, pickables);
+            next = pickables->next;
             delete_pickable(&player->current_sector->pickables, &pickables->item);
+            pickables = next;
+            continue;
         }
         pickables = pickables->next;
     }
