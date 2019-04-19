@@ -27,6 +27,7 @@ t_segment perpendicular_segment_from_point(
 
 void free_objects(t_objects *objects)
 {
-    free(objects->items);
+    if (objects->count > 0)
+		free(objects->items);
     free(objects);
 }
