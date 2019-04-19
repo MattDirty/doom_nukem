@@ -21,73 +21,94 @@ t_map		*create_map(t_textures *textures)
 
 	if (!(map = (t_map*)malloc(sizeof(t_map))))
 		error_doom("error: cannot allocate memory for struct map");
-
 	if (!(map->sectors = (t_sectors*)malloc(sizeof(t_sectors))))
 		error_doom("t_sectors");
-
-	map->sectors->count = 2;
+	map->sectors->count = 1;
 	if (!(map->sectors->items =
 				(t_sector**)malloc(map->sectors->count * sizeof(t_sector*))))
 		error_doom("Can't allocate sectors");
-
 	i = 0;
 	while (i < map->sectors->count)
 	{
         if (!(map->sectors->items[i] = (t_sector*)malloc(sizeof(t_sector))))
             error_doom("BUS ERROR !!!11");
-        i++;
-    }
-	i = 0;
-	while (i < map->sectors->count)
-	{
 		if (!(map->sectors->items[i]->walls = (t_walls*)malloc(sizeof(t_walls))))
 			error_doom("t_walls");
-
-        find_texture_by_name(textures, "textures/flats/grass.bmp", &map->sectors->items[i]->floor);
-        find_texture_by_name(textures, "textures/flats/dirt.bmp", &map->sectors->items[i]->ceil);
-        map->sectors->items[i]->open_sky = e_false;
-        map->sectors->items[i]->objects = (t_objects*)malloc(sizeof(t_objects));
-        map->sectors->items[i]->objects->items = NULL;
-            map->sectors->items[i]->objects->count = 0;
-            map->sectors->items[i]->objects->items = (t_object*)malloc(
-                    sizeof(t_object) * map->sectors->items[i]->objects->count);
-
+		find_texture_by_name(textures, "textures/flats/grass.bmp", &map->sectors->items[i]->floor);
+		find_texture_by_name(textures, "textures/flats/dirt.bmp", &map->sectors->items[i]->ceil);
+		map->sectors->items[i]->open_sky = e_false;
+		map->sectors->items[i]->objects = (t_objects*)malloc(sizeof(t_objects));
+		map->sectors->items[i]->objects->items = NULL;
+		map->sectors->items[i]->objects->count = 0;
+		map->sectors->items[i]->objects->items
+		= (t_object*)malloc(sizeof(t_object) * map->sectors->items[i]->objects->count);
+//		map->sectors->items[i]->enemies = (t_linked_enemies*)malloc(sizeof(t_linked_enemies));
+//		map->sectors->items[i]->enemies->next = NULL;
+//		if (!(map->sectors->items[i]->enemies->item.object = (t_object *)malloc(sizeof(t_object))))
+//			error_doom("couldn't allocate enemies objects");
+//
+//		map->sectors->items[i]->enemies->item.heading = (t_vector){-1, 0};
+//		map->sectors->items[i]->enemies->item.type = et_boss;
+//		map->sectors->items[i]->enemies->item.object->x = 1;
+//		map->sectors->items[i]->enemies->item.object->y = i * 4 + 1;;
+//		map->sectors->items[i]->enemies->item.object->z = 0;
+//		map->sectors->items[i]->enemies->item.object->horizontal_size = 1;
+//		map->sectors->items[i]->enemies->item.object->vertical_size = 1;
+//		map->sectors->items[i]->enemies->item.life_remaining = 100;
+//		map->sectors->items[i]->enemies->item.time_in_death = -1;
+//		map->sectors->items[i]->enemies->item.to_destroy = e_false;
+//		map->sectors->items[i]->enemies->item.heading = (t_vector){0, 1};
+//		map->sectors->items[i]->enemies->item.death_duration = 0;
+//		find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.front);
+//		map->sectors->items[i]->enemies->item.object->sprite =
+//				map->sectors->items[i]->enemies->item.front;
+//		find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.left);
+//		find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.right);
+//		find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.back);
+//		map->sectors->items[i]->pickables = (t_pickables *)malloc(sizeof(t_pickables));
+//		map->sectors->items[i]->pickables->next = NULL;
+//
+//		map->sectors->items[i]->pickables->item.type = et_gun;
+//		if (!(map->sectors->items[i]->pickables->item.object = (t_object *)malloc(sizeof(t_object))))
+//			error_doom("couldn't allocate pickables objects");
+//		find_texture_by_name(textures, "textures/sprites/gun.bmp",
+//							 &map->sectors->items[i]->pickables->item.sprite_to_pick[0]);
+//		find_texture_by_name(textures, "textures/sprites/shotgun.bmp",
+//							 &map->sectors->items[i]->pickables->item.sprite_to_pick[1]);
+//		find_texture_by_name(textures, "textures/sprites/vacuum.bmp",
+//							 &map->sectors->items[i]->pickables->item.sprite_to_pick[2]);
+//		map->sectors->items[i]->pickables->item.object->sprite =
+//				map->sectors->items[i]->pickables->item.sprite_to_pick[0];
+//		map->sectors->items[i]->pickables->item.object->x = 3;
+//		map->sectors->items[i]->pickables->item.object->y = i * 4 + 1;
+//		map->sectors->items[i]->pickables->item.object->horizontal_size = 1;
+//		map->sectors->items[i]->pickables->item.object->vertical_size = 1;
+//		map->sectors->items[i]->pickables->item.object->z = 0;
+//		map->sectors->items[i]->pickables->item.object->can_give_bonus = 0;
 		walls = map->sectors->items[i]->walls;
-		find_texture_by_name(
-				textures,
-				"textures/walls/stones.bmp",
-				&map->sectors->items[1]->floor);
-		find_texture_by_name(
-				textures,
-				"textures/flats/dirt.bmp",
-				&map->sectors->items[2]->floor);
 		walls->count = 4;
-
 		if (!(walls->items = (t_wall**)malloc(walls->count * sizeof(t_wall*))))
 			error_doom("Can't allocate walls");
-
-        j = 0;
-        while (j < walls->count)
-            if (!(walls->items[j++] = (t_wall*)malloc(sizeof(t_wall))))
-                error_doom("Can't allocate wall");
-
+		j = 0;
+		while (j < walls->count)
+		{
+			if (!(walls->items[j] = (t_wall*)malloc(sizeof(t_wall))))
+				error_doom("Can't allocate wall");
+			find_texture_by_name(textures, "textures/walls/stones.bmp",
+					&walls->items[j]->texture);
+			walls->items[j]->wall_object = NULL;
+			walls->items[j]->lever = NULL;
+			walls->items[j]->type = e_wall;
+			walls->items[j]->to_infinity = e_false;
+			walls->items[j]->wall_offset = 0;
+			j++;
+		}
 		walls->items[0]->segment = create_segment(0, 0 + i * 4, 0, 4 + i * 4);
 		walls->items[1]->segment = create_segment(0, 4 + i * 4, 4, 4 + i * 4);
 		walls->items[2]->segment = create_segment(4, 4 + i * 4, 4, 0 + i * 4);
 		walls->items[3]->segment = create_segment(4, 0 + i * 4, 0, 0 + i * 4);
-
-		j = 0;
-		while (j < walls->count)
-		{
-            walls->items[j]->wall_object = NULL;
-            walls->items[j]->lever = NULL;
-		    walls->items[j]->type = e_wall;
-		    walls->items[j]->to_infinity = e_false;
-            walls->items[j]->wall_offset = 0;
-			j++;
-		}
-		i++;
-	}
+        i++;
+    }
     find_texture_by_name(textures, "textures/skybox/day.bmp", &map->daysky);
     find_texture_by_name(textures, "textures/skybox/night.bmp", &map->nightsky);
     find_texture_by_name(textures, "textures/hud/sun.bmp", &map->hud.sun);
@@ -116,7 +137,6 @@ t_map		*create_map(t_textures *textures)
     map->daytime = e_true;
     map->spawn.x = 1;
     map->spawn.y = 1;
-
 	return (map);
 }
 
@@ -128,6 +148,7 @@ t_textures	*load_textures(void)
         error_doom("could not allocate textures");
     textures->first = NULL;
     add_bitmap_file_to_textures(textures, "textures/walls/stones.bmp");
+	add_bitmap_file_to_textures(textures, "textures/walls/brickwall.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/brickwall2.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/fence.bmp");
     add_bitmap_file_to_textures(textures, "textures/walls/window.bmp");

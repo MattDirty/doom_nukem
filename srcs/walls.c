@@ -249,6 +249,7 @@ void			write_linked_walls_to_file(
     t_linked_walls *linked_walls;
     int		count;
 
+
     create_linked_walls_from_sectors(sectors, p_linked_walls, &count);
     linked_walls = *p_linked_walls;
     if (write(fd, &count, sizeof(count)) <= 0)
