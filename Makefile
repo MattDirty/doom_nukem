@@ -217,7 +217,6 @@ git: fclean
 clean:
 	$(RM) $(OBJS)
 	$(RM) $(OBJS_EDITOR)
-	$(RM) template.roflolilolmao
 	rmdir $(OBJ_PATH) 2> /dev/null || true
 
 fclean: clean

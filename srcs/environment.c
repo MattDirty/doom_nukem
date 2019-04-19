@@ -22,32 +22,32 @@
 #include "textures.h"
 #include "sounds.h"
 
-void        error_doom(char *err)
+void		error_doom(char *err)
 {
-    ft_putendl(err);
-    exit(EXIT_FAILURE);
+	ft_putendl(err);
+	exit(EXIT_FAILURE);
 }
 
 static void	free_env(t_env *e)
 {
-    e->blackhole_thread_stop = e_true;
-    pthread_join(e->blackhole_thread, NULL);
-    free(e->blackhole_buffer);
-    free_weapons(e->p.weapons);
-    free_map(e->map);
-    free_textures(e->textures);
-    free_fonts(e->fonts);
-    free_sounds(e->sounds);
+	e->blackhole_thread_stop = e_true;
+	pthread_join(e->blackhole_thread, NULL);
+	free(e->blackhole_buffer);
+	free_weapons(e->p.weapons);
+	free_map(e->map);
+	free_textures(e->textures);
+	free_fonts(e->fonts);
+	free_sounds(e->sounds);
 	SDL_FreeSurface(e->doom.surface);
 	SDL_DestroyTexture(e->doom.texture);
 	SDL_DestroyRenderer(e->doom.renderer);
 	SDL_DestroyWindow(e->doom.window);
 }
 
-void    quit_doom(t_env *e)
+void		quit_doom(t_env *e)
 {
-    free_env(e);
+	free_env(e);
 	TTF_Quit();
 	SDL_Quit();
-    exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }
