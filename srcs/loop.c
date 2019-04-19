@@ -14,7 +14,6 @@
 #include "doom.h"
 #include "default.h"
 #include "utils.h"
-#include "debug.h"
 #include "collision.h"
 #include "ui.h"
 #include "e_bool.h"
@@ -167,8 +166,6 @@ enum e_bool		frame_event(double ms_since_update, t_params params)
     frame_event_params = (t_frame_event_params*)params;
     e = frame_event_params->e;
     map = frame_event_params->map;
-    if (e->debug_mode)
-        debug_draw(&e->debug, map, &e->p, &e->op);
     raycasting(e);
     draw_weapon(
             e->doom.surface,

@@ -48,8 +48,6 @@ SRCS_NAMES = vector.c \
 			render_blackhole.c \
 			enemies_intelligence.c \
 			basic_enemies_intelligence.c \
-			debug_init.c \
-			debug_draw_tools.c \
 			draw_tools.c \
 			ui_draw.c \
 			ui_elements.c \

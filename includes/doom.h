@@ -14,10 +14,8 @@
 
 typedef struct          s_env
 {
-        t_config        op; // tions
-		t_sdl			debug;
-		enum e_bool     debug_mode;
-        t_player        p; // layer
+        t_config        op;
+        t_player        p;
         t_sdl           doom;
         t_map			*map;
         Mix_Music 		*music;
