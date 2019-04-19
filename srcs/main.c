@@ -12,8 +12,7 @@ t_sdl	init_sdl(Uint32 w, Uint32 h, Uint32 fullscreen, char *name)
 {
 	t_sdl   sdl;
 
-	if (fullscreen)
-		fullscreen = SDL_WINDOW_FULLSCREEN_DESKTOP;
+	fullscreen = SDL_WINDOW_FULLSCREEN_DESKTOP;
 	if (!(sdl.window = SDL_CreateWindow(name, 0, 0,
 				w, h, fullscreen)))
 		error_doom("Could not create window.");

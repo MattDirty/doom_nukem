@@ -20,6 +20,7 @@ SRC_PATH = srcs
 
 SRCS_NAMES = vector.c \
 			collision.c \
+			collision2.c \
 			segment.c \
 			rectangle.c \
 			player.c \
@@ -48,6 +49,7 @@ SRCS_NAMES = vector.c \
 			render_blackhole.c \
 			enemies_intelligence.c \
 			basic_enemies_intelligence.c \
+			basic_enemies_intelligence2.c \
 			draw_tools.c \
 			ui_draw.c \
 			ui_elements.c \
@@ -199,10 +201,10 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 	$(CC) $(CFLAGS) $(IFLAGS) $(SDL_CFLAGS) -o $@ -c $<
 
 run: $(NAME)
-	./$(NAME)
+	./$(NAME) template.roflolilolmao
 
 redit: $(NAME_EDITOR)
-	./$(NAME_EDITOR) mabite.roflolilolmao
+	./$(NAME_EDITOR) template.roflolilolmao
 
 norm:
 	norminette $(SRCS) $(INCL)
@@ -215,7 +217,7 @@ git: fclean
 clean:
 	$(RM) $(OBJS)
 	$(RM) $(OBJS_EDITOR)
-	$(RM) mabite.roflolilolmao
+	$(RM) template.roflolilolmao
 	rmdir $(OBJ_PATH) 2> /dev/null || true
 
 fclean: clean
