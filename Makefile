@@ -69,6 +69,7 @@ SRCS_NAMES = vector.c \
 			keyboard.c \
 			enemies.c \
 			enemies_damage.c \
+			weapon_ray_fire.c \
 			pickables.c
 
 SRC_NAME =	main.c \

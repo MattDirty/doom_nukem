@@ -129,7 +129,7 @@ void	copy_file_in_file(int fd, char *name)
     int				size;
 
     if ((name_fd = open(name, O_RDONLY)) < 0)
-        error_doom("couldn't open other file");
+		error_doom("couldn't open other file");
     if (fstat(name_fd, &statbuf) < 0)
         error_doom("couldn't find file stats");
     size = statbuf.st_size;
