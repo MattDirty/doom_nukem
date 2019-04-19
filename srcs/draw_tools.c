@@ -54,7 +54,7 @@ void		draw_segment(SDL_Surface *surface, t_segment s, Uint32 color)
 }
 
 void		draw_circle(SDL_Surface *surface, t_coords center, int r,
-				Uint32 color)
+		Uint32 color)
 {
 	int		x;
 	int		y;
@@ -94,7 +94,7 @@ void		draw_circle(SDL_Surface *surface, t_coords center, int r,
 }
 
 void		draw_circle_filled(SDL_Surface *surface, t_coords center, int r,
-				Uint32 color)
+		Uint32 color)
 {
 	while (r > 0)
 	{

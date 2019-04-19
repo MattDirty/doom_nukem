@@ -16,7 +16,7 @@
 #include "player.h"
 
 void		roam(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
-				double ms_since_update)
+		double ms_since_update)
 {
 	t_vector	to_player;
 
@@ -38,14 +38,14 @@ void		roam(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
 }
 
 void		fire(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
-				double ms_since_update)
+		double ms_since_update)
 {
 	t_vector	to_player;
 
 	(void)ms_since_update;
 	(void)enemy_sector;
 	to_player = (t_vector){e->p.pos.x - enemy->object->x,
-		e->p.pos.y - enemy->object->y};
+						e->p.pos.y - enemy->object->y};
 	normalize_vector(&to_player);
 	enemy->heading = to_player;
 	pew(enemy, e);
@@ -58,7 +58,7 @@ void		fire(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
 }
 
 void		flee(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
-				double ms_since_update)
+		double ms_since_update)
 {
 	if (enemy->animation_time > 1000)
 	{

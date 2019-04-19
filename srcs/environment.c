@@ -22,10 +22,10 @@
 #include "textures.h"
 #include "sounds.h"
 
-void        error_doom(char *err)
+void		error_doom(char *err)
 {
-    ft_putendl(err);
-    exit(EXIT_FAILURE);
+	ft_putendl(err);
+	exit(EXIT_FAILURE);
 }
 
 static void	free_env(t_env *e)
@@ -44,10 +44,10 @@ static void	free_env(t_env *e)
 	SDL_DestroyWindow(e->doom.window);
 }
 
-void    quit_doom(t_env *e)
+void		quit_doom(t_env *e)
 {
-    free_env(e);
+	free_env(e);
 	TTF_Quit();
 	SDL_Quit();
-    exit(EXIT_SUCCESS);
+	exit(EXIT_SUCCESS);
 }

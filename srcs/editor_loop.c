@@ -64,7 +64,7 @@ void	event_editor(t_editor *ed)
 	if (x || y)
 	{
 		SDL_GetMouseState(&mouse_x, &mouse_y);
-		if (ed->dragged.nodes)
+		if (ed->dragged.node)
 			move_walls_nodes(ed, mouse_x, mouse_y);
 		else if (ed->dragged.p_spawn)
 			move_player_spawn(ed, mouse_x, mouse_y);

@@ -4,18 +4,18 @@
 
 enum e_bool segment_intersect_with_map(t_linked_walls *walls, t_segment seg)
 {
-	t_linked_walls	*node;
+	t_linked_walls	*n;
 	t_coords		inter;
 
-	node = walls;
-	while (node->wall)
+	n = walls;
+	while (n->wall)
 	{
-		if (segments_intersect(&seg, &node->wall->segment, &inter))
+		if (segments_intersect(&seg, &n->wall->segment, &inter))
 		{
-			if (!segments_share_node(&seg, &node->wall->segment))
+			if (!segments_share_node(&seg, &n->wall->segment))
 				return (e_true);
 		}
-		node = node->next;
+		n = n->next;
 	}
 	return (e_false);
 }

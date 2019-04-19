@@ -65,7 +65,7 @@ void		change_vector_magnitude(t_vector *vector, double new_magnitude);
 double      dot_product(t_vector *vector1, t_vector *vector2);
 double      get_vector_length(t_vector *vector);
 double      get_rad_between_vectors(t_vector *vector1, t_vector *vector2);
-t_segment	create_segment_from_position_and_vector(
+t_segment	seg_from_pos_and_vect(
         double x,
         double y,
         t_vector *v);
@@ -80,7 +80,7 @@ enum e_bool segments_intersect(t_segment *a, t_segment *b, t_coords *inters);
 enum e_bool	segments_share_node(t_segment *s1, t_segment *s2);
 
 double      delta_ms(struct timespec start, struct timespec end);
-double      get_distance_between_points(double x1, double y1, double x2, double y2);
+double      get_dist_between_points(double x1, double y1, double x2, double y2);
 
 void		read_segment_from_file(int fd, t_segment *segment);
 void		write_segment_to_file(int fd, t_segment *segment);

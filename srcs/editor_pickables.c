@@ -45,17 +45,17 @@ t_pickable      create_default_pickable(t_textures *textures)
 
 void	add_pickable(t_pickables **pickables, t_pickables *pickable)
 {
-	t_pickables	*node;
+	t_pickables	*n;
 
 	if (!*pickables)
 	{
 		*pickables = pickable;
 		return;
 	}
-	node = *pickables;
-	while (node->next)
-		node = node->next;
-	node->next = pickable;
+	n = *pickables;
+	while (n->next)
+		n = n->next;
+	n->next = pickable;
 }
 
 t_pickables    *add_new_pickable_to_sector_at_pos(t_sector *sector,

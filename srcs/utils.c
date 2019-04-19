@@ -33,7 +33,7 @@ void		normalize_vector(t_vector *vector)
     vector->y /= l;
 }
 
-double  get_distance_between_points(double x1, double y1, double x2, double y2)
+double  get_dist_between_points(double x1, double y1, double x2, double y2)
 {
     return (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 }

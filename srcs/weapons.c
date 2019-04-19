@@ -24,7 +24,7 @@ void    weapon_ray_fire(t_env *e, t_timer_handler *timer_handler)
         ray.angle = angle;
         ray.vect = create_vector(cos(ray.angle), -sin(ray.angle));
         change_vector_magnitude(&ray.vect, weapon->range);
-        ray.seg = create_segment_from_position_and_vector(e->p.pos.x,
+        ray.seg = seg_from_pos_and_vect(e->p.pos.x,
                 e->p.pos.y, &ray.vect);
         find_ray_collisions(e->p.current_sector, &ray.seg, &collisions);
         if (!collisions)
@@ -48,56 +48,56 @@ enum e_bool    unlock(double ms_since_update, t_params ready)
     return (e_false);
 }
 
-t_weapon    *get_weapon(t_weapons *node, Uint32 target)
+t_weapon    *get_weapon(t_weapons *n, Uint32 target)
 {
     Uint32  i;
 
     i = 0;
-    while (node && i < target)
+    while (n && i < target)
     {
-        node = node->next;
+        n = n->next;
         i++;
     }
-    return (node->item);
+    return (n->item);
 }
 
-void    put_weapon(t_weapons *node, t_weapon *weapon, Uint32 target)
+void    put_weapon(t_weapons *n, t_weapon *weapon, Uint32 target)
 {
     Uint32  i;
 
     i = 0;
-    while (node && i < target)
+    while (n && i < target)
     {
-        node = node->next;
+        n = n->next;
         i++;
     }
-    node->item = weapon;
+    n->item = weapon;
 }
 
 t_weapons   *allocate_weapons(t_sounds *sounds, t_map *map)
 {
-    t_weapons   *node;
+    t_weapons   *n;
     t_weapons   *first;
 
-    if (!(node = (t_weapons *)malloc(sizeof(t_weapons))))
+    if (!(n = (t_weapons *)malloc(sizeof(t_weapons))))
         error_doom("Couldn't allocate weapons");
-    first = node;
-    node->item = load_melee(sounds, map);
-    if (!(node->next = (t_weapons *)malloc(sizeof(t_weapons))))
+    first = n;
+    n->item = load_melee(sounds, map);
+    if (!(n->next = (t_weapons *)malloc(sizeof(t_weapons))))
         error_doom("Couldn't allocate weapons");
-    node = node->next;
-    node->next = NULL;
-    node->item = load_gun(sounds, map);
-    if (!(node->next = (t_weapons *)malloc(sizeof(t_weapons))))
+    n = n->next;
+    n->next = NULL;
+    n->item = load_gun(sounds, map);
+    if (!(n->next = (t_weapons *)malloc(sizeof(t_weapons))))
         error_doom("Couldn't allocate weapons");
-    node = node->next;
-    node->next = NULL;
-    node->item = load_shotgun(sounds, map);
-    if (!(node->next = (t_weapons *)malloc(sizeof(t_weapons))))
+    n = n->next;
+    n->next = NULL;
+    n->item = load_shotgun(sounds, map);
+    if (!(n->next = (t_weapons *)malloc(sizeof(t_weapons))))
         error_doom("Couldn't allocate weapons");
-    node = node->next;
-    node->next = NULL;
-    node->item = load_vacuum(sounds, map);
+    n = n->next;
+    n->next = NULL;
+    n->item = load_vacuum(sounds, map);
     return (first);
 }
 

@@ -48,7 +48,7 @@ static void draw_flat(
     while (renderer_y < range.end)
 	{
 		pixel_dist = render->win_h / fabs(render->vision_height - renderer_y);
-		weight = pixel_dist / collision->distance;
+		weight = pixel_dist / collision->dist;
 		x = (Uint32)(
 				(weight * collision->inters.x
 				+ (BLACK_MAGIC - weight) * render->p_pos.x)
@@ -95,13 +95,13 @@ static void         draw_object(
 	if (collision->type != ct_object)
 		return;
 	surface = collision->d.object->sprite;
-    x = get_distance_between_points(collision->inters.x,
+    x = get_dist_between_points(collision->inters.x,
             collision->inters.y, collision->object_segment.x1,
             collision->object_segment.y1)
             * surface->w / collision->d.object->horizontal_size;
     while (x > surface->w)
         x -= surface->w;
-    dist_ratio = e->op.ratio / collision->distance;
+    dist_ratio = e->op.ratio / collision->dist;
     range = wall_range(dist_ratio, render->vision_height, render->win_h);
 	i = range.start - 1;
 	while (++i < range.end)
@@ -131,7 +131,7 @@ static void			draw_wall_object(
     t_u_range range;
 
 	surface = wall_object->texture;
-    x = (get_distance_between_points(collision->inters.x,
+    x = (get_dist_between_points(collision->inters.x,
             collision->inters.y, collision->d.wall->segment.x1,
             collision->d.wall->segment.y1) * surface->w);
     if (x >= (wall_object->offset_on_wall + wall_object->size) * surface->w
@@ -139,7 +139,7 @@ static void			draw_wall_object(
         return;
     x -= (wall_object->offset_on_wall * surface->w);
     x = x / wall_object->size;
-    dist_ratio = e->op.ratio / collision->distance;
+    dist_ratio = e->op.ratio / collision->dist;
     range = wall_range(dist_ratio, render->vision_height, render->win_h);
 	i = range.start - 1;
 	while (++i < range.end)
@@ -167,11 +167,11 @@ static void	draw_pickable(t_env *e, t_render *r, t_collision *collision)
     if (collision->type != ct_pickable)
         return;
     surface = collision->d.pickable->object->sprite;
-    x = (Uint32)(get_distance_between_points(collision->inters.x,
+    x = (Uint32)(get_dist_between_points(collision->inters.x,
                                              collision->inters.y, collision->object_segment.x1,
                                              collision->object_segment.y1)
                  * surface->w / collision->d.pickable->object->horizontal_size) % surface->w;
-    dist_ratio = e->op.ratio / collision->distance;
+    dist_ratio = e->op.ratio / collision->dist;
     range = wall_range(dist_ratio, r->vision_height, r->win_h);
     i = range.start - 1;
     while (++i < range.end)
@@ -199,11 +199,11 @@ static void	draw_enemy(t_env *e, t_render *r, t_collision *collision)
 	if (collision->type != ct_enemy)
 		return;
 	surface = collision->d.enemy->object->sprite;
-	x = (Uint32)(get_distance_between_points(collision->inters.x,
+	x = (Uint32)(get_dist_between_points(collision->inters.x,
 											 collision->inters.y, collision->object_segment.x1,
 											 collision->object_segment.y1)
 				 * surface->w / collision->d.enemy->object->horizontal_size) % surface->w;
-	dist_ratio = e->op.ratio / collision->distance;
+	dist_ratio = e->op.ratio / collision->dist;
 	range = wall_range(dist_ratio, r->vision_height, r->win_h);
 	i = range.start - 1;
 	while (++i < range.end)
@@ -237,7 +237,7 @@ static void         draw_wall(
 	if (collision->d.wall->type != e_wall)
 		return;
 	wall_text = collision->d.wall->texture;
-	x = (Uint32)(get_distance_between_points(collision->inters.x,
+	x = (Uint32)(get_dist_between_points(collision->inters.x,
 	        collision->inters.y, collision->d.wall->segment.x1,
 	        collision->d.wall->segment.y1) * wall_text->w) % wall_text->w;
 	i = range.start;
@@ -292,7 +292,7 @@ void         draw_transparent_wall(
     if (collision->d.wall->to_infinity)
         skybox(render, range);
     wall_text = collision->d.wall->texture;
-    x = get_distance_between_points(collision->inters.x,
+    x = get_dist_between_points(collision->inters.x,
             collision->inters.y, collision->d.wall->segment.x1,
             collision->d.wall->segment.y1);
     if (x < collision->d.wall->wall_offset)
@@ -310,26 +310,26 @@ void         draw_transparent_wall(
     }
 }
 
-static void	draw_transparents(t_env *e, t_render *r, t_collisions *node)
+static void	draw_transparents(t_env *e, t_render *r, t_collisions *n)
 {
-    if (!node)
+    if (!n)
         return;
-    draw_transparents(e, r, node->next);
-    if (node->item.type == ct_object)
-        draw_object(e, r, &node->item);
-    else if (node->item.type == ct_enemy)
-    	draw_enemy(e, r, &node->item);
-    else if (node->item.type == ct_pickable)
-        draw_pickable(e, r, &node->item);
-    else if (node->item.d.wall->type == e_transparent_wall)
+    draw_transparents(e, r, n->next);
+    if (n->item.type == ct_object)
+        draw_object(e, r, &n->item);
+    else if (n->item.type == ct_enemy)
+    	draw_enemy(e, r, &n->item);
+    else if (n->item.type == ct_pickable)
+        draw_pickable(e, r, &n->item);
+    else if (n->item.d.wall->type == e_transparent_wall)
     {
         r->wall_height =
-                e->op.ratio / node->item.distance;
-        draw_transparent_wall(e, r, &node->item, wall_range(r->wall_height, r->vision_height, r->win_h));
+                e->op.ratio / n->item.dist;
+        draw_transparent_wall(e, r, &n->item, wall_range(r->wall_height, r->vision_height, r->win_h));
     }
 }
 
-static void	draw_walls(t_env *e, t_render *r, t_collisions *node)
+static void	draw_walls(t_env *e, t_render *r, t_collisions *n)
 {
 	t_u_range		range;
 	t_u_range		prev_range;
@@ -339,33 +339,33 @@ static void	draw_walls(t_env *e, t_render *r, t_collisions *node)
 	current_sector = e->p.current_sector;
 	prev_range.start = 0;
 	prev_range.end = e->op.win_h;
-	while (node)
+	while (n)
 	{
 		r->light_value = current_sector->light;
 		r->wall_height =
-                e->op.ratio / node->item.distance;
-        if (node->item.type == ct_wall)
+                e->op.ratio / n->item.dist;
+        if (n->item.type == ct_wall)
         {
             range = wall_range(r->wall_height, r->vision_height, r->win_h);
-            draw_wall(e, r, &node->item, range);
+            draw_wall(e, r, &n->item, range);
             ceil_or_floor_range.start = range.end;
             ceil_or_floor_range.end = prev_range.end;
-            draw_flat(r, &node->item, ceil_or_floor_range, current_sector->floor);
+            draw_flat(r, &n->item, ceil_or_floor_range, current_sector->floor);
             ceil_or_floor_range.start = prev_range.start;
             ceil_or_floor_range.end = range.start;
-            draw_ceil(r, &node->item, ceil_or_floor_range, current_sector);
-            current_sector = get_next_sector_addr(current_sector, node->item.d.wall);
+            draw_ceil(r, &n->item, ceil_or_floor_range, current_sector);
+            current_sector = get_next_sector_addr(current_sector, n->item.d.wall);
             prev_range = range;
         }
-		node = node->next;
+		n = n->next;
 	}
 }
 
-void		draw(t_env *e, t_collisions *node, Uint32 renderer_x)
+void		draw(t_env *e, t_collisions *n, Uint32 renderer_x)
 {
 	t_render		r;
 
 	r = fill_render_struct(e, renderer_x);
-    draw_walls(e, &r, node);
-    draw_transparents(e, &r, node);
+    draw_walls(e, &r, n);
+    draw_transparents(e, &r, n);
 }

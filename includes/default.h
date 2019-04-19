@@ -50,7 +50,7 @@
 # define RAD_DEG_100 1.74533
 # define RAD_DEG_80 1.39626
 
-# define PLAYER_THICKNESS 0.25
+# define P_THICK 0.25
 # define JUMP_MAX 50
 # define HEALTH_MAX 100
 # define AMMO_MAX 30
@@ -63,6 +63,6 @@
 
 # define ACTIVATE_LIGHTING 1
 
-# define BLACKHOLE_LSD
+# define EPSILON 0.0001
 
 #endif

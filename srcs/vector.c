@@ -63,7 +63,7 @@ void scalar_multiply(t_vector *vector, double scalar)
     vector->y *= scalar;
 }
 
-t_segment create_segment_from_position_and_vector(
+t_segment seg_from_pos_and_vect(
         double x,
         double y,
         t_vector *v)

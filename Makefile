@@ -29,6 +29,7 @@ SRCS_NAMES = vector.c \
 			serialisation_enemies.c \
 			serialisation_objects.c \
 			serialisation_pickables.c \
+			serialisation_ui.c \
 			walls.c \
 			wall_objects.c \
 			sectors.c \
@@ -36,6 +37,7 @@ SRCS_NAMES = vector.c \
 			levers.c \
 			environment.c \
 			loop.c \
+			events_handler.c \
 			game_endings.c \
 			fonts.c \
 			engine.c \
@@ -50,8 +52,6 @@ SRCS_NAMES = vector.c \
 			enemies_intelligence.c \
 			basic_enemies_intelligence.c \
 			basic_enemies_intelligence2.c \
-			debug_init.c \
-			debug_draw_tools.c \
 			draw_tools.c \
 			ui_draw.c \
 			ui_elements.c \
@@ -64,6 +64,7 @@ SRCS_NAMES = vector.c \
 			animation.c \
 			melee.c \
 			in_which_sector.c \
+			in_which_sector_utils.c \
 			gun.c \
 			shotgun.c \
 			vacuum.c \

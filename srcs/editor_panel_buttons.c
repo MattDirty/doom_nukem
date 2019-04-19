@@ -16,33 +16,33 @@ t_btn_params    *create_btn_params(
 
 void    add_button_to_list(t_buttons **list, t_button button)
 {
-    t_buttons *new_node;
-    t_buttons *node;
+    t_buttons *new_n;
+    t_buttons *n;
 
-    if (!(new_node = (t_buttons *)malloc(sizeof(t_buttons))))
+    if (!(new_n = (t_buttons *)malloc(sizeof(t_buttons))))
         error_doom("Couldn't malloc button");
-    new_node->item = button;
-    new_node->next = NULL;
+    new_n->item = button;
+    new_n->next = NULL;
     if (!*list)
     {
-        *list = new_node;
+        *list = new_n;
         return ;
     }
-    node = *list;
-    while (node->next)
-        node = node->next;
-    node->next = new_node;
+    n = *list;
+    while (n->next)
+        n = n->next;
+    n->next = new_n;
 }
 
-void    free_buttons_list(t_buttons *node)
+void    free_buttons_list(t_buttons *n)
 {
     t_buttons   *next;
 
-    while (node)
+    while (n)
     {
-        next = node->next;
-        free(node->item.params);
-        free(node);
-        node = next;
+        next = n->next;
+        free(n->item.params);
+        free(n);
+        n = next;
     }
 }

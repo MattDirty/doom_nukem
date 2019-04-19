@@ -42,9 +42,8 @@ void    quit_editor(t_editor *ed)
 
 void	clear_selection(t_selected_elements *selected)
 {
-	if (selected->nodes != NULL)
+	if (selected->node != NULL)
 		free_walls_nodes(selected->nodes);
-	selected->nodes = NULL;
 	selected->p_spawn = NULL;
 	selected->enemy = NULL;
 	selected->object = NULL;
@@ -91,37 +90,37 @@ t_fonts *load_fonts(void)
 
 void    create_sub_lists(t_textures *textures, t_panel *panel)
 {
-    t_texture_node	*node;
-    t_texture_node	*new_node;
+    t_texture_node	*n;
+    t_texture_node	*new_n;
     char            **str;
 
-    node = textures->first;
+    n = textures->first;
 	panel->skies.first = NULL;
 	panel->walls.first = NULL;
 	panel->flats.first = NULL;
 	panel->pickables.first = NULL;
 	panel->wall_objects.first = NULL;
-    while (node)
+    while (n)
     {
-		if (!(new_node = (t_texture_node *)malloc(sizeof(t_texture_node))))
-			error_doom("Couldn't malloc new node");
-		new_node->texture = node->texture;
-		new_node->next = NULL;
-        str = ft_strsplit(node->texture->userdata, '/');
+		if (!(new_n = (t_texture_node *)malloc(sizeof(t_texture_node))))
+			error_doom("Couldn't malloc new n");
+		new_n->texture = n->texture;
+		new_n->next = NULL;
+        str = ft_strsplit(n->texture->userdata, '/');
         if (ft_strcmp(str[1], "skybox") == 0)
-            add_texture(&panel->skies, new_node);
+            add_texture(&panel->skies, new_n);
 		else if (ft_strcmp(str[1], "walls") == 0)
-			add_texture(&panel->walls, new_node);
+			add_texture(&panel->walls, new_n);
 		else if (ft_strcmp(str[1], "flats") == 0)
-			add_texture(&panel->flats, new_node);
+			add_texture(&panel->flats, new_n);
 		else if (ft_strcmp(str[1], "wall_objects") == 0)
-			add_texture(&panel->wall_objects, new_node);
+			add_texture(&panel->wall_objects, new_n);
         else if (!ft_strcmp(str[2], "gun.bmp") || !ft_strcmp(str[2],
                 "shotgun.bmp") || !ft_strcmp(str[2], "vacuum.bmp"))
-            add_texture(&panel->pickables, new_node);
-        else
-        	free(new_node);
-        node = node->next;
+            add_texture(&panel->pickables, new_n);
+		else
+			free(n);
+        n = n->next;
         ft_free_strsplit(str);
     }
 }

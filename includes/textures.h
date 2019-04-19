@@ -45,11 +45,11 @@ void	add_bitmap_file_to_textures(
 void	read_textures_from_file(int fd, t_textures **textures);
 void	write_textures_to_file(int fd, t_textures *textures);
 
-void	read_texture_node_from_file(int fd, t_texture_node **texture_node);
-void	write_texture_node_to_file(int fd, t_texture_node *texture_node);
+void	read_texture_node_from_file(int fd, t_texture_node **n);
+void	write_texture_node_to_file(int fd, t_texture_node *n);
 
 void	find_texture_from_file(int fd, t_textures *textures, SDL_Surface **surface);
 
-void	add_texture(t_textures *textures, t_texture_node *new_node);
+void	add_texture(t_textures *textures, t_texture_node *new);
 
 #endif

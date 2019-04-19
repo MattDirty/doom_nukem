@@ -16,18 +16,18 @@
 #include "utils.h"
 #include "sectors.h"
 
-static  void    make_weapon_usable(t_weapons *node, Uint32 target)
+static  void    make_weapon_usable(t_weapons *n, Uint32 target)
 {
     Uint32  i;
 
     i = 0;
-    while (node && i < target)
+    while (n && i < target)
     {
-        node = node->next;
+        n = n->next;
         i++;
     }
-    node->item->usable = e_true;
-    node->item->ammo += 10;
+    n->item->usable = e_true;
+    n->item->ammo += 10;
 }
 
 t_pickables	*extract_pickable(
@@ -35,7 +35,7 @@ t_pickables	*extract_pickable(
         t_pickable *pickable)
 {
     t_pickables	*previous;
-    t_pickables	*node;
+    t_pickables	*n;
 
     if (pickable == &(*pickables)->item)
     {
@@ -45,30 +45,30 @@ t_pickables	*extract_pickable(
         return (previous);
     }
     previous = NULL;
-    node = *pickables;
-    while (node)
+    n = *pickables;
+    while (n)
     {
-        if (&node->item == pickable)
+        if (&n->item == pickable)
         {
-            previous->next = node->next;
-            node->next = NULL;
-            return (node);
+            previous->next = n->next;
+            n->next = NULL;
+            return (n);
         }
-        previous = node;
-        node = node->next;
+        previous = n;
+        n = n->next;
     }
     return (NULL);
 }
 
 void	delete_pickable(t_pickables **pickables, t_pickable *to_delete)
 {
-    t_pickables *node;
+    t_pickables *n;
 
-    node = extract_pickable(pickables, to_delete);
-    if (!node)
+    n = extract_pickable(pickables, to_delete);
+    if (!n)
         return ;
-    free(node->item.object);
-    free(node);
+    free(n->item.object);
+    free(n);
 }
 
 void     do_stuff(t_player *player, t_pickables *pickables)

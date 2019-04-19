@@ -25,16 +25,16 @@ void			free_collisions(t_collisions *collisions)
 	}
 }
 
-t_collisions	*add_collision(t_collisions **collisions, double distance,
-					t_coords inters)
+t_collisions	*add_collision(t_collisions **collisions, double dist,
+		t_coords inters)
 {
-	t_collisions	*node;
+	t_collisions	*n;
 	t_collisions	*new;
 
 	if (!(new = (t_collisions *)malloc(sizeof(t_collisions))))
 		error_doom("Allocation of t_collisions failed");
 	new->next = NULL;
-	new->item.distance = distance;
+	new->item.dist = dist;
 	new->item.inters = inters;
 	if (!*collisions)
 	{
@@ -42,29 +42,29 @@ t_collisions	*add_collision(t_collisions **collisions, double distance,
 	}
 	else
 	{
-		node = *collisions;
-		while (node->next)
-			node = node->next;
-		node->next = new;
+		n = *collisions;
+		while (n->next)
+			n = n->next;
+		n->next = new;
 	}
 	return (new);
 }
 
-t_collisions	*insert_collision(t_collisions **collisions, double distance,
-					t_coords inters)
+t_collisions	*insert_collision(t_collisions **collisions, double dist,
+		t_coords inters)
 {
-	t_collisions	*node;
+	t_collisions	*n;
 	t_collisions	*prev;
 	t_collisions	*new;
 
 	if (!(new = (t_collisions *)malloc(sizeof(t_collisions))))
 		error_doom("Allocation of t_collisions failed");
 	new->next = NULL;
-	new->item.distance = distance;
+	new->item.dist = dist;
 	new->item.inters = inters;
 	if (!*collisions)
 		*collisions = new;
-	else if (new->item.distance < (*collisions)->item.distance)
+	else if (new->item.dist < (*collisions)->item.dist)
 	{
 		new->next = *collisions;
 		*collisions = new;
@@ -72,44 +72,42 @@ t_collisions	*insert_collision(t_collisions **collisions, double distance,
 	else
 	{
 		prev = *collisions;
-		node = prev->next;
-		while (node && new->item.distance > prev->item.distance)
+		n = prev->next;
+		while (n && new->item.dist > prev->item.dist)
 		{
-			prev = node;
-			node = node->next;
+			prev = n;
+			n = n->next;
 		}
-		if (!node)
+		if (!n)
 			prev->next = new;
 		else
 		{
 			prev->next = new;
-			new->next = node;
+			new->next = n;
 		}
 	}
 	return (new);
 }
 
 void			find_enemies_collisions_in_sector(t_sector *sector,
-					t_segment *ray, t_collisions **collisions)
+		t_segment *ray, t_collisions **collisions)
 {
 	t_linked_enemies	*enemies;
 	t_coords			inters;
-	double				distance;
+	double				dist;
 	t_segment			s;
 	t_collisions		*new;
 
 	enemies = sector->enemies;
 	while (enemies)
 	{
-		s = perpendicular_segment_from_point(
-				enemies->item.object,
-				ray->x1,
+		s = perpendicular_segment_from_point(enemies->item.object, ray->x1,
 				ray->y1);
 		if (segments_intersect(ray, &s, &inters))
 		{
-			distance = get_distance_between_points(ray->x1, ray->y1, inters.x,
+			dist = get_dist_between_points(ray->x1, ray->y1, inters.x,
 					inters.y);
-			new = insert_collision(collisions, distance, inters);
+			new = insert_collision(collisions, dist, inters);
 			new->item.type = ct_enemy;
 			new->item.d.enemy = &enemies->item;
 			new->item.object_segment = s;
@@ -119,26 +117,24 @@ void			find_enemies_collisions_in_sector(t_sector *sector,
 }
 
 void			find_pickables_collisions_in_sector(t_sector *sector,
-					t_segment *ray, t_collisions **collisions)
+		t_segment *ray, t_collisions **collisions)
 {
 	t_pickables		*pickables;
 	t_coords		inters;
-	double			distance;
+	double			dist;
 	t_segment		s;
 	t_collisions	*new;
 
 	pickables = sector->pickables;
 	while (pickables)
 	{
-		s = perpendicular_segment_from_point(
-				pickables->item.object,
-				ray->x1,
+		s = perpendicular_segment_from_point(pickables->item.object, ray->x1,
 				ray->y1);
 		if (segments_intersect(ray, &s, &inters))
 		{
-			distance = get_distance_between_points(ray->x1, ray->y1, inters.x,
+			dist = get_dist_between_points(ray->x1, ray->y1, inters.x,
 					inters.y);
-			new = insert_collision(collisions, distance, inters);
+			new = insert_collision(collisions, dist, inters);
 			new->item.type = ct_pickable;
 			new->item.d.pickable = &pickables->item;
 			new->item.object_segment = s;

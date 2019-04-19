@@ -16,26 +16,26 @@ void	move_map(t_editor *ed, SDL_Scancode key)
 
 enum e_bool	walls_intersect_on_map(t_linked_walls *linked_walls)
 {
-	t_linked_walls	*node;
+	t_linked_walls	*n;
 	t_linked_walls	*walls;
 	t_coords		inter;
 
-	node = linked_walls;
-	while (node->wall)
+	n = linked_walls;
+	while (n->wall)
 	{
-		walls = node->next;
+		walls = n->next;
 		while (walls->wall)
 		{
 			if (segments_intersect(
-					&walls->wall->segment, &node->wall->segment, &inter))
+					&walls->wall->segment, &n->wall->segment, &inter))
 			{
 				if (!segments_share_node(&walls->wall->segment,
-				        &node->wall->segment))
+				        &n->wall->segment))
 					return (e_true);
 			}
 			walls = walls->next;
 		}
-		node = node->next;
+		n = n->next;
 	}
 	return (e_false);
 }
@@ -61,28 +61,28 @@ enum e_bool are_objects_in_sector_valid(t_sector *sector)
 
 enum e_bool are_enemies_in_sector_valid(t_sector *sector)
 {
-    t_linked_enemies    *e_node;
+    t_linked_enemies    *e_n;
 
-    e_node = sector->enemies;
-    while (e_node)
+    e_n = sector->enemies;
+    while (e_n)
     {
-        if (!is_object_in_sector(sector, e_node->item.object))
+        if (!is_object_in_sector(sector, e_n->item.object))
             return (e_false);
-        e_node = e_node->next;
+        e_n = e_n->next;
     }
     return (e_true);
 }
 
 enum e_bool are_pickables_in_sector_valid(t_sector *sector)
 {
-    t_pickables    *node;
+    t_pickables    *n;
 
-    node = sector->pickables;
-    while (node)
+    n = sector->pickables;
+    while (n)
     {
-        if (!is_object_in_sector(sector, node->item.object))
+        if (!is_object_in_sector(sector, n->item.object))
             return (e_false);
-        node = node->next;
+        n = n->next;
     }
     return (e_true);
 }
@@ -111,27 +111,27 @@ enum e_bool is_map_valid(t_linked_walls *walls, t_map *map)
 
 void    move_walls_nodes(t_editor *ed, double x, double y)
 {
-    t_wall_nodes	*nodes;
+    t_wall_nodes	*n;
 	double			delta_x;
 	double			delta_y;
 
-	nodes = ed->dragged.nodes;
-	delta_x = (x - ed->map_offset.x) / ed->zoom - *nodes->item.x;
-	delta_y = (ed->map_offset.y - y) / ed->zoom - *nodes->item.y;
-    while (nodes)
+	n = ed->dragged.node;
+	delta_x = (x - ed->map_offset.x) / ed->zoom - *n->item.x;
+	delta_y = (ed->map_offset.y - y) / ed->zoom - *n->item.y;
+    while (n)
     {
-        *nodes->item.x += delta_x;
-        *nodes->item.y += delta_y;
-        nodes = nodes->next;
+        *n->item.x += delta_x;
+        *n->item.y += delta_y;
+        n = n->next;
     }
-    nodes = ed->dragged.nodes;
+    n = ed->dragged.node;
     if (!is_map_valid(ed->linked_walls, ed->map))
 	{
-    	while (nodes)
+    	while (n)
 		{
-    		*nodes->item.x -= delta_x;
-    		*nodes->item.y -= delta_y;
-    		nodes = nodes->next;
+    		*n->item.x -= delta_x;
+    		*n->item.y -= delta_y;
+    		n = n->next;
 		}
         Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
     	return;

@@ -12,7 +12,7 @@ void add_event_to_list(
         t_timer_handler *timer_handler,
         t_event *event)
 {
-    t_event *node;
+    t_event *n;
 
     if (!timer_handler->first)
     {
@@ -20,44 +20,44 @@ void add_event_to_list(
         return;
     }
 
-    node = timer_handler->first;
+    n = timer_handler->first;
 
-    while(node->next)
-        node = node->next;
+    while(n->next)
+        n = n->next;
 
-    node->next = event;
+    n->next = event;
 }
 
 void remove_event_from_list(
         t_timer_handler *timer_handler,
         t_event *event)
 {
-    t_event *node;
+    t_event *n;
     t_event *previous;
 
     if (!timer_handler->first)
         return;
-    node = timer_handler->first;
+    n = timer_handler->first;
     previous = NULL;
-    while (node)
+    while (n)
     {
-        if (node == event)
+        if (n == event)
         {
             if (previous)
-                previous->next = node->next;
+                previous->next = n->next;
             else
-                timer_handler->first = node->next;
-            free(node);
+                timer_handler->first = n->next;
+            free(n);
             return;
         }
-        previous = node;
-        node = node->next;
+        previous = n;
+        n = n->next;
     }
 }
 
 void update_events(t_timer_handler *timer_handler)
 {
-    t_event *node;
+    t_event *n;
     t_event *next;
     struct timespec time;
     double ms_since_last_call;
@@ -65,21 +65,21 @@ void update_events(t_timer_handler *timer_handler)
     clock_gettime(CLOCK_MONOTONIC_RAW, &time);
 	timer_handler->ms_since_update = delta_ms(timer_handler->time, time);
     timer_handler->time = time;
-    node = timer_handler->first;
-    while (node)
+    n = timer_handler->first;
+    while (n)
     {
-		node->time_left -= timer_handler->ms_since_update;
-		next = node->next;
-        if (node->time_left <= 0)
+		n->time_left -= timer_handler->ms_since_update;
+		next = n->next;
+        if (n->time_left <= 0)
         {
-            node->time_left = node->interval;
+            n->time_left = n->interval;
             clock_gettime(CLOCK_MONOTONIC_RAW, &time);
-            ms_since_last_call = delta_ms(node->_last_call, time);
-            clock_gettime(CLOCK_MONOTONIC_RAW, &node->_last_call);
-            if (!node->function(ms_since_last_call, node->params))
-                remove_event_from_list(timer_handler, node);
+            ms_since_last_call = delta_ms(n->_last_call, time);
+            clock_gettime(CLOCK_MONOTONIC_RAW, &n->_last_call);
+            if (!n->function(ms_since_last_call, n->params))
+                remove_event_from_list(timer_handler, n);
         }
-        node = next;
+        n = next;
     }
 }
 

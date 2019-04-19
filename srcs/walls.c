@@ -140,20 +140,20 @@ static int			add_wall_to_serialiser(
 static void		fix_levers(
         t_linked_walls *linked_walls)
 {
-    t_linked_walls	*node;
+    t_linked_walls	*n;
     t_wall			*door;
 
-    node = linked_walls;
-    while (node->wall)
+    n = linked_walls;
+    while (n->wall)
     {
-        if (node->wall->lever)
+        if (n->wall->lever)
         {
-            door = wall_at_index(linked_walls, node->wall->lever->door_index);
+            door = wall_at_index(linked_walls, n->wall->lever->door_index);
             if (door == NULL)
                 error_doom("couldn't find door");
-            node->wall->lever->door = door;
+            n->wall->lever->door = door;
         }
-        node = node->next;
+        n = n->next;
     }
 }
 

@@ -78,7 +78,7 @@ void		draw_sprites_section(
 		t_editor *ed, t_textures *sprites, char *title_str, int *y)
 {
 	SDL_Surface		*title;
-	t_texture_node	*node;
+	t_texture_node	*n;
 	t_i_coords		pos;
 	t_button		btn;
 
@@ -87,22 +87,22 @@ void		draw_sprites_section(
 	draw_on_screen(ed->panel.surface, title,
 				   (t_i_coords){PANEL_PADDING_LEFT, *y}, e_false);
 	SDL_FreeSurface(title);
-	node = sprites->first;
+	n = sprites->first;
 	*y += 25;
 	pos = (t_i_coords){PANEL_PADDING_LEFT, *y};
-	while (node)
+	while (n)
 	{
-		draw_miniature(ed->panel.surface, node->texture,
+		draw_miniature(ed->panel.surface, n->texture,
 				(t_i_coords){PANEL_MINIATURE_W, PANEL_MINIATURE_H}, pos);
         btn.rect = create_rect(pos.x, pos.y, PANEL_MINIATURE_W, PANEL_MINIATURE_H);
-		if (ed->selected_sprite && *ed->selected_sprite == node->texture)
+		if (ed->selected_sprite && *ed->selected_sprite == n->texture)
 			draw_rect(ed->panel.surface, &btn.rect, RED);
 		btn.rect.pos.x += PANEL_X;
 		btn.f = &change_selected_texture;
-		btn.params = create_btn_params(ed->selected_sprite, node->texture, ed);
+		btn.params = create_btn_params(ed->selected_sprite, n->texture, ed);
 		add_button_to_list(&ed->panel.buttons, btn);
 		pos.x += PANEL_MINIATURE_W + PANEL_PADDING_LEFT;
-		node = node->next;
+		n = n->next;
 	}
     *y += 65;
 }

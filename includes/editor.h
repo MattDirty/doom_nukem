@@ -35,7 +35,7 @@ typedef struct			s_sdl_editor
 
 typedef	struct			s_selected_elements
 {
-	t_wall_nodes		*nodes;
+	t_wall_nodes		*node;
 	t_coords			*p_spawn;
 	t_enemy				*enemy;
 	t_object			*object;

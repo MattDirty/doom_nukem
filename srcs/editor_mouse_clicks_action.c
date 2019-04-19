@@ -177,5 +177,5 @@ void            deal_with_clicked_node(
 			add_wall_node_to_list(&list, ptr->wall, point);
 		ptr = ptr->next;
 	}
-	ed->dragged.nodes = list;
+	ed->dragged.node = list;
 }

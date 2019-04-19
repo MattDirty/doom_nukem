@@ -18,5 +18,9 @@ void        ui_draw(SDL_Surface *surface, t_map *map, int fps, t_env *e);
 SDL_Surface *write_text(TTF_Font *font, char *str, SDL_Colour color);
 void        draw_on_screen(SDL_Surface *surface, SDL_Surface *text, t_i_coords pos, enum e_bool force_alpha);
 void        rotate_and_draw(SDL_Surface *surface, SDL_Surface *text, t_i_coords pos, enum e_bool force_alpha);
+void		read_spawn_from_file(int fd, t_coords *spawn, int *index);
+void		write_spawn_to_file(int fd, t_coords spawn, int index);
+void		read_hud_from_file(int fd, t_textures *textures, t_hud *hud);
+void		write_hud_to_file(int fd, t_hud hud);
 
 #endif

@@ -67,13 +67,13 @@ static inline void		swap_colors(Uint32 *pixel, t_SDL_Surface_info info)
 		alpha = 0xff;
 	else
 		alpha = ((*pixel & info.Amask) >> shift_from_mask(info.Amask))
-			<< AMASK_SHIFT;
+		<< AMASK_SHIFT;
 	red = ((*pixel & info.Rmask) >> shift_from_mask(info.Rmask))
-		<< RMASK_SHIFT;
+	<< RMASK_SHIFT;
 	green = ((*pixel & info.Gmask) >> shift_from_mask(info.Gmask))
-		<< GMASK_SHIFT;
+	<< GMASK_SHIFT;
 	blue = ((*pixel & info.Bmask) >> shift_from_mask(info.Bmask))
-		<< BMASK_SHIFT;
+	<< BMASK_SHIFT;
 	*pixel = alpha | red | green | blue;
 }
 
