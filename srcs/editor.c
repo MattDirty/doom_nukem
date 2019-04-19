@@ -93,7 +93,7 @@ void    create_sub_lists(t_textures *textures, t_panel *panel)
 {
     t_texture_node	*node;
     t_texture_node	*new_node;
-    char            **str;
+    char            *str;
 
     node = textures->first;
 	panel->skies.first = NULL;
@@ -107,22 +107,21 @@ void    create_sub_lists(t_textures *textures, t_panel *panel)
 			error_doom("Couldn't malloc new node");
 		new_node->texture = node->texture;
 		new_node->next = NULL;
-        str = ft_strsplit(node->texture->userdata, '/');
-        if (ft_strcmp(str[1], "skybox") == 0)
+        str = node->texture->userdata;
+        if (ft_strstr(str, "/skybox/"))
             add_texture(&panel->skies, new_node);
-		else if (ft_strcmp(str[1], "walls") == 0)
+		else if (ft_strstr(str, "/walls/"))
 			add_texture(&panel->walls, new_node);
-		else if (ft_strcmp(str[1], "flats") == 0)
+		else if (ft_strstr(str, "/flats/"))
 			add_texture(&panel->flats, new_node);
-		else if (ft_strcmp(str[1], "wall_objects") == 0)
+		else if (ft_strstr(str, "/wall_objects/"))
 			add_texture(&panel->wall_objects, new_node);
-        else if (!ft_strcmp(str[2], "gun.bmp") || !ft_strcmp(str[2],
-                "shotgun.bmp") || !ft_strcmp(str[2], "vacuum.bmp"))
+        else if (ft_strstr(str, "/gun.bmp") || ft_strstr(str,
+                "/shotgun.bmp") || ft_strstr(str, "/vacuum.bmp"))
             add_texture(&panel->pickables, new_node);
         else
         	free(new_node);
         node = node->next;
-        ft_free_strsplit(str);
     }
 }
 
