@@ -26,9 +26,6 @@ void    check_if_file_is_valid(int *fd, char *filename)
     read(*fd, &st_verif.st_size, sizeof(st_verif.st_size));
     if (st_verif.st_size != st.st_size)
         error_doom("It seems your map has been corrupted. That's naughty!");
-    read(*fd, &st_verif.st_mtime, sizeof(st_verif.st_mtime));
-    if (st.st_mtime != st_verif.st_mtime)
-    	error_doom("Stop tampering with the map file ! Come on !");
 }
 
 void	read_file(char *filename, t_env *e)
@@ -39,9 +36,7 @@ void	read_file(char *filename, t_env *e)
     read_fonts_from_file(fd, &e->fonts);
     read_sounds_from_file(fd, &e->sounds);
     read_textures_from_file(fd, &e->textures);
-    printf("salut\n");
     read_map_from_file(fd, e->textures, &e->map);
-    printf("bye");
     close(fd);
 }
 
@@ -54,7 +49,7 @@ void	read_file_editor(char *filename, t_read_data *e)
     read_sounds_from_file(fd, e->sounds);
     read_textures_from_file(fd, e->textures);
     read_map_from_file(fd, *e->textures, e->map);
-    close(fd);
+	close(fd);
 }
 
 void    write_file_protections(int fd, char *filename)
@@ -65,7 +60,6 @@ void    write_file_protections(int fd, char *filename)
         error_doom("Wow, that really shouldn't happen. It seems the map doesn't"
                    "exist ...");
     write(fd, &st.st_size, sizeof(st.st_size));
-    write(fd, &st.st_mtime, sizeof(st.st_mtime));
 }
 
 void	write_file(char *filename, t_textures *textures, t_map *map)

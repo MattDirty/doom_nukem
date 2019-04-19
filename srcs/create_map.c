@@ -27,6 +27,17 @@ t_map		*create_map(t_textures *textures)
 	if (!(map->sectors->items =
 				(t_sector**)malloc(map->sectors->count * sizeof(t_sector*))))
 		error_doom("Can't allocate sectors");
+
+	map->spawn.x = 1;
+	map->spawn.y = 1;
+
+	map->player_spawn_index = 0;
+
+	find_texture_by_name(textures, "textures/skybox/day.bmp", &map->daysky);
+	find_texture_by_name(textures, "textures/skybox/night.bmp", &map->nightsky);
+
+	map->daytime = e_true;
+
 	i = 0;
 	while (i < map->sectors->count)
 	{
@@ -71,13 +82,12 @@ t_map		*create_map(t_textures *textures)
 		walls->items[3]->segment = create_segment(4, 0 + i * 4, 0, 0 + i * 4);
 		i++;
     }
-    find_texture_by_name(textures, "textures/skybox/day.bmp", &map->daysky);
-    find_texture_by_name(textures, "textures/skybox/night.bmp", &map->nightsky);
     find_texture_by_name(textures, "textures/hud/sun.bmp", &map->hud.sun);
     find_texture_by_name(textures, "textures/hud/moon.bmp", &map->hud.moon);
 	find_texture_by_name(textures, "textures/hud/health/ico1.bmp", &map->hud.cross[0]);
 	find_texture_by_name(textures, "textures/hud/health/ico2.bmp", &map->hud.cross[1]);
 	find_texture_by_name(textures, "textures/hud/health/ico3.bmp", &map->hud.cross[2]);
+	map->hud.id = 0;
 	find_texture_by_name(textures, "textures/hud/bullet.bmp", &map->hud.bullet);
 	find_texture_by_name(textures, "textures/hud/faces/happy.bmp", &map->hud.happy_face);
 	find_texture_by_name(textures, "textures/hud/faces/meh.bmp", &map->hud.meh_face);
@@ -86,7 +96,8 @@ t_map		*create_map(t_textures *textures)
 	find_texture_by_name(textures, "textures/hud/faces/badass.bmp", &map->hud.badass_face);
 	find_texture_by_name(textures, "textures/hud/faces/sehr_happy.bmp", &map->hud.sehr_happy_face);
 	find_texture_by_name(textures, "textures/hud/faces/hurt.bmp", &map->hud.hurt_face);
-    find_texture_by_name(textures, "textures/weapons/dwa.bmp", &map->melee_sprite);
+
+	find_texture_by_name(textures, "textures/weapons/dwa.bmp", &map->melee_sprite);
     find_texture_by_name(textures, "textures/weapons/gun_1.bmp", &map->gun_sprites[0]);
     find_texture_by_name(textures, "textures/weapons/gun_2.bmp", &map->gun_sprites[1]);
     find_texture_by_name(textures, "textures/weapons/gun_3.bmp", &map->gun_sprites[2]);
@@ -96,9 +107,10 @@ t_map		*create_map(t_textures *textures)
     find_texture_by_name(textures, "textures/weapons/shotgun_cooldown.bmp", &map->shotgun_sprites[1]);
     find_texture_by_name(textures, "textures/weapons/shotgun_firing.bmp", &map->shotgun_sprites[2]);
     find_texture_by_name(textures, "textures/weapons/blackhole_destroyer.bmp", &map->vacuum_sprite);
-    map->daytime = e_true;
-    map->spawn.x = 1;
-    map->spawn.y = 1;
+	find_texture_by_name(textures, "textures/sprites/gun.bmp", &map->gun_to_pick);
+	find_texture_by_name(textures, "textures/sprites/shotgun.bmp", &map->shotgun_to_pick);
+	find_texture_by_name(textures, "textures/sprites/vacuum.bmp", &map->vacuum_to_pick);
+
 	return (map);
 }
 

@@ -195,8 +195,8 @@ void			read_sectors_from_file(
         error_doom("couldn't read sectors count");
     (*sectors)->count = count;
     if (!((*sectors)->items = (t_sector**)malloc(sizeof(t_sector*) * count)))
-        error_doom("this malloc hasn't been protected since april eighteenth");
-    i = 0;
+		error_doom("this malloc hasn't been protected since april eighteenth");
+	i = 0;
     while (i < count)
     {
         if (!(sector = (t_sector*)malloc(sizeof(t_sector))))
@@ -218,8 +218,8 @@ void			read_sectors_from_file(
             error_doom("couldn't read sector light");
         read_objects_from_file(fd, textures, &sector->objects);
         read_enemies_from_file(fd, textures, &sector->enemies);
-        read_pickables_from_file(fd, textures, &sector->pickables);
-        i++;
+		read_pickables_from_file(fd, textures, &sector->pickables);
+		i++;
     }
     free_linked_walls_nodes(linked_walls);
 }
