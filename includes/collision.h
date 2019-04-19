@@ -72,5 +72,6 @@ void		find_ray_collisions(
 t_sector	*get_next_sector_addr(t_sector *current, t_wall *wall);
 void		raycasting(t_env *e);
 void		free_collisions(t_collisions *collisions);
+void			start_generating_blackhole_buffer(t_env *e);
 
 #endif

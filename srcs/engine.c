@@ -68,9 +68,35 @@ void			*raycasting_thread(void *args)
     return (NULL);
 }
 
+void		    *generate_blackhole_buffer(void *args)
+{
+    t_env	*e;
+    Uint32	i;
+    time_t		t;
+
+    srand((unsigned) time(&t));
+    e = (t_env*)args;
+    i = 0;
+    while (!e->blackhole_thread_stop)
+    {
+        e->blackhole_buffer[i] = rand() % 100 > e->p.health;
+        i++;
+        i %= e->op.win_w * e->op.win_h;
+    }
+    return (NULL);
+}
+
+void			start_generating_blackhole_buffer(t_env *e)
+{
+    if (!(e->blackhole_buffer = malloc(e->op.win_h * e->op.win_w)))
+        error_doom("could not allocate the most important buffer");
+    e->blackhole_thread_stop = e_false;
+    pthread_create(&e->blackhole_thread, NULL, generate_blackhole_buffer, e);
+}
+
 void			raycasting(t_env *e)
 {
-    const int nb_threads = 2;
+    const int nb_threads = 3;
     t_raycasting_args args[nb_threads];
     pthread_t threads[nb_threads];
     int i;

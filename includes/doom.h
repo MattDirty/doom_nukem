@@ -1,6 +1,7 @@
 #ifndef DOOM_H
 # define DOOM_H
 
+# include <pthread.h>
 # include <SDL_mixer.h>
 # include "libft.h"
 # include "struct_sdl.h"
@@ -24,6 +25,9 @@ typedef struct          s_env
         t_textures		*textures;
         t_sounds		*sounds;
         t_timer_handler	timer_handler;
+        pthread_t		blackhole_thread;
+        char			*blackhole_buffer;
+        enum e_bool		blackhole_thread_stop;
 }                       t_env;
 
 void		error_doom(char *err);

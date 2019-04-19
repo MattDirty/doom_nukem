@@ -10,9 +10,9 @@ void    put_pixel_blackhole(t_env *e, int x, int y, Uint32 color)
     alpha = (color & 0xff000000) >> 24;
     if (alpha == 0)
         return;
-    if (e->p.health < rand() % 100)
+    if (e->blackhole_buffer[x + y * e->doom.surface->w])
     {
-#ifdef BLACKHOLE_LSD // autorisé ?
+#ifndef BLACKHOLE_LSD
         return;
 #else
         pix = e->doom.surface->pixels;
