@@ -62,6 +62,7 @@ SRCS_NAMES = vector.c \
 			animation.c \
 			melee.c \
 			in_which_sector.c \
+			in_which_sector_utils.c \
 			gun.c \
 			shotgun.c \
 			vacuum.c \
