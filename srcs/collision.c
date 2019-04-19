@@ -66,7 +66,7 @@ static void			find_lever_collisions(t_collisions **collisions,
 
 static enum e_bool	find_wall_collisions_in_sector(t_sector *sector,
 						t_segment *ray, t_collisions **collisions,
-							t_wall *last_portal)
+						t_wall *last_portal)
 {
 	int				i;
 	t_coords		inters;

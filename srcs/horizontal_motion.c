@@ -28,7 +28,7 @@ static t_segment	get_segment_and_mod_speed(t_vector *speed, t_coords pos)
 }
 
 static void			handle_collision_for_speed(t_vector *speed,
-		t_sector **sector, t_collisions *collisions)
+						t_sector **sector, t_collisions *collisions)
 {
 	t_collisions	*n;
 
@@ -60,7 +60,7 @@ static void			handle_collision_for_speed(t_vector *speed,
 }
 
 t_coords			allowed_move(t_vector speed, t_coords position,
-		t_sector **current_sector)
+						t_sector **current_sector)
 {
 	t_collisions	*collisions;
 	t_segment		seg;
