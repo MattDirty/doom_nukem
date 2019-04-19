@@ -69,6 +69,9 @@ SRCS_NAMES = vector.c \
 			keyboard.c \
 			enemies.c \
 			enemies_damage.c \
+			walls_rw.c \
+			walls_rw2.c \
+			walls_transformations.c \
 			weapon_ray_fire.c \
 			pickables.c
 

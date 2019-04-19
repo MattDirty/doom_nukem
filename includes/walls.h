@@ -56,6 +56,9 @@ void		transform_window_to_wall(t_wall *wall);
 void		transform_portal_to_door(t_wall *wall, SDL_Surface *texture);
 void		transform_door_to_portal(t_wall *wall, t_linked_walls *node);
 
+int			wall_index(t_linked_walls *linked_walls, t_wall *wall);
+t_wall		*wall_at_index(t_linked_walls *linked_walls, int index);
+
 void			create_linked_walls_from_sectors(
         t_sectors *sectors,
         t_linked_walls **linked_walls,
