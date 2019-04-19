@@ -33,10 +33,10 @@ t_weapon    *load_vacuum(t_sounds *sounds, t_map *map)
     if (!(vacuum = (t_weapon *)malloc(sizeof(t_weapon))))
         error_doom("Couldn't malloc vacuum");
     vacuum->sprites[0] = map->vacuum_sprite;
-    vacuum->sprites[1] = NULL;
-    vacuum->sprites[2] = NULL;
-    vacuum->sprites_cooldown = NULL;
-    vacuum->sprites_fire = NULL;
+    vacuum->sprites[1] = map->vacuum_sprite;
+    vacuum->sprites[2] = map->vacuum_sprite;
+    vacuum->sprites_cooldown = map->vacuum_sprite;
+    vacuum->sprites_fire = map->vacuum_sprite;
     vacuum->sprite_current = vacuum->sprites[0];
     vacuum->ammo = -1;
     vacuum->usable = e_false;
