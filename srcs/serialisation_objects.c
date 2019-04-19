@@ -28,9 +28,9 @@ void read_objects_from_file(int fd, t_textures *textures, t_objects **objects)
 		if (!((*objects)->items = (t_object *) malloc(
 				sizeof(t_object) * count)))
 			error_doom("couldn't malloc t_objects->items");
-		else
-			(*objects)->items = NULL;
 	}
+	else
+		(*objects)->items = NULL;
 	i = 0;
 	while (i < (*objects)->count)
 	{

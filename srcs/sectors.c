@@ -215,9 +215,9 @@ void			read_sectors_from_file(
         if (read(fd, &sector->open_sky, sizeof(sector->open_sky)) <= 0)
             error_doom("couldn't read sector open_sky");
         if (read(fd, &sector->light, sizeof(sector->light)) <= 0)
-            error_doom("couldn't read sector light");
-        read_objects_from_file(fd, textures, &sector->objects);
-        read_enemies_from_file(fd, textures, &sector->enemies);
+			error_doom("couldn't read sector light");
+		read_objects_from_file(fd, textures, &sector->objects);
+		read_enemies_from_file(fd, textures, &sector->enemies);
 		read_pickables_from_file(fd, textures, &sector->pickables);
 		i++;
     }
