@@ -15,8 +15,7 @@
 #include "sectors.h"
 #include "doom.h"
 
-t_linked_enemies	*extract_enemy(
-		t_linked_enemies **linked_enemies,
+t_linked_enemies	*extract_enemy(t_linked_enemies **linked_enemies,
 		t_enemy *enemy)
 {
 	t_linked_enemies	*previous;
@@ -45,23 +44,22 @@ t_linked_enemies	*extract_enemy(
 	return (NULL);
 }
 
-void	delete_enemy(
-		t_linked_enemies **linked_enemies,
+void				delete_enemy(t_linked_enemies **linked_enemies,
 		t_enemy *enemy)
 {
 	t_linked_enemies	*node;
 
 	node = extract_enemy(linked_enemies, enemy);
 	if (!node)
-		return;
+		return ;
 	free(node->item.object);
 	free(node);
 }
 
-enum e_bool enemy_death(double ms_since_update, t_params params)
+enum e_bool			enemy_death(double ms_since_update, t_params params)
 {
-	t_enemy *enemy;
-	int     step;
+	t_enemy	*enemy;
+	int		step;
 
 	enemy = (t_enemy *)params;
 	enemy->time_in_death += ms_since_update;
@@ -77,8 +75,8 @@ enum e_bool enemy_death(double ms_since_update, t_params params)
 	return (e_true);
 }
 
-void    dmg_enemy(t_env *e,
-					 t_timer_handler *timer_handler, t_enemy *enemy, Uint32 damage)
+void				dmg_enemy(t_env *e,
+		t_timer_handler *timer_handler, t_enemy *enemy, Uint32 damage)
 {
 	enemy->life_remaining -= damage;
 	if (enemy->life_remaining <= 0 && (int)enemy->time_in_death <= 0)
