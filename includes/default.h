@@ -3,8 +3,6 @@
 
 #include "libft.h"
 
-# define CONFIG_PATH "config.ini"
-
 # define DEBUG_W 800
 # define DEBUG_H 640
 # define DEBUG_W_H (DEBUG_W / 2)
