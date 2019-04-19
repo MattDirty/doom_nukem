@@ -20,7 +20,7 @@
 
 # define CROSSHAIR_COLOR 0xE400FF00
 
-# define FPS_MAX 60
+# define FPS_MAX 300
 
 # define WIN_W 800
 # define WIN_H 640

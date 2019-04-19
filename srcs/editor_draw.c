@@ -160,6 +160,7 @@ void		draw_editor(t_editor *ed)
     int         mouse_y;
 
     i = 0;
+    printf("salut\n");
     while (i < ed->map->sectors->count)
     {
         draw_walls_editor(ed->sdl.surface, ed->map->sectors->items[i]->walls, ed->map_offset, ed->zoom);

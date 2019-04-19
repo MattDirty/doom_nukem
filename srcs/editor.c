@@ -180,7 +180,7 @@ int		main(int ac, char **av)
 	ed.zoom = EDITOR_ZOOM;
 	ed.map_offset.x = DRAW_MAP_X;
 	ed.map_offset.y = DRAW_MAP_Y;
-	if (stat(av[1], &buf) < 0)
+	if (stat(ed.map_path, &buf) < 0)
 	{
 		ed.textures = load_textures();
 		ed.map = create_map(ed.textures);
@@ -188,26 +188,27 @@ int		main(int ac, char **av)
 		ed.sounds = load_sounds();
 		ed.map_is_updated = e_false;
 	}
-    else
+	else
 	{
 		read_data.textures = &ed.textures;
 		read_data.map = &ed.map;
 		read_data.fonts = &ed.fonts;
 		read_data.sounds = &ed.sounds;
-		read_file_editor(av[1], &read_data);
+		read_file_editor(ed.map_path, &read_data);
 		ed.map_is_updated = e_true;
 	}
 	init_panel(&ed.panel, ed.textures);
+	ed.selected.nodes = NULL;
 	clear_selection(&ed.selected);
-    free_buttons_list(ed.panel.buttons);
-    ed.panel.buttons = NULL;
-    clear_selection(&ed.dragged);
-    ed.state = e_null;
-    ed.state_func[e_add_object] = &create_object_in_sector;
-    ed.state_func[e_add_enemy] = &create_enemy_in_sector;
-    ed.state_func[e_add_sector] = &try_sector_creation;
-    ed.state_func[e_add_lever] = &try_lever_creation;
-    ed.state_func[e_add_pickable] = &create_pickable_in_sector;
-    editor_loop(&ed);
+	ed.dragged.nodes = NULL;
+	clear_selection(&ed.dragged);
+	ed.panel.buttons = NULL;
+	ed.state = e_null;
+	ed.state_func[e_add_object] = &create_object_in_sector;
+	ed.state_func[e_add_enemy] = &create_enemy_in_sector;
+	ed.state_func[e_add_sector] = &try_sector_creation;
+	ed.state_func[e_add_lever] = &try_lever_creation;
+	ed.state_func[e_add_pickable] = &create_pickable_in_sector;
+	editor_loop(&ed);
     return (0);
 }
