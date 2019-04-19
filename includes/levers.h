@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   levers.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 06:08:37 by badhont           #+#    #+#             */
+/*   Updated: 2019/04/19 11:34:59 by badhont          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DOOMNUKEM_LEVERS_H
 # define DOOMNUKEM_LEVERS_H
 
@@ -7,10 +19,10 @@
 # include "e_bool.h"
 # include "timer_handler.h"
 
-typedef struct s_linked_walls t_linked_walls;
-typedef struct s_wall t_wall;
+typedef struct s_linked_walls	t_linked_walls;
+typedef struct s_wall	t_wall;
 
-typedef struct	s_lever
+typedef struct		s_lever
 {
 	t_wall_object *wall_object;
 	enum e_bool activated;
