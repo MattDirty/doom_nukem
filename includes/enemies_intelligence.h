@@ -7,6 +7,7 @@
 typedef struct s_env t_env;
 typedef struct s_sector t_sector;
 typedef struct s_enemy t_enemy;
+
 typedef void (*t_enemy_intelligence)(
         t_enemy *enemy,
         t_sector *enemy_sector,

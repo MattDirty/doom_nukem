@@ -159,20 +159,26 @@ void    move_player_spawn(t_editor *ed, double x, double y)
 
 void	move_enemy(t_editor *ed, double x, double y)
 {
-	t_sector	*sector;
-	double		new_x;
-	double		new_y;
+	t_sector			*sector;
+	t_sector			*old_sector;
+	t_coords			new;
+	t_linked_enemies	*extracted_node;
 
-	sector = find_enemy_sector(ed->map->sectors, ed->dragged.enemy);
-	new_x = (x - ed->map_offset.x) / ed->zoom;
-	new_y = (ed->map_offset.y - y) / ed->zoom;
-	if (!is_in_sector((t_coords){new_x, new_y}, sector))
-    {
-        Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
-	    return ;
-    }
-	ed->dragged.enemy->object->x = new_x;
-	ed->dragged.enemy->object->y = new_y;
+	old_sector = find_enemy_sector(ed->map->sectors, ed->dragged.enemy);
+	new.x = (x - ed->map_offset.x) / ed->zoom;
+	new.y = (ed->map_offset.y - y) / ed->zoom;
+	if (!(sector = in_which_sector(new, ed->map->sectors)))
+	{
+		Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
+		return;
+	}
+	if (old_sector != sector)
+	{
+		extracted_node = extract_enemy(&old_sector->enemies, ed->dragged.enemy);
+		add_enemy(&sector->enemies, extracted_node);
+	}
+	ed->dragged.enemy->object->x = new.x;
+	ed->dragged.enemy->object->y = new.y;
 	ed->map_is_updated = e_false;
 }
 

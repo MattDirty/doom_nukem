@@ -339,7 +339,7 @@ void remove_selected_object(t_params params)
 	t_editor *ed;
 
 	ed = ((t_btn_params *) params)->ed;
-	if (ed->selected.enemy)
+	if (ed->selected.enemy && ed->selected.enemy->type)
 	{
 		remove_selected_enemy(ed);
 		return;
@@ -632,7 +632,8 @@ void editor_draw_panel_enemy(t_editor *ed)
 
 	write_panel_state(ed, "Baddy");
 	y = 120;
-	remove_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
+	if (ed->selected.enemy->type != et_boss)
+		remove_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
 	y += 70;
 	hp_btn(ed, ed->fonts->amazdoom40, ed->panel.surface, &y);
 	y += 70;

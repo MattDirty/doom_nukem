@@ -73,7 +73,10 @@ void        draw_enemies_in_sector_editor(
     {
         coords.x = map_offset.x + enemies->item.object->x * zoom;
         coords.y = map_offset.y - enemies->item.object->y * zoom;
-        draw_circle_filled(target, coords, 5, ENEMY_COLOR);
+        if (enemies->item.type != et_boss)
+	        draw_circle_filled(target, coords, 5, ENEMY_COLOR);
+		else
+			draw_circle_filled(target, coords, 8, 0);
         enemies = enemies->next;
     }
 }

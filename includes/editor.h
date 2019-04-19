@@ -2,7 +2,6 @@
 # define DOOMNUKEM_EDITOR_H
 
 # include <unistd.h>
-# include <stdio.h> // TO DELETE !!!
 # include <math.h>
 
 # include "SDL.h"
