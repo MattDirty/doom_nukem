@@ -52,7 +52,6 @@ enum    e_editor_state
     e_add_enemy,
     e_add_weapon,
     e_add_lever,
-    e_add_sector
     e_add_sector,
     e_add_pickable
 };
