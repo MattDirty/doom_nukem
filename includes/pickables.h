@@ -1,3 +1,4 @@
+
 #ifndef PICKABLES_H
 # define PICKABLES_H
 
@@ -23,22 +24,23 @@ typedef struct s_pickable
         et_shotgun,
         et_vacuum
     }			type;
+    SDL_Surface *sprite_to_pick[3];
 }               t_pickable;
 
 typedef struct	        s_pickables
 {
-    t_pickable           *item;
+    t_pickable           item;
     struct s_pickables   *next;                                 
 }		        t_pickables;
 
 void    pick_objects(t_player *player);
-//void free_pickables(t_pickables *pickables);
+void    free_pickables(t_pickables *pickables);
 
-void write_pickables_to_file(int fd, t_pickables *pickables);
-void write_pickable_to_file(int fd, t_pickable pickable);
+void    write_pickables_to_file(int fd, t_pickables *pickables);
+void    write_pickable_to_file(int fd, t_pickable pickable);
 
-void read_pickables_from_file(int fd, t_textures *textures, t_pickables **pickables);
-void read_pickable_from_file(int fd, t_textures *textures, t_pickable *pickable);
+void    read_pickables_from_file(int fd, t_textures *textures, t_pickables **pickables);
+void    read_pickable_from_file(int fd, t_textures *textures, t_pickable *pickable);
 
 void	delete_pickable(t_pickables **pickables, t_pickable *to_delete);
 t_pickables    *add_new_pickable_to_sector_at_pos(t_sector *sector,
