@@ -15,3 +15,8 @@ void        create_object_in_map_state(t_params params)
 {
 	((t_btn_params *)params)->ed->state = e_add_object;
 }
+
+void		create_pickable_in_map_state(t_params params)
+{
+	((t_btn_params *)params)->ed->state = e_add_pickable;
+}

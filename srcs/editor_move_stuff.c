@@ -73,6 +73,20 @@ enum e_bool are_enemies_in_sector_valid(t_sector *sector)
     return (e_true);
 }
 
+enum e_bool are_pickables_in_sector_valid(t_sector *sector)
+{
+    t_pickables    *node;
+
+    node = sector->pickables;
+    while (node)
+    {
+        if (!is_object_in_sector(sector, node->item.object))
+            return (e_false);
+        node = node->next;
+    }
+    return (e_true);
+}
+
 enum e_bool is_map_valid(t_linked_walls *walls, t_map *map)
 {
     int                 i;

@@ -81,6 +81,29 @@ void        create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y)
 	ed->map_is_updated = e_false;
 }
 
+void        create_pickable_in_sector(t_editor *ed, int mouse_x, int mouse_y)
+{
+	t_coords    pos;
+	t_sector    *sector;
+	t_pickables	*pickables;
+
+	pos.x = (double)(mouse_x - ed->map_offset.x) / ed->zoom;
+	pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
+	sector = in_which_sector(pos, ed->map->sectors);
+	if (sector)
+	{
+		pickables = add_new_pickable_to_sector_at_pos(sector, pos, ed->textures);
+		if (!pickables)
+			ed->selected.pickable = NULL;
+		else
+			ed->selected.pickable = &pickables->item;
+	}
+	if (!ed->selected.pickable)
+		Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
+	ed->state = e_null;
+	ed->map_is_updated = e_false;
+}
+
 void			deal_with_clicked_sector(t_editor *ed)
 {
 	(void)ed;
