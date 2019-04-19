@@ -81,18 +81,7 @@ t_fonts *load_fonts(void)
     return (fonts);
 }
 
-void    free_str_split(char **str)
-{
-    int i;
 
-    i = 0;
-    while (str[i])
-    {
-        free(str[i]);
-        i++;
-    }
-    free(str);
-}
 
 void    create_sub_lists(t_textures *textures, t_panel *panel)
 {
@@ -125,7 +114,7 @@ void    create_sub_lists(t_textures *textures, t_panel *panel)
                 "shotgun.bmp") || !ft_strcmp(str[2], "vacuum.bmp"))
             add_texture(&panel->pickables, new_node);
         node = node->next;
-        free_str_split(str);
+        ft_free_strsplit(str);
     }
 }
 

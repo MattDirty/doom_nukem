@@ -85,6 +85,7 @@ SRC_NAME = ft_putchar.c \
 		   ft_strnjoin.c \
 		   ft_strnjoinfree.c \
 		   ft_strsplit.c \
+		   ft_free_strsplit.c \
 		   ft_atoi.c \
 		   ft_itoa.c \
 		   ft_itoa_base.c \

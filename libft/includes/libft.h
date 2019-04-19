@@ -99,6 +99,7 @@ char			*ft_strnjoin(char const *s1, char const *s2, size_t len);
 char			*ft_strnjoinfree(char const *d, char const *s, size_t n, int t);
 char			*ft_strtrim(char const *s);
 char			**ft_strsplit(char const *s, char c);
+void			ft_free_strsplit(char **str);
 int				ft_atoi(const char *str);
 char			*ft_itoa(int n);
 char			*ft_itoa_base(int n, int base);
