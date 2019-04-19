@@ -39,7 +39,9 @@ void	read_file(char *filename, t_env *e)
     read_fonts_from_file(fd, &e->fonts);
     read_sounds_from_file(fd, &e->sounds);
     read_textures_from_file(fd, &e->textures);
+    printf("salut\n");
     read_map_from_file(fd, e->textures, &e->map);
+    printf("bye");
     close(fd);
 }
 
