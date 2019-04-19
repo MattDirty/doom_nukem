@@ -199,26 +199,6 @@ void        add_enemy_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int
     SDL_FreeSurface(add_enemy);
 }
 
-void		remove_weapon_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
-{
-	SDL_Surface *add_weapon;
-	t_i_coords  pos;
-	t_button    weapon_btn;
-
-	add_weapon = write_text(font, "Remove Weapon", (SDL_Colour){255, 0, 0, 255});
-	pos.x = PANEL_PADDING_LEFT + 8;
-	pos.y = *y - 35;
-	weapon_btn.rect = create_rect(pos.x - 6, pos.y - 6, add_weapon->w + 10, add_weapon->h + 10);
-	draw_rect(target, &weapon_btn.rect, BLACK);
-	fill_rect(target, &weapon_btn.rect, PICKABLE_COLOR, e_true);
-	draw_on_screen(target, add_weapon, pos, e_false);
-	weapon_btn.rect.pos.x += PANEL_X;
-	weapon_btn.f = &create_object_in_map_state;
-	weapon_btn.params = create_btn_params(NULL, NULL, ed);
-	add_button_to_list(&ed->panel.buttons, weapon_btn);
-	SDL_FreeSurface(add_weapon);
-}
-
 void        add_weapon_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
 {
     SDL_Surface *add_weapon;
@@ -454,6 +434,18 @@ void        editor_draw_panel_enemy(t_editor *ed)
 	y += 50;
 	z_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
 }
+
+void        editor_draw_panel_pickable(t_editor *ed)
+{
+    int     y;
+
+    write_panel_state(ed, "Weapon");
+    y = 120;
+    remove_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
+    ed->selected_sprite = &ed->selected.pickable->object->sprite;
+    draw_sprites_section(ed, &ed->panel.pickables, " ", &y);
+}
+
 
 void		editor_draw_panel_object(t_editor *ed)
 {

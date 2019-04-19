@@ -132,7 +132,7 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i]->pickables = (t_pickables *)malloc(sizeof(t_pickables));
         map->sectors->items[i]->pickables->next = NULL;
 
-        map->sectors->items[i]->pickables->item.type = gun;
+        map->sectors->items[i]->pickables->item.type = et_gun;
         map->sectors->items[i]->pickables->item.object = (t_object *)malloc(sizeof(t_object));
         find_texture_by_name(textures, "textures/sprites/gun.bmp",
             &map->sectors->items[i]->pickables->item.sprite_to_pick[0]);
@@ -150,7 +150,7 @@ t_map		*create_map(t_textures *textures)
         map->sectors->items[i]->pickables->item.object->can_give_bonus = 0;
         if (i == 1) {
             map->sectors->items[i]->enemies->item.heading = (t_vector) {0, 1};
-            map->sectors->items[i]->pickables->item.type = shotgun;
+            map->sectors->items[i]->pickables->item.type = et_shotgun;
             map->sectors->items[i]->pickables->item.object->sprite =
                     map->sectors->items[i]->pickables->item.sprite_to_pick[1];
         }
@@ -164,7 +164,7 @@ t_map		*create_map(t_textures *textures)
             find_texture_by_name(textures,"textures/sprites/blackhole.bmp", &map->sectors->items[i]->enemies->item.back);
             map->sectors->items[i]->enemies->item.heading = (t_vector){-1, 0};
             map->sectors->items[i]->enemies->item.type = et_boss;
-            map->sectors->items[i]->pickables->item.type = vacuum;
+            map->sectors->items[i]->pickables->item.type = et_vacuum;
             map->sectors->items[i]->pickables->item.object->sprite =
                     map->sectors->items[i]->pickables->item.sprite_to_pick[2];
         }

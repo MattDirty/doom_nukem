@@ -21,8 +21,8 @@ typedef struct          s_panel
     t_textures			skies;
     t_textures			walls;
     t_textures			flats;
-    t_textures			weapons;
     t_textures			wall_objects;
+    t_textures			pickables;
 }						t_panel;
 
 void		editor_draw_panel_map(t_editor *ed);
@@ -33,5 +33,6 @@ void		editor_draw_panel_walls(t_editor *ed);
 void        editor_draw_panel_object(t_editor *ed);
 void        editor_draw_panel_sector(t_editor *ed);
 void        editor_draw_panel_enemy(t_editor *ed);
+void        editor_draw_panel_pickable(t_editor *ed);
 
 #endif

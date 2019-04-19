@@ -9,6 +9,7 @@ typedef struct  s_btn_params
     SDL_Surface *target;
     t_object    *object;
     t_enemy     *enemy;
+    t_pickable  *pickable;
     t_editor    *ed;
 }               t_btn_params;
 

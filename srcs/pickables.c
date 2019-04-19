@@ -74,11 +74,11 @@ void	delete_pickable(t_pickables **pickables, t_pickable *to_delete)
 
 void     do_stuff(t_player *player, t_pickables *pickables)
 {
-    if (pickables->item.type == gun)
+    if (pickables->item.type == et_gun)
         make_weapon_usable(player->weapons, 1);
-    else if (pickables->item.type == shotgun)
+    else if (pickables->item.type == et_shotgun)
         make_weapon_usable(player->weapons, 2);
-    else if (pickables->item.type == vacuum)
+    else if (pickables->item.type == et_vacuum)
         make_weapon_usable(player->weapons, 3);
     else
         error_doom("invalid pickable");

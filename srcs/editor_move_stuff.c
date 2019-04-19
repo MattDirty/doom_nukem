@@ -87,7 +87,8 @@ enum e_bool is_map_valid(t_linked_walls *walls, t_map *map)
     {
         sector = map->sectors->items[i];
         if (!are_objects_in_sector_valid(sector)
-        || !are_enemies_in_sector_valid(sector))
+            || !are_enemies_in_sector_valid(sector)
+                || !are_pickables_in_sector_valid(sector))
             return (e_false);
         i++;
     }
