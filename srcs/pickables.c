@@ -27,7 +27,8 @@ static  void    make_weapon_usable(t_weapons *node, Uint32 target)
         i++;
     }
     node->item->usable = e_true;
-    node->item->ammo += 10;
+    if (node->item->ammo >= 0)
+        node->item->ammo += 10;
 }
 
 t_pickables	*extract_pickable(
