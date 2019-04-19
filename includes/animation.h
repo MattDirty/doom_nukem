@@ -6,7 +6,7 @@
 /*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 01:07:18 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/19 07:41:23 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/19 11:14:36 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ struct							s_animation
 
 void							reset_animation(t_animation *animation);
 void							start_animation(t_animation *animation,
-								Uint32 duration);
+												Uint32 duration);
 
 #endif
+

@@ -6,7 +6,7 @@
 /*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 03:10:13 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/19 06:58:26 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/19 11:42:01 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 # include "SDL.h"
 # include "doom.h"
-# include "serialisation.h"
 # include "editor_draw.h"
+# include "serialisation.h"
 # include "textures.h"
 # include "map.h"
 # include "walls.h"
