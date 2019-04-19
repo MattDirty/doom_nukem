@@ -13,7 +13,7 @@
 #include "default.h"
 #include "config.h"
 
-t_config	load_default_config()
+t_config	load_default_config(void)
 {
 	t_config	config;
 
