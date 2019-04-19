@@ -80,7 +80,8 @@ t_object    *add_new_object_to_sector_at_pos(
 		i++;
 	}
 	items[i] = object;
-	free(sector->objects->items);
+	if (sector->objects->count)
+		free(sector->objects->items);
 	sector->objects->items = items;
 	sector->objects->count = count;
 	return (&items[i]);
