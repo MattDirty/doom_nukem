@@ -19,9 +19,9 @@ typedef struct s_pickable
     t_object    *object;
     enum pickable_type
     {
-        gun,
-        shotgun,
-        vacuum
+        et_gun,
+        et_shotgun,
+        et_vacuum
     }			type;
     SDL_Surface *sprite_to_pick[3];
 }               t_pickable;

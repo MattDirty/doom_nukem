@@ -162,6 +162,8 @@ void        draw_panel(t_editor *ed)
         editor_draw_panel_walls(ed);
     else if (ed->selected.enemy)
     	editor_draw_panel_enemy(ed);
+	else if (ed->selected.pickable)
+		editor_draw_panel_pickable(ed);
     else if (ed->selected.object)
         editor_draw_panel_object(ed);
     else if (ed->selected.sector)

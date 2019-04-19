@@ -91,7 +91,7 @@ void    create_sub_lists(t_textures *textures, t_panel *panel)
 	panel->skies.first = NULL;
 	panel->walls.first = NULL;
 	panel->flats.first = NULL;
-	panel->weapons.first = NULL;
+	panel->pickables.first = NULL;
 	panel->wall_objects.first = NULL;
     while (node)
     {
@@ -110,7 +110,7 @@ void    create_sub_lists(t_textures *textures, t_panel *panel)
 			add_texture(&panel->wall_objects, new_node);
         else if (!ft_strcmp(str[2], "gun.bmp") || !ft_strcmp(str[2],
                 "shotgun.bmp") || !ft_strcmp(str[2], "vacuum.bmp"))
-            add_texture(&panel->weapons, new_node);
+            add_texture(&panel->pickables, new_node);
         node = node->next;
     }
 }
@@ -195,6 +195,7 @@ int		main(int ac, char **av)
     ed.state_func[e_add_object] = &create_object_in_sector;
     ed.state_func[e_add_enemy] = &create_enemy_in_sector;
     ed.state_func[e_add_sector] = &try_sector_creation;
+    ed.state_func[e_add_pickable] = &create_pickable_in_sector;
     editor_loop(&ed);
     return (0);
 }
