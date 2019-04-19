@@ -219,6 +219,17 @@ void		remove_selected_enemy(t_editor *ed)
 	sector = find_enemy_sector(ed->map->sectors, ed->selected.enemy);
 	delete_enemy(&sector->enemies, ed->selected.enemy);
     clear_selection(&ed->selected);
+    ed->map_is_updated = e_false;
+}
+
+void        remove_selected_pickable(t_editor *ed)
+{
+    t_sector    *sector;
+
+    sector = find_pickable_sector(ed->map->sectors, ed->selected.pickable);
+    delete_pickable(&sector->pickables, ed->selected.pickable);
+    clear_selection(&ed->selected);
+    ed->map_is_updated = e_false;
 }
 
 void		remove_selected_object(t_params params)
@@ -233,10 +244,16 @@ void		remove_selected_object(t_params params)
 		remove_selected_enemy(ed);
 		return ;
 	}
+	if (ed->selected.pickable)
+    {
+	    remove_selected_pickable(ed);
+	    return ;
+    }
     object = ed->selected.object;
     sector = find_object_sector(ed->map->sectors, object);
     remove_object(object, sector->objects);
     clear_selection(&ed->selected);
+    ed->map_is_updated = e_false;
 }
 
 void		remove_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, int *y)
