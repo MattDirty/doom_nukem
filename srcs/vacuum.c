@@ -43,6 +43,7 @@ t_weapon    *load_vacuum(t_sounds *sounds, t_map *map)
     vacuum->main = vacuum_primary;
     vacuum->main_cooldown = 60000;
     vacuum->main_ready = e_true;
+    reset_animation(&vacuum->main_animation);
     if (!(vacuum->main_sound = sounds->slurp))
         error_doom("Can't load vacuum sound ...");
     vacuum->range = HORIZON;
