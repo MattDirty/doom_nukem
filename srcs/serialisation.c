@@ -7,7 +7,7 @@
 #include "doom.h"
 #include "serialisation.h"
 
-void    check_if_file_is_valid(int fd, char *filename)
+void    check_if_file_is_valid(int *fd, char *filename)
 {
     struct stat st;
     struct stat st_verif;
@@ -20,19 +20,22 @@ void    check_if_file_is_valid(int fd, char *filename)
     if (st.st_size < 1000000)
     	error_doom("Come on, that's way too small for a map file ! Try doing ./"
 				"editor real_map_name and stop trying to break stuff ...");
-    read(fd, &st_verif.st_size, sizeof(st_verif.st_size));
+    *fd = open(filename, O_RDONLY);
+    if (*fd <= 0)
+    	error_doom("Couldn't open file");
+    read(*fd, &st_verif.st_size, sizeof(st_verif.st_size));
     if (st_verif.st_size != st.st_size)
         error_doom("It seems your map has been corrupted. That's naughty!");
+    read(*fd, &st_verif.st_mtime, sizeof(st_verif.st_mtime));
+    if (st.st_mtime != st_verif.st_mtime)
+    	error_doom("Stop tampering with the map file ! Come on !");
 }
 
 void	read_file(char *filename, t_env *e)
 {
     int fd;
 
-    fd = open(filename, O_RDONLY);
-    if (fd <= 0)
-        error_doom("couldn't open file");
-    check_if_file_is_valid(fd, filename);
+	check_if_file_is_valid(&fd, filename);
     read_fonts_from_file(fd, &e->fonts);
     read_sounds_from_file(fd, &e->sounds);
     read_textures_from_file(fd, &e->textures);
@@ -44,10 +47,7 @@ void	read_file_editor(char *filename, t_read_data *e)
 {
     int fd;
 
-    fd = open(filename, O_RDONLY);
-    if (fd <= 0)
-        error_doom("couldn't open file");
-    check_if_file_is_valid(fd, filename);
+	check_if_file_is_valid(&fd, filename);
     read_fonts_from_file(fd, e->fonts);
     read_sounds_from_file(fd, e->sounds);
     read_textures_from_file(fd, e->textures);
@@ -63,6 +63,7 @@ void    write_file_protections(int fd, char *filename)
         error_doom("Wow, that really shouldn't happen. It seems the map doesn't"
                    "exist ...");
     write(fd, &st.st_size, sizeof(st.st_size));
+    write(fd, &st.st_mtime, sizeof(st.st_mtime));
 }
 
 void	write_file(char *filename, t_textures *textures, t_map *map)
@@ -81,6 +82,7 @@ void	write_file(char *filename, t_textures *textures, t_map *map)
     if ((fd = open(filename, O_WRONLY)) <= 0)
         error_doom("There was a problem while reopening the file.");
     write_file_protections(fd, filename);
+    close(fd);
 }
 
 void	read_str_from_file(int fd, char **name)
