@@ -6,7 +6,7 @@
 /*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 01:07:18 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/19 05:19:04 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/19 07:41:23 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <SDL.h>
 
-typedef struct	s_animation		t_animation;
+typedef struct s_animation		t_animation;
 
 struct							s_animation
 {

@@ -28,27 +28,27 @@
 
 typedef struct			s_panel
 {
-    SDL_Surface     	*surface;
-    t_buttons           *buttons;
-    t_textures			skies;
-    t_textures			walls;
-    t_textures			flats;
-    t_textures			wall_objects;
-    t_textures			pickables;
+	SDL_Surface			*surface;
+	t_buttons			*buttons;
+	t_textures			skies;
+	t_textures			walls;
+	t_textures			flats;
+	t_textures			wall_objects;
+	t_textures			pickables;
 }						t_panel;
 
-void		editor_draw_panel_map(t_editor *ed);
-void        write_panel_state(t_editor *ed, char *state_str);
-void		draw_sprites_section(
-		t_editor *ed, t_textures *sprites, char *title_str, int *y);
-void		editor_draw_panel_walls(t_editor *ed);
-void        editor_draw_panel_object(t_editor *ed);
-void        editor_draw_panel_sector(t_editor *ed);
-void        editor_draw_panel_enemy(t_editor *ed);
-void        editor_draw_panel_pickable(t_editor *ed);
-void		init_panel(t_panel *panel, t_textures *textures);
-void		change_door_to_portal(t_params params);
-void		save_editor(t_params params);
-void		write_panel_wall_state(t_editor *ed, t_wall *wall);
+void					editor_draw_panel_map(t_editor *ed);
+void					write_panel_state(t_editor *ed, char *state_str);
+void					draw_sprites_section(t_editor *ed, t_textures *sprites,
+							char *title_str, int *y);
+void					editor_draw_panel_walls(t_editor *ed);
+void					editor_draw_panel_object(t_editor *ed);
+void					editor_draw_panel_sector(t_editor *ed);
+void					editor_draw_panel_enemy(t_editor *ed);
+void					editor_draw_panel_pickable(t_editor *ed);
+void					init_panel(t_panel *panel, t_textures *textures);
+void					change_door_to_portal(t_params params);
+void					save_editor(t_params params);
+void					write_panel_wall_state(t_editor *ed, t_wall *wall);
 
 #endif
