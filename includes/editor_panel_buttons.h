@@ -6,7 +6,7 @@
 /*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 04:52:25 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/19 11:31:22 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/19 11:39:05 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void					create_pickable_in_sector(t_editor *ed,
 void					try_sector_creation(t_editor *ed,
 							int mouse_x, int mouse_y);
 void					try_lever_creation(t_editor *ed,
+							int mouse_x, int mouse_y);
+enum e_bool				click_on_panel(t_editor *ed,
 							int mouse_x, int mouse_y);
 
 void					create_save_button(TTF_Font *font, SDL_Surface *target,

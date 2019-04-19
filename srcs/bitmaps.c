@@ -15,32 +15,32 @@
 #include "bitmaps.h"
 #include "doom.h"
 
-t_SDL_Surface_info		read_header(int fd, int *pixels_size)
+t_sdl_surface_info 		read_header(int fd, int *pixels_size)
 {
-	t_SDL_Surface_info	info;
-	char				buffer[124];
-	int					pixels_offset;
+    t_sdl_surface_info 	info;
+    char				buffer[124];
+    int					pixels_offset;
 
-	if (read(fd, &buffer, 2) <= 0 || buffer[0] != 'B' || buffer[1] != 'M')
-		error_doom("nope");
-	if (read(fd, pixels_size, sizeof(int)) <= 0)
-		error_doom("mistaken bitmap assery");
-	if (read(fd, buffer, 4) <= 0)
-		error_doom("reserved cock");
-	if (read(fd, &pixels_offset, sizeof(int)) <= 0)
-		error_doom("pixels offet");
-	if (pixels_offset != 138 || read(fd, buffer, pixels_offset - 14) <= 0)
-		error_doom("Can't read a BITMAPV5HEADER.");
-	*pixels_size -= pixels_offset;
-	info.w = *((unsigned int*)&buffer[4]);
-	info.h = *((unsigned int*)&buffer[8]);
-	info.depth = *((unsigned int*)&buffer[20]) / info.h / info.w * 8;
-	info.pitch = info.w * info.depth / 8;
-	info.rmask = *((unsigned int*)&buffer[40]);
-	info.gmask = *((unsigned int*)&buffer[44]);
-	info.bmask = *((unsigned int*)&buffer[48]);
-	info.amask = *((unsigned int*)&buffer[52]);
-	return (info);
+    if (read(fd, &buffer, 2) <= 0 || buffer[0] != 'B' || buffer[1] != 'M')
+        error_doom("nope");
+    if (read(fd, pixels_size, sizeof(int)) <= 0)
+        error_doom("mistaken bitmap assery");
+    if (read(fd, buffer, 4) <= 0)
+        error_doom("reserved cock");
+    if (read(fd, &pixels_offset, sizeof(int)) <= 0)
+        error_doom("pixels offet");
+    if (pixels_offset != 138 || read(fd, buffer, pixels_offset - 14) <= 0)
+        error_doom("Can't read a BITMAPV5HEADER.");
+    *pixels_size -= pixels_offset;
+    info.w = *((unsigned int*)&buffer[4]);
+    info.h = *((unsigned int*)&buffer[8]);
+    info.depth = *((unsigned int*)&buffer[20]) / info.h / info.w * 8;
+    info.pitch = info.w * info.depth / 8;
+    info.rmask = *((unsigned int*)&buffer[40]);
+    info.gmask = *((unsigned int*)&buffer[44]);
+    info.bmask = *((unsigned int*)&buffer[48]);
+    info.amask = *((unsigned int*)&buffer[52]);
+    return (info);
 }
 
 static inline int		shift_from_mask(Uint32 mask)
@@ -56,28 +56,28 @@ static inline int		shift_from_mask(Uint32 mask)
 	return (-1);
 }
 
-static inline void		swap_colors(Uint32 *pixel, t_SDL_Surface_info info)
+static inline void		swap_colors(Uint32 *pixel, t_sdl_surface_info  info)
 {
-	Uint32				alpha;
-	Uint32				red;
-	Uint32				green;
-	Uint32				blue;
+    Uint32				alpha;
+    Uint32				red;
+    Uint32				green;
+    Uint32				blue;
 
-	if (info.amask == 0)
-		alpha = 0xff;
-	else
-		alpha = ((*pixel & info.amask) >> shift_from_mask(info.amask))
-			<< AMASK_SHIFT;
-	red = ((*pixel & info.rmask) >> shift_from_mask(info.rmask))
-		<< RMASK_SHIFT;
-	green = ((*pixel & info.gmask) >> shift_from_mask(info.gmask))
-		<< GMASK_SHIFT;
-	blue = ((*pixel & info.bmask) >> shift_from_mask(info.bmask))
-		<< BMASK_SHIFT;
-	*pixel = alpha | red | green | blue;
+    if (info.amask == 0)
+        alpha = 0xff;
+    else
+        alpha = ((*pixel & info.amask) >> shift_from_mask(info.amask))
+            << AMASK_SHIFT;
+    red = ((*pixel & info.rmask) >> shift_from_mask(info.rmask))
+        << RMASK_SHIFT;
+    green = ((*pixel & info.gmask) >> shift_from_mask(info.gmask))
+        << GMASK_SHIFT;
+    blue = ((*pixel & info.bmask) >> shift_from_mask(info.bmask))
+        << BMASK_SHIFT;
+    *pixel = alpha | red | green | blue;
 }
 
-static inline void		reorder_colors(Uint32 *pixels, t_SDL_Surface_info info)
+static inline void		reorder_colors(Uint32 *pixels, t_sdl_surface_info  info)
 {
 	int					i;
 	int					j;
