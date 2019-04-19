@@ -198,10 +198,10 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 	$(CC) $(CFLAGS) $(IFLAGS) $(SDL_CFLAGS) -o $@ -c $<
 
 run: $(NAME)
-	./$(NAME)
+	./$(NAME) template.roflolilolmao
 
 redit: $(NAME_EDITOR)
-	./$(NAME_EDITOR) mabite.roflolilolmao
+	./$(NAME_EDITOR) template.roflolilolmao
 
 norm:
 	norminette $(SRCS) $(INCL)
@@ -214,7 +214,7 @@ git: fclean
 clean:
 	$(RM) $(OBJS)
 	$(RM) $(OBJS_EDITOR)
-	$(RM) mabite.roflolilolmao
+	$(RM) template.roflolilolmao
 	rmdir $(OBJ_PATH) 2> /dev/null || true
 
 fclean: clean
