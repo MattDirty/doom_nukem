@@ -213,7 +213,7 @@ void        add_weapon_btn(t_editor *ed, TTF_Font *font, SDL_Surface *target, in
     fill_rect(target, &weapon_btn.rect, PICKABLE_COLOR, e_true);
     draw_on_screen(target, add_weapon, pos, e_false);
     weapon_btn.rect.pos.x += PANEL_X;
-    weapon_btn.f = &create_object_in_map_state;
+    weapon_btn.f = &create_pickable_in_map_state;
     weapon_btn.params = create_btn_params(NULL, NULL, ed);
     add_button_to_list(&ed->panel.buttons, weapon_btn);
     SDL_FreeSurface(add_weapon);

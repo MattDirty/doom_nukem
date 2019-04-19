@@ -41,7 +41,8 @@ void    write_pickable_to_file(int fd, t_pickable pickable);
 void    read_pickables_from_file(int fd, t_textures *textures, t_pickables **pickables);
 void    read_pickable_from_file(int fd, t_textures *textures, t_pickable *pickable);
 
-void	add_pickable(t_pickables **pickables, t_pickables *pickable);
 void	delete_pickable(t_pickables **pickables, t_pickable *to_delete);
+t_pickables    *add_new_pickable_to_sector_at_pos(t_sector *sector,
+        t_coords pos, t_textures *textures);
 
 #endif

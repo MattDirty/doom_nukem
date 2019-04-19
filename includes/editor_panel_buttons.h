@@ -38,6 +38,7 @@ void        create_enemy_in_map_state(t_params params);
 
 void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y);
 void        create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y);
+void        create_pickable_in_sector(t_editor *ed, int mouse_x, int mouse_y);
 void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y);
 
 #endif
