@@ -25,6 +25,9 @@ SRCS_NAMES = vector.c \
 			player.c \
 			player_health_variation.c \
 			serialisation.c \
+			serialisation_enemies.c \
+			serialisation_objects.c \
+			serialisation_pickables.c \
 			walls.c \
 			wall_objects.c \
 			sectors.c \
@@ -67,6 +70,7 @@ SRCS_NAMES = vector.c \
 			textures.c \
 			keyboard.c \
 			enemies.c \
+			enemies_damage.c \
 			pickables.c
 
 SRC_NAME =	main.c \
@@ -84,6 +88,9 @@ SRC_EDITOR_NAME = editor.c \
 				  editor_mouse_clicks_action.c \
 				  editor_move_stuff.c \
 				  editor_states.c \
+				  editor_enemies.c \
+				  editor_objects.c \
+				  editor_pickables.c \
 				  create_map.c \
 				  editor_walls_nodes.c \
 				  $(SRCS_NAMES)
