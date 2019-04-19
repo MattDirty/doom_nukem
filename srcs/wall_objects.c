@@ -1,13 +1,24 @@
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wall_objects.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtorsell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/20 01:31:27 by mtorsell          #+#    #+#             */
+/*   Updated: 2019/04/20 01:31:31 by mtorsell         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include <unistd.h>
 #include "wall_objects.h"
 #include "textures.h"
 #include "serialisation.h"
 #include "doom.h"
 
-t_wall_object   *create_wall_object(t_textures *textures)
+t_wall_object	*create_wall_object(t_textures *textures)
 {
-	t_wall_object   *object;
+	t_wall_object	*object;
 
 	if (!(object = (t_wall_object *)malloc(sizeof(t_wall_object))))
 		error_doom("Couldn't allocate new wall object");
@@ -30,11 +41,11 @@ void			read_wall_object_from_file(
 		error_doom("can't read wall_has_object");
 	*wall_object = NULL;
 	if (!wall_has_object)
-		return;
+		return ;
 	if (!(*wall_object = (t_wall_object*)malloc(sizeof(t_wall_object))))
 		error_doom("can't alloc wall_object");
 	if (read(fd, &(*wall_object)->offset_on_wall,
-			 sizeof((*wall_object)->offset_on_wall)) <= 0)
+				sizeof((*wall_object)->offset_on_wall)) <= 0)
 		error_doom("can't write offset on wall");
 	if (read(fd, &(*wall_object)->z, sizeof((*wall_object)->z)) <= 0)
 		error_doom("can't write z");
@@ -53,9 +64,9 @@ void			write_wall_object_to_file(
 	if (write(fd, &wall_has_object, sizeof(wall_has_object)) <= 0)
 		error_doom("can't write wall_has_object");
 	if (!wall_has_object)
-		return;
+		return ;
 	if (write(fd, &wall_object->offset_on_wall,
-			  sizeof(wall_object->offset_on_wall)) <= 0)
+				sizeof(wall_object->offset_on_wall)) <= 0)
 		error_doom("can't write offset on wall");
 	if (write(fd, &wall_object->z, sizeof(wall_object->z)) <= 0)
 		error_doom("can't write z");
