@@ -2,7 +2,7 @@
 #include "walls.h"
 #include "doom.h"
 
-void    free_walls_nodes(t_wall_nodes *nodes)
+void    free_walls_nodes(t_wall_nodes *nodes) // ?
 {
     t_wall_nodes *next;
 

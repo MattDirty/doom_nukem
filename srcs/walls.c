@@ -253,7 +253,8 @@ void			read_walls_from_file(
         error_doom("couldn't read walls count");
 
     (*walls)->count = count;
-    (*walls)->items = (t_wall**)malloc(sizeof(t_wall*) * count);
+    if(!((*walls)->items = (t_wall**)malloc(sizeof(t_wall*) * count)))
+        error_doom("error: cannot malloc wall");
 
     i = 0;
     while (i < count)

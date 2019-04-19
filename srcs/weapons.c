@@ -109,12 +109,6 @@ void		free_weapons(t_weapons *weapons)
     n = weapons;
     while (n)
     {
-        if (n->item->sprites)
-            free(n->item->sprites);
-        if (n->item->sprites_fire)
-            free(n->item->sprites_fire);
-        if (n->item->sprites_cooldown)
-            free(n->item->sprites_cooldown);
         free(n->item);
         p = n;
         n = n->next;

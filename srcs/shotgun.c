@@ -27,9 +27,9 @@ enum e_bool shotgun_firing(double ms_since_update, t_params params)
         return (e_false);
     }
     if (ptr->weapon->main_animation.time <= 400)
-        ptr->weapon->sprite_current = ptr->weapon->sprites_fire[0];
+        ptr->weapon->sprite_current = ptr->weapon->sprites_fire;
     else
-        ptr->weapon->sprite_current = ptr->weapon->sprites_cooldown[0];
+        ptr->weapon->sprite_current = ptr->weapon->sprites_cooldown;
     return (e_true);
 }
 
@@ -60,26 +60,11 @@ void        load_shotgun_sprites(t_weapon *weapon, t_map *map)
 {
     Uint32  i;
 
-    weapon->sprites_count = 3;
-    if (!(weapon->sprites = (SDL_Surface **)malloc(sizeof(SDL_Surface *)
-                                                   * weapon->sprites_count)))
-        error_doom("Couldn't malloc shotgun.sprites");
     i = 0;
-    while (i < weapon->sprites_count)
-    {
-        weapon->sprites[i] = map->shotgun_sprites[i];
-        i++;
-    }
+    weapon->sprites[0] = map->shotgun_sprites[0];
     weapon->sprite_current = weapon->sprites[0];
-    weapon->sprites_fire_count = 1;
-    if (!(weapon->sprites_fire = (SDL_Surface **)malloc(sizeof(SDL_Surface *))))
-        error_doom("Couldn't malloc shotgun firing sprites");
-    weapon->sprites_fire[0] = map->shotgun_sprites[2];
-    weapon->sprites_fire_count = 1;
-    if (!(weapon->sprites_cooldown =
-                  (SDL_Surface **)malloc(sizeof(SDL_Surface *))))
-        error_doom("Couldn't malloc shotgun firing sprites");
-    weapon->sprites_cooldown[0] = map->shotgun_sprites[1];
+    weapon->sprites_fire = map->shotgun_sprites[2];
+    weapon->sprites_cooldown = map->shotgun_sprites[1];
 }
 
 t_weapon    *load_shotgun(t_sounds *sounds, t_map *map)

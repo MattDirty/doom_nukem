@@ -32,11 +32,9 @@ t_weapon    *load_vacuum(t_sounds *sounds, t_map *map)
 
     if (!(vacuum = (t_weapon *)malloc(sizeof(t_weapon))))
         error_doom("Couldn't malloc vacuum");
-    vacuum->sprites_count = 1;
-    if (!(vacuum->sprites = (SDL_Surface **)malloc(sizeof(SDL_Surface *)
-                                                   * vacuum->sprites_count)))
-        error_doom("Couldn't malloc vacuum.sprites");
     vacuum->sprites[0] = map->vacuum_sprite;
+    vacuum->sprites[1] = NULL;
+    vacuum->sprites[2] = NULL;
     vacuum->sprites_cooldown = NULL;
     vacuum->sprites_fire = NULL;
     vacuum->sprite_current = vacuum->sprites[0];

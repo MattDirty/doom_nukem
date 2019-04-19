@@ -16,13 +16,10 @@ typedef struct  s_env t_env;
 typedef struct  s_weapon
 {
     SDL_Surface *sprite_current;
-    SDL_Surface **sprites;
+    SDL_Surface *sprites[3];
     t_animation animation;
-    Uint32      sprites_count;
-    SDL_Surface **sprites_fire;
-    Uint32      sprites_fire_count;
-    SDL_Surface **sprites_cooldown;
-    Uint32      sprites_cooldown_count;
+    SDL_Surface *sprites_fire;
+    SDL_Surface *sprites_cooldown;
     int         ammo;
     t_animation main_animation;
     void        (*main)();

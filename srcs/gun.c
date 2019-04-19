@@ -33,9 +33,9 @@ enum e_bool gun_firing(double ms_since_update, t_params params)
         return (e_false);
     }
     if (ptr->weapon->main_animation.time <= 200)
-        ptr->weapon->sprite_current = ptr->weapon->sprites_fire[0];
+        ptr->weapon->sprite_current = ptr->weapon->sprites_fire;
     else
-        ptr->weapon->sprite_current = ptr->weapon->sprites_cooldown[0];
+        ptr->weapon->sprite_current = ptr->weapon->sprites_cooldown;
     return (e_true);
 }
 
@@ -66,26 +66,15 @@ void        load_gun_sprites(t_weapon *weapon, t_map *map)
 {
     Uint32  i;
 
-    weapon->sprites_count = 3;
-    if (!(weapon->sprites = (SDL_Surface **)malloc(sizeof(SDL_Surface *)
-            * weapon->sprites_count)))
-        error_doom("Couldn't malloc gun.sprites");
     i = 0;
-    while (i < weapon->sprites_count)
+    while (i < 3)
     {
         weapon->sprites[i] = map->gun_sprites[i];
         i++;
     }
     weapon->sprite_current = weapon->sprites[0];
-    weapon->sprites_fire_count = 1;
-    if (!(weapon->sprites_fire = (SDL_Surface **)malloc(sizeof(SDL_Surface *))))
-        error_doom("Couldn't malloc gun firing sprites");
-    weapon->sprites_fire[0] = map->gun_sprites[3];
-    weapon->sprites_fire_count = 1;
-    if (!(weapon->sprites_cooldown =
-            (SDL_Surface **)malloc(sizeof(SDL_Surface *))))
-        error_doom("Couldn't malloc gun firing sprites");
-    weapon->sprites_cooldown[0] = map->gun_sprites[4];
+    weapon->sprites_fire = map->gun_sprites[3];
+    weapon->sprites_cooldown = map->gun_sprites[4];
 }
 
 t_weapon    *load_gun(t_sounds *sounds, t_map *map)

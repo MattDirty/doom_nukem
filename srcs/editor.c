@@ -23,6 +23,9 @@
 
 static void    free_editor(t_editor *ed)
 {
+    free_map(ed->map);
+    free_fonts(ed->fonts);
+    free_sounds(ed->sounds);
     SDL_FreeSurface(ed->sdl.surface);
     SDL_DestroyRenderer(ed->sdl.renderer);
     SDL_DestroyWindow(ed->sdl.window);

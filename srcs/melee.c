@@ -85,11 +85,9 @@ t_weapon    *load_melee(t_sounds *sounds, t_map *map)
 
     if (!(weapon = (t_weapon *)malloc(sizeof(t_weapon))))
         error_doom("Couldn't malloc melee");
-    weapon->sprites_count = 1;
-    if (!(weapon->sprites = (SDL_Surface **)malloc(sizeof(SDL_Surface *)
-            * weapon->sprites_count)))
-        error_doom("Couldn't malloc melee.sprites");
     weapon->sprites[0] = map->melee_sprite;
+    weapon->sprites[1] = NULL;
+    weapon->sprites[1] = NULL;
     weapon->sprites_cooldown = NULL;
     weapon->sprites_fire = NULL;
     weapon->sprite_current = weapon->sprites[0];
