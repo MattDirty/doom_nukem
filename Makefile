@@ -20,6 +20,7 @@ SRC_PATH = srcs
 
 SRCS_NAMES = vector.c \
 			collision.c \
+			collision2.c \
 			segment.c \
 			rectangle.c \
 			player.c \
@@ -48,6 +49,7 @@ SRCS_NAMES = vector.c \
 			render_blackhole.c \
 			enemies_intelligence.c \
 			basic_enemies_intelligence.c \
+			basic_enemies_intelligence2.c \
 			debug_init.c \
 			debug_draw_tools.c \
 			draw_tools.c \
