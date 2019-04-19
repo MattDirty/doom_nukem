@@ -51,6 +51,8 @@ enum    e_editor_state
     e_add_object,
     e_add_enemy,
     e_add_weapon,
+    e_add_lever,
+    e_add_sector
     e_add_sector,
     e_add_pickable
 };
@@ -71,7 +73,7 @@ typedef struct          s_editor
     t_fonts				*fonts;
     SDL_Surface         **selected_sprite;
     enum e_editor_state state;
-    void                (*state_func[6])
+    void                (*state_func[7])
     (t_editor *ed, int mouse_x, int mouse_y);
 	t_selected_elements	selected;
 	t_selected_elements	dragged;

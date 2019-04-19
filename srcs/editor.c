@@ -18,6 +18,7 @@
 #include "editor_draw.h"
 #include "editor_move_stuff.h"
 #include "editor_panel_buttons.h"
+#include "editor_states.h"
 #include "bitmaps.h"
 #include "textures.h"
 
@@ -201,6 +202,7 @@ int		main(int ac, char **av)
     ed.state_func[e_add_object] = &create_object_in_sector;
     ed.state_func[e_add_enemy] = &create_enemy_in_sector;
     ed.state_func[e_add_sector] = &try_sector_creation;
+    ed.state_func[e_add_lever] = &try_lever_creation;
     ed.state_func[e_add_pickable] = &create_pickable_in_sector;
     editor_loop(&ed);
     return (0);

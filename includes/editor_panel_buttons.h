@@ -40,5 +40,6 @@ void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y);
 void        create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y);
 void        create_pickable_in_sector(t_editor *ed, int mouse_x, int mouse_y);
 void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y);
+void		try_lever_creation(t_editor *ed, int mouse_x, int mouse_y);
 
 #endif

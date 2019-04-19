@@ -44,8 +44,8 @@ typedef struct			s_walls
 
 typedef struct			s_linked_walls
 {
-    t_wall				*wall;
-    struct s_linked_walls	*next;  // I'm not "fixing" the whole file, fuck the norm
+    t_wall					*wall;
+    struct s_linked_walls	*next;	// I'm not "fixing" the whole file, fuck the norm
 }						t_linked_walls;
 
 t_wall      *create_wall_copy(t_wall *wall);
@@ -53,6 +53,8 @@ void        add_wall_to_sector(t_sector *sector, t_wall *wall);
 void		transform_wall_to_portal(t_wall *wall, t_sector *s1, t_sector *s2);
 void		transform_wall_to_window(t_wall *wall, t_sector *sector);
 void		transform_window_to_wall(t_wall *wall);
+void		transform_portal_to_door(t_wall *wall, SDL_Surface *texture);
+void		transform_door_to_portal(t_wall *wall, t_linked_walls *node);
 
 void			create_linked_walls_from_sectors(
         t_sectors *sectors,

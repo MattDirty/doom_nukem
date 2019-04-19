@@ -63,6 +63,24 @@ void		use_lever_if_available(t_player *p, t_timer_handler *timer_handler)
     free_collisions(collisions);
 }
 
+void	create_lever(t_wall *wall, t_wall *target, t_textures *textures)
+{
+	t_lever	*lever;
+
+	if (!(lever = (t_lever *)malloc(sizeof(t_lever))))
+		error_doom("Couldn't allocate new lever");
+	lever->activated = e_false;
+	lever->door = target;
+	find_texture_by_name(textures, "textures/wall_objects/lever_up.bmp",
+			&lever->up_texture);
+	find_texture_by_name(textures, "textures/wall_objects/lever_down.bmp",
+						 &lever->down_texture);
+	lever->wall_object = create_wall_object(textures);
+	lever->wall_object->texture = lever->up_texture;
+	wall->lever = lever;
+
+}
+
 void	read_lever_from_file(
         int fd,
         t_textures *textures,

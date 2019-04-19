@@ -4,6 +4,29 @@
 #include "doom.h"
 #include "serialisation.h"
 
+void		transform_door_to_portal(t_wall *wall, t_linked_walls *node)
+{
+	while (node->next)
+	{
+		if (node->wall->lever && node->wall->lever->door == wall)
+		{
+			free(node->wall->lever->wall_object);
+			node->wall->lever->wall_object = NULL;
+			free(node->wall->lever);
+			node->wall->lever = NULL;
+		}
+		node = node->next;
+	}
+	wall->texture = NULL;
+	wall->type = e_portal;
+}
+
+void		transform_portal_to_door(t_wall *wall, SDL_Surface *texture)
+{
+	wall->type = e_transparent_wall;
+	wall->texture = texture;
+}
+
 void		transform_window_to_wall(t_wall *wall)
 {
 	wall->type = e_wall;

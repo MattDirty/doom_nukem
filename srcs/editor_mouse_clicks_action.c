@@ -41,6 +41,31 @@ void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y)
 			ed->map->sectors, &ed->linked_walls, &ed->linked_walls_count);
 }
 
+void		try_lever_creation(t_editor *ed, int mouse_x, int mouse_y)
+{
+	t_coords	pos;
+	t_wall		*wall;
+	t_wall		*door;
+
+	ed->state = e_null;
+	pos.x = (double)(mouse_x - ed->map_offset.x) / ed->zoom;
+	pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
+	door = ed->selected.wall;
+	if (!click_on_walls(ed, ed->linked_walls, mouse_x, mouse_y))
+	{
+		Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
+		return ;
+	}
+	wall = ed->selected.wall;
+	if (wall->type != e_wall || wall->lever != NULL)
+	{
+		Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
+		return ;
+	}
+	create_lever(wall, door, ed->textures);
+	ed->map_is_updated = e_false;
+}
+
 void        create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y)
 {
     t_coords    pos;
