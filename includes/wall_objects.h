@@ -21,4 +21,7 @@ void			write_wall_object_to_file(
         int fd,
         t_wall_object *wall_object);
 
+
+t_wall_object   *create_wall_object(t_textures *textures);
+
 #endif
