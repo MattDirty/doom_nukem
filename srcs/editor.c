@@ -179,20 +179,17 @@ int		main(int ac, char **av)
 	ed.zoom = EDITOR_ZOOM;
 	ed.map_offset.x = DRAW_MAP_X;
 	ed.map_offset.y = DRAW_MAP_Y;
+	read_data.textures = &ed.textures;
+	read_data.map = &ed.map;
+	read_data.fonts = &ed.fonts;
+	read_data.sounds = &ed.sounds;
 	if (stat(ed.map_path, &buf) < 0)
 	{
-		ed.textures = load_textures();
-		ed.map = create_map(ed.textures);
-		ed.fonts = load_fonts();
-		ed.sounds = load_sounds();
+		read_file_editor("template.roflolilolmao", &read_data);
 		ed.map_is_updated = e_false;
 	}
 	else
 	{
-		read_data.textures = &ed.textures;
-		read_data.map = &ed.map;
-		read_data.fonts = &ed.fonts;
-		read_data.sounds = &ed.sounds;
 		read_file_editor(ed.map_path, &read_data);
 		ed.map_is_updated = e_true;
 	}
