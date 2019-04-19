@@ -6,7 +6,7 @@
 /*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 10:22:30 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/19 10:24:35 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/19 20:46:31 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void				read_wall_object_from_file(int fd, t_textures *textures,
 void				write_wall_object_to_file(int fd,
 						t_wall_object *wall_object);
 
-
-t_wall_object   *create_wall_object(t_textures *textures);
+t_wall_object		*create_wall_object(t_textures *textures);
 
 #endif

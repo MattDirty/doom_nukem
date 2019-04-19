@@ -6,7 +6,7 @@
 /*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 01:07:18 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/19 11:14:36 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/19 20:41:42 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,3 @@ void							start_animation(t_animation *animation,
 												Uint32 duration);
 
 #endif
-

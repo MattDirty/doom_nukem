@@ -6,7 +6,7 @@
 /*   By: mtorsell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 01:25:21 by mtorsell          #+#    #+#             */
-/*   Updated: 2019/04/19 19:52:32 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/19 20:01:17 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ typedef struct			s_collisions
 
 typedef struct			s_raycasting_args
 {
-    int					start;
-    int					inc;
-    t_env		    	*e;
+	int					start;
+	int					inc;
+	t_env				*e;
 }						t_raycasting_args;
 
 enum e_bool				segments_intersect(t_segment *a, t_segment *b,

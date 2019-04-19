@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 09:25:37 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/19 13:40:53 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/19 20:45:26 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct				s_sdl_surface_info
 	Uint32					gmask;
 	Uint32					bmask;
 	Uint32					amask;
-}							t_sdl_surface_info ;
+}							t_sdl_surface_info;
 
 void						free_textures(t_textures *textures);
 void						find_texture_by_name(t_textures *textures,
