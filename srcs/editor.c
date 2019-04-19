@@ -42,6 +42,8 @@ void    quit_editor(t_editor *ed)
 
 void	clear_selection(t_selected_elements *selected)
 {
+	if (selected->nodes != NULL)
+		free_walls_nodes(selected->nodes);
 	selected->nodes = NULL;
 	selected->p_spawn = NULL;
 	selected->enemy = NULL;
@@ -117,6 +119,8 @@ void    create_sub_lists(t_textures *textures, t_panel *panel)
         else if (!ft_strcmp(str[2], "gun.bmp") || !ft_strcmp(str[2],
                 "shotgun.bmp") || !ft_strcmp(str[2], "vacuum.bmp"))
             add_texture(&panel->pickables, new_node);
+        else
+        	free(new_node);
         node = node->next;
         ft_free_strsplit(str);
     }
@@ -172,18 +176,18 @@ int		main(int ac, char **av)
 	    error_doom("Usage is : ./editor target_map_path");
 	ft_bzero(&ed, sizeof(t_editor));
 	ed.map_path = av[1];
-    init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
-    ed.zoom = EDITOR_ZOOM;
-    ed.map_offset.x = DRAW_MAP_X;
-    ed.map_offset.y = DRAW_MAP_Y;
+	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
+	ed.zoom = EDITOR_ZOOM;
+	ed.map_offset.x = DRAW_MAP_X;
+	ed.map_offset.y = DRAW_MAP_Y;
 	if (stat(av[1], &buf) < 0)
 	{
 		ed.textures = load_textures();
 		ed.map = create_map(ed.textures);
 		ed.fonts = load_fonts();
 		ed.sounds = load_sounds();
-        ed.map_is_updated = e_false;
-    }
+		ed.map_is_updated = e_false;
+	}
     else
 	{
 		read_data.textures = &ed.textures;
@@ -191,8 +195,8 @@ int		main(int ac, char **av)
 		read_data.fonts = &ed.fonts;
 		read_data.sounds = &ed.sounds;
 		read_file_editor(av[1], &read_data);
-        ed.map_is_updated = e_true;
-    }
+		ed.map_is_updated = e_true;
+	}
 	init_panel(&ed.panel, ed.textures);
 	clear_selection(&ed.selected);
     free_buttons_list(ed.panel.buttons);
