@@ -22,7 +22,7 @@ char		**ft_strsplit(char const *s, char c)
 
 	i = 0;
 	j = 0;
-	if (!s || !(spl = (char**)malloc(sizeof(char*) * ft_count_words(s, c) + 1)))
+	if (!s || !(spl = (char**)malloc(sizeof(char*) * ft_count_words(s, c)))
 		return (NULL);
 	while (s[i] == c)
 		i++;
@@ -37,6 +37,5 @@ char		**ft_strsplit(char const *s, char c)
 			i++;
 		spl[j++][k] = '\0';
 	}
-	spl[j] = NULL;
 	return (spl);
 }
