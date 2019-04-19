@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   doom.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 02:34:54 by badhont           #+#    #+#             */
+/*   Updated: 2019/04/19 19:47:39 by badhont          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DOOM_H
 # define DOOM_H
 
@@ -12,7 +24,7 @@
 # include "textures.h"
 # include "sounds.h"
 
-typedef struct          s_env
+typedef struct			s_env
 {
         t_config        op;
         t_player        p;
@@ -34,6 +46,12 @@ void		quit_doom(t_env *e);
 void        game_over(t_env *e, TTF_Font *font, SDL_Surface *surface, t_config *op);
 void		game_victory(TTF_Font *font, SDL_Surface *surface, t_config *op);
 
-void		loop_doom(t_env *e);
+void					error_doom(char *err);
+void					quit_doom(t_env *e);
+void					game_over(t_env *e, TTF_Font *font,
+							SDL_Surface *surface, t_config *op);
+void					game_victory(TTF_Font *font,
+							SDL_Surface *surface, t_config *op);
+void					loop_doom(t_env *e);
 
 #endif

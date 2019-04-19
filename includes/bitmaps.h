@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bitmaps.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 02:13:45 by badhont           #+#    #+#             */
+/*   Updated: 2019/04/19 02:14:31 by badhont          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DOOMNUKEM_BITMAPS_H
 # define DOOMNUKEM_BITMAPS_H
 
@@ -12,6 +24,6 @@
 # define GMASK_SHIFT 16
 # define BMASK_SHIFT 8
 
-SDL_Surface	*load_bmp(char* path);
+SDL_Surface	*load_bmp(char *path);
 
 #endif

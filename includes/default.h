@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   default.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 02:34:07 by badhont           #+#    #+#             */
+/*   Updated: 2019/04/19 02:34:39 by badhont          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DOOMNUKEM_DEFAULT_H
 # define DOOMNUKEM_DEFAULT_H
 
-#include "libft.h"
+# include "libft.h"
 
 # define DEBUG_W 800
 # define DEBUG_H 640
