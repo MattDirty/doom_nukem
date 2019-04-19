@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   editor_panel_buttons.h                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 04:52:25 by badhont           #+#    #+#             */
+/*   Updated: 2019/04/19 11:31:22 by badhont          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EDITOR_PANEL_BUTTONS_H
 # define EDITOR_PANEL_BUTTONS_H
 
-#include "editor.h"
+# include "editor.h"
 
-typedef struct  s_btn_params
+typedef	struct				s_btn_params
 {
     SDL_Surface **selected;
     SDL_Surface *target;
@@ -15,12 +27,12 @@ typedef struct  s_btn_params
 
 typedef struct			s_button
 {
-    t_rect			rect;
-    void			(*f)(t_params params);
-    t_btn_params    *params;
-}						t_button;
+	t_rect				rect;
+	void				(*f)(t_params params);
+	t_btn_params		*params;
+}							t_button;
 
-typedef struct			s_buttons
+typedef struct				s_buttons
 {
     t_button			item;
     struct s_buttons    *next;

@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   editor_draw.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 04:41:56 by badhont           #+#    #+#             */
+/*   Updated: 2019/04/19 04:43:19 by badhont          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EDITOR_DRAW_H
-#define EDITOR_DRAW_H
+# define EDITOR_DRAW_H
 
 # include "map.h"
 # include "struct_sdl.h"
 # include "editor.h"
 
-typedef struct s_editor t_editor;
-typedef struct s_buttons t_buttons;
+typedef struct s_editor	t_editor;
+typedef struct s_buttons	t_buttons;
 
 # define DRAW_MAP_X EDITOR_W_H / 3
 # define DRAW_MAP_Y EDITOR_H_H

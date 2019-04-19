@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   editor_panel.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/19 04:46:33 by badhont           #+#    #+#             */
+/*   Updated: 2019/04/19 07:13:11 by badhont          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EDITOR_PANEL_H
 # define EDITOR_PANEL_H
 
@@ -14,7 +26,7 @@
 # define SKY_ON 0xFF42c2f4
 # define SKY_OFF 0xFF683903
 
-typedef struct          s_panel
+typedef struct			s_panel
 {
     SDL_Surface     	*surface;
     t_buttons           *buttons;
