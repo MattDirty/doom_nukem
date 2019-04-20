@@ -30,64 +30,54 @@ static void	rand_lighting(t_editor *ed, t_sector *sector)
 	ed->map_is_updated = e_false;
 }
 
+static void	deal_with_polled_event(SDL_Event ev, t_editor *ed)
+{
+	if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE || ev.type == SDL_QUIT)
+		quit_editor(ed);
+	if (ev.type == SDL_MOUSEBUTTONDOWN)
+	{
+		if (ev.button.button == SDL_BUTTON_LEFT)
+			ed->multi_purpose_int = 5;
+		else if (ev.button.button == SDL_BUTTON_RIGHT)
+			ed->multi_purpose_int = -5;
+		mousedown_action(ed, ev.button.x, ev.button.y);
+	}
+	if (ev.type == SDL_MOUSEBUTTONUP)
+		mouseup_action(ed, ev.button.x, ev.button.y);
+	if (ev.type == SDL_MOUSEWHEEL)
+	{
+		ed->zoom += ev.wheel.y;
+		if (ed->zoom <= 1)
+			ed->zoom = 1;
+	}
+	if (ev.type == SDL_KEYDOWN)
+	{
+		move_map(ed, ev.key.keysym.scancode);
+		if (ed->selected.sector && ed->selected.sector->light
+			&& ev.key.keysym.scancode == SDL_SCANCODE_R)
+			rand_lighting(ed, ed->selected.sector);
+	}
+}
+
 void		event_editor(t_editor *ed)
 {
-	double		x;
-	double		y;
 	SDL_Event	ev;
 	int			mouse_x;
 	int			mouse_y;
 
-	x = 0;
-	y = 0;
 	while (SDL_PollEvent(&ev))
-	{
-		if (ev.type == SDL_MOUSEMOTION)
-		{
-			x += ev.motion.xrel;
-			y += ev.motion.yrel;
-		}
-		if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE
-			|| ev.type == SDL_QUIT)
-			quit_editor(ed);
-		if (ev.type == SDL_MOUSEBUTTONDOWN)
-		{
-			if (ev.button.button == SDL_BUTTON_LEFT)
-				ed->multi_purpose_int = 5;
-			else if (ev.button.button == SDL_BUTTON_RIGHT)
-				ed->multi_purpose_int = -5;
-			mousedown_action(ed, ev.button.x, ev.button.y);
-		}
-		if (ev.type == SDL_MOUSEBUTTONUP)
-			mouseup_action(ed, ev.button.x, ev.button.y);
-		if (ev.type == SDL_MOUSEWHEEL)
-		{
-			ed->zoom += ev.wheel.y;
-			if (ed->zoom <= 1)
-				ed->zoom = 1;
-		}
-		if (ev.type == SDL_KEYDOWN)
-		{
-			move_map(ed, ev.key.keysym.scancode);
-			if (ed->selected.sector && ed->selected.sector->light
-				&& ev.key.keysym.scancode == SDL_SCANCODE_R)
-				rand_lighting(ed, ed->selected.sector);
-		}
-	}
-	if (x || y)
-	{
-		SDL_GetMouseState(&mouse_x, &mouse_y);
-		if (ed->dragged.nodes)
-			move_walls_nodes(ed, mouse_x, mouse_y);
-		else if (ed->dragged.p_spawn)
-			move_player_spawn(ed, mouse_x, mouse_y);
-		else if (ed->dragged.enemy)
-			move_enemy(ed, mouse_x, mouse_y);
-		else if (ed->dragged.pickable)
-			move_pickable(ed, mouse_x, mouse_y);
-		else if (ed->dragged.object)
-			move_object(ed, mouse_x, mouse_y);
-	}
+		deal_with_polled_event(ev, ed);
+	SDL_GetMouseState(&mouse_x, &mouse_y);
+	if (ed->dragged.nodes)
+		move_walls_nodes(ed, mouse_x, mouse_y);
+	else if (ed->dragged.p_spawn)
+		move_player_spawn(ed, mouse_x, mouse_y);
+	else if (ed->dragged.enemy)
+		move_enemy(ed, mouse_x, mouse_y);
+	else if (ed->dragged.pickable)
+		move_pickable(ed, mouse_x, mouse_y);
+	else if (ed->dragged.object)
+		move_object(ed, mouse_x, mouse_y);
 }
 
 void		reframe_editor(t_editor *ed)

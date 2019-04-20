@@ -108,15 +108,15 @@ void	editor_draw_panel_sector(t_editor *ed)
 	write_panel_state(ed, "SECTOR");
 	y = 60;
 	ed->selected_sprite = &ed->selected.sector->floor;
-	draw_sprites_section(ed, &ed->panel.walls, "Floor:", &y);
-	draw_sprites_section(ed, &ed->panel.flats, " ", &y);
+	draw_sprites_section(ed, ed->panel.walls.first, "Floor:", &y);
+	draw_sprites_section(ed, ed->panel.flats.first, " ", &y);
 	y += 20;
 	if (!(ed->selected.sector->open_sky))
 		ed->selected_sprite = &ed->selected.sector->ceil;
 	else
 		ed->selected_sprite = NULL;
-	draw_sprites_section(ed, &ed->panel.walls, "Ceiling:", &y);
-	draw_sprites_section(ed, &ed->panel.flats, " ", &y);
+	draw_sprites_section(ed, ed->panel.walls.first, "Ceiling:", &y);
+	draw_sprites_section(ed, ed->panel.flats.first, " ", &y);
 	create_light_btn(ed->fonts->vcr40, ed->panel.surface,
 			ed->selected.sector->light, ed);
 	create_sky_toggle_btn(ed->fonts->vcr20, ed->panel.surface, ed, &y);

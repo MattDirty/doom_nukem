@@ -57,5 +57,5 @@ void	editor_draw_panel_pickable(t_editor *ed)
 	y = 120;
 	remove_btn(ed, ed->fonts->vcr20, ed->panel.surface, &y);
 	ed->selected_sprite = &ed->selected.pickable->object->sprite;
-	draw_sprites_section(ed, &ed->panel.pickables, " ", &y);
+	draw_sprites_section(ed, ed->panel.pickables.first, " ", &y);
 }

@@ -45,10 +45,10 @@ void	editor_draw_panel_map(t_editor *ed)
 	write_panel_state(ed, "MAP");
 	y = 60;
 	ed->selected_sprite = &ed->map->daysky;
-	draw_sprites_section(ed, &ed->panel.skies, "Skybox Day:", &y);
+	draw_sprites_section(ed, ed->panel.skies.first, "Skybox Day:", &y);
 	y += 20;
 	ed->selected_sprite = &ed->map->nightsky;
-	draw_sprites_section(ed, &ed->panel.skies, "Skybox Night:", &y);
+	draw_sprites_section(ed, ed->panel.skies.first, "Skybox Night:", &y);
 	y += 100;
 	add_enemy_btn(ed, ed->fonts->vcr40, ed->panel.surface, &y);
 	y += 70;

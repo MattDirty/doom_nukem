@@ -81,17 +81,16 @@ void		draw_miniature(SDL_Surface *dst, SDL_Surface *src, t_i_coords size,
 }
 
 void		draw_sprites_section(
-				t_editor *ed, t_textures *sprites, char *title, int *y)
+				t_editor *ed, t_texture_node *node, char *title, int *y)
 {
 	SDL_Surface		*s;
-	t_texture_node	*node;
 	t_i_coords		pos;
 	t_button		btn;
 
 	s = write_text(ed->fonts->vcr20, title, (SDL_Colour){255, 255, 255, 255});
 	draw_on_screen(ed->panel.surface, s, (t_i_coords){PAN_PAD_L, *y}, e_false);
 	SDL_FreeSurface(s);
-	node = sprites->first;
+	*y += 25;
 	pos = (t_i_coords){PAN_PAD_L, *y};
 	while (node)
 	{

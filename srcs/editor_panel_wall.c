@@ -56,28 +56,25 @@ void	highlight_selected_wall(t_editor *ed)
 		draw_segment(ed->sdl.surface, s, GREEN);
 }
 
-void	draw_panel_wall_buttons(t_editor *ed, t_wall *wall, int *y)
+void	draw_panel_wall_buttons(t_editor *ed, t_wall *w, int *y)
 {
 	t_sector	*sector;
 
-	sector = find_wall_sector(ed->map->sectors, wall);
-	if (wall->type == e_wall
-		|| (wall->type == e_transparent_wall && wall->to_infinity))
+	sector = find_wall_sector(ed->map->sectors, w);
+	if (w->type == e_wall || (w->type == e_transparent_wall && w->to_infinity))
 	{
-		if (get_segment_length(&wall->segment) >= 1
-			&& sector->walls->count < 15)
+		if (get_segment_length(&w->segment) >= 1 && sector->walls->count < 15)
 			create_split_wall_button(ed, y);
 		create_new_sector_button(ed, y);
 		*y += 50;
-		if (wall->type == e_wall)
+		if (w->type == e_wall)
 			change_wall_in_window_button(ed, y);
 		else
 			change_window_in_wall_button(ed, y);
 	}
 	else
 	{
-		*y += 30;
-		if (wall->type == e_portal)
+		if (w->type == e_portal)
 			create_transform_portal_to_door_button(ed, y);
 		else
 		{
@@ -108,19 +105,18 @@ void	editor_draw_panel_walls(t_editor *ed)
 	wall = ed->selected.wall;
 	write_panel_wall_state(ed, wall);
 	y = 60;
-	if (wall->type == e_portal)
-		ed->selected_sprite = NULL;
-	else
+	if (wall->type != e_portal)
 	{
 		ed->selected_sprite = &wall->texture;
-		draw_sprites_section(ed, &ed->panel.walls, "Walls:", &y);
-		draw_sprites_section(ed, &ed->panel.flats, " ", &y);
+		draw_sprites_section(ed, ed->panel.walls.first, "Walls:", &y);
+		draw_sprites_section(ed, ed->panel.flats.first, " ", &y);
 		y += 20;
 		if (wall->wall_object)
 			ed->selected_sprite = &wall->wall_object->texture;
 		else if (wall->lever)
 			ed->selected_sprite = &wall->lever->wall_object->texture;
-		draw_sprites_section(ed, &ed->panel.wall_objects, "Wall objects:", &y);
+		draw_sprites_section(ed, ed->panel.wall_objects.first,
+				"Wall objects:", &y);
 		y += 40;
 	}
 	draw_panel_wall_buttons(ed, wall, &y);
