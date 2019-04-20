@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_SERIALISATION_H
-# define DOOMNUKEM_SERIALISATION_H
+#ifndef SERIALISATION_H
+# define SERIALISATION_H
+
 # include <unistd.h>
 
 # include "textures.h"

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_HORIZONTAL_MOTION_H
-# define DOOMNUKEM_HORIZONTAL_MOTION_H
+#ifndef HORIZONTAL_MOTION_H
+# define HORIZONTAL_MOTION_H
 
 # include "utils.h"
 # include "sectors.h"

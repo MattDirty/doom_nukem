@@ -12,7 +12,6 @@
 
 #include "utils.h"
 #include <math.h>
-#include <stdio.h>
 
 t_segment	get_segment_from_vector(t_vector *vector)
 {

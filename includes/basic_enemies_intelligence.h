@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_BASIC_ENEMIES_INTELLIGENCE_H
-# define DOOMNUKEM_BASIC_ENEMIES_INTELLIGENCE_H
+#ifndef BASIC_ENEMIES_INTELLIGENCE_H
+# define BASIC_ENEMIES_INTELLIGENCE_H
 
 # include "enemies.h"
 

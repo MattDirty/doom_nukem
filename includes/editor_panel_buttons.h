@@ -89,16 +89,16 @@ void					create_transform_portal_to_door_button(t_editor *ed,
 							int *y);
 void					create_transform_door_to_portal_button(t_editor *ed,
 							int *y);
-void 					create_add_door_lever_button(t_editor *ed, int *y);
-void 					add_object_btn(t_editor *ed, TTF_Font *font,
+void					create_add_door_lever_button(t_editor *ed, int *y);
+void					add_object_btn(t_editor *ed, TTF_Font *font,
 							SDL_Surface *target, int *y);
-void 					change_object_height(t_params params);
-void 					change_object_z(t_params params);
-void 					change_object_width(t_params params);
+void					change_object_height(t_params params);
+void					change_object_z(t_params params);
+void					change_object_width(t_params params);
 void					hp_btn(t_editor *ed, TTF_Font *font,
 							SDL_Surface *target, int *y);
 void					change_enemy_hp(t_params params);
-void 					add_enemy_btn(t_editor *ed, TTF_Font *font,
+void					add_enemy_btn(t_editor *ed, TTF_Font *font,
 							SDL_Surface *target, int *y);
 void					create_new_sector_button(t_editor *ed, int *y);
 void					remove_selected_enemy(t_editor *ed);

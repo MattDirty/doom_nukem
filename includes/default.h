@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_DEFAULT_H
-# define DOOMNUKEM_DEFAULT_H
+#ifndef DEFAULT_H
+# define DEFAULT_H
 
 # include "libft.h"
 

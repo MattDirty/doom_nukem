@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_ENEMIES_INTELLIGENCE_H
-# define DOOMNUKEM_ENEMIES_INTELLIGENCE_H
+#ifndef ENEMIES_INTELLIGENCE_H
+# define ENEMIES_INTELLIGENCE_H
 
 # include "e_bool.h"
 # include "timer_handler.h"

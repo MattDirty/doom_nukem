@@ -13,9 +13,9 @@
 #ifndef EDITOR_PANEL_H
 # define EDITOR_PANEL_H
 
-# define PANEL_W EDITOR_W / 3
-# define PANEL_H EDITOR_H
-# define PANEL_X (EDITOR_W - PANEL_W)
+# define PANEL_W EDIT_W / 3
+# define PANEL_H EDIT_H
+# define PANEL_X (EDIT_W - PANEL_W)
 # define PANEL_Y 0
 # define PAN_PAD_L 20
 # define PANEL_MINI_W 80

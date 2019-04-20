@@ -90,7 +90,7 @@ int					main(int ac, char **av)
 		error_doom("Usage is : ./editor target_map_path");
 	ft_bzero(&ed, sizeof(t_editor));
 	ed.map_path = av[1];
-	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
+	init_sdl_editor(EDIT_W, EDIT_H, "editor", &ed);
 	read_data = init_editor(&ed);
 	if (stat(ed.map_path, &buf) < 0)
 	{

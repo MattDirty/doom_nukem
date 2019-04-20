@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_BITMAPS_H
-# define DOOMNUKEM_BITMAPS_H
+#ifndef BITMAPS_H
+# define BITMAPS_H
 
 # include <SDL.h>
 

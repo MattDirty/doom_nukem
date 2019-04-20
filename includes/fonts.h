@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_FONTS_H
-# define DOOMNUKEM_FONTS_H
+#ifndef FONTS_H
+# define FONTS_H
 
 # include <SDL_ttf.h>
 

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_SOUNDS_H
-# define DOOMNUKEM_SOUNDS_H
+#ifndef SOUNDS_H
+# define SOUNDS_H
 
 # include <SDL_mixer.h>
 

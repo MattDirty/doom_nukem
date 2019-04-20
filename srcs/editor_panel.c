@@ -22,7 +22,7 @@ void	draw_panel_back(SDL_Surface *surface)
 {
 	t_rect	panel;
 
-	panel = create_rect(0, 0, PANEL_W - 1, EDITOR_H - 1);
+	panel = create_rect(0, 0, PANEL_W - 1, EDIT_H - 1);
 	draw_rect(surface, &panel, WHITE);
 	fill_rect(surface, &panel, PANEL_BACKGROUND, e_false);
 }
@@ -69,7 +69,7 @@ void	draw_panel(t_editor *ed)
 		create_save_button(ed->fonts->amazdoom40,
 				ed->panel.surface, &ed->panel, ed);
 	draw_on_screen(ed->sdl.surface, ed->panel.surface,
-			(t_i_coords){EDITOR_W - PANEL_W, 0}, e_true);
+			(t_i_coords){EDIT_W - PANEL_W, 0}, e_true);
 }
 
 void	init_panel(t_panel *panel, t_textures *textures)

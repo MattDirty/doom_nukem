@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOM_NUKEM_OBJECTS_H
-# define DOOM_NUKEM_OBJECTS_H
+#ifndef OBJECTS_H
+# define OBJECTS_H
 
 # include "SDL.h"
 

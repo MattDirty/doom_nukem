@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_WALLS_H
-# define DOOMNUKEM_WALLS_H
+#ifndef WALLS_H
+# define WALLS_H
 
 # include <SDL.h>
 # include "utils.h"

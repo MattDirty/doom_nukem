@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_PLAYER_H
-# define DOOMNUKEM_PLAYER_H
+#ifndef PLAYER_H
+# define PLAYER_H
 
 # include <SDL_ttf.h>
 # include "weapon.h"

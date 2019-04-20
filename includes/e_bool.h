@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_E_BOOL_H
-# define DOOMNUKEM_E_BOOL_H
+#ifndef E_BOOL_H
+# define E_BOOL_H
 
 enum	e_bool
 {

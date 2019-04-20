@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_LEVERS_H
-# define DOOMNUKEM_LEVERS_H
+#ifndef LEVERS_H
+# define LEVERS_H
 
 # include <SDL.h>
 

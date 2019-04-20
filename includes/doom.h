@@ -26,18 +26,18 @@
 
 typedef struct			s_env
 {
-	t_config		op;
-	t_player		p;
-	t_sdl			doom;
-	t_map			*map;
-	Mix_Music		*music;
-	t_fonts			*fonts;
-	t_textures		*textures;
-	t_sounds		*sounds;
-	t_timer_handler	timer_handler;
-	pthread_t		blackhole_thread;
-	char			*blackhole_buffer;
-	enum e_bool		blackhole_thread_stop;
+	t_config			op;
+	t_player			p;
+	t_sdl				doom;
+	t_map				*map;
+	Mix_Music			*music;
+	t_fonts				*fonts;
+	t_textures			*textures;
+	t_sounds			*sounds;
+	t_timer_handler		timer_handler;
+	pthread_t			blackhole_thread;
+	char				*blackhole_buffer;
+	enum e_bool			blackhole_thread_stop;
 }						t_env;
 
 void					error_doom(char *err);

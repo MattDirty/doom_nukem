@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_STRUCT_SDL_H
-# define DOOMNUKEM_STRUCT_SDL_H
+#ifndef STRUCT_SDL_H
+# define STRUCT_SDL_H
 
 # include <SDL.h>
 

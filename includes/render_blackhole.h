@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOMNUKEM_RENDER_BLACKHOLE_H
-# define DOOMNUKEM_RENDER_BLACKHOLE_H
+#ifndef RENDER_BLACKHOLE_H
+# define RENDER_BLACKHOLE_H
 
 # include "doom.h"
 

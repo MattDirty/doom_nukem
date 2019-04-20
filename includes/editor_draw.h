@@ -20,8 +20,8 @@
 typedef struct s_editor	t_editor;
 typedef struct s_buttons	t_buttons;
 
-# define DRAW_MAP_X EDITOR_W_H / 3
-# define DRAW_MAP_Y EDITOR_H_H
+# define DRAW_MAP_X EDIT_W_H / 3
+# define DRAW_MAP_Y EDIT_H_H
 
 # define WHITE 0xFFFFFFFF
 # define RED 0xFFFF0000
@@ -36,18 +36,18 @@ typedef struct s_buttons	t_buttons;
 # define PLAYER_COLOR WHITE
 # define PICKABLE_COLOR 0xFFC68FF7
 
-void show_possible_new_sector(t_editor *ed, int x, int y);
-void draw_background(t_editor *ed);
-void draw_panel_back(SDL_Surface *surface);
-void draw_editor(t_editor *ed);
-void draw_panel(t_editor *ed);
+void	show_possible_new_sector(t_editor *ed, int x, int y);
+void	draw_background(t_editor *ed);
+void	draw_panel_back(SDL_Surface *surface);
+void	draw_editor(t_editor *ed);
+void	draw_panel(t_editor *ed);
 void	draw_corners_editor(SDL_Surface *surface, t_segment *s);
 void	draw_walls_editor(SDL_Surface *surface, t_walls *walls,
-						  t_i_coords map_offset, int zoom);
+			t_i_coords map_offset, int zoom);
 void	draw_enemies_in_sector_editor(SDL_Surface *target,
 		t_linked_enemies *enemies, t_i_coords map_offset, int zoom);
 void	draw_objects_in_sector_editor(SDL_Surface *target, t_objects *objects,
-									  t_i_coords map_offset, int zoom);
+			t_i_coords map_offset, int zoom);
 void	draw_pickables_in_sector_editor(SDL_Surface *target,
 		t_pickables *pickables, t_i_coords map_offset, int zoom);
 void	highlight_selected_wall(t_editor *ed);
