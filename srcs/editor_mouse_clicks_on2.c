@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_mouse_clicks_on2.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 06:17:05 by lfatton           #+#    #+#             */
-/*   Updated: 2019/04/20 06:17:07 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:38:55 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,11 @@ enum e_bool	click_on_panel(t_editor *ed, int mouse_x, int mouse_y)
 	return (e_true);
 }
 
-enum e_bool	click_on_nodes(t_editor *ed, t_linked_walls *linked_walls,
+enum e_bool	click_on_nodes(t_editor *ed, t_linked_walls *ptr,
 				int x, int y)
 {
-	t_linked_walls	*ptr;
 	t_rect			rect;
 
-	ptr = linked_walls;
 	while (ptr->wall)
 	{
 		rect = create_rect(ed->map_offset.x + ptr->wall->segment.x1 * ed->zoom
