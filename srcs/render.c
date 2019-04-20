@@ -51,7 +51,7 @@ void			draw_enemy(t_env *e, t_render *r, t_collision *col)
 	{
 		c.y = calculate_y(i, r, dist_ratio, col);
 		if (c.y >= surface->h || c.y < 0)
-			continue;
+			continue ;
 		if (col->d.enemy->type == et_boss)
 			put_pixel_alpha(e->doom.surface, r->x, i,
 				get_pixel(surface, c.x, c.y, e_false));

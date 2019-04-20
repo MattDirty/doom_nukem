@@ -32,7 +32,7 @@ void		remove_object(t_object *object, t_objects *objects)
 		if (j == i)
 		{
 			j++;
-			continue;
+			continue ;
 		}
 		items[k] = objects->items[j];
 		j++;

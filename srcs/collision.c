@@ -64,44 +64,19 @@ static void			find_lever_collisions(t_collisions **collisions,
 	new->item.d.lever = lever;
 }
 
-static enum e_bool	find_wall_collisions_in_sector(t_sector *sector,
-						t_segment *ray, t_collisions **collisions,
-						t_wall *last_portal)
+static enum e_bool	check_best_collision(t_collisions **collisions,
+						t_collision best_collision)
 {
-	int				i;
-	t_coords		inters;
-	double			distance;
-	t_collision		best_collision;
 	t_collisions	*new;
 
-	i = -1;
-	best_collision.distance = HORIZON;
-	while (++i < sector->walls->count)
-	{
-		if (last_portal == sector->walls->items[i])
-			continue ;
-		if (segments_intersect(ray, &sector->walls->items[i]->segment, &inters))
-		{
-			distance = get_distance_between_points(ray->x1, ray->y1, inters.x,
-					inters.y);
-			if (distance < best_collision.distance)
-			{
-				best_collision.distance = distance;
-				best_collision.inters = inters;
-				best_collision.d.wall = sector->walls->items[i];
-			}
-			find_lever_collisions(collisions, sector->walls->items[i], distance,
-					inters);
-		}
-	}
 	if (best_collision.distance >= HORIZON)
 		return (e_false);
 	if (best_collision.d.wall->type == e_wall)
 		new = insert_collision(collisions, best_collision.distance,
-				best_collision.inters);
+			best_collision.inters);
 	else
 		new = add_collision(collisions, best_collision.distance,
-				best_collision.inters);
+			best_collision.inters);
 	new->item.type = ct_wall;
 	new->item.d.wall = best_collision.d.wall;
 	if (new->item.d.wall->type == e_wall)
@@ -110,6 +85,36 @@ static enum e_bool	find_wall_collisions_in_sector(t_sector *sector,
 		new->next = NULL;
 	}
 	return (e_true);
+}
+
+static enum e_bool	find_wall_collisions_in_sector(t_sector *sector,
+						t_segment *ray, t_collisions **col,
+						t_wall *last_portal)
+{
+	int				i;
+	t_coords		in;
+	double			dist;
+	t_collision		b_col;
+
+	i = -1;
+	b_col.distance = HORIZON;
+	while (++i < sector->walls->count)
+	{
+		if (last_portal == sector->walls->items[i])
+			continue ;
+		if (segments_intersect(ray, &sector->walls->items[i]->segment, &in))
+		{
+			dist = get_distance_between_points(ray->x1, ray->y1, in.x, in.y);
+			if (dist < b_col.distance)
+			{
+				b_col.distance = dist;
+				b_col.inters = in;
+				b_col.d.wall = sector->walls->items[i];
+			}
+			find_lever_collisions(col, sector->walls->items[i], dist, in);
+		}
+	}
+	return (!check_best_collision(col, b_col)) ? e_false : e_true;
 }
 
 void				find_ray_collisions(t_sector *sector, t_segment *ray,
