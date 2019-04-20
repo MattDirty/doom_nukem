@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_tools.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 07:01:36 by lfatton           #+#    #+#             */
-/*   Updated: 2019/04/19 07:01:38 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/04/20 16:55:11 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,42 +53,43 @@ void		draw_segment(SDL_Surface *surface, t_segment s, Uint32 color)
 	}
 }
 
+void		test(SDL_Surface *surface, t_coords center, t_i_coords marg,
+				Uint32 color)
+{
+	put_pixel(surface, center.x + marg.x, center.y - marg.y, color);
+	put_pixel(surface, center.x + marg.x, center.y + marg.y, color);
+	put_pixel(surface, center.x - marg.x, center.y - marg.y, color);
+	put_pixel(surface, center.x + marg.y, center.y - marg.x, color);
+	put_pixel(surface, center.x - marg.x, center.y + marg.y, color);
+	put_pixel(surface, center.x - marg.y, center.y + marg.x, color);
+	put_pixel(surface, center.x - marg.y, center.y - marg.x, color);
+	put_pixel(surface, center.x + marg.y, center.y + marg.x, color);
+}
+
 void		draw_circle(SDL_Surface *surface, t_coords center, int r,
 				Uint32 color)
 {
-	int		x;
-	int		y;
-	int		tx;
-	int		ty;
-	int		err;
+	t_i_coords	marg;
+	t_i_coords	t;
+	int			err;
 
-	x = r - 1;
-	y = 0;
-	tx = 0;
-	ty = 0;
-	err = tx - (r << 1);
-	while (x >= y)
+	marg = (t_i_coords){r - 1, 0};
+	t = (t_i_coords){0, 0};
+	err = t.x - (r << 1);
+	while (marg.x >= marg.y)
 	{
-		put_pixel(surface, center.x + x, center.y - y, color);
-		put_pixel(surface, center.x + x, center.y - y, color);
-		put_pixel(surface, center.x + x, center.y + y, color);
-		put_pixel(surface, center.x - x, center.y - y, color);
-		put_pixel(surface, center.x + y, center.y - x, color);
-		put_pixel(surface, center.x - x, center.y + y, color);
-		put_pixel(surface, center.x - y, center.y + x, color);
-		put_pixel(surface, center.x + y, center.y + x, color);
-		put_pixel(surface, center.x - y, center.y - x, color);
+		test(surface, center, marg, color);
 		if (err <= 0)
 		{
-			y++;
-			err += ty;
-			ty += 2;
+			marg.y++;
+			err += t.y;
+			t.y += 2;
 		}
 		if (err > 0)
 		{
-			x--;
-			tx += 2;
-			err += tx - (r << 1);
+			marg.x--;
+			t.x += 2;
+			err += t.x - (r << 1);
 		}
 	}
 }

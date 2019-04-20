@@ -6,7 +6,7 @@
 /*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 19:50:23 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/19 02:49:01 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/20 15:44:34 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	draw_player_spawn(SDL_Surface *surface, t_coords spawn,
 			t_i_coords map_offset, int zoom)
 {
 	t_coords	coords;
-
+	
 	coords.x = map_offset.x + spawn.x * zoom;
 	coords.y = map_offset.y - spawn.y * zoom;
 	draw_circle_filled(surface, coords, 6, PLAYER_COLOR);
