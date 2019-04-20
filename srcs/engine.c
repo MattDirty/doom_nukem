@@ -22,15 +22,13 @@
 #include "player.h"
 #include "render.h"
 
-t_sector		*get_next_sector_addr(t_sector *current, t_wall *wall)
+static void		calculate_distances(t_collisions *ptr, t_player *p, t_ray *ray)
 {
-	if (wall->to_infinity)
-		return (NULL);
-	if (wall->links.sector1 == current)
-		return (wall->links.sector2);
-	else if (wall->links.sector2 == current)
-		return (wall->links.sector1);
-	return (NULL);
+	while (ptr)
+	{
+		ptr->item.distance *= cos(p->heading - ray->angle);
+		ptr = ptr->next;
+	}
 }
 
 void			*raycasting_thread(void *args)
@@ -38,7 +36,6 @@ void			*raycasting_thread(void *args)
 	t_ray				ray;
 	Uint32				renderer_x;
 	t_collisions		*collisions;
-	t_collisions		*ptr;
 	t_raycasting_args	*a;
 
 	a = (t_raycasting_args*)args;
@@ -55,12 +52,7 @@ void			*raycasting_thread(void *args)
 		find_ray_collisions(a->e->p.current_sector, &ray.seg, &collisions);
 		if (!collisions)
 			continue;
-		ptr = collisions;
-		while (ptr)
-		{
-			ptr->item.distance *= cos(a->e->p.heading - ray.angle);
-			ptr = ptr->next;
-		}
+		calculate_distances(collisions, &a->e->p, &ray);
 		draw(a->e, collisions, renderer_x);
 		free_collisions(collisions);
 	}

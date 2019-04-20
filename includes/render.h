@@ -49,5 +49,6 @@ void			draw_flat(t_render *render, t_collision *collision,
 					t_u_range range, SDL_Surface *texture);
 void			draw_ceil(t_render *render, t_collision *collision,
 					t_u_range range, t_sector *current_sector);
-
+void			draw_wall_object(t_env *e, const t_render *render,
+					const t_collision *collision, t_wall_object *w_o);
 #endif

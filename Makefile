@@ -43,6 +43,7 @@ SRCS_NAMES = collision.c \
 			game_endings.c \
 			fonts.c \
 			engine.c \
+			engine2.c \
 			vertical_motion.c \
 			horizontal_motion.c \
 			sounds.c \
@@ -51,6 +52,8 @@ SRCS_NAMES = collision.c \
 			objects.c \
 			render.c \
 			render_blackhole.c \
+			render_draw_pickable.c \
+			render_draw_object.c \
 			render_flats.c \
 			render_on_screen.c \
 			render_walls.c \
@@ -85,6 +88,7 @@ SRCS_NAMES = collision.c \
 			walls_rw.c \
 			walls_rw2.c \
 			walls_transformations.c \
+			draw_wall_object.c \
 			weapon_ray_fire.c \
 			pickables.c
 

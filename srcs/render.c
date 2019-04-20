@@ -18,110 +18,46 @@
 #include "surface_manipulation.h"
 #include <math.h>
 
-void			draw_object(t_env *e, const t_render *render,
-					const t_collision *collision)
+static Uint32	calculate_y(Uint32 i, const t_render *r, double dist_ratio,
+					const t_collision *col)
 {
-	t_coords	inc;
-	Uint32		i;
 	SDL_Surface	*surface;
-	t_u_range	range;
-	double		dist_ratio;
 
-	if (collision->type != ct_object)
-		return ;
-	surface = collision->d.object->sprite;
-	inc.x = get_distance_between_points(collision->inters.x,
-		collision->inters.y, collision->object_segment.x1,
-		collision->object_segment.y1) * surface->w
-		/ collision->d.object->horizontal_size;
-	while (inc.x > surface->w)
-		inc.x -= surface->w;
-	dist_ratio = e->op.ratio / collision->distance;
-	range = wall_range(dist_ratio, render->vision_height, render->win_h);
-	i = range.start - 1;
-	while (++i < range.end)
-	{
-		inc.y = fabs((i - render->vision_height + dist_ratio / 2) * surface->h
-				/ dist_ratio) / collision->d.object->vertical_size
-				+ surface->h / collision->d.object->vertical_size
-				* (collision->d.object->z + collision->d.object->vertical_size
-				- 1);
-		if (inc.y >= surface->h || inc.y < 0)
-			continue;
-		put_pixel_blackhole(e, render->x, i, get_pixel(surface, (Uint32)inc.x,
-			(Uint32)inc.y, e_false));
-	}
+	surface = col->d.enemy->object->sprite;
+	return ((Uint32)(fabs(((i - r->vision_height + dist_ratio / 2)
+					* surface->h / dist_ratio))) /
+				col->d.enemy->object->vertical_size + surface->h
+				/ col->d.enemy->object->vertical_size
+				* (col->d.enemy->object->z +
+					col->d.enemy->object->vertical_size - 1));
 }
 
-void			draw_pickable(t_env *e, t_render *r, t_collision *collision)
+void			draw_enemy(t_env *e, t_render *r, t_collision *col)
 {
-	Uint32		x;
-	int			y;
+	t_i_coords	c;
 	Uint32		i;
 	SDL_Surface	*surface;
 	t_u_range	range;
 	double		dist_ratio;
 
-	if (collision->type != ct_pickable)
-		return ;
-	surface = collision->d.pickable->object->sprite;
-	x = (Uint32)(get_distance_between_points(collision->inters.x,
-			collision->inters.y, collision->object_segment.x1,
-			collision->object_segment.y1) * surface->w
-			/ collision->d.pickable->object->horizontal_size) % surface->w;
-	dist_ratio = e->op.ratio / collision->distance;
+	surface = col->d.enemy->object->sprite;
+	c.x = (Uint32)(get_distance_between_points(col->inters.x, col->inters.y,
+			col->object_segment.x1, col->object_segment.y1) * surface->w
+			/ col->d.enemy->object->horizontal_size) % surface->w;
+	dist_ratio = e->op.ratio / col->distance;
 	range = wall_range(dist_ratio, r->vision_height, r->win_h);
 	i = range.start - 1;
 	while (++i < range.end)
 	{
-		y = (Uint32)(fabs(((i - r->vision_height + dist_ratio / 2)
-					* surface->h / dist_ratio))) /
-					collision->d.pickable->object->vertical_size + surface->h
-					/ collision->d.enemy->object->vertical_size
-					* (collision->d.pickable->object->z +
-					collision->d.pickable->object->vertical_size - 1);
-		if (y >= surface->h || y < 0)
+		c.y = calculate_y(i, r, dist_ratio, col);
+		if (c.y >= surface->h || c.y < 0)
 			continue;
-		put_pixel_alpha(e->doom.surface, r->x, i,
-			get_pixel(surface, x, y, e_false));
-	}
-}
-
-void			draw_enemy(t_env *e, t_render *r, t_collision *collision)
-{
-	Uint32		x;
-	int			y;
-	Uint32		i;
-	SDL_Surface	*surface;
-	t_u_range	range;
-	double		dist_ratio;
-
-	if (collision->type != ct_enemy)
-		return ;
-	surface = collision->d.enemy->object->sprite;
-	x = (Uint32)(get_distance_between_points(collision->inters.x,
-			collision->inters.y, collision->object_segment.x1,
-			collision->object_segment.y1) * surface->w
-			/ collision->d.enemy->object->horizontal_size) % surface->w;
-	dist_ratio = e->op.ratio / collision->distance;
-	range = wall_range(dist_ratio, r->vision_height, r->win_h);
-	i = range.start - 1;
-	while (++i < range.end)
-	{
-		y = (Uint32)(fabs(((i - r->vision_height + dist_ratio / 2)
-					* surface->h / dist_ratio))) /
-					collision->d.enemy->object->vertical_size + surface->h
-					/ collision->d.enemy->object->vertical_size
-					* (collision->d.enemy->object->z +
-					collision->d.enemy->object->vertical_size - 1);
-		if (y >= surface->h || y < 0)
-			continue;
-		if (collision->d.enemy->type == et_boss)
+		if (col->d.enemy->type == et_boss)
 			put_pixel_alpha(e->doom.surface, r->x, i,
-				get_pixel(surface, x, y, e_false));
+				get_pixel(surface, c.x, c.y, e_false));
 		else
 			put_pixel_blackhole(e, r->x, i,
-				get_pixel(surface, x, y, e_false));
+				get_pixel(surface, c.x, c.y, e_false));
 	}
 }
 

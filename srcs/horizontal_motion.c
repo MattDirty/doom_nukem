@@ -28,6 +28,13 @@ static t_segment	get_segment_and_mod_speed(t_vector *speed, t_coords pos)
 	return (create_segment_from_position_and_vector(pos.x, pos.y, &new_vector));
 }
 
+static t_collisions	*get_last_collision(t_collisions *n)
+{
+	while (n->next)
+		n = n->next;
+	return (n);
+}
+
 static void			handle_collision_for_speed(t_vector *speed,
 						t_sector **sector, t_collisions *collisions)
 {
@@ -35,9 +42,7 @@ static void			handle_collision_for_speed(t_vector *speed,
 
 	if (!collisions)
 		return ;
-	n = collisions;
-	while (n->next)
-		n = n->next;
+	n = get_last_collision(collisions);
 	if (n->item.type == ct_wall && n->item.d.wall && n->item.d.wall->type
 		!= e_portal)
 	{
