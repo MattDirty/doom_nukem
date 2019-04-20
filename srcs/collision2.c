@@ -13,18 +13,6 @@
 #include "collision.h"
 #include "default.h"
 
-void			free_collisions(t_collisions *collisions)
-{
-	t_collisions	*buffer;
-
-	while (collisions)
-	{
-		buffer = collisions->next;
-		free(collisions);
-		collisions = buffer;
-	}
-}
-
 t_collisions	*add_collision(t_collisions **collisions, double distance,
 					t_coords inters)
 {
@@ -50,11 +38,30 @@ t_collisions	*add_collision(t_collisions **collisions, double distance,
 	return (new);
 }
 
+static void			insert_collision2(t_collisions *new, t_collisions **collisions)
+{
+	t_collisions	*prev;
+	t_collisions	*node;
+
+	prev = *collisions;
+	node = prev->next;
+	while (node && new->item.distance > prev->item.distance)
+	{
+		prev = node;
+		node = node->next;
+	}
+	if (!node)
+		prev->next = new;
+	else
+	{
+		prev->next = new;
+		new->next = node;
+	}
+}
+
 t_collisions	*insert_collision(t_collisions **collisions, double distance,
 					t_coords inters)
 {
-	t_collisions	*node;
-	t_collisions	*prev;
 	t_collisions	*new;
 
 	if (!(new = (t_collisions *)malloc(sizeof(t_collisions))))
@@ -70,22 +77,7 @@ t_collisions	*insert_collision(t_collisions **collisions, double distance,
 		*collisions = new;
 	}
 	else
-	{
-		prev = *collisions;
-		node = prev->next;
-		while (node && new->item.distance > prev->item.distance)
-		{
-			prev = node;
-			node = node->next;
-		}
-		if (!node)
-			prev->next = new;
-		else
-		{
-			prev->next = new;
-			new->next = node;
-		}
-	}
+		insert_collision2(new, collisions);
 	return (new);
 }
 
