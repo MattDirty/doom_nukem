@@ -25,6 +25,7 @@ SRCS_NAMES = collision.c \
 			player.c \
 			player_health_variation.c \
 			serialisation.c \
+			serialisation2.c \
 			serialisation_enemies.c \
 			serialisation_objects.c \
 			serialisation_pickables.c \

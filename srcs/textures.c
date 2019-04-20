@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   textures.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtorsell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/20 03:18:22 by mtorsell          #+#    #+#             */
+/*   Updated: 2019/04/20 03:18:35 by mtorsell         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <errno.h>
 #include <SDL.h>
@@ -71,6 +83,7 @@ void	read_masks(int fd, t_SDL_Surface_info *info)
 	if (!read(fd, &info->amask, sizeof(info->amask)))
 		error_doom("can't read info.amask");
 }
+
 void	read_texture_node_from_file(int fd, t_texture_node **texture_node)
 {
 	t_SDL_Surface_info	info;
@@ -126,14 +139,4 @@ void	write_texture_node_to_file(int fd, t_texture_node *texture_node)
 			format.BytesPerPixel * texture->w * texture->h) <= 0)
 		error_doom("couldn't write pixels");
 	write_str_to_file(fd, texture->userdata);
-}
-
-void	find_texture_from_file(
-			int fd, t_textures *textures, SDL_Surface **surface)
-{
-	char *name;
-
-	read_str_from_file(fd, &name);
-	find_texture_by_name(textures, name, surface);
-	free(name);
 }

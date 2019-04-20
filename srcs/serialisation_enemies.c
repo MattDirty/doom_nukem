@@ -35,9 +35,9 @@ static void	init_enemy_from_type(t_enemy *enemy)
 		error_doom("invalid enemy");
 }
 
-void    write_enemy_to_file(int fd, t_enemy enemy)
+void		write_enemy_to_file(int fd, t_enemy enemy)
 {
-	int	i;
+	int i;
 
 	i = -1;
 	write_object_to_file(fd, *enemy.object);
@@ -61,9 +61,9 @@ void    write_enemy_to_file(int fd, t_enemy enemy)
 		write_str_to_file(fd, enemy.explosion[i]->userdata);
 }
 
-void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
+void		read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
 {
-	int	i;
+	int i;
 
 	i = -1;
 	if (!(enemy->object = (t_object *)malloc(sizeof(t_object))))
@@ -90,34 +90,34 @@ void    read_enemy_from_file(int fd, t_textures *textures, t_enemy *enemy)
 		find_texture_from_file(fd, textures, &(enemy->explosion[i]));
 }
 
-void    write_enemies_to_file(int fd, t_linked_enemies *enemies)
+void		write_enemies_to_file(int fd, t_linked_enemies *enemies)
 {
-	enum e_bool	next;
+	enum e_bool next;
 
 	next = enemies != NULL;
 	if (write(fd, &next, sizeof(next)) <= 0)
 		error_doom("mabite");
 	if (!next)
-		return;
+		return ;
 	write_enemy_to_file(fd, enemies->item);
 	write_enemies_to_file(fd, enemies->next);
 }
 
-void    read_enemies_from_file(
-		int fd,
-		t_textures *textures,
-		t_linked_enemies **enemies)
+void		read_enemies_from_file(
+				int fd,
+				t_textures *textures,
+				t_linked_enemies **enemies)
 {
-	enum e_bool	next;
+	enum e_bool next;
 
 	if (read(fd, &next, sizeof(next)) <= 0)
 		error_doom("The shield has gone mad, Quercus!");
 	if (!next)
 	{
 		*enemies = NULL;
-		return;
+		return ;
 	}
-	if (!(*enemies = (t_linked_enemies*)malloc(sizeof(t_linked_enemies))))
+	if (!(*enemies = (t_linked_enemies *)malloc(sizeof(t_linked_enemies))))
 		error_doom("Couldn't allocate enemies struct");
 	(*enemies)->next = NULL;
 	read_enemy_from_file(fd, textures, &(*enemies)->item);
