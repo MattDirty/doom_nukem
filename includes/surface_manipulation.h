@@ -15,4 +15,10 @@ void		draw_circle_filled(SDL_Surface *surface, t_coords center, int r, Uint32 co
 void        draw_segment(SDL_Surface *surface, t_segment segment, Uint32 color);
 
 void        print_surface(SDL_Renderer *r, SDL_Surface *surf);
+
+void		put_pixel_alpha_for_runtime_generated(SDL_Surface *s, int x, int y,
+											  Uint32 color);
+Uint32		get_pixel_for_runtime_generated(SDL_Surface *s, int x, int y,
+										  enum e_bool force_alpha);
+
 #endif

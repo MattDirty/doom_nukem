@@ -31,6 +31,13 @@ enum e_bool	animate_door(double ms_since_update, t_params params)
 	return (e_true);
 }
 
+enum e_bool	unlock(double ms_since_update, t_params ready)
+{
+	(void)ms_since_update;
+	*(enum e_bool *)ready = e_true;
+	return (e_false);
+}
+
 void		reset_animation(t_animation *animation)
 {
 	animation->x_offset = 0;

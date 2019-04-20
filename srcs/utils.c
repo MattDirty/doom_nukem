@@ -38,3 +38,24 @@ double		get_distance_between_points(double x1, double y1,
 {
 	return (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 }
+
+int			is_close_to(t_coords target, t_coords pos, double distance)
+{
+	if ((fabs(pos.x - target.x) < distance)
+		&& (fabs(pos.y - target.y) < distance))
+		return (1);
+	return (0);
+}
+
+t_u_range	wall_range(double wall_height, double vision_height, Uint32 win_h)
+{
+	t_u_range	wall;
+
+	if (vision_height < wall_height / 2)
+		wall.start = 0;
+	else
+		wall.start = vision_height - wall_height / 2;
+	wall.end = vision_height + wall_height / 2;
+	wall.end = (wall.end > win_h ? win_h : wall.end);
+	return (wall);
+}

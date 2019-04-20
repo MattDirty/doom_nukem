@@ -90,5 +90,7 @@ void        draw_rect(SDL_Surface *surface, t_rect *rect, Uint32 color);
 void        fill_rect(SDL_Surface *surface, t_rect *rect, Uint32 color, enum e_bool alpha);
 enum e_bool is_in_rect(t_rect *rect, int x, int y);
 int         is_close_to(t_coords target, t_coords point, double distance);
+int			is_close_to(t_coords target, t_coords pos, double distance);
+t_u_range	wall_range(double wall_height, double vision_height, Uint32 win_h);
 
 #endif

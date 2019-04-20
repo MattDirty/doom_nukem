@@ -16,11 +16,19 @@
 #include "gun.h"
 #include "melee.h"
 
-enum e_bool	unlock(double ms_since_update, t_params ready)
+void		make_weapon_usable(t_weapons *node, Uint32 target)
 {
-	(void)ms_since_update;
-	*(enum e_bool *)ready = e_true;
-	return (e_false);
+	Uint32	i;
+
+	i = 0;
+	while (node && i < target)
+	{
+		node = node->next;
+		i++;
+	}
+	node->item->usable = e_true;
+	if (node->item->ammo >= 0)
+		node->item->ammo += 10;
 }
 
 t_weapon	*get_weapon(t_weapons *node, Uint32 target)

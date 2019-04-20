@@ -24,7 +24,6 @@ SRCS_NAMES = collision.c \
 			segment2.c \
 			rectangle.c \
 			player.c \
-			player_health_variation.c \
 			serialisation.c \
 			serialisation2.c \
 			serialisation_enemies.c \
@@ -52,6 +51,9 @@ SRCS_NAMES = collision.c \
 			objects.c \
 			render.c \
 			render_blackhole.c \
+			render_flats.c \
+			render_on_screen.c \
+			render_walls.c \
 			enemies_intelligence.c \
 			basic_enemies_intelligence.c \
 			basic_enemies_intelligence2.c \
@@ -120,7 +122,6 @@ SRC_EDITOR_NAME = editor.c \
 				  editor_enemies.c \
 				  editor_objects.c \
 				  editor_pickables.c \
-				  create_map.c \
 				  editor_walls_nodes.c \
 				  $(SRCS_NAMES)
 

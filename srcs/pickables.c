@@ -16,111 +16,86 @@
 #include "utils.h"
 #include "sectors.h"
 
-static  void    make_weapon_usable(t_weapons *node, Uint32 target)
+t_pickables	*extract_pickable(t_pickables **pickables, t_pickable *pickable)
 {
-    Uint32  i;
+	t_pickables	*previous;
+	t_pickables	*node;
 
-    i = 0;
-    while (node && i < target)
-    {
-        node = node->next;
-        i++;
-    }
-    node->item->usable = e_true;
-    if (node->item->ammo >= 0)
-        node->item->ammo += 10;
+	if (pickable == &(*pickables)->item)
+	{
+		previous = *pickables;
+		*pickables = previous->next;
+		previous->next = NULL;
+		return (previous);
+	}
+	previous = NULL;
+	node = *pickables;
+	while (node)
+	{
+		if (&node->item == pickable)
+		{
+			previous->next = node->next;
+			node->next = NULL;
+			return (node);
+		}
+		previous = node;
+		node = node->next;
+	}
+	return (NULL);
 }
 
-t_pickables	*extract_pickable(
-        t_pickables **pickables,
-        t_pickable *pickable)
+void		delete_pickable(t_pickables **pickables, t_pickable *to_delete)
 {
-    t_pickables	*previous;
-    t_pickables	*node;
+	t_pickables *node;
 
-    if (pickable == &(*pickables)->item)
-    {
-        previous = *pickables;
-        *pickables = previous->next;
-        previous->next = NULL;
-        return (previous);
-    }
-    previous = NULL;
-    node = *pickables;
-    while (node)
-    {
-        if (&node->item == pickable)
-        {
-            previous->next = node->next;
-            node->next = NULL;
-            return (node);
-        }
-        previous = node;
-        node = node->next;
-    }
-    return (NULL);
+	node = extract_pickable(pickables, to_delete);
+	if (!node)
+		return ;
+	free(node->item.object);
+	free(node);
 }
 
-void	delete_pickable(t_pickables **pickables, t_pickable *to_delete)
+void		do_stuff(t_player *player, t_pickables *pickables)
 {
-    t_pickables *node;
-
-    node = extract_pickable(pickables, to_delete);
-    if (!node)
-        return ;
-    free(node->item.object);
-    free(node);
+	if (pickables->item.type == et_gun)
+		make_weapon_usable(player->weapons, 1);
+	else if (pickables->item.type == et_shotgun)
+		make_weapon_usable(player->weapons, 2);
+	else if (pickables->item.type == et_vacuum)
+		make_weapon_usable(player->weapons, 3);
+	else
+		error_doom("invalid pickable");
 }
 
-void     do_stuff(t_player *player, t_pickables *pickables)
+void		pick_objects(t_player *player)
 {
-    if (pickables->item.type == et_gun)
-        make_weapon_usable(player->weapons, 1);
-    else if (pickables->item.type == et_shotgun)
-        make_weapon_usable(player->weapons, 2);
-    else if (pickables->item.type == et_vacuum)
-        make_weapon_usable(player->weapons, 3);
-    else
-        error_doom("invalid pickable");
+	t_pickables	*pickables;
+	t_pickables	*next;
+	t_coords	pick_pos;
+
+	pickables = player->current_sector->pickables;
+	while (pickables)
+	{
+		pick_pos = (t_coords){pickables->item.object->x,
+						pickables->item.object->y};
+		if (is_close_to(pick_pos, player->pos, 0.5))
+		{
+			do_stuff(player, pickables);
+			next = pickables->next;
+			delete_pickable(&player->current_sector->pickables,
+					&pickables->item);
+			pickables = next;
+			continue;
+		}
+		pickables = pickables->next;
+	}
 }
 
-int         is_close_to(t_coords target, t_coords pos, double distance)
+void		free_pickables(t_pickables *pickables)
 {
-    if ((fabs(pos.x - target.x) < distance)
-        && (fabs(pos.y - target.y) < distance))
-        return (1);
-    return (0);
-}
-
-void     pick_objects(t_player *player)
-{
-    t_pickables *pickables;
-    t_pickables *next;
-    t_coords    pick_pos;
-
-    pickables = player->current_sector->pickables;
-    while (pickables)
-    {
-        pick_pos = (t_coords){
-                pickables->item.object->x,
-                pickables->item.object->y};
-        if (is_close_to(pick_pos, player->pos, 0.5))
-        {
-            do_stuff(player, pickables);
-            next = pickables->next;
-            delete_pickable(&player->current_sector->pickables, &pickables->item);
-            pickables = next;
-            continue;
-        }
-        pickables = pickables->next;
-    }
-}
-
-void	free_pickables(t_pickables *pickables)
-{
-    if (!pickables)
-        return;
-    free_pickables(pickables->next);
-    free(pickables->item.object);
-    free(pickables);
+	if (!pickables)
+		return ;
+	free_pickables(pickables->next);
+	free(pickables->item.object);
+	free(pickables);
 }

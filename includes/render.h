@@ -39,5 +39,15 @@ typedef struct  s_render
 void        draw(t_env *e, t_collisions *collisions, Uint32 rdr_x);
 enum e_bool day_to_night(double ms_since_update, t_params daytime);
 void        skybox(const t_render *render, t_u_range range);
+void		draw_walls(t_env *e, t_render *r, t_collisions *node);
+void		draw_transparents(t_env *e, t_render *r, t_collisions *node);
+void		draw_enemy(t_env *e, t_render *r, t_collision *collision);
+void		draw_pickable(t_env *e, t_render *r, t_collision *collision);
+void		draw_object(t_env *e, const t_render *render,
+				const t_collision *collision);
+void		draw_flat(t_render *render, t_collision *collision, t_u_range range,
+				  SDL_Surface *texture);
+void		draw_ceil(t_render *render, t_collision *collision, t_u_range range,
+				  t_sector *current_sector);
 
 #endif
