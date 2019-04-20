@@ -80,16 +80,13 @@ void	create_sky_toggle_btn(TTF_Font *font,
 	Uint32		sky_color;
 	Uint32		outer_color;
 
-	tgl = write_text(font, "Ceiling ", (SDL_Colour){0, 0, 0, 255});
-	sky_color = SKY_OFF;
-	outer_color = BLACK;
-	if (ed->selected.sector->open_sky && (sky_color = SKY_ON))
-	{
+	sky_color = ed->selected.sector->open_sky ? SKY_ON : SKY_OFF;
+	outer_color = ed->selected.sector->open_sky ? RED : BLACK;
+	if (ed->selected.sector->open_sky)
 		tgl = write_text(font, "Open sky", (SDL_Colour){0, 0, 0, 255});
-		outer_color = RED;
-	}
-	pos.x = PAN_PAD_L + 205;
-	pos.y = *y - 35;
+	else
+		tgl = write_text(font, "Ceiling ", (SDL_Colour){0, 0, 0, 255});
+	pos = (t_i_coords){PAN_PAD_L + 205, *y - 35};
 	sky_btn.rect = create_rect(pos.x - 6, pos.y - 6, tgl->w + 10, tgl->h + 10);
 	draw_rect(target, &sky_btn.rect, outer_color);
 	fill_rect(target, &sky_btn.rect, sky_color, e_true);

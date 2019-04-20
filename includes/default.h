@@ -15,25 +15,12 @@
 
 # include "libft.h"
 
-# define DEBUG_W 800
-# define DEBUG_H 640
-# define DEBUG_W_H (DEBUG_W / 2)
-# define DEBUG_H_H (DEBUG_H / 2)
-# define DEBUG_GRID_STEP 40
-# define DEBUG_ZOOM 20
-
-# define GRID_COLOR 0xFF111111
-# define ABS_ORD_COLOR 0xFFE2EAFF
-# define DEBUG_WALL_COLOR 0xFFFFFFFF
-# define DEBUG_PORTAL_COLOR 0xFFFF0000
-# define DEBUG_PLAYER_COLOR 0xFF4FE4EA
-
 # define CROSSHAIR_COLOR 0xE400FF00
 
 # define FPS_MAX 300
 
-# define WIN_W 800
-# define WIN_H 640
+# define WIN_W 1920
+# define WIN_H 1080
 # define HALF_W ((double)WIN_W / 2)
 # define HALF_H ((double)WIN_H / 2)
 
@@ -74,7 +61,5 @@
 # define EPSILON 0.0001
 
 # define ACTIVATE_LIGHTING 1
-
-# define BLACKHOLE_LSD
 
 #endif
