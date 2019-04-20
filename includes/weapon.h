@@ -34,7 +34,7 @@ typedef struct			s_weapon
 	SDL_Surface			*sprites_cooldown;
 	int					ammo;
 	t_animation			main_animation;
-	void				(*main)();
+	void				(*main)(void);
 	double				main_cooldown;
 	enum e_bool			main_ready;
 	Mix_Chunk			*main_sound;

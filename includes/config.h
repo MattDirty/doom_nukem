@@ -37,7 +37,7 @@ typedef struct	s_config
 	enum e_bool	lights;
 }				t_config;
 
-t_config		load_config();
-t_config		load_default_config();
+t_config		load_config(void);
+t_config		load_default_config(void);
 
 #endif

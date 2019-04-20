@@ -169,7 +169,7 @@ USER = $(shell whoami)
 
 CC = clang
 
-CFLAGS = -Wall -Werror -Wextra -Ofast #-g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra
 
 RM = rm -rf
 
