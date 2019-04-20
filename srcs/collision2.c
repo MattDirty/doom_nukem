@@ -13,8 +13,8 @@
 #include "collision.h"
 #include "default.h"
 
-t_collisions	*add_collision(t_collisions **collisions, double distance,
-					t_coords inters)
+t_collisions		*add_collision(t_collisions **collisions, double distance,
+						t_coords inters)
 {
 	t_collisions	*node;
 	t_collisions	*new;
@@ -38,7 +38,8 @@ t_collisions	*add_collision(t_collisions **collisions, double distance,
 	return (new);
 }
 
-static void			insert_collision2(t_collisions *new, t_collisions **collisions)
+static void			insert_collision2(t_collisions *new,
+						t_collisions **collisions)
 {
 	t_collisions	*prev;
 	t_collisions	*node;
@@ -59,8 +60,8 @@ static void			insert_collision2(t_collisions *new, t_collisions **collisions)
 	}
 }
 
-t_collisions	*insert_collision(t_collisions **collisions, double distance,
-					t_coords inters)
+t_collisions		*insert_collision(t_collisions **collisions,
+						double distance, t_coords inters)
 {
 	t_collisions	*new;
 
@@ -81,8 +82,8 @@ t_collisions	*insert_collision(t_collisions **collisions, double distance,
 	return (new);
 }
 
-void			find_enemies_collisions_in_sector(t_sector *sector,
-					t_segment *ray, t_collisions **collisions)
+void				find_enemies_collisions_in_sector(t_sector *sector,
+						t_segment *ray, t_collisions **collisions)
 {
 	t_linked_enemies	*enemies;
 	t_coords			inters;
@@ -110,8 +111,8 @@ void			find_enemies_collisions_in_sector(t_sector *sector,
 	}
 }
 
-void			find_pickables_collisions_in_sector(t_sector *sector,
-					t_segment *ray, t_collisions **collisions)
+void				find_pickables_collisions_in_sector(t_sector *sector,
+						t_segment *ray, t_collisions **collisions)
 {
 	t_pickables		*pickables;
 	t_coords		inters;
