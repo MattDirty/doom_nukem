@@ -29,6 +29,7 @@ SRCS_NAMES = collision.c \
 			serialisation_enemies.c \
 			serialisation_objects.c \
 			serialisation_pickables.c \
+			serialisation_ui.c \
 			walls.c \
 			wall_objects.c \
 			sectors.c \
