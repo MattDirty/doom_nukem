@@ -30,7 +30,7 @@ void	move_map(t_editor *ed, SDL_Scancode key)
 void	move_walls_nodes(t_editor *ed, double x, double y)
 {
 	t_wall_nodes	*nodes;
-	t_i_coords		delta;
+	t_coords		delta;
 
 	nodes = ed->dragged.nodes;
 	delta.x = (x - ed->map_offset.x) / ed->zoom - *nodes->item.x;
