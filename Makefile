@@ -51,6 +51,8 @@ SRCS_NAMES = collision.c \
 			objects.c \
 			render.c \
 			render_blackhole.c \
+			render_draw_pickable.c \
+			render_draw_object.c \
 			render_flats.c \
 			render_on_screen.c \
 			render_walls.c \
