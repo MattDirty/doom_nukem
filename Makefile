@@ -21,10 +21,12 @@ SRC_PATH = srcs
 SRCS_NAMES = collision.c \
 			collision2.c \
 			segment.c \
+			segment2.c \
 			rectangle.c \
 			player.c \
 			player_health_variation.c \
 			serialisation.c \
+			serialisation2.c \
 			serialisation_enemies.c \
 			serialisation_objects.c \
 			serialisation_pickables.c \
@@ -32,6 +34,8 @@ SRCS_NAMES = collision.c \
 			walls.c \
 			wall_objects.c \
 			sectors.c \
+			sectors2.c \
+			sectors_find_stuff.c \
 			map.c \
 			levers.c \
 			environment.c \
@@ -70,6 +74,7 @@ SRCS_NAMES = collision.c \
 			skybox.c \
 			config.c \
 			textures.c \
+			textures2.c \
 			keyboard.c \
 			enemies.c \
 			enemies_damage.c \

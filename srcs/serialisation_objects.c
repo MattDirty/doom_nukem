@@ -13,19 +13,20 @@
 #include <unistd.h>
 #include "serialisation.h"
 
-void read_objects_from_file(int fd, t_textures *textures, t_objects **objects)
+void	read_objects_from_file(int fd, t_textures *textures,
+			t_objects **objects)
 {
 	int count;
 	int i;
 
-	if (!(*objects = (t_objects*)malloc(sizeof(t_objects))))
+	if (!(*objects = (t_objects *)malloc(sizeof(t_objects))))
 		error_doom("couldn't malloc t_objects");
 	if (read(fd, &count, sizeof(count)) <= 0)
 		error_doom("couldn't read objects count");
 	(*objects)->count = count;
 	if (count > 0)
 	{
-		if (!((*objects)->items = (t_object *) malloc(
+		if (!((*objects)->items = (t_object *)malloc(
 				sizeof(t_object) * count)))
 			error_doom("couldn't malloc t_objects->items");
 	}
@@ -39,7 +40,7 @@ void read_objects_from_file(int fd, t_textures *textures, t_objects **objects)
 	}
 }
 
-void write_objects_to_file(int fd, t_objects *objects)
+void	write_objects_to_file(int fd, t_objects *objects)
 {
 	int i;
 
@@ -53,7 +54,7 @@ void write_objects_to_file(int fd, t_objects *objects)
 	}
 }
 
-void read_object_from_file(int fd, t_textures *textures, t_object *object)
+void	read_object_from_file(int fd, t_textures *textures, t_object *object)
 {
 	if (read(fd, &object->can_give_bonus, sizeof(object->can_give_bonus)) <= 0)
 		error_doom("couldn't read object bool can_give_bonus");
@@ -63,14 +64,15 @@ void read_object_from_file(int fd, t_textures *textures, t_object *object)
 		error_doom("couldn't read object y");
 	if (read(fd, &object->z, sizeof(object->z)) <= 0)
 		error_doom("couldn't read object z");
-	if (read(fd, &object->horizontal_size, sizeof(object->horizontal_size)) <= 0)
+	if (read(fd, &object->horizontal_size, sizeof(object->horizontal_size)) <=
+		0)
 		error_doom("couldn't read object horizontal_size");
 	if (read(fd, &object->vertical_size, sizeof(object->vertical_size)) <= 0)
 		error_doom("couldn't read object vertical_size");
 	find_texture_from_file(fd, textures, &object->sprite);
 }
 
-void write_object_to_file(int fd, t_object object)
+void	write_object_to_file(int fd, t_object object)
 {
 	if (write(fd, &object.can_give_bonus, sizeof(object.can_give_bonus)) <= 0)
 		error_doom("couldn't write object bool can_give_bonus");
