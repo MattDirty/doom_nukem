@@ -37,5 +37,6 @@ void        editor_draw_panel_pickable(t_editor *ed);
 void		init_panel(t_panel *panel, t_textures *textures);
 void		change_door_to_portal(t_params params);
 void		save_editor(t_params params);
+void		write_panel_wall_state(t_editor *ed, t_wall *wall);
 
 #endif

@@ -97,7 +97,14 @@ SRC_EDITOR_NAME = editor.c \
 				  editor_draw.c \
 				  editor_draw2.c \
 				  editor_panel.c \
-				  editor_panel_elements.c \
+				  editor_panel_map.c \
+				  editor_panel_sector.c \
+				  editor_panel_wall.c \
+				  editor_panel_wall2.c \
+				  editor_panel_object.c \
+				  editor_panel_object2.c \
+				  editor_panel_enemy.c \
+				  editor_panel_pickable.c \
 				  editor_panel_textures.c \
 				  editor_segments.c \
 				  editor_panel_buttons.c \

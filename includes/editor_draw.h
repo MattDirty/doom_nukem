@@ -38,5 +38,6 @@ void	draw_objects_in_sector_editor(SDL_Surface *target, t_objects *objects,
 									  t_i_coords map_offset, int zoom);
 void	draw_pickables_in_sector_editor(SDL_Surface *target,
 		t_pickables *pickables, t_i_coords map_offset, int zoom);
+void	highlight_selected_wall(t_editor *ed);
 
 #endif
