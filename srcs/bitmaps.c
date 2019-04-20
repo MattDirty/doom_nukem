@@ -36,10 +36,10 @@ t_SDL_Surface_info		read_header(int fd, int *pixels_size)
 	info.h = *((unsigned int*)&buffer[8]);
 	info.depth = *((unsigned int*)&buffer[20]) / info.h / info.w * 8;
 	info.pitch = info.w * info.depth / 8;
-	info.Rmask = *((unsigned int*)&buffer[40]);
-	info.Gmask = *((unsigned int*)&buffer[44]);
-	info.Bmask = *((unsigned int*)&buffer[48]);
-	info.Amask = *((unsigned int*)&buffer[52]);
+	info.rmask = *((unsigned int*)&buffer[40]);
+	info.gmask = *((unsigned int*)&buffer[44]);
+	info.bmask = *((unsigned int*)&buffer[48]);
+	info.amask = *((unsigned int*)&buffer[52]);
 	return (info);
 }
 
@@ -63,16 +63,16 @@ static inline void		swap_colors(Uint32 *pixel, t_SDL_Surface_info info)
 	Uint32				green;
 	Uint32				blue;
 
-	if (info.Amask == 0)
+	if (info.amask == 0)
 		alpha = 0xff;
 	else
-		alpha = ((*pixel & info.Amask) >> shift_from_mask(info.Amask))
+		alpha = ((*pixel & info.amask) >> shift_from_mask(info.amask))
 			<< AMASK_SHIFT;
-	red = ((*pixel & info.Rmask) >> shift_from_mask(info.Rmask))
+	red = ((*pixel & info.rmask) >> shift_from_mask(info.rmask))
 		<< RMASK_SHIFT;
-	green = ((*pixel & info.Gmask) >> shift_from_mask(info.Gmask))
+	green = ((*pixel & info.gmask) >> shift_from_mask(info.gmask))
 		<< GMASK_SHIFT;
-	blue = ((*pixel & info.Bmask) >> shift_from_mask(info.Bmask))
+	blue = ((*pixel & info.bmask) >> shift_from_mask(info.bmask))
 		<< BMASK_SHIFT;
 	*pixel = alpha | red | green | blue;
 }

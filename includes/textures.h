@@ -27,10 +27,10 @@ typedef struct				s_SDL_Surface_info
     int						h;
     Uint8					depth;
     int						pitch;
-    Uint32					Rmask;
-    Uint32					Gmask;
-    Uint32					Bmask;
-    Uint32					Amask;
+    Uint32					rmask;
+    Uint32					gmask;
+    Uint32					bmask;
+    Uint32					amask;
 }							t_SDL_Surface_info;
 
 void	free_textures(t_textures *textures);

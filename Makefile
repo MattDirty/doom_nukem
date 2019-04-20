@@ -68,6 +68,7 @@ SRCS_NAMES = collision.c \
 			skybox.c \
 			config.c \
 			textures.c \
+			textures2.c \
 			keyboard.c \
 			enemies.c \
 			enemies_damage.c \
