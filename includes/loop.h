@@ -24,5 +24,14 @@ typedef struct	s_frame_event_params
 }				t_frame_event_params;
 
 void    key_handler(const Uint8 *state, t_player *p, t_timer_handler *timer_handler);
+enum e_bool				frame_event(double ms_since_update, t_params params);
+t_frame_event_params	frame_event_params_init(t_env *e);
+t_logic_params			logic_params_init(
+							t_env *e, const Uint8 *state,
+							t_timer_handler *timer_handler, enum e_bool *stop);
+enum e_bool				update_logic(double ms_since_update, t_params params);
+void					loop_events(t_env *e, const Uint8 *state,
+							t_timer_handler *timer_handler, enum e_bool *stop);
+void					update_enemies(t_sectors *sectors, t_coords camera_pos);
 
 #endif
