@@ -30,12 +30,12 @@ void	draw_weapon(
 		x = -1;
 		y1 = (op->win_h - weapon->h) + y + animation->y_offset;
 		if (y1 < 0 || y1 > surface->h)
-			continue;
+			continue ;
 		while (++x < weapon->w)
 		{
 			x1 = (op->half_w - (weapon->w / 2)) + x + animation->x_offset;
 			if (x1 < 0 || x1 > surface->w)
-				continue;
+				continue ;
 			put_pixel_alpha(surface, x1, y1, get_pixel(weapon, x, y, e_false));
 		}
 	}

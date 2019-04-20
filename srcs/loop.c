@@ -97,7 +97,7 @@ void		update_enemies(t_sectors *sectors, t_coords camera_pos)
 				next = enemies->next;
 				delete_enemy(&sectors->items[i]->enemies, &enemies->item);
 				enemies = next;
-				continue;
+				continue ;
 			}
 			select_enemy_sprite(&enemies->item, camera_pos);
 			enemies = enemies->next;
