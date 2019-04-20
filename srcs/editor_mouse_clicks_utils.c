@@ -81,7 +81,7 @@ enum e_bool	is_on_seg(t_segment seg, t_i_coords mouse, t_i_coords map_offset,
 	if (check_delta(delta_x, delta_y, seg, mouse))
 		return (e_true);
 	bounding_rect(seg, &rect);
-	if (!is_in_rect(&rect,mouse.x, mouse.y))
+	if (!is_in_rect(&rect, mouse.x, mouse.y))
 		return (e_false);
 	if (!delta_x || !delta_y)
 		return (e_false);

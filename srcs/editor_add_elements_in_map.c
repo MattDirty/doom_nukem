@@ -94,10 +94,7 @@ void	create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y)
 	ed->pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
 	sector = in_which_sector(ed->pos, ed->map->sectors);
 	if (sector)
-	{
 		enemy = add_new_enemy_to_sector_at_pos(sector, ed->pos, ed->textures);
-
-	}
 	else
 		Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
 	ed->state = e_null;
