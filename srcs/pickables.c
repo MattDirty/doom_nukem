@@ -84,10 +84,10 @@ void     do_stuff(t_player *player, t_pickables *pickables)
         error_doom("invalid pickable");
 }
 
-int         is_close_to(t_coords target, t_coords pos, double dist)
+int         is_close_to(t_coords target, t_coords pos, double distance)
 {
-    if ((fabs(pos.x - target.x) < dist)
-        && (fabs(pos.y - target.y) < dist))
+    if ((fabs(pos.x - target.x) < distance)
+        && (fabs(pos.y - target.y) < distance))
         return (1);
     return (0);
 }

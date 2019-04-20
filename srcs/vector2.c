@@ -12,7 +12,6 @@
 
 #include "utils.h"
 #include <math.h>
-#include <stdio.h>
 
 double			get_rad_between_vectors(t_vector *vector1, t_vector *vector2)
 {

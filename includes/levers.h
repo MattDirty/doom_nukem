@@ -5,6 +5,7 @@
 
 # include "wall_objects.h"
 # include "e_bool.h"
+# include "timer_handler.h"
 
 typedef struct s_linked_walls t_linked_walls;
 typedef struct s_wall t_wall;
@@ -32,5 +33,7 @@ void read_lever_from_file(int fd, t_textures *textures, t_lever **lever);
 void write_lever_to_file(int fd, t_linked_walls *linked_walls, t_lever *lever);
 
 void create_lever(t_wall *wall, t_wall *target, t_textures *textures);
+
+enum e_bool	animate_door(double ms_since_update, t_params params);
 
 #endif
