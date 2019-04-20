@@ -32,7 +32,7 @@ void	draw_player_spawn(SDL_Surface *surface, t_coords spawn,
 			t_i_coords map_offset, int zoom)
 {
 	t_coords	coords;
-	
+
 	coords.x = map_offset.x + spawn.x * zoom;
 	coords.y = map_offset.y - spawn.y * zoom;
 	draw_circle_filled(surface, coords, 6, PLAYER_COLOR);
