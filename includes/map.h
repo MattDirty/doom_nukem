@@ -40,5 +40,9 @@ typedef struct			s_map
 void		free_map(t_map *map);
 void		read_map_from_file(int fd, t_textures *textures, t_map **map);
 void		write_map_to_file(int fd, t_map *map);
+void		write_hud_to_file(int fd, t_hud hud);
+void		read_hud_from_file(int fd, t_textures *textures, t_hud *hud);
+void		write_spawn_to_file(int fd, t_coords spawn, int index);
+void		read_spawn_from_file(int fd, t_coords *spawn, int *index);
 
 #endif
