@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   engine.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <lfatton@student.42.fr>            +#+  +:+       +#+        */
+/*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/08 01:10:34 by lfatton           #+#    #+#             */
-/*   Updated: 2019/03/13 11:58:05 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/04/20 18:49:05 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void			*generate_blackhole_buffer(void *args)
 	i = 0;
 	while (!e->blackhole_thread_stop)
 	{
-		e->blackhole_buffer[i] = rand() % 100 > e->p.health;
+		e->blackhole_buffer[i] = rand() % 80 > e->p.health;
 		i++;
 		i %= e->op.win_w * e->op.win_h;
 	}
