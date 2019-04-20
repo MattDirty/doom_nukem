@@ -39,8 +39,6 @@ void			draw_object(t_env *e, const t_render *r,
 	t_u_range	range;
 	double		dist_ratio;
 
-	if (col->type != ct_object)
-		return ;
 	surface = col->d.object->sprite;
 	inc.x = get_distance_between_points(col->inters.x, col->inters.y,
 				col->object_segment.x1, col->object_segment.y1) * surface->w
