@@ -53,8 +53,8 @@ void		boss_intelligence(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
 	double		ratio;
 	t_vector	to_player;
 
-	distance = get_distance_between_points(e->p.pos.x, e->p.pos.y, enemy->object->x,
-			enemy->object->y);
+	distance = get_distance_between_points(e->p.pos.x, e->p.pos.y,
+			enemy->object->x, enemy->object->y);
 	ratio = distance / 2;
 	e->p.health -= BLACKHOLE_AURA_DAMAGE / 60.0 / ratio;
 	if (e->p.health <= 0)
