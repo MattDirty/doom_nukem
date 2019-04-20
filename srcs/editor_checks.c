@@ -40,7 +40,7 @@ enum e_bool	new_node_pos_valid(t_editor *ed, t_coords pos)
 
 	seg1 = create_segment(pos.x, pos.y, ed->selected.wall->segment.x1,
 			ed->selected.wall->segment.y1);
-	seg2 = create_segment(pos.x, pos.y, ed->selected.wall->segment.x1,
+	seg2 = create_segment(pos.x, pos.y, ed->selected.wall->segment.x2,
 			ed->selected.wall->segment.y2);
 	return (in_which_sector(pos, ed->map->sectors)
 		|| segment_intersect_with_map(ed->linked_walls, seg1)
