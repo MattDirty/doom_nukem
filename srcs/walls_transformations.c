@@ -32,6 +32,7 @@ void		transform_door_to_portal(t_wall *wall, t_linked_walls *node)
 void		transform_portal_to_door(t_wall *wall, SDL_Surface *texture)
 {
 	wall->type = e_transparent_wall;
+	wall->to_infinity = e_false;
 	wall->texture = texture;
 }
 
