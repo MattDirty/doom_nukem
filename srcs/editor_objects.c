@@ -13,12 +13,12 @@
 #include "objects.h"
 #include "doom.h"
 
-void        remove_object(t_object *object, t_objects *objects)
+void		remove_object(t_object *object, t_objects *objects)
 {
-	int     i;
-	int     j;
-	int     k;
-	t_object    *items;
+	int			i;
+	int			j;
+	int			k;
+	t_object	*items;
 
 	i = 0;
 	while (object != objects->items + i)
@@ -42,9 +42,9 @@ void        remove_object(t_object *object, t_objects *objects)
 	objects->count--;
 }
 
-t_object    create_default_object(t_textures *textures)
+t_object	create_default_object(t_textures *textures)
 {
-	t_object    new_object;
+	t_object	new_object;
 
 	new_object.x = 0;
 	new_object.y = 0;
@@ -52,18 +52,18 @@ t_object    create_default_object(t_textures *textures)
 	new_object.horizontal_size = 1;
 	new_object.vertical_size = 1;
 	find_texture_by_name(textures, "textures/sprites/voilaunefleur.bmp",
-						 &new_object.sprite);
+			&new_object.sprite);
 	new_object.can_give_bonus = e_true;
 	return (new_object);
 }
 
-t_object    *add_new_object_to_sector_at_pos(
+t_object	*add_new_object_to_sector_at_pos(
 		t_sector *sector, t_coords pos, t_textures *textures)
 {
-	t_object    object;
-	t_object    *items;
-	int         i;
-	int         count;
+	t_object	object;
+	t_object	*items;
+	int			i;
+	int			count;
 
 	if (sector->objects->count >= 12)
 		return (NULL);

@@ -13,9 +13,9 @@
 #include "pickables.h"
 #include "doom.h"
 
-int count_pickables(t_pickables *pickables)
+int			count_pickables(t_pickables *pickables)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (pickables)
@@ -26,31 +26,31 @@ int count_pickables(t_pickables *pickables)
 	return (i);
 }
 
-t_pickable      create_default_pickable(t_textures *textures)
+t_pickable	create_default_pickable(t_textures *textures)
 {
-	t_pickable  new_pickable;
+	t_pickable	new_pickable;
 
 	if (!(new_pickable.object = (t_object *)malloc(sizeof(t_object))))
 		error_doom("Couldn't allocate object in pickable");
 	*new_pickable.object = create_default_object(textures);
 	new_pickable.type = et_gun;
 	find_texture_by_name(textures, "textures/sprites/gun.bmp",
-						 &new_pickable.sprite_to_pick[0]);
+			&new_pickable.sprite_to_pick[0]);
 	find_texture_by_name(textures, "textures/sprites/shotgun.bmp",
-						 &new_pickable.sprite_to_pick[1]);
+			&new_pickable.sprite_to_pick[1]);
 	find_texture_by_name(textures, "textures/sprites/vacuum.bmp",
-						 &new_pickable.sprite_to_pick[2]);
+			&new_pickable.sprite_to_pick[2]);
 	return (new_pickable);
 }
 
-void	add_pickable(t_pickables **pickables, t_pickables *pickable)
+void		add_pickable(t_pickables **pickables, t_pickables *pickable)
 {
 	t_pickables	*node;
 
 	if (!*pickables)
 	{
 		*pickables = pickable;
-		return;
+		return ;
 	}
 	node = *pickables;
 	while (node->next)
@@ -58,10 +58,10 @@ void	add_pickable(t_pickables **pickables, t_pickables *pickable)
 	node->next = pickable;
 }
 
-t_pickables    *add_new_pickable_to_sector_at_pos(t_sector *sector,
-												  t_coords pos, t_textures *textures)
+t_pickables	*add_new_pickable_to_sector_at_pos(t_sector *sector, t_coords pos,
+				t_textures *textures)
 {
-	t_pickables *new_pickables;
+	t_pickables	*new_pickables;
 
 	if (count_pickables(sector->pickables) > 6)
 		return (NULL);
