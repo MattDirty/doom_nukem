@@ -94,7 +94,7 @@ int					main(int ac, char **av)
 	read_data = init_editor(&ed);
 	if (stat(ed.map_path, &buf) < 0)
 	{
-		read_file_editor("template.roflolilolmao", &read_data);
+		read_file_editor("template/template.roflolilolmao", &read_data);
 		ed.map_is_updated = e_false;
 	}
 	else
