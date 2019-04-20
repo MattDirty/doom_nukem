@@ -82,7 +82,6 @@ typedef struct          s_editor
 
 t_map		*create_map(t_textures *textures);
 t_textures	*load_textures(void);
-void		clear_selection(t_selected_elements *selected);
 void		editor_loop(t_editor *ed);
 
 void    		mousedown_action(t_editor *ed, int mouse_x, int mouse_y);
@@ -90,5 +89,8 @@ void    		mouseup_action(t_editor *ed, int mouse_x, int mouse_y);
 enum e_bool		click_on_nodes(t_editor *ed, t_linked_walls *linked_walls, int mouse_x, int mouse_y);
 void            deal_with_clicked_wall(t_editor *ed, t_wall *wall);
 void		quit_editor(t_editor *ed);
+void		create_sub_lists(t_textures *textures, t_panel *panel);
+t_sounds	*load_sounds(void);
+t_fonts		*load_fonts(void);
 
 #endif

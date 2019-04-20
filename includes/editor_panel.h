@@ -34,5 +34,6 @@ void        editor_draw_panel_object(t_editor *ed);
 void        editor_draw_panel_sector(t_editor *ed);
 void        editor_draw_panel_enemy(t_editor *ed);
 void        editor_draw_panel_pickable(t_editor *ed);
+void		init_panel(t_panel *panel, t_textures *textures);
 
 #endif

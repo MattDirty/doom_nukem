@@ -211,3 +211,15 @@ void		toggle_skybox(t_params params)
 	}
 	ptr->ed->map_is_updated = e_false;
 }
+
+void init_panel(t_panel *panel, t_textures *textures)
+{
+	if (!(panel->surface = SDL_CreateRGBSurface(
+			0, PANEL_W, PANEL_H, 32,
+			MASK_RED, MASK_GREEN, MASK_BLUE, MASK_ALPHA)))
+	{
+		error_doom("Couldn't create Panel Surface");
+	}
+	create_sub_lists(textures, panel);
+	panel->buttons = NULL;
+}

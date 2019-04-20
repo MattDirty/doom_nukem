@@ -1,5 +1,6 @@
 #include "editor.h"
 #include "editor_panel_buttons.h"
+#include "editor_mouse_clicks.h"
 #include "ui.h"
 #include "walls.h"
 #include "editor_states.h"

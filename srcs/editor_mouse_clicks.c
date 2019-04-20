@@ -48,6 +48,19 @@ enum e_bool     is_on_seg(t_segment seg, t_i_coords mouse, t_i_coords map_offset
     return (e_false);
 }
 
+void		clear_selection(t_selected_elements *selected)
+{
+    if (selected->nodes != NULL)
+        free_walls_nodes(selected->nodes);
+    selected->nodes = NULL;
+    selected->p_spawn = NULL;
+    selected->enemy = NULL;
+    selected->object = NULL;
+    selected->sector = NULL;
+    selected->wall = NULL;
+    selected->pickable = NULL;
+}
+
 void    mouseup_action(t_editor *ed, int mouse_x, int mouse_y)
 {
     (void)mouse_x;
