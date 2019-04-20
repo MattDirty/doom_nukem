@@ -83,8 +83,8 @@ void	update_events(t_timer_handler *timer_handler)
 		{
 			node->time_left = node->interval;
 			clock_gettime(CLOCK_MONOTONIC_RAW, &time);
-			ms_since_last_call = delta_ms(node->_last_call, time);
-			clock_gettime(CLOCK_MONOTONIC_RAW, &node->_last_call);
+			ms_since_last_call = delta_ms(node->last_call, time);
+			clock_gettime(CLOCK_MONOTONIC_RAW, &node->last_call);
 			if (!node->function(ms_since_last_call, node->params))
 				remove_event_from_list(timer_handler, node);
 		}
@@ -107,6 +107,6 @@ void	add_event(
 	new_event->function = function;
 	new_event->params = params;
 	new_event->next = NULL;
-	clock_gettime(CLOCK_MONOTONIC_RAW, &new_event->_last_call);
+	clock_gettime(CLOCK_MONOTONIC_RAW, &new_event->last_call);
 	add_event_to_list(timer_handler, new_event);
 }

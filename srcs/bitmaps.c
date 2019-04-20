@@ -109,7 +109,7 @@ static inline void		reorder_colors(Uint32 *pixels, t_sdl_surface_info  info)
 SDL_Surface				*load_bmp(char *path)
 {
 	int					fd;
-	t_SDL_Surface_info	info;
+	t_sdl_surface_info	info;
 	int					pixels_size;
 	SDL_Surface			*ret;
 	char				*pixels;

@@ -72,7 +72,7 @@ void	write_textures_to_file(int fd, t_textures *textures)
 	}
 }
 
-void	read_masks(int fd, t_SDL_Surface_info *info)
+void	read_masks(int fd, t_sdl_surface_info *info)
 {
 	if (!read(fd, &info->rmask, sizeof(info->rmask)))
 		error_doom("can't read info.rmask");
@@ -86,7 +86,7 @@ void	read_masks(int fd, t_SDL_Surface_info *info)
 
 void	read_texture_node_from_file(int fd, t_texture_node **texture_node)
 {
-	t_SDL_Surface_info	info;
+	t_sdl_surface_info	info;
 	void				*pixels;
 
 	if (!(*texture_node = (t_texture_node *)malloc(sizeof(t_texture_node))))
