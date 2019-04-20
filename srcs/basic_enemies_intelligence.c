@@ -47,7 +47,7 @@ void		shoot_player(t_env *e, t_enemy *enemy)
 		i = 0;
 		while (i < sector.walls->count)
 		{
-			if (sector.walls->items[i]->type == e_wall
+			if (sector.walls->items[i]->type != e_portal
 					&& segments_intersect(&segment,
 						&sector.walls->items[i]->segment, &(t_coords){0, 0}))
 				return ;
