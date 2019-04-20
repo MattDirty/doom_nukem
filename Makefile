@@ -61,6 +61,7 @@ SRCS_NAMES = collision.c \
 			animation.c \
 			melee.c \
 			in_which_sector.c \
+			in_which_sector_utils.c \
 			gun.c \
 			shotgun.c \
 			vacuum.c \
@@ -202,10 +203,10 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 	$(CC) $(CFLAGS) $(IFLAGS) $(SDL_CFLAGS) -o $@ -c $<
 
 run: $(NAME)
-	./$(NAME) template.roflolilolmao
+	./$(NAME) blop
 
 redit: $(NAME_EDITOR)
-	./$(NAME_EDITOR) template.roflolilolmao
+	./$(NAME_EDITOR) blop
 
 norm:
 	norminette $(SRCS) $(INCL)

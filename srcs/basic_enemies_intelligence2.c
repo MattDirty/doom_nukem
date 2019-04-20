@@ -15,7 +15,8 @@
 #include "enemies_intelligence.h"
 #include "player.h"
 
-void		roam(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
+void		roam(
+				t_enemy *enemy, t_sector *enemy_sector, t_env *e,
 				double ms_since_update)
 {
 	t_vector	to_player;
@@ -37,7 +38,8 @@ void		roam(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
 	enemy->speed = FAST_SCOOTER_SPEED;
 }
 
-void		fire(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
+void		fire(
+				t_enemy *enemy, t_sector *enemy_sector, t_env *e,
 				double ms_since_update)
 {
 	t_vector	to_player;
@@ -57,8 +59,9 @@ void		fire(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
 	set_sprite(enemy, "textures/sprites/enemy_front.bmp", e);
 }
 
-void		flee(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
-				double ms_since_update)
+void		flee(
+					t_enemy *enemy, t_sector *enemy_sector, t_env *e,
+					double ms_since_update)
 {
 	if (enemy->animation_time > 1000)
 	{

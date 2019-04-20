@@ -21,7 +21,7 @@
 #include "in_which_sector.h"
 
 void		enemy_move(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
-		double ms_since_update)
+				double ms_since_update)
 {
 	t_vector			direction;
 	t_linked_enemies	*extracted_n;
@@ -47,7 +47,7 @@ void		enemy_move(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
 }
 
 void		boss_intelligence(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
-		double ms_since_update)
+				double ms_since_update)
 {
 	double		dist;
 	double		ratio;
