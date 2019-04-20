@@ -77,8 +77,8 @@ enum e_bool	click_on_nodes(t_editor *ed, t_linked_walls *linked_walls,
 				* ed->zoom - CORNER_SIZE / 2, CORNER_SIZE, CORNER_SIZE);
 		if (is_in_rect(&rect, x, y))
 		{
-			deal_with_clicked_node(ed, ptr, (
-					t_coords){ptr->wall->segment.x2, ptr->wall->segment.y2});
+			deal_with_clicked_node(ed, ptr,
+					(t_coords){ptr->wall->segment.x2, ptr->wall->segment.y2});
 			return (e_true);
 		}
 		ptr = ptr->next;

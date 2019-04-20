@@ -65,6 +65,7 @@ void	create_transform_portal_to_door_button(t_editor *ed, int *y)
 	t_i_coords	pos;
 	t_button	btn;
 
+	*y += 30;
 	chars = write_text(ed->fonts->vcr20, "Transform in door",
 			(SDL_Colour){0, 0, 255, 0});
 	pos.x = PAN_PAD_L + 12;
@@ -86,6 +87,7 @@ void	create_transform_door_to_portal_button(t_editor *ed, int *y)
 	t_i_coords	pos;
 	t_button	btn;
 
+	y += 30;
 	chars = write_text(ed->fonts->vcr20, "Transform in portal",
 			(SDL_Colour){255, 0, 0, 0});
 	pos.x = PAN_PAD_L + 12;
