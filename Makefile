@@ -170,7 +170,7 @@ USER = $(shell whoami)
 
 CC = clang
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -Ofast
 
 RM = rm -rf
 
