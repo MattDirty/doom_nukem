@@ -15,6 +15,7 @@
 #include "default.h"
 #include <math.h>
 #include "horizontal_motion.h"
+#include "utils.h"
 
 static t_segment	get_segment_and_mod_speed(t_vector *speed, t_coords pos)
 {

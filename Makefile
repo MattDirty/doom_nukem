@@ -35,6 +35,7 @@ SRCS_NAMES = collision.c \
 			levers.c \
 			environment.c \
 			loop.c \
+			events_handler.c \
 			game_endings.c \
 			fonts.c \
 			engine.c \
