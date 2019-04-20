@@ -85,6 +85,7 @@ SRCS_NAMES = collision.c \
 			walls_rw.c \
 			walls_rw2.c \
 			walls_transformations.c \
+			draw_wall_object.c \
 			weapon_ray_fire.c \
 			pickables.c
 
