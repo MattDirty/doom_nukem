@@ -92,11 +92,14 @@ SRC_NAME =	main.c \
 SRC_EDITOR_NAME = editor.c \
 				  editor_load_assets.c \
 				  editor_checks.c \
+				  editor_check_map.c \
 				  editor_loop.c \
 				  editor_draw.c \
 				  editor_draw2.c \
 				  editor_panel.c \
 				  editor_panel_elements.c \
+				  editor_panel_textures.c \
+				  editor_segments.c \
 				  editor_panel_buttons.c \
 				  editor_mouse_clicks.c \
 				  editor_mouse_clicks_utils.c \
@@ -105,6 +108,7 @@ SRC_EDITOR_NAME = editor.c \
 				  editor_mouse_clicks_action.c \
 				  editor_add_elements_in_map.c \
 				  editor_move_stuff.c \
+				  editor_move_stuff2.c \
 				  editor_states.c \
 				  editor_enemies.c \
 				  editor_objects.c \

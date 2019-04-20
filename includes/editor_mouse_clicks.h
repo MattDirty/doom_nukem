@@ -21,5 +21,9 @@ void		deal_with_clicked_sector(t_editor *ed);
 void		deal_with_clicked_node(t_editor *ed, t_linked_walls *linked, t_coords point);
 void		clear_selection(t_selected_elements *selected);
 void		copy_sector_floor_ceil(t_sector *target, t_sector *source);
+void		change_wall_in_window(t_params params);
+void		change_portal_to_door(t_params params);
+void		create_split_wall_button(t_editor *ed, int *y);
+void		split_wall(t_params params);
 
 #endif

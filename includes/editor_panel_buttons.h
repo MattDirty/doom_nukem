@@ -41,5 +41,7 @@ void        create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y);
 void        create_pickable_in_sector(t_editor *ed, int mouse_x, int mouse_y);
 void		try_sector_creation(t_editor *ed, int mouse_x, int mouse_y);
 void		try_lever_creation(t_editor *ed, int mouse_x, int mouse_y);
+void		create_save_button(TTF_Font *font,
+						SDL_Surface *target, t_panel *panel, t_editor *ed);
 
 #endif

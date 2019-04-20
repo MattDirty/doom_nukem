@@ -5,9 +5,9 @@
 # define PANEL_H EDITOR_H
 # define PANEL_X (EDITOR_W - PANEL_W)
 # define PANEL_Y 0
-# define PANEL_PADDING_LEFT 20
-# define PANEL_MINIATURE_W 80
-# define PANEL_MINIATURE_H 80
+# define PAN_PAD_L 20
+# define PANEL_MINI_W 80
+# define PANEL_MINI_H 80
 # define SAVE_BORDER 0xFF0c5606
 # define SAVE_CENTER 0xFF11d102
 # define PANEL_BACKGROUND 0xFF073784
@@ -35,5 +35,7 @@ void        editor_draw_panel_sector(t_editor *ed);
 void        editor_draw_panel_enemy(t_editor *ed);
 void        editor_draw_panel_pickable(t_editor *ed);
 void		init_panel(t_panel *panel, t_textures *textures);
+void		change_door_to_portal(t_params params);
+void		save_editor(t_params params);
 
 #endif

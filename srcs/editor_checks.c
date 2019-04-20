@@ -46,3 +46,29 @@ enum e_bool	new_node_pos_valid(t_editor *ed, t_coords pos)
 		|| segment_intersect_with_map(ed->linked_walls, seg1)
 		|| segment_intersect_with_map(ed->linked_walls, seg2));
 }
+
+enum e_bool	walls_intersect_on_map(t_linked_walls *linked_walls)
+{
+	t_linked_walls	*node;
+	t_linked_walls	*walls;
+	t_coords		inter;
+
+	node = linked_walls;
+	while (node->wall)
+	{
+		walls = node->next;
+		while (walls->wall)
+		{
+			if (segments_intersect(
+					&walls->wall->segment, &node->wall->segment, &inter))
+			{
+				if (!segments_share_node(&walls->wall->segment,
+						&node->wall->segment))
+					return (e_true);
+			}
+			walls = walls->next;
+		}
+		node = node->next;
+	}
+	return (e_false);
+}
