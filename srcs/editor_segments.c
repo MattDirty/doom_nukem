@@ -27,6 +27,8 @@ void	split_wall(t_params params)
 	btn_params = (t_btn_params *)params;
 	wall = btn_params->ed->selected.wall;
 	sector = find_wall_sector(btn_params->ed->map->sectors, wall);
+	if (get_segment_length(&wall->segment) < 1 || sector->walls->count >= 15)
+		return ;
 	new_wall = create_wall_copy(wall);
 	new_wall->segment.x1 += (new_wall->segment.x2 - new_wall->segment.x1) / 2;
 	new_wall->segment.y1 += (new_wall->segment.y2 - new_wall->segment.y1) / 2;

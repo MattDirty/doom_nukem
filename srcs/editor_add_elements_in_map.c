@@ -77,9 +77,9 @@ void	create_object_in_sector(t_editor *ed, int mouse_x, int mouse_y)
 	ed->pos.y = (double)(ed->map_offset.y - mouse_y) / ed->zoom;
 	sector = in_which_sector(ed->pos, ed->map->sectors);
 	if (sector)
-		ed->selected.object = add_new_object_to_sector_at_pos(
+		add_new_object_to_sector_at_pos(
 				sector, ed->pos, ed->textures);
-	if (!ed->selected.object)
+	else
 		Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
 	ed->state = e_null;
 	ed->map_is_updated = e_false;
@@ -96,12 +96,9 @@ void	create_enemy_in_sector(t_editor *ed, int mouse_x, int mouse_y)
 	if (sector)
 	{
 		enemy = add_new_enemy_to_sector_at_pos(sector, ed->pos, ed->textures);
-		if (!enemy)
-			ed->selected.enemy = NULL;
-		else
-			ed->selected.enemy = &enemy->item;
+
 	}
-	if (!ed->selected.enemy)
+	else
 		Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
 	ed->state = e_null;
 	ed->map_is_updated = e_false;
@@ -119,12 +116,8 @@ void	create_pickable_in_sector(t_editor *ed, int mouse_x, int mouse_y)
 	{
 		pickables = add_new_pickable_to_sector_at_pos(sector, ed->pos,
 				ed->textures);
-		if (!pickables)
-			ed->selected.pickable = NULL;
-		else
-			ed->selected.pickable = &pickables->item;
 	}
-	if (!ed->selected.pickable)
+	else
 		Mix_PlayChannel(-1, ed->sounds->meeeh, 0);
 	ed->state = e_null;
 	ed->map_is_updated = e_false;

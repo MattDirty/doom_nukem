@@ -27,6 +27,7 @@ void		transform_door_to_portal(t_wall *wall, t_linked_walls *node)
 	}
 	wall->texture = NULL;
 	wall->type = e_portal;
+	wall->to_infinity = e_false;
 }
 
 void		transform_portal_to_door(t_wall *wall, SDL_Surface *texture)
