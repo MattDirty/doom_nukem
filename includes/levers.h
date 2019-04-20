@@ -19,8 +19,8 @@
 # include "e_bool.h"
 # include "timer_handler.h"
 
-typedef struct	s_linked_walls t_linked_walls;
-typedef struct	s_wall t_wall;
+typedef struct s_linked_walls	t_linked_walls;
+typedef struct s_wall			t_wall;
 
 typedef struct		s_lever
 {
