@@ -64,7 +64,7 @@ void	change_object_height(t_params params)
 	if (ed->selected.enemy)
 		target = &ed->selected.enemy->object->vertical_size;
 	else
-		target = &ed->selected.object->horizontal_size;
+		target = &ed->selected.object->vertical_size;
 	*target += (ed->multi_purpose_int / 100.0);
 	if (*target < 0.05)
 		*target = 0.05;
