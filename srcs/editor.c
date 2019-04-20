@@ -22,7 +22,7 @@
 #include "bitmaps.h"
 #include "textures.h"
 
-static void	free_editor(t_editor *ed)
+static void			free_editor(t_editor *ed)
 {
 	free_map(ed->map);
 	free_fonts(ed->fonts);
@@ -32,7 +32,7 @@ static void	free_editor(t_editor *ed)
 	SDL_DestroyWindow(ed->sdl.window);
 }
 
-void		quit_editor(t_editor *ed)
+void				quit_editor(t_editor *ed)
 {
 	free_editor(ed);
 	TTF_Quit();
@@ -40,7 +40,8 @@ void		quit_editor(t_editor *ed)
 	exit(EXIT_SUCCESS);
 }
 
-static void	init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
+static void			init_sdl_editor(Uint32 w, Uint32 h, char *name,
+						t_editor *ed)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 || TTF_Init() < 0)
 		error_doom("error: cannot run SDL");
@@ -56,11 +57,17 @@ static void	init_sdl_editor(Uint32 w, Uint32 h, char *name, t_editor *ed)
 		error_doom((char *)Mix_GetError());
 }
 
-static void	init_editor(t_editor *ed)
+static t_read_data	init_editor(t_editor *ed)
 {
+	t_read_data	read_data;
+
 	ed->zoom = EDITOR_ZOOM;
 	ed->map_offset.x = DRAW_MAP_X;
 	ed->map_offset.y = DRAW_MAP_Y;
+	read_data.textures = &ed->textures;
+	read_data.map = &ed->map;
+	read_data.fonts = &ed->fonts;
+	read_data.sounds = &ed->sounds;
 	ed->selected.nodes = NULL;
 	clear_selection(&ed->selected);
 	ed->dragged.nodes = NULL;
@@ -70,9 +77,10 @@ static void	init_editor(t_editor *ed)
 	ed->state_func[e_add_sector] = &try_sector_creation;
 	ed->state_func[e_add_lever] = &try_lever_creation;
 	ed->state_func[e_add_pickable] = &create_pickable_in_sector;
+	return (read_data);
 }
 
-int			main(int ac, char **av)
+int					main(int ac, char **av)
 {
 	t_editor	ed;
 	struct stat	buf;
@@ -83,13 +91,12 @@ int			main(int ac, char **av)
 	ft_bzero(&ed, sizeof(t_editor));
 	ed.map_path = av[1];
 	init_sdl_editor(EDITOR_W, EDITOR_H, "editor", &ed);
-	init_editor(&ed);
-	read_data.textures = &ed.textures;
-	read_data.map = &ed.map;
-	read_data.fonts = &ed.fonts;
-	read_data.sounds = &ed.sounds;
-	if ((stat(ed.map_path, &buf) < 0) && (ed.map_is_updated = e_false))
+	read_data = init_editor(&ed);
+	if (stat(ed.map_path, &buf) < 0)
+	{
 		read_file_editor("template.roflolilolmao", &read_data);
+		ed.map_is_updated = e_false;
+	}
 	else
 	{
 		read_file_editor(ed.map_path, &read_data);

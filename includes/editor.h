@@ -71,6 +71,7 @@ typedef struct          s_editor
     t_fonts				*fonts;
     SDL_Surface         **selected_sprite;
     enum e_editor_state state;
+    t_coords			pos;
     void                (*state_func[7])
     (t_editor *ed, int mouse_x, int mouse_y);
 	t_selected_elements	selected;

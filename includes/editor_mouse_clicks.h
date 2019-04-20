@@ -20,5 +20,6 @@ void		deal_with_clicked_object(t_editor *ed, t_object *object);
 void		deal_with_clicked_sector(t_editor *ed);
 void		deal_with_clicked_node(t_editor *ed, t_linked_walls *linked, t_coords point);
 void		clear_selection(t_selected_elements *selected);
+void		copy_sector_floor_ceil(t_sector *target, t_sector *source);
 
 #endif

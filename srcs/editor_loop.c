@@ -1,27 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   editor_loop.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/20 05:17:16 by lfatton           #+#    #+#             */
+/*   Updated: 2019/04/20 05:17:18 by lfatton          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "editor.h"
 #include "editor_move_stuff.h"
 
-void    rand_lighting(t_editor *ed, t_sector *sector)
+static void	rand_lighting(t_editor *ed, t_sector *sector)
 {
-    Uint8   a;
-    Uint8   r;
-    Uint8   g;
-    Uint8   b;
+	Uint8	a;
+	Uint8	r;
+	Uint8	g;
+	Uint8	b;
 
-    a = rand() % 100;
-    r = rand() % 255;
-    g = rand() % 255;
-    b = rand() % 255;
-    if (!a)
-        a = 1;
-    sector->light = (a << 24) + (r << 16) + (g << 8) + b;
-    ed->map_is_updated = e_false;
+	a = rand() % 100;
+	r = rand() % 255;
+	g = rand() % 255;
+	b = rand() % 255;
+	if (!a)
+		a = 1;
+	sector->light = (a << 24) + (r << 16) + (g << 8) + b;
+	ed->map_is_updated = e_false;
 }
 
-void	event_editor(t_editor *ed)
+void		event_editor(t_editor *ed)
 {
-	double      x;
-	double      y;
+	double		x;
+	double		y;
 	SDL_Event	ev;
 	int			mouse_x;
 	int			mouse_y;
@@ -35,7 +47,8 @@ void	event_editor(t_editor *ed)
 			x += ev.motion.xrel;
 			y += ev.motion.yrel;
 		}
-		if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE || ev.type == SDL_QUIT)
+		if (ev.key.keysym.scancode == SDL_SCANCODE_ESCAPE
+			|| ev.type == SDL_QUIT)
 			quit_editor(ed);
 		if (ev.type == SDL_MOUSEBUTTONDOWN)
 		{
@@ -54,12 +67,12 @@ void	event_editor(t_editor *ed)
 				ed->zoom = 1;
 		}
 		if (ev.type == SDL_KEYDOWN)
-        {
-		    move_map(ed, ev.key.keysym.scancode);
-		    if (ed->selected.sector && ed->selected.sector->light
-		        && ev.key.keysym.scancode == SDL_SCANCODE_R)
-		        rand_lighting(ed, ed->selected.sector);
-        }
+		{
+			move_map(ed, ev.key.keysym.scancode);
+			if (ed->selected.sector && ed->selected.sector->light
+				&& ev.key.keysym.scancode == SDL_SCANCODE_R)
+				rand_lighting(ed, ed->selected.sector);
+		}
 	}
 	if (x || y)
 	{
@@ -70,29 +83,30 @@ void	event_editor(t_editor *ed)
 			move_player_spawn(ed, mouse_x, mouse_y);
 		else if (ed->dragged.enemy)
 			move_enemy(ed, mouse_x, mouse_y);
-        else if (ed->dragged.pickable)
-            move_pickable(ed, mouse_x, mouse_y);
+		else if (ed->dragged.pickable)
+			move_pickable(ed, mouse_x, mouse_y);
 		else if (ed->dragged.object)
 			move_object(ed, mouse_x, mouse_y);
 	}
 }
 
-void	reframe_editor(t_editor *ed)
+void		reframe_editor(t_editor *ed)
 {
-	SDL_Texture		*texture;
+	SDL_Texture *texture;
 
 	draw_background(ed);
 	draw_editor(ed);
 	draw_panel(ed);
 	SDL_RenderClear(ed->sdl.renderer);
-	if (!(texture = SDL_CreateTextureFromSurface(ed->sdl.renderer, ed->sdl.surface)))
+	if (!(texture = SDL_CreateTextureFromSurface(ed->sdl.renderer,
+					ed->sdl.surface)))
 		error_doom("Could not create texture");
 	SDL_RenderCopy(ed->sdl.renderer, texture, 0, 0);
 	SDL_RenderPresent(ed->sdl.renderer);
 	SDL_DestroyTexture(texture);
 }
 
-void	editor_loop(t_editor *ed)
+void		editor_loop(t_editor *ed)
 {
 	reframe_editor(ed);
 	create_linked_walls_from_sectors(

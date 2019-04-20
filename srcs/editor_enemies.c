@@ -14,49 +14,49 @@
 #include "enemies.h"
 #include "doom.h"
 
-void	load_explosions(t_textures *textures, t_enemy *new_enemy)
+void				load_explosions(t_textures *textures, t_enemy *new_enemy)
 {
-	find_texture_by_name(textures,"textures/explosions/explosion_1.bmp",
-						 &new_enemy->explosion[0]);
-	find_texture_by_name(textures,"textures/explosions/explosion_2.bmp",
-						 &new_enemy->explosion[1]);
-	find_texture_by_name(textures,"textures/explosions/explosion_3.bmp",
-						 &new_enemy->explosion[2]);
-	find_texture_by_name(textures,"textures/explosions/explosion_4.bmp",
-						 &new_enemy->explosion[3]);
-	find_texture_by_name(textures,"textures/explosions/explosion_5.bmp",
-						 &new_enemy->explosion[4]);
-	find_texture_by_name(textures,"textures/explosions/explosion_6.bmp",
-						 &new_enemy->explosion[5]);
-	find_texture_by_name(textures,"textures/explosions/explosion_7.bmp",
-						 &new_enemy->explosion[6]);
-	find_texture_by_name(textures,"textures/explosions/explosion_8.bmp",
-						 &new_enemy->explosion[7]);
-	find_texture_by_name(textures,"textures/explosions/explosion_9.bmp",
-						 &new_enemy->explosion[8]);
-	find_texture_by_name(textures,"textures/explosions/explosion_10.bmp",
-						 &new_enemy->explosion[9]);
-	find_texture_by_name(textures,"textures/explosions/explosion_11.bmp",
-						 &new_enemy->explosion[10]);
-	find_texture_by_name(textures,"textures/explosions/explosion_12.bmp",
-						 &new_enemy->explosion[11]);
+	find_texture_by_name(textures, "textures/explosions/explosion_1.bmp",
+			&new_enemy->explosion[0]);
+	find_texture_by_name(textures, "textures/explosions/explosion_2.bmp",
+			&new_enemy->explosion[1]);
+	find_texture_by_name(textures, "textures/explosions/explosion_3.bmp",
+			&new_enemy->explosion[2]);
+	find_texture_by_name(textures, "textures/explosions/explosion_4.bmp",
+			&new_enemy->explosion[3]);
+	find_texture_by_name(textures, "textures/explosions/explosion_5.bmp",
+			&new_enemy->explosion[4]);
+	find_texture_by_name(textures, "textures/explosions/explosion_6.bmp",
+			&new_enemy->explosion[5]);
+	find_texture_by_name(textures, "textures/explosions/explosion_7.bmp",
+			&new_enemy->explosion[6]);
+	find_texture_by_name(textures, "textures/explosions/explosion_8.bmp",
+			&new_enemy->explosion[7]);
+	find_texture_by_name(textures, "textures/explosions/explosion_9.bmp",
+			&new_enemy->explosion[8]);
+	find_texture_by_name(textures, "textures/explosions/explosion_10.bmp",
+			&new_enemy->explosion[9]);
+	find_texture_by_name(textures, "textures/explosions/explosion_11.bmp",
+			&new_enemy->explosion[10]);
+	find_texture_by_name(textures, "textures/explosions/explosion_12.bmp",
+			&new_enemy->explosion[11]);
 }
 
-void	load_explosions2(t_textures *textures, t_enemy *new_enemy)
+void				load_explosions2(t_textures *textures, t_enemy *new_enemy)
 {
-	find_texture_by_name(textures,"textures/explosions/explosion_13.bmp",
-						 &new_enemy->explosion[12]);
-	find_texture_by_name(textures,"textures/explosions/explosion_14.bmp",
-						 &new_enemy->explosion[13]);
-	find_texture_by_name(textures,"textures/explosions/explosion_15.bmp",
-						 &new_enemy->explosion[14]);
-	find_texture_by_name(textures,"textures/explosions/explosion_16.bmp",
-						 &new_enemy->explosion[15]);
+	find_texture_by_name(textures, "textures/explosions/explosion_13.bmp",
+			&new_enemy->explosion[12]);
+	find_texture_by_name(textures, "textures/explosions/explosion_14.bmp",
+			&new_enemy->explosion[13]);
+	find_texture_by_name(textures, "textures/explosions/explosion_15.bmp",
+			&new_enemy->explosion[14]);
+	find_texture_by_name(textures, "textures/explosions/explosion_16.bmp",
+			&new_enemy->explosion[15]);
 }
 
-t_enemy	create_default_enemy(t_textures *textures)
+t_enemy				create_default_enemy(t_textures *textures)
 {
-	t_enemy new_enemy;
+	t_enemy	new_enemy;
 
 	if (!(new_enemy.object = (t_object *)malloc(sizeof(t_object))))
 		error_doom("Couldn't allocate object in enemy");
@@ -67,13 +67,13 @@ t_enemy	create_default_enemy(t_textures *textures)
 	new_enemy.to_destroy = e_false;
 	new_enemy.heading = (t_vector){1, 0};
 	find_texture_by_name(textures, "textures/sprites/enemy_front.bmp",
-						 &new_enemy.front);
+			&new_enemy.front);
 	find_texture_by_name(textures, "textures/sprites/enemy_left.bmp",
-						 &new_enemy.left);
+			&new_enemy.left);
 	find_texture_by_name(textures, "textures/sprites/enemy_right.bmp",
-						 &new_enemy.right);
+			&new_enemy.right);
 	find_texture_by_name(textures, "textures/sprites/enemy_back.bmp",
-						 &new_enemy.back);
+			&new_enemy.back);
 	new_enemy.type = et_brazil;
 	new_enemy.speed = 0;
 	load_explosions(textures, &new_enemy);
@@ -81,9 +81,9 @@ t_enemy	create_default_enemy(t_textures *textures)
 	return (new_enemy);
 }
 
-int count_enemies(t_linked_enemies *enemies)
+int					count_enemies(t_linked_enemies *enemies)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (enemies)
@@ -94,10 +94,10 @@ int count_enemies(t_linked_enemies *enemies)
 	return (i);
 }
 
-t_linked_enemies    *add_new_enemy_to_sector_at_pos(t_sector *sector,
-													t_coords pos, t_textures *textures)
+t_linked_enemies	*add_new_enemy_to_sector_at_pos(t_sector *sector,
+		t_coords pos, t_textures *textures)
 {
-	t_linked_enemies *new_enemy;
+	t_linked_enemies	*new_enemy;
 
 	if (count_enemies(sector->enemies) > 208)
 		return (NULL);

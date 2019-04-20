@@ -29,5 +29,14 @@ void draw_background(t_editor *ed);
 void draw_panel_back(SDL_Surface *surface);
 void draw_editor(t_editor *ed);
 void draw_panel(t_editor *ed);
+void	draw_corners_editor(SDL_Surface *surface, t_segment *s);
+void	draw_walls_editor(SDL_Surface *surface, t_walls *walls,
+						  t_i_coords map_offset, int zoom);
+void	draw_enemies_in_sector_editor(SDL_Surface *target,
+		t_linked_enemies *enemies, t_i_coords map_offset, int zoom);
+void	draw_objects_in_sector_editor(SDL_Surface *target, t_objects *objects,
+									  t_i_coords map_offset, int zoom);
+void	draw_pickables_in_sector_editor(SDL_Surface *target,
+		t_pickables *pickables, t_i_coords map_offset, int zoom);
 
 #endif
