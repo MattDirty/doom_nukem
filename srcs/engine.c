@@ -51,7 +51,7 @@ void			*raycasting_thread(void *args)
 				a->e->p.pos.y, &ray.vect);
 		find_ray_collisions(a->e->p.current_sector, &ray.seg, &collisions);
 		if (!collisions)
-			continue;
+			continue ;
 		calculate_distances(collisions, &a->e->p, &ray);
 		draw(a->e, collisions, renderer_x);
 		free_collisions(collisions);

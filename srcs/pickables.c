@@ -85,7 +85,7 @@ void		pick_objects(t_player *player)
 			delete_pickable(&player->current_sector->pickables,
 					&pickables->item);
 			pickables = next;
-			continue;
+			continue ;
 		}
 		pickables = pickables->next;
 	}
