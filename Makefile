@@ -21,6 +21,7 @@ SRC_PATH = srcs
 SRCS_NAMES = collision.c \
 			collision2.c \
 			segment.c \
+			segment2.c \
 			rectangle.c \
 			player.c \
 			player_health_variation.c \
