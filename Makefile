@@ -43,6 +43,7 @@ SRCS_NAMES = collision.c \
 			game_endings.c \
 			fonts.c \
 			engine.c \
+			engine2.c \
 			vertical_motion.c \
 			horizontal_motion.c \
 			sounds.c \

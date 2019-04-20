@@ -40,8 +40,6 @@ void			draw_pickable(t_env *e, t_render *r, t_collision *col)
 	t_u_range	range;
 	double		dist_ratio;
 
-	if (col->type != ct_pickable)
-		return ;
 	surface = col->d.pickable->object->sprite;
 	c.x = (Uint32)(get_distance_between_points(col->inters.x,
 			col->inters.y, col->object_segment.x1,
