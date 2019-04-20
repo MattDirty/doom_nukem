@@ -35,6 +35,8 @@ void		enemy_move(t_enemy *enemy, t_sector *enemy_sector, t_env *e,
 	new_sector = enemy_sector;
 	new_position = allowed_move(direction,
 			(t_coords){enemy->object->x, enemy->object->y}, &new_sector);
+	if (!new_sector)
+		return ;
 	enemy->object->x = new_position.x;
 	enemy->object->y = new_position.y;
 	if (new_sector != enemy_sector)

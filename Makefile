@@ -18,8 +18,7 @@ NAME_EDITOR = editor
 
 SRC_PATH = srcs
 
-SRCS_NAMES = vector.c \
-			collision.c \
+SRCS_NAMES = collision.c \
 			collision2.c \
 			segment.c \
 			rectangle.c \
@@ -72,6 +71,8 @@ SRCS_NAMES = vector.c \
 			keyboard.c \
 			enemies.c \
 			enemies_damage.c \
+			vector.c \
+			vector2.c \
 			walls_rw.c \
 			walls_rw2.c \
 			walls_transformations.c \
@@ -177,7 +178,7 @@ $(NAME): $(OBJS)
 	@if [ ! -e $(SDL_PATH)/$(SDL2_TTF)/config.status ]; \
 	    then $(CONFIGURE_SDL2_TTF); fi
 	@$(MAKE) -j -C libft
-	$(CC) $(OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
+	$(CC) -g3 -fsanitize=address $(OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
 
 $(NAME_EDITOR): $(OBJS_EDITOR)
 	@if [ ! -d $(SDL_PATH)/$(SDL2) ] || [ ! -d $(SDL_PATH)/$(SDL2_MIXER) ] \

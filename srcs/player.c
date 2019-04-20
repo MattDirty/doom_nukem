@@ -30,7 +30,7 @@ t_player init_player(t_config *op, t_coords spawn, t_sector *starting_sector)
     p.jump.duration = 400;
     p.jump.time = 0;
     p.dead = e_false;
-    p.health = 100;
+    p.health = HEALTH_MAX;
     p.healed = e_false;
     p.hurt = e_false;
     p.success = e_false;
