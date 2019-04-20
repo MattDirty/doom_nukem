@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: badhont <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 03:10:13 by badhont           #+#    #+#             */
-/*   Updated: 2019/04/19 11:42:01 by badhont          ###   ########.fr       */
+/*   Updated: 2019/04/20 18:59:27 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 
 # define EDIT_W 1600
 # define EDIT_H 600
-# define EDIT_W_H (EDIT_W / 3)
-# define EDIT_H_H (EDIT_H / 2)
+# define EDIT_W_H (EDIT_W / 5)
+# define EDIT_H_H (EDIT_H / 5)
 # define EDITOR_ZOOM 20
 # define CORNER_SIZE 10
 

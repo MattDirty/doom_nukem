@@ -6,7 +6,7 @@
 #    By: badhont <badhont@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/07 17:35:48 by lfatton           #+#    #+#              #
-#    Updated: 2019/04/19 20:20:57 by badhont          ###   ########.fr        #
+#    Updated: 2019/04/20 20:52:27 by badhont          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -170,7 +170,7 @@ USER = $(shell whoami)
 
 CC = clang
 
-CFLAGS = -Wall -Werror -Wextra -Ofast #-g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -Ofast
 
 RM = rm -rf
 
@@ -207,7 +207,7 @@ $(NAME): $(OBJS)
 	@if [ ! -e $(SDL_PATH)/$(SDL2_TTF)/config.status ]; \
 	    then $(CONFIGURE_SDL2_TTF); fi
 	@$(MAKE) -j -C libft
-	$(CC) $(OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
+	$(CC) -g -fsanitize=address $(OBJS) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
 
 $(NAME_EDITOR): $(OBJS_EDITOR)
 	@if [ ! -d $(SDL_PATH)/$(SDL2) ] || [ ! -d $(SDL_PATH)/$(SDL2_MIXER) ] \
@@ -218,7 +218,7 @@ $(NAME_EDITOR): $(OBJS_EDITOR)
 	@if [ ! -e $(SDL_PATH)/$(SDL2_TTF)/config.status ]; \
 	    then $(CONFIGURE_SDL2_TTF); fi
 	@$(MAKE) -j -C libft
-	$(CC) $(OBJS_EDITOR) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
+	$(CC) -g -fsanitize=address $(OBJS_EDITOR) $(LDLIBFT) $(LIBS) $(SDL_LDFLAGS) -o $@
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 	@if [ ! -d $(SDL_PATH)/$(SDL2) ] || [ ! -d $(SDL_PATH)/$(SDL2_MIXER) ] \
@@ -229,13 +229,13 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c $(INCL)
 	@if [ ! -e $(SDL_PATH)/$(SDL2_TTF)/config.status ]; \
 	    then $(CONFIGURE_SDL2_TTF); fi
 	mkdir $(OBJ_PATH) 2> /dev/null || true
-	$(CC) $(CFLAGS) $(IFLAGS) $(SDL_CFLAGS) -o $@ -c $<
+	$(CC) -g -fsanitize=address $(CFLAGS) $(IFLAGS) $(SDL_CFLAGS) -o $@ -c $<
 
 run: $(NAME)
-	./$(NAME) mabite.roflolilolmao
+	./$(NAME) template.roflolilolmao
 
 redit: $(NAME_EDITOR)
-	./$(NAME_EDITOR) mabite.roflolilolmao
+	./$(NAME_EDITOR) template.roflolilolmao
 
 norm:
 	norminette $(SRCS) $(INCL)

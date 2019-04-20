@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_walls.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 09:40:39 by lfatton           #+#    #+#             */
-/*   Updated: 2019/04/20 09:40:41 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/04/20 20:50:12 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	draw_transparent_wall(t_env *e, const t_render *render,
 
 	if (collision->d.wall->type != e_transparent_wall)
 		return ;
-	if (collision->d.wall->to_infinity)
+	if (collision->d.wall && collision->d.wall->to_infinity)
 		skybox(render, range);
 	wall_text = collision->d.wall->texture;
 	x = get_distance_between_points(collision->inters.x, collision->inters.y,
