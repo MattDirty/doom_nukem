@@ -26,7 +26,7 @@ void	free_walls_nodes(t_wall_nodes *nodes)
 	}
 }
 
-void	add_wall_node_to_list(t_wall_nodes **list, t_wall *wall, t_coords point)
+void	add_wall_node_to_list(t_wall_nodes **list, t_wall *w, t_coords p)
 {
 	t_wall_nodes	*ptr;
 	t_wall_nodes	*new;
@@ -34,17 +34,16 @@ void	add_wall_node_to_list(t_wall_nodes **list, t_wall *wall, t_coords point)
 	if (!(new = (t_wall_nodes *)malloc(sizeof(t_wall_nodes))))
 		error_doom("Couldn't malloc wall_nodes");
 	new->next = NULL;
-	new->item.wall = wall;
-	if (fabs(wall->segment.x1 - point.x) < 0.01 && fabs(wall->segment.y1
-			- point.y) < 0.01)
+	new->item.wall = w;
+	if (fabs(w->segment.x1 - p.x) < 0.01 && fabs(w->segment.y1 - p.y) < 0.01)
 	{
-		new->item.x = &wall->segment.x1;
-		new->item.y = &wall->segment.y1;
+		new->item.x = &w->segment.x1;
+		new->item.y = &w->segment.y1;
 	}
 	else
 	{
-		new->item.x = &wall->segment.x2;
-		new->item.y = &wall->segment.y2;
+		new->item.x = &w->segment.x2;
+		new->item.y = &w->segment.y2;
 	}
 	if (!(*list))
 	{

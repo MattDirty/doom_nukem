@@ -28,7 +28,7 @@ static t_segment	get_segment_and_mod_speed(t_vector *speed, t_coords pos)
 	return (create_segment_from_position_and_vector(pos.x, pos.y, &new_vector));
 }
 
-static void			get_last_collision(t_collisions *n)
+static t_collisions	*get_last_collision(t_collisions *n)
 {
 	while (n->next)
 		n = n->next;
