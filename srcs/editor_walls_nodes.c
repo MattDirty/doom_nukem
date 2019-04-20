@@ -14,7 +14,7 @@
 #include "walls.h"
 #include "doom.h"
 
-void	free_walls_nodes(t_wall_nodes *nodes)
+void		free_walls_nodes(t_wall_nodes *nodes)
 {
 	t_wall_nodes	*next;
 
@@ -26,9 +26,18 @@ void	free_walls_nodes(t_wall_nodes *nodes)
 	}
 }
 
-void	add_wall_node_to_list(t_wall_nodes **list, t_wall *w, t_coords p)
+static void	add_to_last(t_wall_nodes **list, t_wall_nodes *new)
 {
-	t_wall_nodes	*ptr;
+	t_wall_nodes *ptr;
+
+	ptr = *list;
+	while (ptr->next)
+		ptr = ptr->next;
+	ptr->next = new;
+}
+
+void		add_wall_node_to_list(t_wall_nodes **list, t_wall *w, t_coords p)
+{
 	t_wall_nodes	*new;
 
 	if (!(new = (t_wall_nodes *)malloc(sizeof(t_wall_nodes))))
@@ -50,8 +59,5 @@ void	add_wall_node_to_list(t_wall_nodes **list, t_wall *w, t_coords p)
 		*list = new;
 		return ;
 	}
-	ptr = *list;
-	while (ptr->next)
-		ptr = ptr->next;
-	ptr->next = new;
+	add_to_last(list, new);
 }
