@@ -42,6 +42,30 @@ enum e_bool	check_delta(double delta_x, double delta_y, t_segment seg,
 		return (e_false);
 }
 
+void		bounding_rect(t_segment seg, t_rect *rect)
+{
+	if (seg.x1 < seg.x2)
+	{
+		rect->pos.x = seg.x1;
+		rect->width = seg.x2 - seg.x1;
+	}
+	else
+	{
+		rect->pos.x = seg.x2;
+		rect->width = seg.x1 - seg.x2;
+	}
+	if (seg.y1 < seg.y2)
+	{
+		rect->pos.y = seg.y1;
+		rect->height = seg.y2 - seg.y1;
+	}
+	else
+	{
+		rect->pos.y = seg.y2;
+		rect->height = seg.y1 - seg.y2;
+	}
+}
+
 enum e_bool	is_on_seg(t_segment seg, t_i_coords mouse, t_i_coords map_offset,
 				int zoom)
 {
@@ -49,12 +73,16 @@ enum e_bool	is_on_seg(t_segment seg, t_i_coords mouse, t_i_coords map_offset,
 	double	m;
 	double	delta_x;
 	double	delta_y;
+	t_rect	rect;
 
 	seg = transform_seg_in_ed_coords(seg, map_offset, zoom);
 	delta_x = seg.x2 - seg.x1;
 	delta_y = seg.y2 - seg.y1;
 	if (check_delta(delta_x, delta_y, seg, mouse))
 		return (e_true);
+	bounding_rect(seg, &rect);
+	if (!is_in_rect(&rect,mouse.x, mouse.y))
+		return (e_false);
 	if (!delta_x || !delta_y)
 		return (e_false);
 	m = delta_y / delta_x;
