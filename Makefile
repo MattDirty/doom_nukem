@@ -34,6 +34,8 @@ SRCS_NAMES = collision.c \
 			walls.c \
 			wall_objects.c \
 			sectors.c \
+			sectors2.c \
+			sectors_find_stuff.c \
 			map.c \
 			levers.c \
 			environment.c \
