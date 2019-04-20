@@ -102,7 +102,7 @@ t_weapon	*load_melee(t_sounds *sounds, t_map *map)
 	weapon->ammo = -1;
 	weapon->usable = e_true;
 	weapon->damage = 99;
-	weapon->range = 0.5;
+	weapon->range = 1;
 	weapon->scatter = 1;
 	weapon->scatter_angle = 1;
 	reset_animation(&weapon->main_animation);
