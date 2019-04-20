@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   editor_panel_textures.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfatton <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: badhont <badhont@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 06:42:19 by lfatton           #+#    #+#             */
-/*   Updated: 2019/04/20 06:42:21 by lfatton          ###   ########.fr       */
+/*   Updated: 2019/04/20 17:23:40 by badhont          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void		draw_sprites_section(
 	draw_on_screen(ed->panel.surface, s, (t_i_coords){PAN_PAD_L, *y}, e_false);
 	SDL_FreeSurface(s);
 	node = sprites->first;
-	*y += 25;
 	pos = (t_i_coords){PAN_PAD_L, *y};
 	while (node)
 	{
