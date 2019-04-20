@@ -73,7 +73,7 @@ void		draw_face(SDL_Surface *surface, t_hud *hud, t_player *p,
 {
 	t_i_coords	pos;
 
-	pos.x = op->half_w + 275;
+	pos.x = op->half_w - 350;
 	pos.y = op->win_h - 75;
 	if (!p->weapon->main_ready)
 	{

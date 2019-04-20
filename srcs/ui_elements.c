@@ -66,7 +66,7 @@ void	draw_health(t_env *e)
 	t_i_coords	pos;
 	char		*charivari;
 
-	pos.x = e->op.half_w + 200;
+	pos.x = e->op.half_w - 150;
 	pos.y = e->op.win_h - 45;
 	charivari = ft_itoa((int)e->p.health);
 	health_text = write_text(e->fonts->sixty40, charivari,
@@ -76,7 +76,7 @@ void	draw_health(t_env *e)
 	SDL_FreeSurface(health_text);
 	if (e->map->hud.id > 2 || e->p.dead)
 		e->map->hud.id = 0;
-	pos.x = e->op.half_w + 150;
+	pos.x = e->op.half_w - 200;
 	pos.y = e->op.win_h - 50;
 	draw_on_screen(e->doom.surface,
 			e->map->hud.cross[e->map->hud.id], pos, e_false);
@@ -88,7 +88,7 @@ void	draw_ammo(t_env *e, SDL_Surface *bullet, int ammo)
 	t_i_coords	pos;
 	char		*charlatan;
 
-	pos = (t_i_coords){e->op.half_w - 300, e->op.win_h - 45};
+	pos = (t_i_coords){e->op.half_w + 300, e->op.win_h - 45};
 	if (ammo == -1)
 	{
 		pos.y = e->op.win_h - 35;
@@ -106,7 +106,7 @@ void	draw_ammo(t_env *e, SDL_Surface *bullet, int ammo)
 	}
 	free(charlatan);
 	SDL_FreeSurface(ammo_nb);
-	pos.x = e->op.half_w - 350;
+	pos.x = e->op.half_w + 350;
 	pos.y = e->op.win_h - 52;
 	draw_on_screen(e->doom.surface, bullet, pos, e_false);
 }
