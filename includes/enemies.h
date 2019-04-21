@@ -26,7 +26,7 @@
 # define BASE_SCOOTER_SPEED 1
 # define FAST_SCOOTER_SPEED 5
 # define BASE_BLACKHOLE_SPEED 0.5
-# define BRAZILIAN_HANDGUN_DAMAGE 5
+# define BRAZILIAN_HANDGUN_DAMAGE 2
 
 typedef struct s_object	t_object;
 

@@ -39,8 +39,8 @@ void	draw_wall_object(t_env *e, const t_render *render,
 	while (++i < range.end)
 	{
 		c.y = fabs((i - render->vision_height + ratio / 2) * w_o->texture->h
-				/ ratio) / w_o->size + w_o->texture->h /
-				w_o->size * (w_o->z + w_o->size - 1);
+				/ ratio) / w_o->size + w_o->texture->h
+						/ w_o->size * (w_o->z + w_o->size - 1);
 		if (c.y >= w_o->texture->h || c.y < 0)
 			continue ;
 		put_pixel_blackhole(e, render->x, i,

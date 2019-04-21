@@ -25,11 +25,11 @@ static Uint32	calculate_y(Uint32 i, const t_render *r, double dist_ratio,
 
 	surface = col->d.pickable->object->sprite;
 	return ((Uint32)(fabs(((i - r->vision_height + dist_ratio / 2)
-		* surface->h / dist_ratio)))
+				* surface->h / dist_ratio)))
 		/ col->d.pickable->object->vertical_size + surface->h
 		/ col->d.enemy->object->vertical_size
-		* (col->d.pickable->object->z +
-		col->d.pickable->object->vertical_size - 1));
+		* (col->d.pickable->object->z + col->d.pickable->object->vertical_size
+			- 1));
 }
 
 void			draw_pickable(t_env *e, t_render *r, t_collision *col)
