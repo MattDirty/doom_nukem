@@ -19,8 +19,8 @@
 
 # define FPS_MAX 300
 
-# define WIN_W 1920
-# define WIN_H 1080
+# define WIN_W 800
+# define WIN_H 600
 # define HALF_W ((double)WIN_W / 2)
 # define HALF_H ((double)WIN_H / 2)
 

@@ -51,12 +51,13 @@ void		skybox(const t_render *render, t_u_range range)
 
 	y = range.start;
 	end = range.end;
-	draw_text.x = render->sky->w / CIRCLE * render->heading + render->x;
+	draw_text.x = (int)(render->sky->w / CIRCLE * render->heading + render->x)
+			% render->sky->w;
 	while (y < end)
 	{
 		draw_text.y =
-				fabs((render->win_h - 1) - fabs(render->vision_height - y))
-				* render->sky->h / render->win_h;
+				(fabs((render->win_h - 1) - fabs(render->vision_height - y))
+				* render->sky->h / render->win_h);
 		color_text = get_pixel(render->sky, draw_text.x, draw_text.y, e_true);
 		put_pixel_blackhole(render->bandaid, render->x, y, color_text);
 		y++;

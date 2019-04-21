@@ -29,7 +29,7 @@ static Uint32	calculate_y(Uint32 i, const t_render *r, double dist_ratio,
 				/ col->d.enemy->object->vertical_size + surface->h
 				/ col->d.enemy->object->vertical_size
 				* (col->d.enemy->object->z
-				   + col->d.enemy->object->vertical_size - 1));
+					+ col->d.enemy->object->vertical_size - 1));
 }
 
 void			draw_enemy(t_env *e, t_render *r, t_collision *col)
